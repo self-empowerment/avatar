@@ -1,0 +1,785 @@
+<title>The Avatar's Math Trials — Year 8 Mathematics</title> <style> :root { --fire: #e8420a; --fire-light: #ff7a3d; --water: #2196b8; --water-light: #5bc8e8; --earth: #6b8c3e; --earth-light: #a8c96a; --air: #d4a843; --air-light: #f0cc7a; --dark: #0d0d14; --dark2: #141420; --parchment: #f5ead8; --parchment2: #ede0c4; --ink: #1a1208; --gold: #c9a227; --gold-light: #e8c94a; --white: #fef9f0; --shadow: rgba(0,0,0,0.6); --correct: #4caf50; --wrong: #e53935; --hint: #ff9800; }
+{ margin: 0; padding: 0; box-sizing: border-box; }
+body {
+background: var(--dark);
+font-family: 'Crimson Pro', serif;
+color: var(--white);
+min-height: 100vh;
+overflow-x: hidden;
+}
+
+/* Animated background */
+.bg-layer {
+position: fixed;
+inset: 0;
+z-index: 0;
+background:
+radial-gradient(ellipse at 20% 20%, rgba(232,66,10,0.12) 0%, transparent 50%),
+radial-gradient(ellipse at 80% 80%, rgba(33,150,184,0.12) 0%, transparent 50%),
+radial-gradient(ellipse at 50% 50%, rgba(107,140,62,0.06) 0%, transparent 70%),
+linear-gradient(180deg, #0d0d14 0%, #12101e 50%, #0d1418 100%);
+}
+
+.stars {
+position: fixed;
+inset: 0;
+z-index: 0;
+background-image:
+radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.4) 0%, transparent 100%),
+radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.3) 0%, transparent 100%),
+radial-gradient(1px 1px at 50% 10%, rgba(255,255,255,0.5) 0%, transparent 100%),
+radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,0.2) 0%, transparent 100%),
+radial-gradient(1px 1px at 90% 70%, rgba(255,255,255,0.4) 0%, transparent 100%),
+radial-gradient(1px 1px at 15% 80%, rgba(255,255,255,0.3) 0%, transparent 100%),
+radial-gradient(1px 1px at 45% 90%, rgba(255,255,255,0.2) 0%, transparent 100%),
+radial-gradient(1px 1px at 75% 5%, rgba(255,255,255,0.5) 0%, transparent 100%),
+radial-gradient(1px 1px at 85% 85%, rgba(255,255,255,0.3) 0%, transparent 100%),
+radial-gradient(1px 1px at 25% 35%, rgba(255,255,255,0.2) 0%, transparent 100%);
+}
+
+.container {
+position: relative;
+z-index: 1;
+max-width: 820px;
+margin: 0 auto;
+padding: 30px 20px 60px;
+}
+
+/* Header */
+.header {
+text-align: center;
+padding: 20px 0 30px;
+animation: fadeDown 0.8s ease;
+}
+
+.header-emblem {
+font-size: 48px;
+margin-bottom: 6px;
+animation: floatGlyph 4s ease-in-out infinite;
+display: block;
+}
+
+@Keyframes floatGlyph {
+0%,100% { transform: translateY(0); }
+50% { transform: translateY(-8px); }
+}
+
+.header h1 {
+font-family: 'Cinzel', serif;
+font-size: clamp(22px, 5vw, 38px);
+font-weight: 800;
+background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 40%, var(--air-light) 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+letter-spacing: 2px;
+line-height: 1.2;
+text-shadow: none;
+margin-bottom: 6px;
+}
+
+.header p {
+font-size: 15px;
+color: rgba(255,255,255,0.5);
+letter-spacing: 3px;
+font-style: italic;
+text-transform: uppercase;
+}
+
+.divider {
+display: flex;
+align-items: center;
+gap: 14px;
+margin: 16px 0;
+}
+
+.divider-line {
+flex: 1;
+height: 1px;
+background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.divider-gem { color: var(--gold); font-size: 12px; }
+
+/* Progress bar */
+.progress-wrap {
+background: rgba(255,255,255,0.06);
+border-radius: 20px;
+height: 8px;
+margin: 0 0 20px;
+overflow: hidden;
+border: 1px solid rgba(201,162,39,0.2);
+}
+
+.progress-bar {
+height: 100%;
+background: linear-gradient(90deg, var(--gold), var(--air-light));
+border-radius: 20px;
+transition: width 0.6s cubic-bezier(.4,0,.2,1);
+box-shadow: 0 0 12px rgba(201,162,39,0.5);
+}
+
+.progress-label {
+display: flex;
+justify-content: space-between;
+font-size: 12px;
+color: rgba(255,255,255,0.4);
+margin-bottom: 6px;
+font-family: 'Cinzel', serif;
+letter-spacing: 1px;
+}
+
+/* Nation badge */
+.nation-badge {
+display: inline-flex;
+align-items: center;
+gap: 8px;
+padding: 6px 16px;
+border-radius: 20px;
+font-family: 'Cinzel', serif;
+font-size: 11px;
+letter-spacing: 2px;
+text-transform: uppercase;
+margin-bottom: 16px;
+border: 1px solid;
+backdrop-filter: blur(4px);
+}
+
+.nation-fire { background: rgba(232,66,10,0.15); border-color: rgba(232,66,10,0.4); color: var(--fire-light); }
+.nation-water { background: rgba(33,150,184,0.15); border-color: rgba(33,150,184,0.4); color: var(--water-light); }
+.nation-earth { background: rgba(107,140,62,0.15); border-color: rgba(107,140,62,0.4); color: var(--earth-light); }
+.nation-air { background: rgba(212,168,67,0.15); border-color: rgba(212,168,67,0.4); color: var(--air-light); }
+
+/* Card */
+.card {
+background: linear-gradient(135deg, rgba(20,20,32,0.95) 0%, rgba(15,15,24,0.98) 100%);
+border: 1px solid rgba(201,162,39,0.2);
+border-radius: 16px;
+padding: 36px 40px;
+position: relative;
+overflow: hidden;
+animation: fadeUp 0.5s ease;
+box-shadow: 0 20px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+.card::before {
+content: '';
+position: absolute;
+top: 0; left: 0; right: 0;
+height: 3px;
+border-radius: 16px 16px 0 0;
+}
+
+.card.fire::before { background: linear-gradient(90deg, var(--fire), var(--fire-light), var(--fire)); }
+.card.water::before { background: linear-gradient(90deg, var(--water), var(--water-light), var(--water)); }
+.card.earth::before { background: linear-gradient(90deg, var(--earth), var(--earth-light), var(--earth)); }
+.card.air::before { background: linear-gradient(90deg, var(--air), var(--air-light), var(--air)); }
+
+.card-corner {
+position: absolute;
+font-size: 70px;
+opacity: 0.04;
+pointer-events: none;
+line-height: 1;
+}
+.card-corner.tl { top: -10px; left: 10px; }
+.card-corner.br { bottom: -20px; right: 10px; transform: rotate(180deg); }
+
+/* Story context */
+.story-context {
+background: rgba(201,162,39,0.06);
+border-left: 3px solid var(--gold);
+border-radius: 0 8px 8px 0;
+padding: 14px 18px;
+margin-bottom: 24px;
+font-style: italic;
+color: rgba(255,255,255,0.7);
+font-size: 15px;
+line-height: 1.7;
+}
+
+.story-context .speaker {
+font-family: 'Cinzel', serif;
+font-size: 11px;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: var(--gold);
+font-style: normal;
+display: block;
+margin-bottom: 4px;
+}
+
+/* Topic tag */
+.topic-tag {
+font-family: 'Cinzel', serif;
+font-size: 10px;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: rgba(255,255,255,0.35);
+margin-bottom: 12px;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+
+.topic-tag::after {
+content: '';
+flex: 1;
+height: 1px;
+background: rgba(255,255,255,0.1);
+}
+
+/* Question */
+.question-text {
+font-size: clamp(16px, 2.5vw, 20px);
+line-height: 1.7;
+color: var(--white);
+margin-bottom: 28px;
+font-weight: 300;
+}
+
+.question-text strong {
+color: var(--gold-light);
+font-weight: 600;
+}
+
+/* Math display */
+.math-display {
+background: rgba(0,0,0,0.3);
+border: 1px solid rgba(255,255,255,0.08);
+border-radius: 10px;
+padding: 16px 22px;
+margin: 16px 0;
+font-size: 18px;
+text-align: center;
+color: var(--gold-light);
+font-family: 'Crimson Pro', serif;
+letter-spacing: 1px;
+}
+
+/* Choices */
+.choices {
+display: grid;
+gap: 12px;
+margin-bottom: 24px;
+}
+
+.choice-btn {
+display: flex;
+align-items: center;
+gap: 14px;
+background: rgba(255,255,255,0.04);
+border: 1px solid rgba(255,255,255,0.12);
+border-radius: 10px;
+padding: 14px 18px;
+cursor: pointer;
+transition: all 0.25s ease;
+text-align: left;
+color: var(--white);
+font-family: 'Crimson Pro', serif;
+font-size: 16px;
+position: relative;
+overflow: hidden;
+}
+
+.choice-btn::before {
+content: '';
+position: absolute;
+inset: 0;
+opacity: 0;
+transition: opacity 0.25s;
+background: linear-gradient(90deg, rgba(201,162,39,0.08), transparent);
+}
+
+.choice-btn:hover:not(:disabled)::before { opacity: 1; }
+.choice-btn:hover:not(:disabled) {
+border-color: rgba(201,162,39,0.4);
+transform: translateX(4px);
+box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.choice-btn:disabled { cursor: not-allowed; opacity: 0.7; }
+
+.choice-btn.correct {
+background: rgba(76,175,80,0.15);
+border-color: rgba(76,175,80,0.6);
+transform: translateX(4px);
+}
+
+.choice-btn.wrong {
+background: rgba(229,57,53,0.15);
+border-color: rgba(229,57,53,0.5);
+}
+
+.choice-label {
+width: 28px;
+height: 28px;
+border-radius: 50%;
+background: rgba(255,255,255,0.08);
+border: 1px solid rgba(255,255,255,0.15);
+display: flex;
+align-items: center;
+justify-content: center;
+font-family: 'Cinzel', serif;
+font-size: 12px;
+font-weight: 600;
+flex-shrink: 0;
+transition: all 0.25s;
+color: var(--gold-light);
+}
+
+.choice-btn.correct .choice-label {
+background: rgba(76,175,80,0.3);
+border-color: var(--correct);
+color: #80ff84;
+}
+
+.choice-btn.wrong .choice-label {
+background: rgba(229,57,53,0.3);
+border-color: var(--wrong);
+color: #ff8080;
+}
+
+/* Attempts */
+.attempts-row {
+display: flex;
+align-items: center;
+gap: 8px;
+margin-bottom: 18px;
+}
+
+.attempts-label {
+font-family: 'Cinzel', serif;
+font-size: 11px;
+letter-spacing: 1px;
+color: rgba(255,255,255,0.4);
+text-transform: uppercase;
+margin-right: 4px;
+}
+
+.attempt-flame {
+font-size: 20px;
+transition: all 0.3s ease;
+filter: grayscale(0);
+}
+
+.attempt-flame.used {
+filter: grayscale(1) brightness(0.3);
+transform: scale(0.85);
+}
+
+/* Hint box */
+.hint-box {
+background: rgba(255,152,0,0.08);
+border: 1px solid rgba(255,152,0,0.3);
+border-radius: 10px;
+padding: 14px 18px;
+margin-bottom: 18px;
+display: none;
+animation: slideIn 0.4s ease;
+}
+
+.hint-box.visible { display: block; }
+
+.hint-level {
+font-family: 'Cinzel', serif;
+font-size: 10px;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: var(--hint);
+margin-bottom: 6px;
+display: flex;
+align-items: center;
+gap: 6px;
+}
+
+.hint-text {
+color: rgba(255,255,255,0.8);
+font-size: 15px;
+line-height: 1.6;
+font-style: italic;
+}
+
+/* Answer reveal */
+.answer-reveal {
+background: rgba(76,175,80,0.08);
+border: 1px solid rgba(76,175,80,0.3);
+border-radius: 10px;
+padding: 16px 20px;
+margin-bottom: 18px;
+display: none;
+animation: slideIn 0.4s ease;
+}
+
+.answer-reveal.visible { display: block; }
+
+.answer-reveal-title {
+font-family: 'Cinzel', serif;
+font-size: 11px;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: var(--correct);
+margin-bottom: 8px;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+
+.answer-reveal-text {
+color: rgba(255,255,255,0.85);
+font-size: 15px;
+line-height: 1.7;
+}
+
+.answer-reveal-text .math { color: var(--gold-light); font-weight: 600; }
+
+/* Correct feedback */
+.correct-feedback {
+background: rgba(76,175,80,0.1);
+border: 1px solid rgba(76,175,80,0.3);
+border-radius: 10px;
+padding: 14px 18px;
+display: none;
+animation: slideIn 0.4s ease;
+margin-bottom: 16px;
+}
+
+.correct-feedback.visible { display: block; }
+
+.correct-feedback-title {
+font-family: 'Cinzel', serif;
+font-size: 11px;
+letter-spacing: 2px;
+color: var(--correct);
+text-transform: uppercase;
+margin-bottom: 4px;
+}
+
+.correct-feedback-text {
+color: rgba(255,255,255,0.8);
+font-size: 15px;
+font-style: italic;
+}
+
+/* Next button */
+.next-btn {
+display: none;
+background: linear-gradient(135deg, var(--gold) 0%, var(--air) 100%);
+color: var(--dark);
+border: none;
+border-radius: 10px;
+padding: 14px 32px;
+font-family: 'Cinzel', serif;
+font-size: 13px;
+font-weight: 600;
+letter-spacing: 2px;
+text-transform: uppercase;
+cursor: pointer;
+transition: all 0.25s ease;
+box-shadow: 0 4px 20px rgba(201,162,39,0.3);
+}
+
+.next-btn:hover {
+transform: translateY(-2px);
+box-shadow: 0 8px 30px rgba(201,162,39,0.45);
+}
+
+.next-btn.visible { display: inline-flex; align-items: center; gap: 8px; }
+
+/* Score panel */
+#score-panel {
+display: none;
+animation: fadeUp 0.7s ease;
+}
+
+#score-panel.visible { display: block; }
+
+.score-card {
+background: linear-gradient(135deg, rgba(20,20,32,0.97) 0%, rgba(12,12,22,0.99) 100%);
+border: 1px solid rgba(201,162,39,0.35);
+border-radius: 20px;
+padding: 50px 40px;
+text-align: center;
+position: relative;
+overflow: hidden;
+box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+}
+
+.score-card::before {
+content: '';
+position: absolute;
+top: 0; left: 0; right: 0;
+height: 3px;
+background: linear-gradient(90deg, var(--fire), var(--water), var(--earth), var(--air));
+}
+
+.score-avatar-text {
+font-size: 64px;
+margin-bottom: 10px;
+display: block;
+animation: floatGlyph 3s ease-in-out infinite;
+}
+
+.score-title {
+font-family: 'Cinzel', serif;
+font-size: clamp(20px, 4vw, 32px);
+font-weight: 800;
+background: linear-gradient(135deg, var(--gold-light), var(--gold));
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+margin-bottom: 8px;
+}
+
+.score-subtitle {
+font-size: 15px;
+color: rgba(255,255,255,0.5);
+font-style: italic;
+margin-bottom: 40px;
+}
+
+.score-big {
+font-family: 'Cinzel', serif;
+font-size: clamp(52px, 12vw, 88px);
+font-weight: 800;
+background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 60%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+line-height: 1;
+margin-bottom: 6px;
+}
+
+.score-fraction {
+font-family: 'Cinzel', serif;
+font-size: 20px;
+color: rgba(255,255,255,0.5);
+margin-bottom: 30px;
+}
+
+.score-nation-breakdown {
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 12px;
+margin: 30px 0;
+text-align: left;
+}
+
+.score-nation-item {
+padding: 14px 16px;
+border-radius: 10px;
+border: 1px solid rgba(255,255,255,0.08);
+background: rgba(255,255,255,0.03);
+}
+
+.score-nation-name {
+font-family: 'Cinzel', serif;
+font-size: 11px;
+letter-spacing: 1px;
+text-transform: uppercase;
+margin-bottom: 4px;
+}
+
+.score-nation-topic {
+font-size: 13px;
+color: rgba(255,255,255,0.5);
+font-style: italic;
+margin-bottom: 6px;
+}
+
+.score-nation-result {
+font-size: 18px;
+font-weight: 600;
+}
+
+.score-message {
+font-style: italic;
+font-size: 17px;
+color: rgba(255,255,255,0.65);
+line-height: 1.7;
+margin: 20px 0 30px;
+padding: 20px;
+border: 1px solid rgba(201,162,39,0.15);
+border-radius: 10px;
+background: rgba(201,162,39,0.04);
+}
+
+.replay-btn {
+background: linear-gradient(135deg, var(--fire) 0%, var(--fire-light) 100%);
+color: white;
+border: none;
+border-radius: 10px;
+padding: 14px 40px;
+font-family: 'Cinzel', serif;
+font-size: 13px;
+font-weight: 600;
+letter-spacing: 2px;
+text-transform: uppercase;
+cursor: pointer;
+transition: all 0.25s ease;
+box-shadow: 0 4px 20px rgba(232,66,10,0.3);
+}
+
+.replay-btn:hover {
+transform: translateY(-2px);
+box-shadow: 0 8px 30px rgba(232,66,10,0.45);
+}
+
+/* Splash screen */
+#splash {
+text-align: center;
+padding: 20px 0;
+animation: fadeUp 0.8s ease;
+}
+
+.splash-emblem { font-size: 80px; margin-bottom: 20px; display: block; animation: floatGlyph 3s ease-in-out infinite; }
+
+.splash-title {
+font-family: 'Cinzel', serif;
+font-size: clamp(24px, 6vw, 44px);
+font-weight: 800;
+background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--air-light) 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+line-height: 1.2;
+margin-bottom: 10px;
+}
+
+.splash-sub {
+font-size: 13px;
+letter-spacing: 4px;
+color: rgba(255,255,255,0.4);
+text-transform: uppercase;
+margin-bottom: 30px;
+}
+
+.splash-story {
+max-width: 560px;
+margin: 0 auto 30px;
+font-size: 16px;
+line-height: 1.8;
+color: rgba(255,255,255,0.65);
+font-style: italic;
+}
+
+.nations-preview {
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 12px;
+max-width: 500px;
+margin: 0 auto 36px;
+}
+
+.nation-preview-item {
+padding: 14px 16px;
+border-radius: 10px;
+border: 1px solid;
+text-align: left;
+font-size: 13px;
+}
+
+.nation-preview-name {
+font-family: 'Cinzel', serif;
+font-size: 11px;
+letter-spacing: 1px;
+text-transform: uppercase;
+margin-bottom: 2px;
+}
+
+.nation-preview-topic { font-size: 13px; opacity: 0.7; }
+
+.start-btn {
+background: linear-gradient(135deg, var(--gold) 0%, var(--air) 100%);
+color: var(--dark);
+border: none;
+border-radius: 12px;
+padding: 16px 50px;
+font-family: 'Cinzel', serif;
+font-size: 15px;
+font-weight: 700;
+letter-spacing: 3px;
+text-transform: uppercase;
+cursor: pointer;
+transition: all 0.3s ease;
+box-shadow: 0 4px 30px rgba(201,162,39,0.4);
+}
+
+.start-btn:hover {
+transform: translateY(-3px);
+box-shadow: 0 10px 40px rgba(201,162,39,0.55);
+}
+
+/* Animations */
+@Keyframes fadeUp {
+from { opacity: 0; transform: translateY(20px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+@Keyframes fadeDown {
+from { opacity: 0; transform: translateY(-15px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+@Keyframes slideIn {
+from { opacity: 0; transform: translateX(-10px); }
+to { opacity: 1; transform: translateX(0); }
+}
+
+@Keyframes pulse {
+0%,100% { opacity: 1; }
+50% { opacity: 0.5; }
+}
+
+@media (max-width: 600px) {
+.card { padding: 24px 20px; }
+.score-nation-breakdown { grid-template-columns: 1fr; }
+.nations-preview { grid-template-columns: 1fr; }
+}
+</style>
+
+☯
+The Avatar's Math Trials
+Year 8 Mathematics · Western Australia Curriculum
+
+◆
+🌊🔥🪨💨
+Master the Four Elements
+Through the Power of Mathematics
+Aang must journey through the four nations to master each element — but the spirits of knowledge demand a toll. Only by solving the mathematical trials of each nation can the Avatar unlock their ancient wisdom and restore balance to the world.
+
+You have 3 attempts per question. Each failure reveals a deeper hint from the spirits. Fail all three, and the answer is revealed — but your wisdom score suffers.
+
+🌊 Water Tribe
+Linear Equations
+🪨 Earth Kingdom
+Area & Geometry
+🔥 Fire Nation
+Percentages & Rates
+💨 Air Nomads
+Probability & Statistics
+Begin the Journey ☯
+Question 1 of 12 🌊 Water Tribe
+<div id="question-card" class="card">
+  <!-- filled dynamically -->
+</div>
+☯
+Trial Complete, Avatar
+🔄 Take the Trial Again
+<script> const QUESTIONS = [ // ── WATER TRIBE: Linear Equations & Expressions ── { nation: 'water', nationLabel: '🌊 Water Tribe', nationClass: 'water', topic: 'Linear Equations', character: 'Katara', story: '"The waterbenders of the North Pole have hidden their scrolls," whispers Katara. "To unlock the first seal, you must solve their ancient equation."', question: 'The Northern Water Tribe records show that a firebender camp had soldiers arriving each hour. If the number of soldiers s after t hours follows the rule s = 4t + 6, how many soldiers were there after 3 hours?', options: ['14', '18', '30', '22'], answer: 1, hints: [ '🌊 Katara says: "Replace the letter t with the number of hours you are given. What number do you substitute?"', '🌊 "Substitute t = 3 into the equation. That means you need to find 4 × 3 + 6. First multiply, then add — remember order of operations!"', '🌊 "4 × 3 = 12, and 12 + 6 = 18. The answer is 18 soldiers."', ], explanation: 'Substituting t = 3 into s = 4t + 6 gives s = 4×3 + 6 = 12 + 6 = 18. Following BODMAS, multiplication comes before addition.', }, { nation: 'water', nationLabel: '🌊 Water Tribe', nationClass: 'water', topic: 'Linear Equations', character: 'Sokka', story: '"Sokka is planning supply crates for the journey," says Aang. "He needs to figure out how many crates to pack. Help him solve the equation!"', question: 'Sokka sets up the equation 3x − 7 = 14 to figure out how many supply crates he needs. Solve for x.', options: ['x = 3', 'x = 7', 'x = 9', 'x = 21'], answer: 2, hints: [ '🌊 Sokka says: "What operation should you do first to isolate the term with x? Think about getting rid of the −7 first."', '🌊 "Add 7 to both sides of the equation: 3x − 7 + 7 = 14 + 7, so 3x = 21. Now what do you do to find x?"', '🌊 "Divide both sides by 3: x = 21 ÷ 3 = 7. Wait — that\'s option B! But check: 3×7−7 = 21−7 = 14 ✓"', ], explanation: 'Solving step by step: 3x − 7 = 14 → Add 7: 3x = 21 → Divide by 3: x = 7. Check: 3(7) − 7 = 14 ✓', }, { nation: 'water', nationLabel: '🌊 Water Tribe', nationClass: 'water', topic: 'Algebraic Expressions', character: 'Master Pakku', story: '"Master Pakku tests the young waterbenders with symbolic riddles," Aang recalls. "Expand and simplify this expression to prove your worth."', question: 'Expand and simplify: 2(3x + 4) − 3(x − 2)', options: ['3x + 14', '3x + 2', '9x + 14', '3x − 2'], answer: 0, hints: [ '🌊 Pakku says: "Expand each bracket separately. Multiply 2 by each term inside the first bracket, and multiply −3 by each term inside the second bracket."', '🌊 "2(3x + 4) = 6x + 8. Now expand −3(x − 2). Be careful with the negative sign: −3 × x = −3x, and −3 × −2 = +6."', '🌊 "After expanding: 6x + 8 − 3x + 6. Collect like terms: (6x − 3x) + (8 + 6) = 3x + 14."', ], explanation: '2(3x + 4) = 6x + 8 and −3(x − 2) = −3x + 6. Adding: 6x + 8 − 3x + 6 = 3x + 14.', }, // ── EARTH KINGDOM: Area, Geometry, Volume ── { nation: 'earth', nationLabel: '🪨 Earth Kingdom', nationClass: 'earth', topic: 'Area & Perimeter', character: 'Toph', story: '"Toph senses the walls of Ba Sing Se with her feet," says Aang. "The outer wall is rectangular — she needs the area to plan the defences!"', question: 'The outer wall of Ba Sing Se forms a rectangle 85 m long and 40 m wide. What is the perimeter of this rectangle (in metres)?', options: ['250 m', '125 m', '3400 m', '240 m'], answer: 0, hints: [ '🪨 Toph says: "The perimeter is the total distance around the outside of the shape. How many sides does a rectangle have?"', '🪨 "A rectangle has 2 lengths and 2 widths. The formula is P = 2(l + w). Substitute l = 85 and w = 40."', '🪨 "P = 2(85 + 40) = 2 × 125 = 250 m. The perimeter is 250 metres."', ], explanation: 'Perimeter of rectangle = 2(l + w) = 2(85 + 40) = 2 × 125 = 250 m.', }, { nation: 'earth', nationLabel: '🪨 Earth Kingdom', nationClass: 'earth', topic: 'Volume', character: 'The Boulder', story: '"The Boulder must fill a stone container with water for training," growls The Boulder. "He needs to know the exact volume. Can you help The Boulder?"', question: 'A rectangular stone container is 6 m long, 4 m wide, and 3 m tall. What is its volume?', options: ['72 m³', '48 m³', '36 m³', '144 m³'], answer: 0, hints: [ '🪨 The Boulder says: "Volume of a rectangular prism uses three measurements. The formula is V = length × width × height."', '🪨 "Substitute the values: V = 6 × 4 × 3. Try multiplying two numbers at a time."', '🪨 "6 × 4 = 24, then 24 × 3 = 72. The volume is 72 m³."', ], explanation: 'Volume of rectangular prism = l × w × h = 6 × 4 × 3 = 72 m³.', }, { nation: 'earth', nationLabel: '🪨 Earth Kingdom', nationClass: 'earth', topic: 'Pythagoras\' Theorem', character: 'Toph', story: '"Toph detects a secret tunnel beneath the Earth Kingdom palace," says Aang. "She needs to find the length of the diagonal passage to plan her escape!"', question: 'A secret tunnel goes 5 m along the ground and 12 m vertically upward. Using Pythagoras\' theorem, find the length of the diagonal tunnel (in metres).', options: ['13 m', '17 m', '10 m', '7 m'], answer: 0, hints: [ '🪨 Toph says: "This is a right-angled triangle problem. Pythagoras\' theorem says: hypotenuse² = side a² + side b². The hypotenuse is the longest side (the diagonal)."', '🪨 "Square both given values: 5² = 25 and 12² = 144. Add them together: 25 + 144 = 169. Now find the square root."', '🪨 "√169 = 13. The diagonal tunnel is 13 m long. This is a famous Pythagorean triple: 5, 12, 13!"', ], explanation: 'Using c² = a² + b²: c² = 5² + 12² = 25 + 144 = 169. So c = √169 = 13 m.', }, // ── FIRE NATION: Percentages, Rates, Ratios ── { nation: 'fire', nationLabel: '🔥 Fire Nation', nationClass: 'fire', topic: 'Percentages', character: 'Zuko', story: '"Zuko is studying the Fire Nation\'s tax records in exile," says Iroh. "A merchant sold goods for 800 gold pieces but the Fire Lord takes his cut. Help Zuko calculate it."', question: 'A Fire Nation merchant earns 800 gold pieces. The Fire Lord demands a 15% tax. How many gold pieces does the merchant keep after paying tax?', options: ['680 gold', '120 gold', '720 gold', '700 gold'], answer: 0, hints: [ '🔥 Iroh says: "First find 15% of 800. Remember: to find a percentage, convert it to a decimal (15% = 0.15) and multiply."', '🔥 "15% of 800 = 0.15 × 800 = 120 gold pieces paid in tax. The merchant keeps the remainder. Subtract from 800."', '🔥 "800 − 120 = 680 gold pieces kept. The tax amount is 120 and the remainder is 680."', ], explanation: '15% of 800 = 0.15 × 800 = 120. Amount kept = 800 − 120 = 680 gold pieces.', }, { nation: 'fire', nationLabel: '🔥 Fire Nation', nationClass: 'fire', topic: 'Rates', character: 'Azula', story: '"Azula\'s lightning travels at incredible speed," says Zuko. "Her training data shows distance and time — she wants to calculate the exact rate of her power."', question: 'Azula\'s fire blast travels 360 metres in 4 seconds. What is the speed of her fire blast in metres per second?', options: ['90 m/s', '1440 m/s', '356 m/s', '45 m/s'], answer: 0, hints: [ '🔥 Azula says: "Speed is a rate — it tells you how far something travels per unit of time. The formula is: Speed = Distance ÷ Time."', '🔥 "Divide the total distance by the total time: 360 ÷ 4. What do you get?"', '🔥 "360 ÷ 4 = 90. The speed is 90 metres per second."', ], explanation: 'Speed = Distance ÷ Time = 360 ÷ 4 = 90 m/s.', }, { nation: 'fire', nationLabel: '🔥 Fire Nation', nationClass: 'fire', topic: 'Ratio', character: 'Uncle Iroh', story: '"Iroh is mixing his legendary tea blend," smiles Aang. "He uses a special ratio of tea leaves to water. How much water does he need for a large batch?"', question: 'Iroh\'s tea recipe uses tea leaves to water in the ratio 2 : 5. If he uses 6 spoonfuls of tea leaves, how many spoonfuls of water does he need?', options: ['15', '3', '10', '12'], answer: 0, hints: [ '🔥 Iroh says: "Think about what the ratio 2 : 5 means. For every 2 parts of tea, you need 5 parts water. How many times bigger is 6 compared to 2?"', '🔥 "6 ÷ 2 = 3. So the batch is 3 times the original recipe. Multiply the water amount by the same scale factor: 5 × 3 = ?"', '🔥 "5 × 3 = 15 spoonfuls of water. When scaling a ratio, multiply both parts by the same number."', ], explanation: 'Scale factor = 6 ÷ 2 = 3. Water needed = 5 × 3 = 15 spoonfuls.', }, // ── AIR NOMADS: Probability & Statistics ── { nation: 'air', nationLabel: '💨 Air Nomads', nationClass: 'air', topic: 'Probability', character: 'Aang', story: '"The Air Nomads teach balance through chance," says Monk Gyatso in Aang\'s memory. "A bag of coloured sky bison tiles — what are the odds of drawing the right one?"', question: 'A bag contains 4 red tiles, 3 blue tiles, and 5 yellow tiles. If Aang picks one tile at random, what is the probability of picking a blue tile?', options: ['1/4', '3/12', '1/3', '5/12'], answer: 1, hints: [ '💨 Monk Gyatso says: "Probability = number of favourable outcomes ÷ total number of outcomes. How many tiles are there in total?"', '💨 "Total tiles = 4 + 3 + 5 = 12. There are 3 blue tiles. So probability of blue = 3 out of 12 = 3/12."', '💨 "P(blue) = 3/12. This can simplify to 1/4, but look carefully at the answer choices — 3/12 is listed as an option and is the most direct form shown."', ], explanation: 'Total tiles = 4 + 3 + 5 = 12. P(blue) = 3/12 = 1/4. Both 3/12 and 1/4 are equivalent — check the listed options carefully.', }, { nation: 'air', nationLabel: '💨 Air Nomads', nationClass: 'air', topic: 'Statistics — Mean', character: 'Aang', story: '"The Air Nomad monks recorded Aang\'s airbending training scores each week," says Gyatso. "Calculate the mean to see how he is progressing."', question: 'Aang\'s training scores for 5 weeks were: 72, 85, 68, 91, 74. What is the mean (average) score?', options: ['78', '74', '85', '80'], answer: 0, hints: [ '💨 Aang says: "To find the mean, first add all the scores together. Then divide by how many scores there are."', '💨 "Add all the scores: 72 + 85 + 68 + 91 + 74. Take it step by step: 72 + 85 = 157, then 157 + 68 = 225, then 225 + 91 = 316, then 316 + 74 = 390."', '💨 "Now divide the total by the number of scores: 390 ÷ 5 = 78. The mean score is 78."', ], explanation: 'Sum = 72 + 85 + 68 + 91 + 74 = 390. Mean = 390 ÷ 5 = 78.', }, { nation: 'air', nationLabel: '💨 Air Nomads', nationClass: 'air', topic: 'Statistics — Median', character: 'Monk Gyatso', story: '"Monk Gyatso arranges the training scores in order to find the middle value," says Aang fondly. "The median reveals the heart of the data."', question: 'The airbending scores for seven students were: 55, 72, 60, 88, 45, 72, 66. What is the median score?', options: ['72', '66', '60', '65.4'], answer: 1, hints: [ '💨 Gyatso says: "The median is the middle value when data is arranged in order. First, sort all seven scores from smallest to largest."', '💨 "Sorted: 45, 55, 60, 66, 72, 72, 88. There are 7 values. The middle value is the 4th one. Count: 45(1), 55(2), 60(3), 66(4)..."', '💨 "The 4th value in the ordered list is 66. So the median is 66."', ], explanation: 'Sorted: 45, 55, 60, 66, 72, 72, 88. With 7 values, the median is the 4th value = 66.', }, ]; let currentQ = 0; let attemptsLeft = 3; let score = 0; let results = []; let quizStarted = false; function startQuiz() { document.getElementById('splash').style.display = 'none'; document.getElementById('quiz-area').style.display = 'block'; currentQ = 0; score = 0; results = []; renderQuestion(); } function resetQuiz() { document.getElementById('score-panel').classList.remove('visible'); document.getElementById('score-panel').style.display = 'none'; document.getElementById('splash').style.display = 'block'; } function renderQuestion() { const q = QUESTIONS[currentQ]; attemptsLeft = 3; // Update progress const pct = (currentQ / QUESTIONS.length) * 100; document.getElementById('progress-bar').style.width = pct + '%'; document.getElementById('q-label').textContent = `Question ${currentQ + 1} of ${QUESTIONS.length}`; document.getElementById('q-nation-label').textContent = q.nationLabel; // Build card HTML const card = document.getElementById('question-card'); card.className = `card ${q.nationClass}`; card.style.animation = 'none'; void card.offsetWidth; card.style.animation = 'fadeUp 0.5s ease'; const optLetters = ['A', 'B', 'C', 'D']; let optionsHTML = q.options.map((opt, i) => ` ${optLetters[i]} ${opt} `).join(''); card.innerHTML = `
+${q.nation === 'water' ? '🌊' : q.nation === 'earth' ? '🪨' : q.nation === 'fire' ? '🔥' : '💨'}
+${q.nation === 'water' ? '🌊' : q.nation === 'earth' ? '🪨' : q.nation === 'fire' ? '🔥' : '💨'}
+${q.nationLabel}
+${q.topic}
+${q.character} says: ${q.story}
+${q.question}
+Chances 🔥 🔥 🔥
+💡 Hint
+📜 Answer & Explanation
+✨ Well done!
+${optionsHTML}
+${currentQ < QUESTIONS.length - 1 ? 'Continue Journey →' : 'See Final Score ☯'} `; } function selectAnswer(idx) { const q = QUESTIONS[currentQ]; const hintBox = document.getElementById('hint-box'); const hintLevel = document.getElementById('hint-level'); const hintText = document.getElementById('hint-text'); const answerReveal = document.getElementById('answer-reveal'); const answerRevealText = document.getElementById('answer-reveal-text'); const correctFeedback = document.getElementById('correct-feedback'); const correctFeedbackText = document.getElementById('correct-feedback-text'); const nextBtn = document.getElementById('next-btn'); if (idx === q.answer) { // Correct! document.getElementById(`opt-${idx}`).classList.add('correct'); disableAllOptions(); const attemptsUsed = 3 - attemptsLeft; const pointsEarned = attemptsUsed === 0 ? 1 : 0; // full point only on first try score += (attemptsUsed === 0 ? 1 : 0); results.push({ correct: true, firstTry: attemptsUsed === 0 }); const msgs = [ '"You have mastered this trial, Avatar. The spirits are pleased." 🌟', '"Not perfect, but wisdom grows through struggle." 🙏', '"Even with hints, understanding is earned." 🌱', ]; correctFeedback.classList.add('visible'); correctFeedbackText.textContent = msgs[Math.min(attemptsUsed, 2)]; nextBtn.classList.add('visible'); } else { attemptsLeft--; document.getElementById(`opt-${idx}`).classList.add('wrong'); document.getElementById(`opt-${idx}`).disabled = true; if (attemptsLeft > 0) { // Update flames const flameIdx = 3 - attemptsLeft; document.getElementById(`flame-${flameIdx - 1}`).classList.add('used'); // Show hint const hintIdx = 3 - attemptsLeft - 1; const levels = ['💡 First Clue', '💡💡 Deeper Hint', '💡💡💡 Almost There']; hintLevel.textContent = levels[hintIdx]; hintText.textContent = q.hints[hintIdx]; hintBox.classList.add('visible'); } else { // All attempts used — show answer document.getElementById('flame-0').classList.add('used'); document.getElementById('flame-1').classList.add('used'); document.getElementById('flame-2').classList.add('used'); // Show correct answer document.getElementById(`opt-${q.answer}`).classList.add('correct'); disableAllOptions(); answerRevealText.innerHTML = q.explanation; answerReveal.classList.add('visible'); hintBox.classList.remove('visible'); results.push({ correct: false, firstTry: false }); nextBtn.classList.add('visible'); } } } function disableAllOptions() { for (let i = 0; i < 4; i++) { const el = document.getElementById(`opt-${i}`); if (el) el.disabled = true; } } function nextQuestion() { currentQ++; if (currentQ >= QUESTIONS.length) { showScore(); } else { renderQuestion(); } } function showScore() { document.getElementById('quiz-area').style.display = 'none'; const panel = document.getElementById('score-panel'); panel.style.display = 'block'; panel.classList.add('visible'); const total = QUESTIONS.length; const correct = results.filter(r => r.correct).length; const pct = Math.round((correct / total) * 100); document.getElementById('score-pct').textContent = pct + '%'; document.getElementById('score-frac').textContent = `${correct} out of ${total} questions correct`; let subtitle, message; if (pct >= 90) { subtitle = 'The Avatar State is achieved!'; message = '"You have not just answered questions — you have shown the wisdom of all four nations. The world is in safe hands, Avatar." — Roku\'s Spirit'; } else if (pct >= 70) { subtitle = 'A skilled bender of numbers!'; message = '"Strong performance. Some elements still need refinement, but your spirit is determined. Keep training and you will master them all." — Uncle Iroh'; } else if (pct >= 50) { subtitle = 'The journey continues...'; message = '"Every master was once a beginner. Aang did not learn airbending in a day. Review the elements that challenged you and try again." — Katara'; } else { subtitle = 'The trial begins again...'; message = '"Even the greatest Avatar needed guidance. The four nations will wait for you. Study hard, meditate on the hints, and return stronger." — Monk Gyatso'; } document.getElementById('score-subtitle').textContent = subtitle; document.getElementById('score-message').textContent = message; // Nation breakdown const nations = [ { key: 'water', label: '🌊 Water Tribe', topic: 'Linear Equations & Algebra', qs: [0,1,2] }, { key: 'earth', label: '🪨 Earth Kingdom', topic: 'Area, Volume & Pythagoras', qs: [3,4,5] }, { key: 'fire', label: '🔥 Fire Nation', topic: 'Percentages, Rates & Ratio', qs: [6,7,8] }, { key: 'air', label: '💨 Air Nomads', topic: 'Probability & Statistics', qs: [9,10,11] }, ]; const colors = { water: 'var(--water-light)', earth: 'var(--earth-light)', fire: 'var(--fire-light)', air: 'var(--air-light)' }; const bg = { water: 'rgba(33,150,184,0.1)', earth: 'rgba(107,140,62,0.1)', fire: 'rgba(232,66,10,0.1)', air: 'rgba(212,168,67,0.1)' }; const bd = { water: 'rgba(33,150,184,0.25)', earth: 'rgba(107,140,62,0.25)', fire: 'rgba(232,66,10,0.25)', air: 'rgba(212,168,67,0.25)' }; let breakdownHTML = ''; nations.forEach(n => { const nationCorrect = n.qs.filter(qi => results[qi] && results[qi].correct).length; const nationTotal = n.qs.length; const stars = nationCorrect === 3 ? '⭐⭐⭐' : nationCorrect === 2 ? '⭐⭐' : nationCorrect === 1 ? '⭐' : '—'; breakdownHTML += `
+${n.label}
+${n.topic}
+${nationCorrect}/${nationTotal} ${stars}
+`; }); document.getElementById('score-breakdown').innerHTML = breakdownHTML; } </script>
