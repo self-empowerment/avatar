@@ -247,6 +247,29 @@ body {
   box-shadow: 0 4px 30px rgba(201,162,39,0.4);
 }
 .start-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(201,162,39,0.55); }
+.short-answer-wrap { margin-bottom: 24px; }
+.short-answer-label { display: block; font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 12px; }
+.short-input {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(201,162,39,0.35);
+  border-radius: 10px; padding: 13px 18px; font-family: 'Crimson Pro', serif;
+  font-size: 20px; color: var(--white); width: 160px; outline: none;
+  transition: border-color 0.2s, background 0.2s;
+  -moz-appearance: textfield;
+}
+.short-input::-webkit-inner-spin-button, .short-input::-webkit-outer-spin-button { -webkit-appearance: none; }
+.short-input:focus { border-color: rgba(201,162,39,0.7); background: rgba(255,255,255,0.08); }
+.short-input.input-correct { border-color: rgba(76,175,80,0.7); background: rgba(76,175,80,0.12); color: #80ff84; }
+.short-input.input-wrong { border-color: rgba(229,57,53,0.7); background: rgba(229,57,53,0.1); animation: shake 0.4s ease; }
+.check-btn {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--air) 100%);
+  color: var(--dark); border: none; border-radius: 10px; padding: 13px 24px;
+  font-family: 'Cinzel', serif; font-size: 12px; font-weight: 600; letter-spacing: 2px;
+  text-transform: uppercase; cursor: pointer; transition: all 0.25s ease;
+  box-shadow: 0 4px 16px rgba(201,162,39,0.28);
+}
+.check-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,162,39,0.42); }
+.check-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+@keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 60%{transform:translateX(6px)} 80%{transform:translateX(-3px)} }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes fadeDown { from { opacity: 0; transform: translateY(-15px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes slideIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
@@ -470,7 +493,28 @@ const QUESTIONS = [
   },
 ];
 
+// Questions delivered as short-answer (type:'short') use q.shortAnswer (string, lowercase, trimmed).
+// All others are multiple-choice with shuffled options.
+// Mark questions that are pure-number answers as short answer:
+// Q4 (volume 72), Q5 (pythagoras 13), Q8 (speed 90), Q9 (ratio 15), Q11 (mean 78)
+QUESTIONS[4].type = 'short'; QUESTIONS[4].shortAnswer = '72';
+QUESTIONS[5].type = 'short'; QUESTIONS[5].shortAnswer = '13';
+QUESTIONS[7].type = 'short'; QUESTIONS[7].shortAnswer = '90';
+QUESTIONS[8].type = 'short'; QUESTIONS[8].shortAnswer = '15';
+QUESTIONS[10].type = 'short'; QUESTIONS[10].shortAnswer = '78';
+
 let currentQ = 0, attemptsLeft = 3, score = 0, results = [];
+let shuffledOpts = [], shuffledAns = 0;
+
+// Fisher-Yates shuffle
+function shuffleArr(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
 
 function startQuiz() {
   document.getElementById('splash').style.display = 'none';
@@ -497,17 +541,38 @@ function renderQuestion() {
   const card = document.getElementById('question-card');
   card.className = `card ${q.nationClass}`;
   card.style.animation = 'none'; void card.offsetWidth; card.style.animation = 'fadeUp 0.5s ease';
-  const optLetters = ['A', 'B', 'C', 'D'];
-  let optionsHTML = q.options.map((opt, i) => `
-    <button class="choice-btn" id="opt-${i}" onclick="selectAnswer(${i})">
-      <span class="choice-label">${optLetters[i]}</span>${opt}
-    </button>`).join('');
   const emoji = q.nation === 'water' ? '🌊' : q.nation === 'earth' ? '🪨' : q.nation === 'fire' ? '🔥' : '💨';
+
+  let inputHTML = '';
+  if (q.type === 'short') {
+    // Short answer — numeric input
+    inputHTML = `
+      <div class="short-answer-wrap">
+        <label class="short-answer-label">✏️ Type your answer (numbers only):</label>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+          <input type="number" id="short-input" class="short-input" placeholder="Your answer…"
+            onkeydown="if(event.key==='Enter')checkShort()" autocomplete="off" />
+          <button class="check-btn" onclick="checkShort()">Check →</button>
+        </div>
+      </div>`;
+  } else {
+    // Multiple choice — shuffle options
+    const correctText = q.options[q.answer];
+    shuffledOpts = shuffleArr(q.options);
+    shuffledAns = shuffledOpts.indexOf(correctText);
+    const optLetters = ['A', 'B', 'C', 'D'];
+    const optionsHTML = shuffledOpts.map((opt, i) => `
+      <button class="choice-btn" id="opt-${i}" onclick="selectAnswer(${i})">
+        <span class="choice-label">${optLetters[i]}</span>${opt}
+      </button>`).join('');
+    inputHTML = `<div class="choices">${optionsHTML}</div>`;
+  }
+
   card.innerHTML = `
     <div class="card-corner tl">${emoji}</div>
     <div class="card-corner br">${emoji}</div>
     <div class="nation-badge nation-${q.nation}">${q.nationLabel}</div>
-    <div class="topic-tag">${q.topic}</div>
+    <div class="topic-tag">${q.topic}${q.type === 'short' ? ' &nbsp;·&nbsp; <span style="color:var(--hint);font-size:9px;">✏️ SHORT ANSWER</span>' : ''}</div>
     <div class="story-context"><span class="speaker">${q.character} says:</span>${q.story}</div>
     <div class="question-text">${q.question}</div>
     <div class="attempts-row">
@@ -528,12 +593,72 @@ function renderQuestion() {
       <div class="correct-feedback-title">✨ Well done!</div>
       <div class="correct-feedback-text" id="correct-feedback-text"></div>
     </div>
-    <div class="choices">${optionsHTML}</div>
+    ${inputHTML}
     <button class="next-btn" id="next-btn" onclick="nextQuestion()">
       ${currentQ < QUESTIONS.length - 1 ? 'Continue Journey →' : 'See Final Score ☯'}
     </button>`;
+
+  if (q.type === 'short') {
+    setTimeout(() => { const el = document.getElementById('short-input'); if (el) el.focus(); }, 100);
+  }
 }
 
+// ── SHORT ANSWER checker ──
+function checkShort() {
+  const q = QUESTIONS[currentQ];
+  const input = document.getElementById('short-input');
+  if (!input || input.disabled) return;
+  const userVal = input.value.trim();
+  if (userVal === '') { input.style.borderColor = 'rgba(255,152,0,0.6)'; input.focus(); return; }
+  input.style.borderColor = '';
+
+  const correct = userVal === q.shortAnswer;
+  const hintBox = document.getElementById('hint-box');
+  const hintLevel = document.getElementById('hint-level');
+  const hintText = document.getElementById('hint-text');
+  const answerReveal = document.getElementById('answer-reveal');
+  const correctFeedback = document.getElementById('correct-feedback');
+  const nextBtn = document.getElementById('next-btn');
+
+  if (correct) {
+    input.classList.add('input-correct');
+    input.disabled = true;
+    document.getElementById('short-input') && (document.querySelector('.check-btn').disabled = true);
+    const attemptsUsed = 3 - attemptsLeft;
+    score += (attemptsUsed === 0 ? 1 : 0);
+    results.push({ correct: true, firstTry: attemptsUsed === 0 });
+    const msgs = ['"You have mastered this trial, Avatar. The spirits are pleased." 🌟','"Not perfect, but wisdom grows through struggle." 🙏','"Even with hints, understanding is earned." 🌱'];
+    document.getElementById('correct-feedback').classList.add('visible');
+    document.getElementById('correct-feedback-text').textContent = msgs[Math.min(attemptsUsed, 2)];
+    nextBtn.classList.add('visible');
+  } else {
+    attemptsLeft--;
+    input.classList.add('input-wrong');
+    setTimeout(() => { input.classList.remove('input-wrong'); input.value = ''; input.focus(); }, 600);
+    const flameIdx = 3 - attemptsLeft;
+    if (flameIdx >= 1) document.getElementById(`flame-${flameIdx - 1}`).classList.add('used');
+    if (attemptsLeft > 0) {
+      const hintIdx = 3 - attemptsLeft - 1;
+      const levels = ['💡 First Clue', '💡💡 Deeper Hint', '💡💡💡 Almost There'];
+      hintLevel.textContent = levels[hintIdx];
+      hintText.textContent = q.hints[hintIdx];
+      hintBox.classList.add('visible');
+    } else {
+      document.getElementById('flame-0').classList.add('used');
+      document.getElementById('flame-1').classList.add('used');
+      document.getElementById('flame-2').classList.add('used');
+      input.disabled = true;
+      document.querySelector('.check-btn') && (document.querySelector('.check-btn').disabled = true);
+      document.getElementById('answer-reveal-text').innerHTML = q.explanation;
+      answerReveal.classList.add('visible');
+      hintBox.classList.remove('visible');
+      results.push({ correct: false, firstTry: false });
+      nextBtn.classList.add('visible');
+    }
+  }
+}
+
+// ── MULTIPLE CHOICE checker ──
 function selectAnswer(idx) {
   const q = QUESTIONS[currentQ];
   const hintBox = document.getElementById('hint-box');
@@ -544,17 +669,13 @@ function selectAnswer(idx) {
   const correctFeedback = document.getElementById('correct-feedback');
   const correctFeedbackText = document.getElementById('correct-feedback-text');
   const nextBtn = document.getElementById('next-btn');
-  if (idx === q.answer) {
+  if (idx === shuffledAns) {
     document.getElementById(`opt-${idx}`).classList.add('correct');
     disableAllOptions();
     const attemptsUsed = 3 - attemptsLeft;
     score += (attemptsUsed === 0 ? 1 : 0);
     results.push({ correct: true, firstTry: attemptsUsed === 0 });
-    const msgs = [
-      '"You have mastered this trial, Avatar. The spirits are pleased." 🌟',
-      '"Not perfect, but wisdom grows through struggle." 🙏',
-      '"Even with hints, understanding is earned." 🌱',
-    ];
+    const msgs = ['"You have mastered this trial, Avatar. The spirits are pleased." 🌟','"Not perfect, but wisdom grows through struggle." 🙏','"Even with hints, understanding is earned." 🌱'];
     correctFeedback.classList.add('visible');
     correctFeedbackText.textContent = msgs[Math.min(attemptsUsed, 2)];
     nextBtn.classList.add('visible');
@@ -574,7 +695,7 @@ function selectAnswer(idx) {
       document.getElementById('flame-0').classList.add('used');
       document.getElementById('flame-1').classList.add('used');
       document.getElementById('flame-2').classList.add('used');
-      document.getElementById(`opt-${q.answer}`).classList.add('correct');
+      document.getElementById(`opt-${shuffledAns}`).classList.add('correct');
       disableAllOptions();
       answerRevealText.innerHTML = q.explanation;
       answerReveal.classList.add('visible');
