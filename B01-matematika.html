@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B01 · Matematika · UPK Musa</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#fff7ed; --card:#ffffff; --border:#fed7aa;
+  --accent:#ea580c; --green:#059669; --red:#dc2626;
+  --blue:#2563eb; --gold:#d97706; --purple:#7c3aed;
+  --text:#1c1917; --muted:#78716c; --shadow:0 4px 24px rgba(234,88,12,0.10);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+body::before{content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse at 10% 10%,rgba(234,88,12,0.08) 0%,transparent 40%),
+             radial-gradient(ellipse at 90% 90%,rgba(124,58,237,0.06) 0%,transparent 40%);
+  pointer-events:none;z-index:0;}
+.wrap{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:20px 16px 60px;}
+.screen{display:none;}
+#splash{display:block;}
+
+/* ── SPLASH ── */
+.code-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(234,88,12,0.10);border:1.5px solid rgba(234,88,12,0.3);color:var(--accent);font-size:11px;font-weight:800;padding:5px 14px;border-radius:20px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px;}
+.splash-hero{text-align:center;padding:24px 0 16px;}
+.splash-hero h1{font-size:28px;font-weight:900;line-height:1.2;margin-bottom:8px;}
+.splash-hero h1 em{font-style:normal;color:var(--accent);}
+.splash-hero p{font-size:13px;color:var(--muted);line-height:1.8;}
+
+/* error analysis card */
+.error-card{background:var(--card);border:2px solid var(--border);border-radius:20px;padding:20px;margin:16px 0;box-shadow:var(--shadow);}
+.error-card h3{font-size:12px;font-weight:900;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;}
+.error-row{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1.5px solid #fed7aa;font-size:13px;line-height:1.65;}
+.error-row:last-child{border-bottom:none;padding-bottom:0;}
+.er-icon{font-size:18px;flex-shrink:0;margin-top:1px;}
+.er-text strong{color:var(--accent);}
+.er-badge{display:inline-block;font-size:10px;font-weight:800;padding:2px 8px;border-radius:8px;background:#fef3c7;color:#92400e;margin-top:4px;}
+
+.flow-card{background:linear-gradient(135deg,rgba(234,88,12,0.08),rgba(124,58,237,0.06));border:2px solid #fed7aa;border-radius:20px;padding:18px;margin-bottom:16px;}
+.flow-card h3{font-size:12px;font-weight:900;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;}
+.flow-steps{display:flex;gap:0;}
+.fs{flex:1;text-align:center;position:relative;}
+.fs::after{content:'→';position:absolute;right:-10px;top:45%;color:var(--muted);font-size:14px;}
+.fs:last-child::after{display:none;}
+.fs-icon{width:44px;height:44px;border-radius:12px;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.fs-lbl{font-size:11px;font-weight:700;color:var(--muted);}
+.fs-sub{font-size:10px;color:var(--muted);opacity:.7;}
+
+.big-btn{width:100%;padding:15px;border:none;border-radius:13px;font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;cursor:pointer;transition:transform .15s;color:#fff;}
+.big-btn:hover{transform:translateY(-2px);}
+.btn-orange{background:linear-gradient(135deg,#ea580c,#dc2626);box-shadow:0 6px 20px rgba(234,88,12,0.3);}
+.btn-green{background:linear-gradient(135deg,#059669,#047857);box-shadow:0 6px 20px rgba(5,150,105,0.3);}
+.btn-ghost{background:var(--card);border:2px solid var(--border);color:var(--muted);box-shadow:none;}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent);}
+
+/* ── QUIZ SHARED ── */
+.qz-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.phase-tag{font-size:11px;font-weight:800;padding:4px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:.8px;}
+.tag-pre{background:rgba(220,38,38,0.12);color:#dc2626;border:1px solid rgba(220,38,38,0.3);}
+.tag-post{background:rgba(5,150,105,0.12);color:#059669;border:1px solid rgba(5,150,105,0.3);}
+.q-ctr{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--muted);}
+.t-pill{display:flex;align-items:center;gap:5px;background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:4px 11px;}
+.t-pill.warn{border-color:var(--gold);}
+.t-pill.warn .tv{color:var(--gold);}
+.t-pill.over{border-color:var(--red);animation:bl 1s infinite;}
+.t-pill.over .tv{color:var(--red);}
+.tv{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:.5}}
+.prog-wrap{margin-bottom:12px;}
+.prog-bg{height:6px;background:#fed7aa;border-radius:3px;}
+.prog-fg{height:100%;border-radius:3px;transition:width .4s;}
+
+.q-card{background:var(--card);border:2px solid var(--border);border-radius:18px;padding:20px;margin-bottom:11px;box-shadow:var(--shadow);}
+.q-no{font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:7px;color:var(--accent);}
+.q-topic-tag{display:inline-block;font-size:10px;font-weight:800;padding:2px 8px;border-radius:8px;background:#fff7ed;border:1px solid #fed7aa;color:var(--accent);margin-bottom:8px;}
+.q-txt{font-size:15px;font-weight:700;line-height:1.65;}
+.q-hint{font-size:12px;color:var(--muted);font-style:italic;margin-top:5px;}
+.vis{background:#fff7ed;border:1.5px solid #fed7aa;border-radius:10px;padding:12px;margin:10px 0;font-family:'JetBrains Mono',monospace;font-size:13px;color:#92400e;line-height:1.8;display:none;}
+
+.opts{display:flex;flex-direction:column;gap:8px;margin-top:12px;}
+.opt{background:#fafaf8;border:2px solid var(--border);border-radius:11px;padding:11px 13px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;color:var(--text);transition:all .15s;display:flex;align-items:center;gap:10px;}
+.opt:hover:not(:disabled){border-color:var(--accent);background:#fff7ed;transform:translateX(3px);}
+.opt .ol{width:28px;height:28px;border-radius:8px;flex-shrink:0;background:#fed7aa;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;font-family:'JetBrains Mono',monospace;transition:.15s;}
+.opt.correct{border-color:var(--green);background:#f0fdf4;}
+.opt.correct .ol{background:var(--green);color:#fff;}
+.opt.wrong{border-color:var(--red);background:#fef2f2;}
+.opt.wrong .ol{background:var(--red);color:#fff;}
+.opt:disabled{cursor:default;}
+
+.expl{background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:12px;padding:14px;margin-top:10px;display:none;}
+.expl.show{display:block;animation:up .3s ease;}
+.expl-hd{font-size:10px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;}
+.expl-txt{font-size:13px;line-height:1.75;}
+.expl-f{background:#dbeafe;border-radius:7px;padding:8px 12px;margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#1d4ed8;line-height:1.6;}
+.expl-warn{background:#fef3c7;border-radius:7px;padding:8px 12px;margin-top:8px;font-size:12px;color:#92400e;line-height:1.6;border-left:3px solid #f59e0b;}
+
+.next-btn{width:100%;padding:13px;border:none;border-radius:12px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;cursor:pointer;transition:transform .15s;display:none;margin-top:10px;color:#fff;}
+.next-btn.show{display:block;animation:up .2s ease;}
+.next-btn:hover{transform:translateY(-1px);}
+
+/* ── MATERI ── */
+.materi-hd{text-align:center;padding:20px 0 14px;}
+.materi-badge{display:inline-block;background:rgba(234,88,12,0.10);border:1.5px solid rgba(234,88,12,0.3);color:var(--accent);font-size:11px;font-weight:800;padding:5px 14px;border-radius:20px;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;}
+.materi-hd h2{font-size:22px;font-weight:900;margin-bottom:4px;}
+.materi-hd p{font-size:13px;color:var(--muted);}
+.topic-tabs{display:flex;gap:8px;margin-bottom:16px;overflow-x:auto;padding-bottom:4px;}
+.ttab{background:var(--card);border:2px solid var(--border);color:var(--muted);padding:7px 14px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;transition:.2s;font-family:'Plus Jakarta Sans',sans-serif;}
+.ttab.on{background:rgba(234,88,12,0.12);border-color:var(--accent);color:var(--accent);}
+.topic{display:none;}
+.topic.on{display:block;animation:up .3s ease;}
+.pdots{display:flex;justify-content:center;gap:6px;margin:12px 0;}
+.pdot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:.2s;}
+.pdot.done{background:var(--green);}
+.pdot.active{background:var(--accent);transform:scale(1.3);}
+
+.mc{background:var(--card);border:2px solid var(--border);border-radius:18px;padding:20px;margin-bottom:12px;box-shadow:var(--shadow);}
+.mc h3{font-size:16px;font-weight:800;margin-bottom:4px;}
+.mc .ms{font-size:12px;color:var(--muted);margin-bottom:14px;}
+.mc p{font-size:14px;line-height:1.8;color:#292524;margin-bottom:10px;}
+
+/* ALERT BOX — highlight Musa's specific errors */
+.alert-box{background:#fef2f2;border:2px solid #fca5a5;border-radius:14px;padding:14px;margin:10px 0;}
+.alert-box .al{font-size:10px;font-weight:800;color:var(--red);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.alert-box p{font-size:13px;color:#7f1d1d;line-height:1.7;}
+.alert-box .fix{background:#dcfce7;border-radius:8px;padding:8px 12px;margin-top:8px;font-size:13px;color:#14532d;font-weight:700;}
+
+.fbox{background:linear-gradient(135deg,rgba(234,88,12,0.08),rgba(124,58,237,0.06));border:1.5px solid #fed7aa;border-radius:14px;padding:14px;margin:10px 0;}
+.fbox .fl{font-size:10px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.fbox .fm{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;color:#7c2d12;line-height:1.6;margin-bottom:4px;}
+.fbox .fn{font-size:12px;color:var(--muted);line-height:1.6;}
+
+.cbox{background:rgba(5,150,105,0.06);border:1.5px solid rgba(5,150,105,0.2);border-radius:14px;padding:14px;margin:10px 0;}
+.cbox .cl{font-size:10px;font-weight:800;color:var(--green);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.cbox .cs{font-size:13px;line-height:1.85;color:#14532d;}
+.cbox .cs strong{color:#065f46;}
+
+.tipbox{background:rgba(245,158,11,0.08);border:1.5px solid rgba(245,158,11,0.25);border-radius:14px;padding:14px;margin-top:10px;}
+.tipbox .tl{font-size:10px;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.tipbox p{font-size:13px;color:#78350f;line-height:1.7;}
+
+/* RUMUS CARD */
+.rumus-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;}
+.rumus-item{background:var(--card);border:2px solid var(--border);border-radius:12px;padding:12px;text-align:center;}
+.rumus-item .ri-name{font-size:11px;font-weight:800;color:var(--muted);margin-bottom:6px;}
+.rumus-item .ri-formula{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:#7c2d12;line-height:1.5;}
+
+/* ── RESULT ── */
+.res-hd{text-align:center;padding:22px 0 14px;}
+.res-hd h2{font-size:24px;font-weight:900;margin-bottom:6px;}
+.res-hd p{font-size:13px;color:var(--muted);}
+.delta-row{display:flex;align-items:center;gap:12px;margin:16px 0;}
+.sbox{flex:1;text-align:center;background:var(--card);border:2px solid var(--border);border-radius:14px;padding:14px 10px;}
+.sbox .sv{font-size:32px;font-weight:900;}
+.sbox .sl{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;margin-top:2px;}
+.arr-box{text-align:center;}
+.arr-av{font-size:22px;}
+.arr-ad{font-size:16px;font-weight:900;font-family:'JetBrains Mono',monospace;}
+.times-row{text-align:center;font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:16px;}
+.wr-sec{margin-top:16px;}
+.wr-hd{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
+.wr-hd.pre{color:var(--red);}
+.wr-hd.post{color:var(--green);}
+.wcard{background:var(--card);border:2px solid #fca5a5;border-radius:14px;padding:14px;margin-bottom:10px;}
+.wcard.post{border-color:#86efac;}
+.wq{font-size:13px;font-weight:700;margin-bottom:8px;line-height:1.6;}
+.wa{display:flex;flex-direction:column;gap:4px;margin-bottom:8px;}
+.wx{font-size:12px;color:#dc2626;}
+.wc{font-size:12px;color:#059669;font-weight:700;}
+.we{background:rgba(59,130,246,0.07);border-radius:10px;padding:12px;font-size:12px;line-height:1.75;color:#1e3a5f;border-left:3px solid var(--blue);}
+.wf{background:rgba(37,99,235,0.08);border-radius:7px;padding:7px 11px;margin-top:7px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#1d4ed8;}
+.pesan-card{background:var(--card);border:2px solid var(--border);border-radius:16px;padding:18px;margin-top:14px;}
+.copy-btn{width:100%;padding:14px;border:none;border-radius:13px;background:linear-gradient(135deg,#d97706,#ea580c);color:#fff;font-weight:800;font-size:14px;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;box-shadow:0 6px 18px rgba(217,119,6,0.3);transition:transform .15s;margin-top:10px;}
+.copy-btn:hover{transform:translateY(-2px);}
+@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ══ SPLASH ══ -->
+<div id="splash" class="screen" style="display:block">
+  <div class="splash-hero">
+    <div class="code-tag">B01 · Matematika · 10 April 2026</div>
+    <h1>Hari Ini Kita<br><em>Tuntas Matematika!</em> 🔢</h1>
+    <p>Assessment A01 sudah kasih kita peta yang jelas.<br>Hari ini fokus pada <strong>4 topik yang lemah</strong> berdasarkan error spesifik Musa.</p>
+  </div>
+
+  <div class="error-card">
+    <h3>🔍 Analisis Error A01 — Apa yang Sebenarnya Terjadi</h3>
+    <div class="error-row">
+      <span class="er-icon">🍕</span>
+      <div class="er-text">
+        <strong>Pecahan — Pattern: Tidak menyederhanakan!</strong><br>
+        Musa jawab 17/12, 24/36, 375/1000 — semuanya <em>benar</em> secara hitung, tapi perlu disederhanakan. Ini bukan masalah kemampuan, tapi kebiasaan.<br>
+        <span class="er-badge">Fix: Selalu sederhanakan sampai tidak bisa lagi</span>
+      </div>
+    </div>
+    <div class="error-row">
+      <span class="er-icon">💯</span>
+      <div class="er-text">
+        <strong>Persentase — Slip kalkulasi di langkah terakhir</strong><br>
+        Paham rumusnya, tapi salah di perhitungan. % untung: jawab 20% harusnya 25%.<br>
+        <span class="er-badge">Fix: Tulis setiap langkah, jangan skip</span>
+      </div>
+    </div>
+    <div class="error-row">
+      <span class="er-icon">📐</span>
+      <div class="er-text">
+        <strong>Bangun Datar — Rumus tidak lengkap dihafalkan</strong><br>
+        Trapesium: lupa ½. Keliling lingkaran: lupa r=d/2. Persegi dari keliling: lupa cari s dulu.<br>
+        <span class="er-badge">Fix: Kartu rumus — hafal semua rumus sebelum soal</span>
+      </div>
+    </div>
+    <div class="error-row">
+      <span class="er-icon">📦</span>
+      <div class="er-text">
+        <strong>Bangun Ruang — Pangkat terlupakan</strong><br>
+        Kubus: jawab 8² = 64 harusnya 8³ = 512. Tabung: formula π r² t tapi π r t saja. Balok setengah: lupa bagi 2.<br>
+        <span class="er-badge">Fix: Ingat V = selalu ada pangkat 3 atau tiga ukuran</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="flow-card">
+    <h3>🗺️ Alur B01</h3>
+    <div class="flow-steps">
+      <div class="fs"><div class="fs-icon" style="background:#fee2e2">🧪</div><div class="fs-lbl">Pre-Test</div><div class="fs-sub">10 soal · 15 mnt</div></div>
+      <div class="fs"><div class="fs-icon" style="background:#fff7ed">📖</div><div class="fs-lbl">Materi</div><div class="fs-sub">4 topik fokus</div></div>
+      <div class="fs"><div class="fs-icon" style="background:#f0fdf4">✅</div><div class="fs-lbl">Post-Test</div><div class="fs-sub">10 soal · 15 mnt</div></div>
+    </div>
+  </div>
+
+  <button class="big-btn btn-orange" onclick="show('pretest-screen');startTimer('pre')">🧪 Mulai Pre-Test!</button>
+</div>
+
+<!-- ══ PRE-TEST ══ -->
+<div id="pretest-screen" class="screen">
+  <div class="qz-bar">
+    <span class="phase-tag tag-pre">🧪 Pre-Test</span>
+    <span class="q-ctr" id="pre-ctr">1/10</span>
+    <div class="t-pill" id="pre-tp"><span>⏱</span><span class="tv" id="pre-tv">15:00</span></div>
+  </div>
+  <div class="prog-wrap"><div class="prog-bg"><div class="prog-fg" id="pre-pf" style="width:0%;background:var(--red)"></div></div></div>
+  <div class="q-card">
+    <div class="q-no" id="pre-qno">SOAL 01</div>
+    <div class="q-topic-tag" id="pre-qtag"></div>
+    <div class="q-txt" id="pre-qtxt"></div>
+    <div class="q-hint" id="pre-qhint"></div>
+    <div class="vis" id="pre-vis"></div>
+    <div class="opts" id="pre-opts"></div>
+    <div class="expl" id="pre-expl"></div>
+  </div>
+  <button class="next-btn" id="pre-nb" onclick="nextPre()">Lanjut →</button>
+</div>
+
+<!-- ══ MATERI ══ -->
+<div id="materi-screen" class="screen">
+  <div class="materi-hd">
+    <div class="materi-badge">📖 Materi B01</div>
+    <h2>Matematika — 4 Topik Fokus</h2>
+    <p>Baca & pahami tiap topik, lalu kerjakan Post-Test!</p>
+  </div>
+  <div class="topic-tabs">
+    <button class="ttab on" onclick="goT(0)">🍕 Pecahan</button>
+    <button class="ttab" onclick="goT(1)">💯 Persentase</button>
+    <button class="ttab" onclick="goT(2)">📐 Bangun Datar</button>
+    <button class="ttab" onclick="goT(3)">📦 Bangun Ruang</button>
+  </div>
+  <div class="pdots">
+    <div class="pdot active" id="pd0"></div>
+    <div class="pdot" id="pd1"></div>
+    <div class="pdot" id="pd2"></div>
+    <div class="pdot" id="pd3"></div>
+  </div>
+
+  <!-- T0: Pecahan -->
+  <div class="topic on" id="t0">
+    <div class="mc">
+      <h3>🍕 Pecahan — Hitung & Sederhanakan!</h3>
+      <div class="ms">Kelemahan utama A01: lupa menyederhanakan</div>
+
+      <div class="alert-box">
+        <div class="al">⚠️ Error Musa di A01</div>
+        <p>Jawab <strong>17/12</strong> → benar! Tapi harusnya ditulis <strong>1 5/12</strong> (pecahan campuran)<br>
+        Jawab <strong>24/36</strong> → benar! Tapi harusnya disederhanakan ke <strong>2/3</strong><br>
+        Jawab <strong>375/1000</strong> → benar! Tapi harusnya <strong>3/8</strong></p>
+        <div class="fix">✅ Fix: Setelah hitung, SELALU tanya: "Bisa disederhanakan?" — bagi pembilang & penyebut dengan FPB-nya!</div>
+      </div>
+
+      <div class="fbox">
+        <div class="fl">🔑 Cara Menyederhanakan Pecahan</div>
+        <div class="fm">Cari FPB dari pembilang dan penyebut<br>→ Bagi keduanya dengan FPB itu</div>
+        <div class="fn">24/36 → FPB(24,36)=12 → 24÷12 / 36÷12 = 2/3 ✓<br>375/1000 → FPB=125 → 375÷125 / 1000÷125 = 3/8 ✓</div>
+      </div>
+
+      <div class="fbox">
+        <div class="fl">🔑 Pecahan Biasa → Pecahan Campuran</div>
+        <div class="fm">Jika pembilang > penyebut → ubah ke campuran<br>a/b = (a÷b) sisa (a%b) / b</div>
+        <div class="fn">17/12 → 17÷12=1 sisa 5 → 1 5/12 ✓<br>Kapan ubah? Kalau pembilang lebih besar dari penyebut!</div>
+      </div>
+
+      <div class="cbox">
+        <div class="cl">✏️ Latihan Cepat — Sederhanakan!</div>
+        <div class="cs">
+          16/24 = ? → FPB(16,24)=8 → <strong>2/3</strong><br>
+          18/27 = ? → FPB(18,27)=9 → <strong>2/3</strong><br>
+          15/25 = ? → FPB(15,25)=5 → <strong>3/5</strong><br>
+          21/35 = ? → FPB(21,35)=7 → <strong>3/5</strong><br>
+          22/8  = ? → 22÷8=2 sisa 6 → <strong>2 6/8 = 2 3/4</strong>
+        </div>
+      </div>
+
+      <div class="fbox">
+        <div class="fl">🔑 Operasi Pecahan (Lengkap)</div>
+        <div class="fm">
+          Tambah/Kurang: samakan penyebut dulu (KPK)<br>
+          Kali: pembilang×pembilang / penyebut×penyebut<br>
+          Bagi: kalikan dengan kebalikan pecahan kedua
+        </div>
+        <div class="fn">2/3 + 3/4 = 8/12 + 9/12 = 17/12 = <strong>1 5/12</strong><br>
+        3/4 × 8/9 = 24/36 = <strong>2/3</strong> (sederhanakan!)<br>
+        5/6 ÷ 2/3 = 5/6 × 3/2 = 15/12 = <strong>1 3/12 = 1 1/4</strong></div>
+      </div>
+
+      <div class="tipbox">
+        <div class="tl">⚡ Checklist sebelum pilih jawaban</div>
+        <p>1. Sudah disederhanakan? (cek FPB)<br>
+        2. Pembilang > penyebut? → ubah ke campuran<br>
+        3. Cocokkan dengan pilihan jawaban</p>
+      </div>
+    </div>
+    <button class="big-btn btn-ghost" style="margin-top:8px" onclick="goT(1)">Topik Berikutnya: Persentase →</button>
+  </div>
+
+  <!-- T1: Persentase -->
+  <div class="topic" id="t1">
+    <div class="mc">
+      <h3>💯 Persentase & Soal Cerita</h3>
+      <div class="ms">Rumus sudah tahu — sekarang tidak boleh slip!</div>
+
+      <div class="alert-box">
+        <div class="al">⚠️ Error Musa di A01</div>
+        <p>Beli 120rb jual 150rb → jawab 20%, benar 25%<br>
+        35% dari bilangan = 105 → jawab 280, benar 300<br>
+        Modal 400rb untung 35% → jawab 560rb, benar 540rb</p>
+        <div class="fix">✅ Fix: Tulis langkah TERPISAH. Hitung untung dulu, baru hitung %.</div>
+      </div>
+
+      <div class="fbox">
+        <div class="fl">🔑 Rumus Lengkap Persentase</div>
+        <div class="fm">
+          % Untung = (Untung ÷ Harga Beli) × 100%<br>
+          % Rugi   = (Rugi   ÷ Harga Beli) × 100%<br>
+          Bilangan = Nilai ÷ Persen (dalam desimal)<br>
+          Harga Jual = Harga Beli × (1 + % Untung)
+        </div>
+        <div class="fn">⚠️ Selalu bagi HARGA BELI, bukan harga jual!</div>
+      </div>
+
+      <div class="cbox">
+        <div class="cl">✏️ Pembahasan soal A01 yang salah</div>
+        <div class="cs">
+          <strong>Beli 120rb, jual 150rb → % untung?</strong><br>
+          Untung = 150.000 − 120.000 = <strong>30.000</strong><br>
+          % untung = 30.000 ÷ 120.000 × 100% = <strong>25%</strong> ✓<br>
+          (Bukan 30÷150=20% — salah pembaginya!)<br><br>
+          <strong>35% dari bilangan = 105 → bilangan?</strong><br>
+          bilangan = 105 ÷ 0,35 = <strong>300</strong> ✓<br>
+          (Bukan 105÷0,375=280 — salah hitungnya!)<br><br>
+          <strong>Modal 400rb, untung 35% → harga jual?</strong><br>
+          Harga jual = 400.000 × 1,35 = <strong>540.000</strong> ✓<br>
+          (Bukan 400.000×1,4=560.000 — salah 40% bukan 35%!)
+        </div>
+      </div>
+
+      <div class="tipbox">
+        <div class="tl">⚡ Cara Anti-Slip</div>
+        <p>1. Tulis: Diketahui = ... Ditanya = ...<br>
+        2. Tulis rumusnya dulu<br>
+        3. Masukkan angka pelan-pelan<br>
+        4. Estimasi dulu sebelum pilih jawaban</p>
+      </div>
+    </div>
+    <button class="big-btn btn-ghost" style="margin-top:8px" onclick="goT(2)">Topik Berikutnya: Bangun Datar →</button>
+  </div>
+
+  <!-- T2: Bangun Datar -->
+  <div class="topic" id="t2">
+    <div class="mc">
+      <h3>📐 Bangun Datar — Kartu Rumus</h3>
+      <div class="ms">Hafal semua rumus ini sebelum ujian!</div>
+
+      <div class="alert-box">
+        <div class="al">⚠️ Error Musa di A01</div>
+        <p>Trapesium: lupa ½ → jawab 160 harusnya 200<br>
+        Keliling lingkaran d=28: lupa r=d÷2 → jawab 44 harusnya 88<br>
+        Persegi dari keliling 52: jawab s=12 harusnya s=13</p>
+        <div class="fix">✅ Fix: Hafal rumus + selalu cek satuan (d vs r, luas vs keliling)</div>
+      </div>
+
+      <div class="rumus-grid">
+        <div class="rumus-item"><div class="ri-name">📏 Persegi Panjang</div><div class="ri-formula">L = p × l<br>K = 2(p+l)</div></div>
+        <div class="rumus-item"><div class="ri-name">⬜ Persegi</div><div class="ri-formula">L = s²<br>K = 4s</div></div>
+        <div class="rumus-item"><div class="ri-name">🔺 Segitiga</div><div class="ri-formula">L = ½ × a × t<br>K = a+b+c</div></div>
+        <div class="rumus-item"><div class="ri-name">⭕ Lingkaran</div><div class="ri-formula">L = π × r²<br>K = 2 × π × r</div></div>
+        <div class="rumus-item"><div class="ri-name">🔷 Trapesium</div><div class="ri-formula">L = ½(a+b)×t<br>K = a+b+c+d</div></div>
+        <div class="rumus-item"><div class="ri-name">◆ Jajar Genjang</div><div class="ri-formula">L = a × t<br>K = 2(a+b)</div></div>
+      </div>
+
+      <div class="cbox">
+        <div class="cl">✏️ Pembahasan soal A01 yang salah</div>
+        <div class="cs">
+          <strong>Trapesium a=16, b=24, t=10:</strong><br>
+          L = <strong>½</strong> × (16+24) × 10 = ½ × 40 × 10 = <strong>200 cm²</strong> ✓<br>
+          (Jangan lupa ½ di depan!)<br><br>
+          <strong>Keliling lingkaran d=28:</strong><br>
+          r = d÷2 = 28÷2 = <strong>14 cm</strong><br>
+          K = 2 × 22/7 × 14 = <strong>88 cm</strong> ✓<br>
+          (Kalau yang diketahui diameter, bagi 2 dulu!)<br><br>
+          <strong>Persegi keliling=52, luas?</strong><br>
+          K = 4s → s = 52÷4 = <strong>13 cm</strong><br>
+          L = s² = 13² = <strong>169 cm²</strong> ✓
+        </div>
+      </div>
+
+      <div class="tipbox">
+        <div class="tl">⚡ Tips Anti-Error Bangun Datar</div>
+        <p>• d (diameter) vs r (jari-jari) → r = d÷2<br>
+        • Trapesium SELALU ada ½<br>
+        • Cek: soal tanya Luas (cm²) atau Keliling (cm)?<br>
+        • Jangan lupa satuan di jawaban!</p>
+      </div>
+    </div>
+    <button class="big-btn btn-ghost" style="margin-top:8px" onclick="goT(3)">Topik Berikutnya: Bangun Ruang →</button>
+  </div>
+
+  <!-- T3: Bangun Ruang -->
+  <div class="topic" id="t3">
+    <div class="mc">
+      <h3>📦 Bangun Ruang — Volume & Luas Permukaan</h3>
+      <div class="ms">Ingat: Volume selalu punya tiga dimensi!</div>
+
+      <div class="alert-box">
+        <div class="al">⚠️ Error Musa di A01</div>
+        <p>Kubus s=8 → jawab 8²=64, harusnya 8³=<strong>512</strong><br>
+        Tabung r=7, t=10 → jawab 980 (lupa r²), harusnya π×49×10=<strong>1540</strong><br>
+        Balok setengah → jawab 240.000 (penuh), harusnya <strong>120.000</strong></p>
+        <div class="fix">✅ Fix: Volume = selalu ×tiga dimensi. Baca soal: "setengah", "sepertiga" = bagi!</div>
+      </div>
+
+      <div class="rumus-grid">
+        <div class="rumus-item"><div class="ri-name">📦 Kubus</div><div class="ri-formula">V = s³<br>LP = 6s²</div></div>
+        <div class="rumus-item"><div class="ri-name">📦 Balok</div><div class="ri-formula">V = p×l×t<br>LP = 2(pl+pt+lt)</div></div>
+        <div class="rumus-item"><div class="ri-name">🥫 Tabung</div><div class="ri-formula">V = π×r²×t<br>LP = 2πr(r+t)</div></div>
+        <div class="rumus-item"><div class="ri-name">🍦 Kerucut</div><div class="ri-formula">V = ⅓×π×r²×t<br>LP = πr(r+s)</div></div>
+      </div>
+
+      <div class="cbox">
+        <div class="cl">✏️ Pembahasan soal A01 yang salah</div>
+        <div class="cs">
+          <strong>Volume kubus s=8:</strong><br>
+          V = s<strong>³</strong> = 8³ = 8×8×8 = <strong>512 cm³</strong> ✓<br>
+          (Bukan s² = 64!)<br><br>
+          <strong>Volume tabung r=7, t=10:</strong><br>
+          V = π × r<strong>²</strong> × t = 22/7 × 49 × 10<br>
+          = 22 × 7 × 10 = <strong>1.540 cm³</strong> ✓<br>
+          (r² = 7² = 49, bukan 7!)<br><br>
+          <strong>Balok p=80, l=50, t=60 diisi setengah:</strong><br>
+          V balok = 80×50×60 = 240.000<br>
+          V air = 240.000 ÷ 2 = <strong>120.000 cm³</strong> ✓<br>
+          (Baca "setengah" → bagi 2!)
+        </div>
+      </div>
+
+      <div style="background:#f0fdf4;border:2px solid #86efac;border-radius:14px;padding:16px;margin:12px 0;text-align:center;">
+        <div style="font-size:20px;margin-bottom:8px">🎉</div>
+        <div style="font-weight:800;color:#059669;margin-bottom:4px">Materi selesai!</div>
+        <div style="font-size:13px;color:var(--muted)">Sekarang buktikan pemahamanmu di Post-Test!</div>
+      </div>
+      <button class="big-btn btn-green" onclick="show('posttest-screen');startTimer('post')">✅ Mulai Post-Test!</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ POST-TEST ══ -->
+<div id="posttest-screen" class="screen">
+  <div class="qz-bar">
+    <span class="phase-tag tag-post">✅ Post-Test</span>
+    <span class="q-ctr" id="post-ctr">1/10</span>
+    <div class="t-pill" id="post-tp"><span>⏱</span><span class="tv" id="post-tv">15:00</span></div>
+  </div>
+  <div class="prog-wrap"><div class="prog-bg"><div class="prog-fg" id="post-pf" style="width:0%;background:var(--green)"></div></div></div>
+  <div class="q-card">
+    <div class="q-no" id="post-qno">SOAL 01</div>
+    <div class="q-topic-tag" id="post-qtag"></div>
+    <div class="q-txt" id="post-qtxt"></div>
+    <div class="q-hint" id="post-qhint"></div>
+    <div class="vis" id="post-vis"></div>
+    <div class="opts" id="post-opts"></div>
+    <div class="expl" id="post-expl"></div>
+  </div>
+  <button class="next-btn" id="post-nb" onclick="nextPost()">Lanjut →</button>
+</div>
+
+<!-- ══ RESULT ══ -->
+<div id="result-screen" class="screen">
+  <div class="res-hd">
+    <div class="code-tag" style="margin-bottom:12px">📊 Hasil B01</div>
+    <h2 id="res-title"></h2>
+    <p id="res-sub"></p>
+  </div>
+  <div class="delta-row">
+    <div class="sbox"><div class="sv" id="pre-sv" style="color:#d97706">-</div><div class="sl">Pre-Test</div></div>
+    <div class="arr-box"><div class="arr-av" id="arr-av">→</div><div class="arr-ad" id="arr-ad">+0</div></div>
+    <div class="sbox"><div class="sv" id="post-sv" style="color:#059669">-</div><div class="sl">Post-Test</div></div>
+  </div>
+  <div class="times-row" id="times-row"></div>
+  <div class="wr-sec" id="pre-ws" style="display:none"><div class="wr-hd pre">🧪 Soal Salah — Pre-Test</div><div id="pre-wl"></div></div>
+  <div class="wr-sec" id="post-ws" style="display:none"><div class="wr-hd post">✅ Soal Salah — Post-Test</div><div id="post-wl"></div></div>
+  <div class="pesan-card" id="pesan"></div>
+  <button class="copy-btn" id="copy-btn" onclick="copyRes()">📋 Salin Hasil → Kirim ke Claude untuk B02</button>
+  <button class="big-btn btn-ghost" style="margin-top:8px" onclick="if(confirm('Ulangi?')){location.reload()}">🔄 Ulangi B01</button>
+</div>
+
+</div>
+<script>
+// ══ STATE ══
+let preS=0,postS=0,preEl=0,postEl=0,preTi=null,postTi=null;
+let preW=[],postW=[],preCi=0,postCi=0,preAns=false,postAns=false;
+const TL=15*60;
+
+// ══ PRE-TEST (soal berbeda dari A01, fokus pada error pattern) ══
+const PQ=[
+  {tag:'🍕 Pecahan',q:"Sederhanakan 36/48 ke bentuk paling sederhana!",hint:"Cari FPB(36,48) dulu",vis:"",
+   opts:["3/4","6/8","9/12","18/24"],ans:0,
+   exp:"FPB(36,48)=12. 36÷12=3, 48÷12=4. Jawaban: 3/4. Selalu sederhanakan sampai tidak bisa lagi!",
+   formula:"FPB(36,48)=12 → 36/48 = 3/4"},
+  {tag:'🍕 Pecahan',q:"Hasil dari 1/2 + 2/5 adalah...",hint:"Samakan penyebut ke 10",vis:"",
+   opts:["3/7","9/10","7/10","3/10"],ans:2,
+   exp:"Penyebut 10: 1/2=5/10, 2/5=4/10. 5/10+4/10=9/10. Sudah sederhana karena FPB(9,10)=1.",
+   formula:"1/2 + 2/5 = 5/10 + 4/10 = 9/10"},
+  {tag:'🍕 Pecahan',q:"Hasil dari 5/6 × 3/10 disederhanakan adalah...",hint:"Kalikan lalu sederhanakan",vis:"",
+   opts:["15/60","8/16","1/4","5/20"],ans:2,
+   exp:"5/6 × 3/10 = 15/60. FPB(15,60)=15. 15÷15=1, 60÷15=4. Jawaban: 1/4.",
+   formula:"5/6 × 3/10 = 15/60 → FPB=15 → 1/4"},
+  {tag:'💯 Persentase',q:"Beli Rp80.000, jual Rp100.000. % keuntungan?",hint:"% untung = untung ÷ harga BELI × 100%",vis:"",
+   opts:["20%","25%","30%","15%"],ans:1,
+   exp:"Untung = 100.000-80.000 = 20.000. % untung = 20.000÷80.000 × 100% = 25%.",
+   formula:"20.000 ÷ 80.000 × 100% = 25%"},
+  {tag:'💯 Persentase',q:"25% dari suatu bilangan adalah 75. Bilangan itu adalah...",hint:"bilangan = nilai ÷ persen",vis:"",
+   opts:["200","250","300","350"],ans:2,
+   exp:"bilangan = 75 ÷ 0,25 = 300. Atau: 25%=75 → 1%=3 → 100%=300.",
+   formula:"75 ÷ 0,25 = 300"},
+  {tag:'📐 Bangun Datar',q:"Luas trapesium sisi sejajar 8 dan 12 cm, tinggi 6 cm adalah...",hint:"L = ½ × (a+b) × t — jangan lupa ½!",vis:"a=8, b=12, t=6",
+   opts:["60 cm²","120 cm²","90 cm²","180 cm²"],ans:0,
+   exp:"L = ½ × (8+12) × 6 = ½ × 20 × 6 = ½ × 120 = 60 cm².",
+   formula:"L = ½ × (8+12) × 6 = 60 cm²"},
+  {tag:'📐 Bangun Datar',q:"Keliling lingkaran diameter 14 cm adalah... (π=22/7)",hint:"r = d÷2 = 14÷2 = 7 cm",vis:"d=14 → r=7",
+   opts:["22 cm","44 cm","88 cm","154 cm"],ans:1,
+   exp:"r = 14÷2 = 7. K = 2×22/7×7 = 2×22 = 44 cm. Ingat: diameter bagi 2 dulu!",
+   formula:"r=7 → K = 2 × 22/7 × 7 = 44 cm"},
+  {tag:'📦 Bangun Ruang',q:"Volume kubus dengan sisi 6 cm adalah...",hint:"V = s³ — pangkat TIGA!",vis:"s=6 cm",
+   opts:["36 cm³","72 cm³","108 cm³","216 cm³"],ans:3,
+   exp:"V = s³ = 6³ = 6×6×6 = 216 cm³. Bukan 6² = 36!",
+   formula:"V = 6³ = 6×6×6 = 216 cm³"},
+  {tag:'📦 Bangun Ruang',q:"Volume tabung jari-jari 7 cm, tinggi 5 cm adalah... (π=22/7)",hint:"V = π × r² × t",vis:"r=7, t=5",
+   opts:["770 cm³","490 cm³","385 cm³","1540 cm³"],ans:0,
+   exp:"V = 22/7 × 7² × 5 = 22/7 × 49 × 5 = 22 × 7 × 5 = 770 cm³.",
+   formula:"V = 22/7 × 49 × 5 = 770 cm³"},
+  {tag:'📦 Bangun Ruang',q:"Kolam renang p=10m, l=5m, t=2m diisi ¾ penuh. Volume air?",hint:"V kolam dulu, lalu × ¾",vis:"p=10, l=5, t=2 → diisi ¾",
+   opts:["50 m³","75 m³","100 m³","150 m³"],ans:1,
+   exp:"V kolam = 10×5×2 = 100 m³. V air = ¾ × 100 = 75 m³. Jangan jawab 100 (penuh)!",
+   formula:"V kolam=100 m³ → ¾ × 100 = 75 m³"},
+];
+
+// ══ POST-TEST (soal baru, lebih variatif) ══
+const PTQ=[
+  {tag:'🍕 Pecahan',q:"Bentuk paling sederhana dari 54/72 adalah...",hint:"Cari FPB(54,72)",vis:"",
+   opts:["3/4","27/36","9/12","6/8"],ans:0,
+   exp:"FPB(54,72)=18. 54÷18=3, 72÷18=4. Jawaban: 3/4.",
+   formula:"FPB(54,72)=18 → 54/72 = 3/4"},
+  {tag:'🍕 Pecahan',q:"Hasil dari 2/3 ÷ 4/9 disederhanakan adalah...",hint:"Bagi = kalikan kebalikannya",vis:"",
+   opts:["3/2","8/27","8/3","1 1/2"],ans:3,
+   exp:"2/3 ÷ 4/9 = 2/3 × 9/4 = 18/12. FPB(18,12)=6. 18÷6=3, 12÷6=2. Jawaban: 3/2 = 1 1/2.",
+   formula:"2/3 × 9/4 = 18/12 = 3/2 = 1 1/2"},
+  {tag:'🍕 Pecahan',q:"Urutkan dari terbesar: 3/5, 5/8, 7/10, 2/4",hint:"Samakan penyebut ke 40",vis:"Penyebut: 5,8,10,4 → KPK=40",
+   opts:["7/10, 3/5, 5/8, 2/4","7/10, 5/8, 3/5, 2/4","5/8, 7/10, 3/5, 2/4","3/5, 7/10, 5/8, 2/4"],ans:1,
+   exp:"Penyebut 40: 3/5=24/40, 5/8=25/40, 7/10=28/40, 2/4=20/40. Besar→kecil: 28>25>24>20 → 7/10>5/8>3/5>2/4.",
+   formula:"28/40>25/40>24/40>20/40 → 7/10>5/8>3/5>2/4"},
+  {tag:'💯 Persentase',q:"Harga Rp250.000 diskon 20% lalu diskon lagi 10%. Harga akhir?",hint:"Hitung bertahap! Bukan 30% langsung",vis:"",
+   opts:["Rp165.000","Rp175.000","Rp180.000","Rp200.000"],ans:2,
+   exp:"Diskon 20%: 250.000×80%=200.000. Diskon 10%: 200.000×90%=180.000. Jangan gabung langsung jadi 30%!",
+   formula:"250.000 × 0,8 × 0,9 = 180.000"},
+  {tag:'💯 Persentase',q:"Nilai ulangan naik dari 50 ke 80. % kenaikannya?",hint:"% naik = selisih ÷ nilai AWAL × 100%",vis:"",
+   opts:["37,5%","60%","62,5%","30%"],ans:1,
+   exp:"Kenaikan = 80-50=30. % naik = 30÷50 × 100% = 60%.",
+   formula:"30 ÷ 50 × 100% = 60%"},
+  {tag:'📐 Bangun Datar',q:"Persegi panjang luas 84 cm², lebar 6 cm. Kelilingnya?",hint:"Cari p dulu dari L=p×l",vis:"L=84, l=6",
+   opts:["34 cm","38 cm","40 cm","42 cm"],ans:2,
+   exp:"p = L÷l = 84÷6 = 14 cm. K = 2(p+l) = 2(14+6) = 2×20 = 40 cm.",
+   formula:"p=14 → K=2(14+6)=40 cm"},
+  {tag:'📐 Bangun Datar',q:"Luas lingkaran dengan jari-jari 21 cm adalah... (π=22/7)",hint:"L = π × r²",vis:"r=21 cm",
+   opts:["1.386 cm²","462 cm²","198 cm²","693 cm²"],ans:0,
+   exp:"L = 22/7 × 21² = 22/7 × 441 = 22 × 63 = 1.386 cm².",
+   formula:"L = 22/7 × 441 = 1.386 cm²"},
+  {tag:'📦 Bangun Ruang',q:"Luas permukaan kubus sisi 9 cm adalah...",hint:"LP = 6 × s²",vis:"s=9 cm",
+   opts:["486 cm²","729 cm²","324 cm²","81 cm²"],ans:0,
+   exp:"LP = 6 × s² = 6 × 9² = 6 × 81 = 486 cm².",
+   formula:"LP = 6 × 81 = 486 cm²"},
+  {tag:'📦 Bangun Ruang',q:"Volume balok p=12, l=8, t=5 cm adalah...",hint:"V = p × l × t",vis:"p=12, l=8, t=5",
+   opts:["400 cm³","480 cm³","520 cm³","600 cm³"],ans:1,
+   exp:"V = 12 × 8 × 5 = 480 cm³.",
+   formula:"V = 12 × 8 × 5 = 480 cm³"},
+  {tag:'📦 Bangun Ruang',q:"Sebuah bak kubus sisi 60 cm diisi air setinggi 40 cm. Volume air?",hint:"Ini bukan kubus penuh! t air = 40 bukan 60",vis:"Kubus: s=60. Air: t=40",
+   opts:["72.000 cm³","108.000 cm³","144.000 cm³","216.000 cm³"],ans:2,
+   exp:"V air = p×l×t air = 60×60×40 = 144.000 cm³. Bukan 60³ karena tidak penuh!",
+   formula:"V air = 60 × 60 × 40 = 144.000 cm³"},
+];
+
+// ══ ENGINE ══
+function fmt(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+function startTimer(pfx){
+  const key=pfx==='pre'?'preEl':'postEl';
+  window[key]=0;
+  const tvId=pfx+'-tv', tpId=pfx+'-tp';
+  const ti=setInterval(()=>{
+    window[key]++;
+    const rem=TL-window[key],over=rem<0;
+    const d=over?window[key]-TL:rem;
+    document.getElementById(tvId).textContent=(over?'+':'')+fmt(d);
+    document.getElementById(tpId).className='t-pill'+(over?' over':rem<=3*60?' warn':'');
+    if(pfx==='pre')preTi=ti; else postTi=ti;
+  },1000);
+  if(pfx==='pre')preTi=ti; else postTi=ti;
+}
+
+function renderQ(q,pfx,idx,total){
+  document.getElementById(pfx+'-qno').textContent=`SOAL ${String(idx+1).padStart(2,'0')}`;
+  document.getElementById(pfx+'-qtag').textContent=q.tag;
+  document.getElementById(pfx+'-qtxt').textContent=q.q;
+  document.getElementById(pfx+'-qhint').textContent=q.hint?`💡 ${q.hint}`:'';
+  document.getElementById(pfx+'-ctr').textContent=`${idx+1}/${total}`;
+  document.getElementById(pfx+'-pf').style.width=`${(idx/total)*100}%`;
+  const vis=document.getElementById(pfx+'-vis');
+  if(q.vis){vis.textContent=q.vis;vis.style.display='block';}else vis.style.display='none';
+  document.getElementById(pfx+'-expl').className='expl';
+  document.getElementById(pfx+'-nb').className='next-btn';
+  const opts=document.getElementById(pfx+'-opts');
+  opts.innerHTML='';
+  ['A','B','C','D'].forEach((l,i)=>{
+    const b=document.createElement('button');
+    b.className='opt';
+    b.innerHTML=`<span class="ol">${l}</span><span>${q.opts[i]}</span>`;
+    b.onclick=()=>pick(i,q,pfx,pfx==='pre'?preW:postW,pfx==='pre'?preS:postS,(v)=>{if(pfx==='pre')preS=v;else postS=v;});
+    opts.appendChild(b);
+  });
+}
+
+let picked=false;
+function pick(idx,q,pfx,wrongArr,scoreRef,setScore){
+  if(picked)return;picked=true;
+  const btns=document.querySelectorAll(`#${pfx}-opts .opt`);
+  btns.forEach(b=>b.disabled=true);
+  if(idx===q.ans){btns[idx].classList.add('correct');setScore(scoreRef+1);}
+  else{
+    btns[idx].classList.add('wrong');btns[q.ans].classList.add('correct');
+    wrongArr.push({q:q.q,tag:q.tag,chosen:q.opts[idx],correct:q.opts[q.ans],exp:q.exp,formula:q.formula||''});
+  }
+  const ep=document.getElementById(pfx+'-expl');
+  ep.innerHTML=`<div class="expl-hd">💡 Penjelasan</div><div class="expl-txt">${q.exp}${q.formula?`<div class="expl-f">${q.formula}</div>`:''}</div>`;
+  ep.classList.add('show');
+  const nb=document.getElementById(pfx+'-nb');
+  const arr=pfx==='pre'?PQ:PTQ;
+  const ci=pfx==='pre'?preCi:postCi;
+  nb.textContent=ci===arr.length-1?(pfx==='pre'?'📖 Lihat Materi →':'🏁 Lihat Hasil →'):'Soal Berikutnya →';
+  nb.classList.add('show');
+}
+
+// PRE
+function nextPre(){
+  picked=false;
+  if(preCi<PQ.length-1){preCi++;renderQ(PQ[preCi],'pre',preCi,PQ.length);}
+  else{clearInterval(preTi);show('materi-screen');}
+}
+// POST
+function nextPost(){
+  picked=false;
+  if(postCi<PTQ.length-1){postCi++;renderQ(PTQ[postCi],'post',postCi,PTQ.length);}
+  else{clearInterval(postTi);showResult();}
+}
+
+// MATERI NAV
+function goT(n){
+  document.querySelectorAll('.topic').forEach((t,i)=>t.classList.toggle('on',i===n));
+  document.querySelectorAll('.ttab').forEach((t,i)=>t.classList.toggle('on',i===n));
+  for(let i=0;i<4;i++){const p=document.getElementById(`pd${i}`);p.className='pdot'+(i<n?' done':i===n?' active':'');}
+}
+
+// RESULT
+function showResult(){
+  show('result-screen');
+  const pre=Math.round((preS/PQ.length)*100),post=Math.round((postS/PTQ.length)*100),delta=post-pre;
+  document.getElementById('pre-sv').textContent=pre;
+  document.getElementById('post-sv').textContent=post;
+  document.getElementById('post-sv').style.color=post>=75?'#059669':post>=60?'#d97706':'#dc2626';
+  const ad=document.getElementById('arr-ad');
+  ad.textContent=(delta>=0?'+':'')+delta;
+  ad.style.color=delta>0?'#059669':delta<0?'#dc2626':'#7c3aed';
+  document.getElementById('arr-av').textContent=delta>0?'↗':delta<0?'↘':'→';
+  document.getElementById('times-row').innerHTML=`Pre: ${fmt(preEl)} &nbsp;|&nbsp; Post: ${fmt(postEl)}`;
+  let title,sub;
+  if(delta>=20){title='🚀 Lompatan Luar Biasa!';sub=`Naik ${delta} poin — latihan hari ini sangat efektif!`;}
+  else if(delta>0){title='📈 Ada Kemajuan!';sub=`Naik ${delta} poin. Terus pertahankan!`;}
+  else if(delta===0){title='➡️ Stabil';sub='Skor sama. Ulangi materi yang masih salah.';}
+  else{title='⚠️ Perlu Ulang Materi';sub='Tenang, cek penjelasan soal yang salah ya!';}
+  document.getElementById('res-title').textContent=title;
+  document.getElementById('res-sub').textContent=sub;
+  function renderWrong(arr,secId,listId,cls){
+    if(arr.length>0){
+      document.getElementById(secId).style.display='block';
+      document.getElementById(listId).innerHTML=arr.map(w=>`
+        <div class="wcard ${cls}">
+          <div style="font-size:10px;font-weight:800;color:var(--accent);margin-bottom:6px">${w.tag}</div>
+          <div class="wq">❓ ${w.q}</div>
+          <div class="wa"><div class="wx">✗ ${w.chosen}</div><div class="wc">✓ ${w.correct}</div></div>
+          <div class="we">${w.exp}${w.formula?`<div class="wf">${w.formula}</div>`:''}</div>
+        </div>`).join('');
+    }
+  }
+  renderWrong(preW,'pre-ws','pre-wl','');
+  renderWrong(postW,'post-ws','post-wl','post');
+  const allW=[...preW,...postW];
+  const weak=[...new Set(allW.map(w=>w.tag))];
+  document.getElementById('pesan').innerHTML=`
+    <div style="font-size:12px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">📝 Catatan untuk B02</div>
+    <div style="font-size:13px;line-height:1.8;color:var(--text)">
+      ${post>=75?'✅ Target 75 <strong style="color:#059669">TERCAPAI</strong>!':'⚠️ Target 75 belum tercapai — B02 akan drill lebih intensif.'}
+      ${weak.length>0?`<br><br>📌 Masih perlu diperhatikan: <strong style="color:#ea580c">${weak.join(', ')}</strong>`:'<br><br>✅ Semua topik sudah oke!'}
+      <br><br>Salin hasil ini → kirim ke Claude untuk <strong>B02</strong>!
+    </div>`;
+}
+
+function copyRes(){
+  const pre=Math.round((preS/PQ.length)*100),post=Math.round((postS/PTQ.length)*100),delta=post-pre;
+  const allW=[...preW,...postW];
+  const weak=[...new Set(allW.map(w=>w.tag))];
+  let t=`📊 HASIL B01 — BELAJAR MATEMATIKA\n`;
+  t+=`Musa Brahma Batubara · 10 April 2026\n`;
+  t+=`Fokus: Pecahan & Desimal · Persentase · Bangun Datar · Bangun Ruang\n`;
+  t+=`${'─'.repeat(50)}\n\n`;
+  t+=`PRE-TEST  : ${pre}/100  (${preW.length} salah dari 10)  ⏱${fmt(preEl)}\n`;
+  t+=`POST-TEST : ${post}/100  (${postW.length} salah dari 10)  ⏱${fmt(postEl)}\n`;
+  t+=`DELTA     : ${delta>=0?'+':''}${delta} poin  ${delta>0?'📈 NAIK':delta<0?'📉 TURUN':'➡️ SAMA'}\n\n`;
+  if(preW.length>0){t+=`SOAL SALAH PRE-TEST:\n`;preW.forEach((w,i)=>{t+=`${i+1}. ${w.tag} — ${w.q}\n   → Jawab: ${w.chosen} | Benar: ${w.correct}\n`;});t+='\n';}
+  if(postW.length>0){t+=`SOAL SALAH POST-TEST:\n`;postW.forEach((w,i)=>{t+=`${i+1}. ${w.tag} — ${w.q}\n   → Jawab: ${w.chosen} | Benar: ${w.correct}\n`;});t+='\n';}
+  t+=`${'─'.repeat(50)}\n`;
+  t+=`TOPIK MASIH LEMAH: ${weak.length>0?weak.join(', '):'Semua sudah oke!'}\n`;
+  t+=`TARGET B01 (75): ${post>=75?'✅ TERCAPAI':'❌ BELUM'}\n\n`;
+  t+=`📌 Berdasarkan B01, buatkan B02:\n`;
+  t+=`Fokus: ${weak.length>0?weak.join(' & '):'Drill soal cerita campuran Matematika'}\n`;
+  t+=`Format: Pre-test → Materi → Post-test · Soal baru, berbeda dari B01`;
+  navigator.clipboard.writeText(t).then(()=>{
+    const b=document.getElementById('copy-btn');
+    b.textContent='✅ Tersalin! Paste di chat Claude 👆';
+    b.style.background='linear-gradient(135deg,#059669,#047857)';
+    setTimeout(()=>{b.textContent='📋 Salin Hasil → Kirim ke Claude untuk B02';b.style.background='';},4000);
+  }).catch(()=>prompt('Salin:',t));
+}
+
+function show(id){
+  ['splash','pretest-screen','materi-screen','posttest-screen','result-screen'].forEach(s=>document.getElementById(s).style.display='none');
+  document.getElementById(id).style.display='block';
+  if(id==='pretest-screen'){preCi=0;preS=0;preW=[];renderQ(PQ[0],'pre',0,PQ.length);}
+  if(id==='posttest-screen'){postCi=0;postS=0;postW=[];renderQ(PTQ[0],'post',0,PTQ.length);}
+}
+</script>
+</body>
+</html>
