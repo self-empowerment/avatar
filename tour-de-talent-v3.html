@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tour de Talent — Musa 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,800;0,900;1,700&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#08090f;--s1:#0f1118;--s2:#161924;--s3:#1e2330;
+  --gold:#f0b429;--gold2:#d4920a;--teal:#22d3b8;--coral:#f87171;
+  --violet:#8b5cf6;--green:#4ade80;--text:#eeeae0;--muted:#5a6070;
+  --border:rgba(240,180,41,0.12);--teal-border:rgba(34,211,184,0.15);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh;overflow-x:hidden;}
+
+/* ── STARFIELD ── */
+body::before{content:'';position:fixed;inset:0;
+  background:radial-gradient(1.5px 1.5px at 15% 25%,rgba(255,255,255,.35) 0%,transparent 100%),
+    radial-gradient(1px 1px at 75% 15%,rgba(255,255,255,.25) 0%,transparent 100%),
+    radial-gradient(1px 1px at 45% 70%,rgba(255,255,255,.2) 0%,transparent 100%),
+    radial-gradient(1px 1px at 88% 55%,rgba(255,255,255,.25) 0%,transparent 100%),
+    radial-gradient(2px 2px at 30% 10%,rgba(240,180,41,.5) 0%,transparent 100%),
+    radial-gradient(2px 2px at 70% 80%,rgba(34,211,184,.35) 0%,transparent 100%),
+    radial-gradient(1px 1px at 5% 90%,rgba(139,92,246,.4) 0%,transparent 100%);
+  pointer-events:none;z-index:0;}
+
+/* ── SCREENS ── */
+.screen{display:none;min-height:100vh;position:relative;z-index:1;flex-direction:column;}
+.screen.active{display:flex;animation:fadeUp .5s ease both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-6px)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+
+/* ── TYPOGRAPHY ── */
+.display{font-family:'Fraunces',serif;font-weight:900;line-height:.92;letter-spacing:-.02em;}
+.display em{font-style:italic;color:var(--gold);}
+.mono{font-family:'Space Mono',monospace;}
+.tag{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;}
+
+/* ── BUTTONS ── */
+.btn{border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;border-radius:.25rem;transition:all .2s;display:inline-flex;align-items:center;justify-content:center;gap:.4rem;}
+.btn-gold{background:var(--gold);color:var(--bg);padding:.85rem 2rem;font-size:.95rem;font-weight:700;}
+.btn-gold:hover{background:var(--gold2);transform:translateY(-2px);}
+.btn-outline{background:transparent;border:1px solid rgba(90,96,112,.4);color:var(--muted);padding:.65rem 1.25rem;font-size:.82rem;}
+.btn-outline:hover{border-color:var(--text);color:var(--text);}
+.btn-teal{background:transparent;border:1px solid rgba(34,211,184,.3);color:var(--teal);padding:.65rem 1.25rem;font-size:.82rem;}
+.btn-teal:hover{background:rgba(34,211,184,.08);}
+.btn-violet{background:transparent;border:1px solid rgba(139,92,246,.3);color:var(--violet);padding:.65rem 1.25rem;font-size:.82rem;}
+.btn-violet:hover{background:rgba(139,92,246,.08);}
+
+/* ── CARDS ── */
+.card{background:var(--s1);border:1px solid var(--border);border-radius:.5rem;padding:1.25rem;margin-bottom:1rem;}
+.card h3{font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:.85rem;}
+.card.teal{border-color:var(--teal-border);}
+.card.violet{border-color:rgba(139,92,246,.2);}
+
+/* ── PROGRESS BAR ── */
+.prog-bar{height:3px;background:var(--s2);}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--teal));transition:width .4s ease;}
+
+/* ── QUESTION BLOCKS ── */
+.q-block{display:none;}
+.q-block.active{display:block;animation:fadeUp .35s ease;}
+.q-text{font-size:1.05rem;line-height:1.65;margin-bottom:.35rem;font-weight:400;}
+.q-sub{font-size:.82rem;color:var(--muted);font-style:italic;margin-bottom:1.25rem;}
+
+/* MC */
+.mc-opts{display:flex;flex-direction:column;gap:.55rem;}
+.mc-opt{background:var(--s2);border:1px solid rgba(90,96,112,.25);border-radius:.35rem;padding:.8rem 1rem;cursor:pointer;display:flex;align-items:flex-start;gap:.75rem;font-size:.88rem;line-height:1.45;text-align:left;transition:all .2s;}
+.mc-opt:hover{border-color:var(--gold);background:var(--s3);}
+.mc-opt.sel{border-color:var(--gold);background:rgba(240,180,41,.07);color:var(--gold);}
+.mc-letter{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--muted);width:18px;flex-shrink:0;margin-top:.1rem;}
+.mc-opt.sel .mc-letter{color:var(--gold);}
+
+/* SWIPE */
+.swipe-card{background:var(--s2);border:1px solid rgba(90,96,112,.2);border-radius:.4rem;padding:1.25rem;margin-bottom:1rem;font-size:.92rem;line-height:1.65;text-align:center;font-style:italic;color:rgba(238,234,224,.8);}
+.swipe-row{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;}
+.swipe-btn{padding:.8rem;border-radius:.35rem;border:1px solid;font-family:'Fraunces',serif;font-size:.9rem;font-weight:800;cursor:pointer;transition:all .2s;background:transparent;}
+.swipe-btn.yes{border-color:var(--teal);color:var(--teal);}
+.swipe-btn.no{border-color:var(--coral);color:var(--coral);}
+.swipe-btn.yes.sel,.swipe-btn.yes:hover{background:rgba(34,211,184,.12);}
+.swipe-btn.no.sel,.swipe-btn.no:hover{background:rgba(248,113,113,.12);}
+
+/* SLIDER */
+.slider-wrap{padding:.25rem 0;}
+.slider-labels{display:flex;justify-content:space-between;font-size:.7rem;color:var(--muted);margin-bottom:.6rem;font-family:'Space Mono',monospace;}
+input[type=range]{width:100%;appearance:none;height:3px;background:var(--s2);border-radius:2px;outline:none;margin-bottom:.65rem;cursor:pointer;}
+input[type=range]::-webkit-slider-thumb{appearance:none;width:22px;height:22px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px rgba(240,180,41,.4);}
+.slider-val{text-align:center;font-family:'Fraunces',serif;font-size:2.5rem;font-weight:900;color:var(--gold);}
+
+/* ── PASSION BARS ── */
+.p-row{display:flex;flex-direction:column;gap:.28rem;margin-bottom:.65rem;}
+.p-label{display:flex;justify-content:space-between;font-size:.8rem;}
+.p-label span:last-child{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--gold);}
+.p-track{height:5px;background:var(--s2);border-radius:3px;overflow:hidden;}
+.p-fill{height:100%;border-radius:3px;transition:width 1.2s cubic-bezier(.16,1,.3,1);}
+
+/* ── NEXT RM ITEM ── */
+.rm-item{display:flex;align-items:center;gap:.85rem;padding:.75rem;background:var(--s2);border-radius:.35rem;margin-bottom:.5rem;}
+.rm-em{font-size:1.4rem;}
+.rm-info{flex:1;}
+.rm-name{font-family:'Fraunces',serif;font-weight:800;font-size:.95rem;margin-bottom:.1rem;}
+.rm-desc{font-size:.75rem;color:var(--muted);}
+.rm-match{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--teal);border:1px solid rgba(34,211,184,.25);padding:.15rem .45rem;border-radius:1rem;}
+
+/* ── DASH TILES ── */
+.dash-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:1rem;}
+.dash-tile{background:var(--s2);border:1px solid rgba(90,96,112,.2);border-radius:.4rem;padding:.75rem;text-align:center;}
+.dash-val{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:900;color:var(--gold);line-height:1;margin-bottom:.2rem;}
+.dash-lbl{font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-family:'Space Mono',monospace;}
+.timing-table{width:100%;border-collapse:collapse;}
+.timing-table tr:not(:last-child) td{border-bottom:1px solid rgba(255,255,255,.04);}
+
+/* ── PHASE BADGE ── */
+.phase-badge{display:inline-flex;align-items:center;gap:.4rem;background:var(--s2);border:1px solid var(--border);border-radius:2rem;padding:.3rem .85rem;font-family:'Space Mono',monospace;font-size:.62rem;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.25rem;}
+
+/* ── VIA STRENGTH CARD ── */
+.via-card{background:linear-gradient(135deg,var(--s1),rgba(240,180,41,.04));border:1px solid var(--border);border-radius:.5rem;padding:1.1rem;margin-bottom:.5rem;display:flex;align-items:center;gap:.85rem;}
+.via-rank{font-family:'Fraunces',serif;font-size:1.6rem;font-weight:900;color:rgba(240,180,41,.3);width:32px;flex-shrink:0;text-align:center;}
+.via-info{flex:1;}
+.via-name{font-family:'Fraunces',serif;font-weight:800;font-size:1rem;margin-bottom:.2rem;}
+.via-desc{font-size:.78rem;color:rgba(238,234,224,.55);line-height:1.4;}
+.via-bar{margin-top:.5rem;height:3px;background:var(--s3);border-radius:2px;}
+.via-bar-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--gold),var(--teal));}
+
+/* scroll */
+.scrollable{flex:1;overflow-y:auto;padding:1.25rem;}
+.scrollable::-webkit-scrollbar{width:3px;}
+.scrollable::-webkit-scrollbar-thumb{background:var(--s3);border-radius:2px;}
+
+/* hidden */
+.hidden{display:none!important;}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════
+  S0: INTRO
+════════════════════════════ -->
+<div id="s-intro" class="screen active">
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2.5rem 1.5rem;text-align:center;">
+
+    <div style="width:100px;height:100px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;margin-bottom:2rem;animation:pulse 3s ease infinite;">
+      <span style="font-size:2.8rem;display:block">🌍</span>
+    </div>
+
+    <div class="tag" style="color:var(--gold);margin-bottom:.85rem;">MVP · 3 Days · Jan 2026</div>
+
+    <h1 class="display" style="font-size:clamp(3rem,11vw,5rem);margin-bottom:.5rem;">
+      Tour de<br><em>Talent</em>
+    </h1>
+    <p style="color:var(--muted);font-style:italic;font-size:.95rem;margin-bottom:.4rem;">Temukan siapa kamu & masalah dunia apa yang ingin kamu solve</p>
+    <p style="color:var(--teal);font-size:.9rem;margin-bottom:2.5rem;font-family:'Space Mono',monospace;">Musa · 13 · Perth, WA</p>
+
+    <div style="display:flex;gap:.65rem;justify-content:center;flex-wrap:wrap;margin-bottom:2.5rem;">
+      <div style="border:1px solid var(--border);border-radius:2rem;padding:.35rem .9rem;font-size:.75rem;color:var(--muted);">
+        🧬 VIA Strengths
+      </div>
+      <div style="border:1px solid var(--border);border-radius:2rem;padding:.35rem .9rem;font-size:.75rem;color:var(--muted);">
+        🎯 MAP Drive
+      </div>
+      <div style="border:1px solid rgba(34,211,184,.2);border-radius:2rem;padding:.35rem .9rem;font-size:.75rem;color:var(--teal);">
+        🌍 Role Models
+      </div>
+    </div>
+
+    <div style="background:var(--s1);border:1px solid var(--border);border-radius:.5rem;padding:1rem 1.25rem;max-width:320px;text-align:left;margin-bottom:2rem;font-size:.82rem;line-height:1.7;color:rgba(238,234,224,.6);">
+      <strong style="color:var(--text);font-weight:500;">Apa ini?</strong><br>
+      Program 3 hari untuk mengenal dirimu lebih dalam — kekuatan karaktermu, apa yang menggerakkanmu, dan masalah dunia apa yang paling ingin kamu solve.
+    </div>
+
+    <button class="btn btn-gold" style="width:100%;max-width:280px;margin-bottom:.75rem;" onclick="beginJourney()">Mulai Perjalanan →</button>
+    <button class="btn btn-outline" onclick="showScreen('s-parent')">👨‍👩‍👦 Parent Dashboard</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════
+  S1: VIA ASSESSMENT (Day 1 Part A)
+════════════════════════════ -->
+<div id="s-via" class="screen">
+  <div style="padding:1.25rem 1.5rem .75rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+    <div>
+      <div class="tag" style="color:var(--violet);margin-bottom:.2rem;">Day 1 · Part A — Who Am I?</div>
+      <div style="font-family:'Fraunces',serif;font-weight:800;font-size:1.2rem;">VIA Strengths</div>
+    </div>
+    <div class="mono" style="font-size:.72rem;color:var(--muted)" id="via-counter">1 / 12</div>
+  </div>
+  <div class="prog-bar"><div class="prog-fill" id="via-prog" style="width:8%"></div></div>
+
+  <div class="scrollable" id="via-questions">
+    <!-- injected by JS -->
+  </div>
+
+  <div style="padding:.85rem 1.5rem 1.5rem;display:flex;gap:.65rem;">
+    <button class="btn btn-gold" id="via-next" onclick="viaNext()" style="flex:1">Lanjut →</button>
+    <button class="btn btn-outline" onclick="viaPrev()">←</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════
+  S2: MAP ASSESSMENT (Day 1 Part B)
+════════════════════════════ -->
+<div id="s-map" class="screen">
+  <div style="padding:1.25rem 1.5rem .75rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+    <div>
+      <div class="tag" style="color:var(--teal);margin-bottom:.2rem;">Day 1 · Part B — What Drives Me?</div>
+      <div style="font-family:'Fraunces',serif;font-weight:800;font-size:1.2rem;">MAP Assessment</div>
+    </div>
+    <div class="mono" style="font-size:.72rem;color:var(--muted)" id="map-counter">1 / 9</div>
+  </div>
+  <div class="prog-bar"><div class="prog-fill" id="map-prog" style="width:11%"></div></div>
+
+  <div class="scrollable" id="map-questions"></div>
+
+  <div style="padding:.85rem 1.5rem 1.5rem;display:flex;gap:.65rem;">
+    <button class="btn btn-gold" id="map-next" onclick="mapNext()" style="flex:1">Lanjut →</button>
+    <button class="btn btn-outline" onclick="mapPrev()">←</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════
+  S3: DAY 1 COMPLETE / IDENTITY CARD
+════════════════════════════ -->
+<div id="s-day1-result" class="screen">
+  <div style="padding:1.5rem 1.5rem .5rem;border-bottom:1px solid var(--border);text-align:center;">
+    <div style="font-size:2.5rem;margin-bottom:.5rem;animation:bounce 1s ease infinite alternate">✨</div>
+    <div class="tag" style="color:var(--gold);margin-bottom:.4rem;">Day 1 Selesai!</div>
+    <h2 class="display" style="font-size:1.8rem;">Ini <em>Kamu</em></h2>
+  </div>
+
+  <div class="scrollable">
+    <!-- VIA Top Strengths -->
+    <div class="card">
+      <h3>🧬 Top 5 Signature Strengths (VIA)</h3>
+      <div id="via-result-list"></div>
+      <div style="font-size:.75rem;color:var(--muted);margin-top:.75rem;line-height:1.5;font-style:italic;">
+        Berdasarkan adaptasi VIA Youth Character Strengths (Seligman & Peterson, Penn University). Kekuatan ini bukan yang kamu punya — ini cara kamu paling alami berinteraksi dengan dunia.
+      </div>
+    </div>
+
+    <!-- MAP Profile -->
+    <div class="card teal">
+      <h3 style="color:var(--teal);">🎯 MAP Drive Profile</h3>
+      <div id="map-result"></div>
+      <div style="font-size:.75rem;color:var(--muted);margin-top:.75rem;line-height:1.5;font-style:italic;">
+        Berdasarkan Drive (Daniel Pink, 2009) — adaptasi Self-Determination Theory (Deci & Ryan).
+      </div>
+    </div>
+
+    <!-- Identity Statement -->
+    <div class="card violet">
+      <h3 style="color:var(--violet);">💬 Identity Statement Draft</h3>
+      <div id="identity-statement" style="font-size:.92rem;line-height:1.75;font-style:italic;color:rgba(238,234,224,.85);"></div>
+    </div>
+  </div>
+
+  <div style="padding:.85rem 1.5rem 1.5rem;display:flex;gap:.65rem;">
+    <button class="btn btn-gold" onclick="startTourDeTalent()" style="flex:1">Lanjut ke Day 2 → Role Models</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════
+  S4: TOUR DE TALENT (Day 2 & 3)
+════════════════════════════ -->
+<div id="s-tdt" class="screen">
+  <div style="padding:1.25rem 1.5rem .75rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+    <div>
+      <div class="tag" style="color:var(--gold);margin-bottom:.2rem;" id="tdt-day-label">Day 2 · Discover</div>
+      <div style="font-family:'Fraunces',serif;font-weight:800;font-size:1.2rem;" id="tdt-day-title">Kenali Sang Pengubah Dunia</div>
+    </div>
+    <div class="mono" style="font-size:.72rem;color:var(--muted)" id="tdt-counter">1/5</div>
+  </div>
+  <div class="prog-bar"><div class="prog-fill" id="tdt-prog" style="width:0%"></div></div>
+
+  <!-- Role model card -->
+  <div id="rm-card" style="margin:1rem 1.25rem .5rem;">
+    <div style="background:var(--s1);border:1px solid var(--border);border-radius:.5rem;overflow:hidden;">
+      <div style="height:5px;background:linear-gradient(90deg,var(--gold),var(--teal));"></div>
+      <div style="padding:1.1rem;">
+        <div class="tag" style="color:var(--teal);margin-bottom:.35rem;" id="rm-tag">🌊 Environmental Innovation</div>
+        <div style="font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;margin-bottom:.15rem;" id="rm-name">Boyan Slat</div>
+        <div style="font-style:italic;color:var(--gold);font-size:.82rem;margin-bottom:.85rem;" id="rm-tagline">"Membersihkan lautan yang dianggap mustahil"</div>
+        <div id="rm-facts" style="display:flex;flex-direction:column;gap:.5rem;font-size:.82rem;line-height:1.5;color:rgba(238,234,224,.75);">
+          <div>🎂 Lahir 1994, Belanda. Mulai The Ocean Cleanup usia <strong>18 tahun</strong> — 5 tahun lebih tua dari Musa sekarang.</div>
+          <div>🧠 Ilmu: <strong>Engineering + Ocean Science + Entrepreneurship</strong></div>
+          <div>🌍 Masalah: <strong>80 juta kg plastik di lautan</strong></div>
+          <div>🏆 UN: <strong>UNEP</strong> · SDG: <strong>14 (Life Below Water)</strong></div>
+        </div>
+        <a href="https://www.youtube.com/watch?v=ROW9F-c0kIQ" target="_blank"
+          style="display:flex;align-items:center;gap:.5rem;margin-top:.85rem;padding:.5rem .85rem;background:rgba(240,180,41,.07);border:1px solid rgba(240,180,41,.18);border-radius:.25rem;color:var(--gold);font-size:.75rem;text-decoration:none;font-family:'Space Mono',monospace;">
+          ▶ TED Talk Boyan Slat (13 min)
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="scrollable" id="tdt-questions" style="padding-top:.25rem;"></div>
+
+  <div style="padding:.85rem 1.5rem 1.5rem;display:flex;gap:.65rem;">
+    <button class="btn btn-gold" id="tdt-next" onclick="tdtNext()" style="flex:1">Lanjut →</button>
+    <button class="btn btn-outline" onclick="tdtPrev()">←</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════
+  S5: FINAL RESULT — MUSA VIEW
+════════════════════════════ -->
+<div id="s-result" class="screen">
+  <div style="padding:2rem 1.5rem 1rem;text-align:center;border-bottom:1px solid var(--border);">
+    <div style="font-size:3rem;margin-bottom:.5rem;animation:bounce 1s ease infinite alternate">🏆</div>
+    <div class="tag" style="color:var(--gold);margin-bottom:.4rem;">3 Days Complete · MVP Sprint</div>
+    <h2 class="display" style="font-size:2rem;margin-bottom:.2rem;">Ini <em>Jalanmu</em></h2>
+    <p style="color:var(--muted);font-size:.82rem;font-style:italic;">Musa's Passion + Calling Profile</p>
+  </div>
+
+  <div class="scrollable">
+
+    <!-- Calling card -->
+    <div style="background:linear-gradient(135deg,var(--s1),rgba(34,211,184,.05));border:1px solid var(--teal-border);border-radius:.5rem;padding:1.25rem;margin-bottom:1rem;text-align:center;">
+      <div style="font-size:2.5rem;margin-bottom:.5rem;" id="r-calling-icon">⚙️</div>
+      <div class="tag" style="color:var(--teal);margin-bottom:.35rem;">Your Calling</div>
+      <div style="font-family:'Fraunces',serif;font-weight:800;font-size:1.15rem;color:var(--teal);margin-bottom:.5rem;" id="r-calling-field">—</div>
+      <div style="font-size:.83rem;color:rgba(238,234,224,.65);font-style:italic;line-height:1.6;margin-bottom:.75rem;" id="r-calling-strength">—</div>
+      <div style="font-family:'Space Mono',monospace;font-size:.68rem;color:var(--gold);border:1px solid var(--border);border-radius:2rem;padding:.25rem .7rem;display:inline-block;" id="r-calling-roles">—</div>
+    </div>
+
+    <!-- Passion bars -->
+    <div class="card">
+      <h3>🧭 Passion Profile</h3>
+      <div id="r-passion-bars"></div>
+    </div>
+
+    <!-- VIA connection -->
+    <div class="card violet">
+      <h3 style="color:var(--violet);">🧬 Strengths × Calling</h3>
+      <div id="r-via-calling" style="font-size:.85rem;line-height:1.75;color:rgba(238,234,224,.75);"></div>
+    </div>
+
+    <!-- Next role models -->
+    <div class="card teal">
+      <h3 style="color:var(--teal);">🚀 Role Model Berikutnya</h3>
+      <div id="r-next-rms"></div>
+    </div>
+
+    <!-- Parent note -->
+    <div class="card">
+      <h3>📋 Catatan untuk Orang Tua</h3>
+      <div id="r-parent-note" style="font-size:.83rem;line-height:1.75;color:rgba(238,234,224,.7);"></div>
+    </div>
+
+  </div>
+
+  <div style="padding:.85rem 1.5rem 1.5rem;display:flex;flex-direction:column;gap:.6rem;">
+    <button class="btn btn-gold" onclick="alert('Day 4-6 coming soon! Screenshot hasil ini dulu ya.')">Lanjutkan Journey →</button>
+    <button class="btn btn-violet" onclick="showParentDashboard()">👨‍👩‍👦 Parent Dashboard</button>
+    <button class="btn btn-outline" onclick="resetApp()">↩ Reset</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════
+  S6: PARENT DASHBOARD
+════════════════════════════ -->
+<div id="s-parent" class="screen">
+  <div style="padding:1.25rem 1.5rem .75rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+    <div>
+      <div class="tag" style="color:var(--violet);margin-bottom:.2rem;">Parent View · MVP Analytics</div>
+      <div style="font-family:'Fraunces',serif;font-weight:800;font-size:1.2rem;">Dashboard Orang Tua</div>
+    </div>
+    <button class="btn btn-outline" style="font-size:.75rem;" onclick="goBack()">← Kembali</button>
+  </div>
+
+  <div class="scrollable">
+
+    <!-- Engagement Overview -->
+    <div class="dash-grid">
+      <div class="dash-tile"><div class="dash-val" id="p-eng">—</div><div class="dash-lbl">Engagement</div></div>
+      <div class="dash-tile"><div class="dash-val" id="p-avg">—</div><div class="dash-lbl">Avg/Soal</div></div>
+      <div class="dash-tile"><div class="dash-val" id="p-chg">—</div><div class="dash-lbl">Ganti Jwbn</div></div>
+    </div>
+
+    <!-- Slider Scores -->
+    <div class="card">
+      <h3>📊 Self-Rating Sliders</h3>
+      <div class="dash-grid" style="margin-bottom:0;">
+        <div class="dash-tile"><div class="dash-val" id="p-exc" style="color:var(--gold)">—</div><div class="dash-lbl">Excitement D2</div></div>
+        <div class="dash-tile"><div class="dash-val" id="p-resp" style="color:var(--teal)">—</div><div class="dash-lbl">Responsibility D2</div></div>
+        <div class="dash-tile"><div class="dash-val" id="p-ov" style="color:var(--violet)">—</div><div class="dash-lbl">Overall D3</div></div>
+      </div>
+    </div>
+
+    <!-- Role model pick -->
+    <div class="card teal">
+      <h3 style="color:var(--teal);">🎯 Role Model Pilihan</h3>
+      <div style="font-family:'Fraunces',serif;font-weight:800;font-size:1.1rem;color:var(--teal);" id="p-rm">—</div>
+    </div>
+
+    <!-- MAP Drive -->
+    <div class="card">
+      <h3>🔑 MAP Drive Scores</h3>
+      <div id="p-map-scores" style="font-size:.84rem;line-height:1.8;"></div>
+    </div>
+
+    <!-- Per-question timing -->
+    <div class="card">
+      <h3>⏱ Waktu Per Pertanyaan</h3>
+      <table class="timing-table" id="p-timings"></table>
+    </div>
+
+    <!-- Engagement flags -->
+    <div class="card">
+      <h3>🚩 Perubahan Jawaban</h3>
+      <div id="p-flags"></div>
+    </div>
+
+    <!-- Recommendation -->
+    <div class="card violet">
+      <h3 style="color:var(--violet);">💡 Rekomendasi Iterasi</h3>
+      <div id="p-rec" style="font-size:.83rem;line-height:1.8;"></div>
+    </div>
+
+    <!-- Scientific foundation note -->
+    <div style="background:rgba(139,92,246,.05);border:1px solid rgba(139,92,246,.15);border-radius:.5rem;padding:1rem 1.1rem;margin-bottom:1rem;">
+      <div class="tag" style="color:var(--violet);margin-bottom:.5rem;">📚 Scientific Foundation</div>
+      <div style="font-size:.75rem;line-height:1.75;color:rgba(238,234,224,.55);">
+        <strong style="color:rgba(238,234,224,.75);">VIA Strengths</strong> — Seligman & Peterson (2004), Penn University. Validated across 190+ countries.<br>
+        <strong style="color:rgba(238,234,224,.75);">MAP / Drive</strong> — Daniel Pink (2009), adapted from Self-Determination Theory (Deci & Ryan, 1985).<br>
+        <strong style="color:rgba(238,234,224,.75);">Role Models</strong> — Possible Selves Theory (Markus & Nurius, 1986). Concrete role models activate identity formation in adolescents.<br>
+        <strong style="color:rgba(238,234,224,.75);">Interest Development</strong> — Hidi & Renninger (2006). 4-phase model: triggered → maintained → emerging individual → well-developed.<br>
+        <em style="color:rgba(238,234,224,.4);">Note: This is an adapted, non-clinical tool. For formal assessment, consult VIA Youth Survey (viacharacter.org) or a career counselor.</em>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="padding:.85rem 1.5rem 1.5rem;display:flex;gap:.65rem;">
+    <button class="btn btn-gold" onclick="goBack()" style="flex:1">← Kembali</button>
+    <button class="btn btn-outline" onclick="resetApp()">Reset</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════
+  DAY COMPLETE OVERLAY
+════════════════════════════ -->
+<div id="day-overlay" style="display:none;position:fixed;inset:0;z-index:999;background:rgba(8,9,15,.97);flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center;">
+  <div style="font-size:4rem;margin-bottom:1rem;animation:bounce 1s ease infinite alternate" id="ov-emoji">✅</div>
+  <div class="tag" style="color:var(--gold);margin-bottom:.65rem;" id="ov-tag">Day Selesai!</div>
+  <h2 class="display" style="font-size:2rem;margin-bottom:.5rem;line-height:1.1;" id="ov-title">Bagus sekali!</h2>
+  <p style="color:rgba(238,234,224,.55);font-size:.88rem;margin-bottom:2rem;line-height:1.6;" id="ov-desc">Kamu sudah selesaikan semua pertanyaan hari ini.</p>
+  <div style="background:var(--s1);border:1px solid var(--border);border-radius:.5rem;padding:1.1rem;width:100%;max-width:300px;margin-bottom:1.75rem;">
+    <div style="font-size:1.75rem;margin-bottom:.35rem;" id="ov-next-icon">⛏️</div>
+    <div style="font-family:'Fraunces',serif;font-weight:800;margin-bottom:.15rem;" id="ov-next-label">Day 3 · Connect</div>
+    <div style="font-size:.78rem;color:rgba(238,234,224,.45);" id="ov-next-desc">Hubungkan semua ke dirimu</div>
+  </div>
+  <button class="btn btn-gold" style="width:100%;max-width:300px;margin-bottom:.65rem;" id="ov-btn">Lanjut →</button>
+</div>
+
+<script>
+// ════════════════════════════════════════
+// DATA DEFINITIONS
+// ════════════════════════════════════════
+
+// ── VIA QUESTIONS (12, adapted from VIA Youth) ──
+// Each maps to one of 6 strength clusters
+const VIA_Q = [
+  { id:'v1', cluster:'wisdom',
+    text:'Ketika menghadapi masalah yang sulit, kamu biasanya...',
+    sub:'Pilih yang paling menggambarkan kamu',
+    opts:['Langsung coba berbagai cara sampai ketemu solusinya','Mencari tahu dulu sebanyak mungkin sebelum bertindak','Minta pendapat orang lain yang kamu percaya','Diam dulu dan tunggu sampai ide datang sendiri'],
+    scores:[2,3,1,0] },
+  { id:'v2', cluster:'courage',
+    text:'Saat ada sesuatu yang kamu yakini benar tapi tidak populer...',
+    sub:'Apa yang biasanya kamu lakukan?',
+    opts:['Tetap pegang pendapatku meski sendirian','Coba jelaskan ke orang lain dulu','Tunggu dulu, lihat situasinya','Sesuaikan dengan mayoritas'],
+    scores:[3,2,1,0] },
+  { id:'v3', cluster:'humanity',
+    text:'Ketika teman atau orang dekat sedang susah...',
+    sub:'Reaksi pertamamu?',
+    opts:['Langsung tanya apa yang bisa aku bantu','Dengarkan dulu sampai mereka selesai cerita','Carikan solusi praktis untuk masalah mereka','Beri semangat dan motivasi'],
+    scores:[1,3,2,1] },
+  { id:'v4', cluster:'justice',
+    text:'Kalau ada ketidakadilan di depan matamu...',
+    sub:'Misalnya ada yang diperlakukan tidak fair',
+    opts:['Langsung angkat bicara','Cari tahu dulu fakta lengkapnya','Lapor ke yang berwenang','Merasa tidak enak tapi diam'],
+    scores:[3,2,2,0] },
+  { id:'v5', cluster:'temperance',
+    text:'Saat kamu marah atau kecewa...',
+    sub:'Bagaimana kamu biasanya mengatasinya?',
+    opts:['Tarik napas dulu, tunggu sampai tenang','Langsung ekspresikan perasaanku','Cari aktivitas untuk alihkan pikiran','Cerita ke orang yang dipercaya'],
+    scores:[3,0,2,1] },
+  { id:'v6', cluster:'transcendence',
+    text:'Hal yang paling bikin kamu merasa hidup itu bermakna...',
+    sub:'Pilih yang paling resonan',
+    opts:['Berhasil membuat sesuatu yang berguna untuk orang lain','Memahami sesuatu yang sebelumnya tidak aku mengerti','Merasakan koneksi yang dalam dengan sesuatu yang lebih besar','Mencapai sesuatu yang aku impikan'],
+    scores:[2,3,3,2] },
+  { id:'v7', cluster:'wisdom',
+    text:'Ketika belajar hal baru, kamu paling enjoy ketika...',
+    sub:'Pilih yang paling cocok',
+    opts:['Bisa eksperimen dan coba sendiri','Baca atau tonton konten yang dalam dan detail','Diskusi dengan orang lain tentang ide-idenya','Langsung terapkan ke situasi nyata'],
+    scores:[2,3,1,2] },
+  { id:'v8', cluster:'courage',
+    text:'Proyek atau tantangan yang paling membuatmu semangat adalah...',
+    sub:'Yang paling membuat kamu eager to start',
+    opts:['Yang belum pernah dilakukan orang sebelumnya','Yang jelas manfaatnya untuk orang banyak','Yang membutuhkan kerja keras jangka panjang','Yang bisa dikerjakan bersama tim'],
+    scores:[3,2,3,1] },
+  { id:'v9', cluster:'humanity',
+    text:'Orang-orang di sekitarmu biasanya datang padamu untuk...',
+    sub:'Apa yang mereka paling sering minta dari kamu?',
+    opts:['Pendapat atau saran ketika mereka bingung','Dukungan emosional ketika mereka sedih','Bantuan praktis ketika mereka butuh sesuatu','Ide atau inspirasi ketika mereka stuck'],
+    scores:[2,3,1,2] },
+  { id:'v10', cluster:'justice',
+    text:'"Satu orang tidak bisa mengubah dunia." Kamu...',
+    sub:'Pilih yang paling mencerminkan keyakinanmu',
+    opts:['Tidak setuju — satu orang bisa memicu perubahan besar','Setuju tapi kita bisa berkontribusi kecil-kecilan','Tergantung — ada sistem yang perlu diubah dulu','Setuju — butuh gerakan banyak orang'],
+    scores:[3,2,1,1] },
+  { id:'v11', cluster:'temperance',
+    text:'Saat kamu punya goal besar jangka panjang...',
+    sub:'Bagaimana cara kamu menjaga motivasi?',
+    opts:['Pecah jadi target kecil-kecil harian','Visualisasikan terus hasil akhirnya','Cari accountability partner','Ikuti mood dan energy saja'],
+    scores:[3,2,2,0] },
+  { id:'v12', cluster:'transcendence',
+    text:'Kalau kamu bisa pilih satu legacy yang ditinggalkan untuk dunia...',
+    sub:'Yang paling ingin kamu wujudkan',
+    opts:['Penemuan atau inovasi yang mengubah cara hidup manusia','Membantu jutaan orang keluar dari kesulitan','Karya atau ide yang menginspirasi generasi berikutnya','Sistem atau institusi yang adil dan berkelanjutan'],
+    scores:[3,2,2,3] },
+];
+
+// VIA cluster metadata
+const VIA_CLUSTERS = {
+  wisdom:       { name:'Curiosity & Wisdom',    icon:'🔍', desc:'Kamu haus belajar dan selalu ingin memahami lebih dalam.', color:'#f0b429' },
+  courage:      { name:'Bravery & Persistence', icon:'⚡', desc:'Kamu berani menghadapi tantangan dan tidak mudah menyerah.', color:'#f87171' },
+  humanity:     { name:'Empathy & Care',         icon:'🤝', desc:'Kamu peka terhadap perasaan orang lain dan suka membantu.', color:'#4ade80' },
+  justice:      { name:'Fairness & Leadership',  icon:'⚖️', desc:'Kamu peduli pada keadilan dan punya jiwa kepemimpinan.', color:'#22d3b8' },
+  temperance:   { name:'Self-Control & Prudence',icon:'🧘', desc:'Kamu bisa mengatur diri dan membuat keputusan dengan tenang.', color:'#a78bfa' },
+  transcendence:{ name:'Purpose & Meaning',      icon:'🌟', desc:'Kamu termotivasi oleh sesuatu yang lebih besar dari dirimu.', color:'#fb923c' },
+};
+
+// ── MAP QUESTIONS (9) ──
+const MAP_Q = [
+  { id:'m1', dim:'mastery',
+    text:'Kamu paling puas ketika...',
+    sub:'Pilih yang paling sering kamu rasakan',
+    opts:['Berhasil menguasai sesuatu yang dulu sulit bagiku','Menyelesaikan tugas dengan sempurna','Mendapat pujian dari orang lain','Selesai lebih cepat dari target'],
+    scores:[3,2,0,1] },
+  { id:'m2', dim:'autonomy',
+    text:'Cara belajar yang paling efektif untukmu...',
+    sub:'Kondisi yang bikin kamu paling fokus',
+    opts:['Bebas eksplorasi sendiri tanpa jadwal ketat','Punya struktur yang jelas tapi bisa atur caranya','Dibimbing langsung step by step','Bersaing atau dibandingkan dengan orang lain'],
+    scores:[3,2,1,0] },
+  { id:'m3', dim:'purpose',
+    text:'Kamu lebih termotivasi ketika belajar sesuatu yang...',
+    sub:'Faktor terbesar yang bikin kamu bersemangat',
+    opts:['Jelas kegunaannya untuk orang lain atau dunia','Memang aku sukai dan penasaran dengannya','Akan berguna untuk karirku nanti','Diapresiasi dan diakui orang lain'],
+    scores:[3,1,2,0] },
+  { id:'m4', dim:'mastery',
+    text:'Ketika kamu gagal atau membuat kesalahan...',
+    sub:'Apa reaksi pertamamu?',
+    opts:['Langsung analisis apa yang salah dan coba lagi','Kecewa tapi akhirnya bangkit sendiri','Butuh dorongan dari orang lain dulu','Sulit move on, sering memikirkan terus'],
+    scores:[3,2,1,0] },
+  { id:'m5', dim:'autonomy',
+    text:'Soal aturan dan instruksi...',
+    sub:'Pilih yang paling jujur menggambarkan kamu',
+    opts:['Aku lebih suka buat aturanku sendiri','Aturan oke kalau masuk akal dan aku mengerti alasannya','Aturan membantu aku tetap on track','Aku ikuti aturan untuk menghindari masalah'],
+    scores:[3,2,1,0] },
+  { id:'m6', dim:'purpose',
+    text:'10 tahun ke depan, kamu ingin orang mengenalmu sebagai...',
+    sub:'Warisan yang paling ingin kamu tinggalkan',
+    opts:['Orang yang memecahkan masalah nyata di dunia','Orang yang ahli dan terbaik di bidangnya','Orang yang menginspirasi banyak orang','Orang yang sukses dan berhasil'],
+    scores:[3,2,2,1] },
+  { id:'m7', dim:'mastery',
+    text:'Menurutmu, bakat itu...',
+    sub:'Pilih yang paling kamu yakini',
+    opts:['Bisa dibangun dengan latihan keras dan konsisten','Kombinasi bawaan dan latihan','Sebagian besar sudah dari lahir','Tidak terlalu penting, yang penting usaha'],
+    scores:[3,2,0,2] },
+  { id:'m8', dim:'autonomy',
+    text:'Kalau kamu bisa desain hari belajarmu sendiri...',
+    sub:'Seperti apa yang ideal?',
+    opts:['Aku pilih topik, waktu, dan caranya sendiri tiap hari','Punya agenda tapi fleksibel untuk berubah','Jadwal tetap tapi metodenya bisa ku atur','Jadwal dan metode yang sudah ditetapkan'],
+    scores:[3,2,2,1] },
+  { id:'m9', dim:'purpose',
+    text:'Masalah di dunia yang paling ingin kamu solve adalah yang...',
+    sub:'Pilih yang paling menggerakkan hatimu',
+    opts:['Menyebabkan penderitaan paling banyak untuk orang paling banyak','Belum ada yang berhasil memecahkan','Paling relevan dengan kemampuan dan minatku','Paling diakui dan dihargai jika berhasil dipecahkan'],
+    scores:[3,3,2,0] },
+];
+
+// ── TDT QUESTIONS (Day 2: 5 questions, Day 3: 5 questions) ──
+const TDT_Q = {
+  2: [
+    { id:'t1', type:'mc',
+      text:'Setelah lihat profil Boyan Slat, bagian mana yang paling menarik?',
+      sub:'Pilih yang paling resonan',
+      opts:['⚙️ Teknologi sistemnya — cara dia desain alat pengumpul plastik','💬 Keberanian sosialnya — convince dunia di usia 18','🔬 Ilmu sains di baliknya — arus laut, cuaca, ekosistem','🌊 Masalah itu sendiri — plastik di laut harus dibereskan'],
+      field:['tech','leadership','science','environment'] },
+    { id:'t2', type:'mc',
+      text:'Kalau punya 1 tahun bebas untuk belajar apa saja, kamu pilih...',
+      sub:'Ikuti instingmu',
+      opts:['🔧 Membangun sesuatu — robotik, coding, engineering','🔬 Memahami alam — sains, biologi, fisika','🤝 Membantu orang langsung — kesehatan, komunitas','📢 Mengubah sistem — hukum, ekonomi, kebijakan'],
+      field:['tech','science','health','justice'] },
+    { id:'t3', type:'swipe',
+      text:'"Anak muda tidak bisa mengubah dunia — harus tunggu dewasa dulu."',
+      sub:'Kamu setuju?',
+      card:'Boyan Slat mulai The Ocean Cleanup saat masih SMA. Apakah usia 13-18 terlalu muda untuk mulai solve masalah dunia?',
+      yesLabel:'✓ Setuju',noLabel:'✗ Tidak setuju',
+      yesField:'',noField:'leadership' },
+    { id:'t4', type:'mc',
+      text:'Masalah di dunia yang paling bikin kamu marah atau sedih...',
+      sub:'Pilih yang paling terasa di hatimu',
+      opts:['🌊 Kerusakan alam — laut kotor, hutan habis, cuaca ekstrem','🍚 Kemiskinan & kelaparan — banyak orang tidak punya cukup','🏥 Penyakit — jutaan mati karena penyakit yang bisa dicegah','⚖️ Ketidakadilan — orang lemah selalu kalah'],
+      field:['environment','social','health','justice'] },
+    { id:'t5', type:'slider', sliderKey:'excitement',
+      text:'Seberapa excited kamu dengan Boyan Slat dan masalah yang dia tackle?',
+      sub:'Jujur saja — ini untuk petamu sendiri',
+      leftLabel:'Biasa aja',rightLabel:'Sangat excited!' },
+  ],
+  3: [
+    { id:'t6', type:'mc',
+      text:'Kalau kamu bisa pilih satu peran untuk solve masalah plastik laut...',
+      sub:'Bayangkan kamu sudah ahli di bidangmu',
+      opts:['⚙️ Engineer — desain teknologi intercept plastik di sungai','🔬 Scientist — teliti dampak plastik ke ekosistem laut','💡 Entrepreneur — bisnis yang ubah plastik jadi produk','📜 Policy maker — regulasi yang paksa industri kurangi plastik'],
+      field:['tech','science','social','justice'] },
+    { id:'t7', type:'swipe',
+      text:'"Masalah lingkungan tidak bisa diselesaikan tanpa dulu membereskan kemiskinan."',
+      sub:'Kamu setuju?',
+      card:'Orang miskin buang sampah ke sungai bukan karena jahat, tapi karena tidak ada sistem yang lebih baik. Solve kemiskinan dulu = solve lingkungan juga?',
+      yesLabel:'✓ Setuju',noLabel:'✗ Tidak setuju',
+      yesField:'social',noField:'environment' },
+    { id:'t8', type:'mc',
+      text:'Kalau bisa belajar satu mata pelajaran ekstra, kamu pilih...',
+      sub:'Yang paling bikin penasaran',
+      opts:['💻 Coding & AI — teknologi yang bisa berpikir sendiri','📊 Economics & Business — cara uang menggerakkan dunia','🧬 Biology & Medicine — cara tubuh dan alam bekerja','⚖️ Law & Human Rights — cara sistem hukum bekerja'],
+      field:['tech','social','science','justice'] },
+    { id:'t9', type:'mc',
+      text:'Hal yang paling kamu ingat dari Boyan Slat selama 2 hari ini...',
+      sub:'Pilih yang pertama muncul di pikiranmu',
+      opts:['🎂 Dia mulai hampir seusia aku — bikin aku percaya diri','🌊 Masalah plastik laut — aku tidak sadar sebesar itu','⚙️ Cara dia desain solusinya — engineering yang elegan','💪 Keberaniannya — tidak takut dibilang gila para ahli'],
+      field:['leadership','environment','tech','courage'] },
+    { id:'t10', type:'slider', sliderKey:'overall',
+      text:'Overall, seberapa valuable program 3 hari ini buatmu?',
+      sub:'Ini untuk evaluasi — jawab jujur ya!',
+      leftLabel:'Kurang berguna',rightLabel:'Sangat berguna!' },
+  ],
+};
+
+// ── FIELD META ──
+const FM = {
+  tech:        {label:'Technology & Engineering',   color:'#f0b429',icon:'⚙️',strength:'Kamu punya naluri untuk membangun dan menciptakan solusi teknologi.',calling:'Engineer · Inventor · Tech Entrepreneur'},
+  science:     {label:'Science & Research',          color:'#22d3b8',icon:'🔬',strength:'Kamu senang memahami cara kerja dunia secara mendalam.',calling:'Researcher · Scientist · Data Analyst'},
+  social:      {label:'Economics & Policy',          color:'#a78bfa',icon:'📊',strength:'Kamu berpikir tentang sistem — bagaimana uang dan kekuasaan bekerja.',calling:'Economist · Policy Maker · Social Entrepreneur'},
+  environment: {label:'Environment & Sustainability',color:'#4ade80',icon:'🌿',strength:'Kamu peduli dengan kelangsungan bumi dan generasi berikutnya.',calling:'Environmental Scientist · Conservation Leader'},
+  health:      {label:'Health & Medicine',           color:'#f87171',icon:'💊',strength:'Kamu termotivasi untuk mengurangi penderitaan manusia.',calling:'Doctor · Public Health Expert · Medical Researcher'},
+  justice:     {label:'Justice & Human Rights',      color:'#fb923c',icon:'⚖️',strength:'Kamu sensitif terhadap ketidakadilan dan ingin memperbaikinya.',calling:'Lawyer · Human Rights Activist · Policy Reformer'},
+  leadership:  {label:'Leadership & Advocacy',       color:'#e879f9',icon:'📢',strength:'Kamu punya dorongan kuat untuk menggerakkan orang lain.',calling:'Leader · Speaker · Community Organizer'},
+  courage:     {label:'Courage & Boldness',          color:'#f87171',icon:'⚡',strength:'Kamu berani mengambil risiko dan melakukan yang diyakini.',calling:'Entrepreneur · Activist · Pioneer'},
+};
+
+// ── NEXT RM recommendations ──
+const RMR = {
+  tech:        [{name:'Elon Musk',emoji:'🚀',desc:'Electric cars + rockets → SDG 7,13',match:'95%'},{name:'Tu Youyou',emoji:'🧪',desc:'Nobel Medicine — ancient plants, modern cures',match:'82%'}],
+  science:     [{name:'Tu Youyou',emoji:'🔬',desc:'Nobel Medicine — malaria cure discovery',match:'95%'},{name:'Norman Borlaug',emoji:'🌾',desc:'Nobel Peace — saved 1B from famine',match:'88%'}],
+  social:      [{name:'Muhammad Yunus',emoji:'🏦',desc:'Nobel Peace — microfinance for the poor',match:'95%'},{name:'Malala Yousafzai',emoji:'📚',desc:'Nobel Peace — education for all girls',match:'87%'}],
+  environment: [{name:'Wangari Maathai',emoji:'🌳',desc:'Nobel Peace — 51 million trees planted',match:'95%'},{name:'Vandana Shiva',emoji:'🌱',desc:'Seed sovereignty & food justice',match:'83%'}],
+  health:      [{name:'Tu Youyou',emoji:'💊',desc:'Nobel Medicine — malaria cure from herbs',match:'95%'},{name:'Paul Farmer',emoji:'🏥',desc:'Doctor who brought medicine to Haiti',match:'88%'}],
+  justice:     [{name:'Malala Yousafzai',emoji:'⚖️',desc:"Nobel Peace — fought for girls' education",match:'95%'},{name:'Muhammad Yunus',emoji:'🏦',desc:'Nobel Peace — economic justice for poor',match:'85%'}],
+  leadership:  [{name:'Malala Yousafzai',emoji:'💪',desc:'Nobel Peace — youngest Nobel laureate',match:'95%'},{name:'Muhammad Yunus',emoji:'🌍',desc:'Nobel Peace — built a movement from zero',match:'87%'}],
+  courage:     [{name:'Malala Yousafzai',emoji:'💪',desc:'Nobel Peace — youngest Nobel laureate',match:'95%'},{name:'Boyan Slat (revisit)',emoji:'🌊',desc:'Youngest TED speaker on ocean cleanup',match:'88%'}],
+};
+const RM_NAMES = {yunus:'Muhammad Yunus',malala:'Malala Yousafzai',tu_youyou:'Tu Youyou',maathai:'Wangari Maathai'};
+
+// ════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════
+let state = {
+  currentSection: 'intro', // intro|via|map|day1result|tdt|result|parent
+  viaQ: 0, mapQ: 0, tdtDay: 2, tdtQ: 0,
+  viaAnswers: {}, mapAnswers: {}, tdtAnswers: {},
+  viaScores: {wisdom:0,courage:0,humanity:0,justice:0,temperance:0,transcendence:0},
+  mapScores: {mastery:0,autonomy:0,purpose:0},
+  fieldScores: {tech:0,science:0,social:0,environment:0,health:0,justice:0,leadership:0,courage:0},
+  sliders: {excitement:5,overall:7},
+  roleModelPick: null,
+  mvp: {
+    sessionStart:null, timings:{}, changes:{}, flags:[],
+    dayCompleteTimes:{}, completedAt:null,
+  },
+  prevScreen: null,
+};
+let qTimer = null;
+
+function saveState(){ try{ localStorage.setItem('tdt_v3',JSON.stringify(state)); }catch(e){} }
+function loadState(){
+  try{
+    const s=JSON.parse(localStorage.getItem('tdt_v3')||'null');
+    if(s){ state=s; return true; }
+  }catch(e){}
+  return false;
+}
+function clearState(){ localStorage.removeItem('tdt_v3'); }
+
+function startTimer(key){ qTimer={key,start:Date.now()}; }
+function stopTimer(){
+  if(!qTimer) return;
+  const dur=Math.round((Date.now()-qTimer.start)/1000);
+  if(!state.mvp.timings[qTimer.key]) state.mvp.timings[qTimer.key]={duration:0};
+  state.mvp.timings[qTimer.key].duration=dur;
+  qTimer=null;
+}
+function trackChange(key){
+  state.mvp.changes[key]=(state.mvp.changes[key]||0)+1;
+  const c=state.mvp.changes[key];
+  if(c>1){
+    const flag=`${key}: ganti jawaban ${c-1}x`;
+    const idx=state.mvp.flags.findIndex(f=>f.startsWith(key));
+    if(idx>=0) state.mvp.flags[idx]=flag; else state.mvp.flags.push(flag);
+  }
+}
+
+// ════════════════════════════════════════
+// NAVIGATION
+// ════════════════════════════════════════
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  state.currentSection=id;
+  saveState();
+}
+
+function goBack(){
+  showScreen(state.prevScreen||'s-intro');
+}
+
+function beginJourney(){
+  if(!state.mvp.sessionStart) state.mvp.sessionStart=new Date().toISOString();
+  state.viaQ=0;
+  renderViaQ(0);
+  showScreen('s-via');
+  startTimer('via_q0');
+}
+
+// ════════════════════════════════════════
+// VIA SECTION
+// ════════════════════════════════════════
+function renderViaQ(idx){
+  const q=VIA_Q[idx];
+  document.getElementById('via-counter').textContent=`${idx+1} / ${VIA_Q.length}`;
+  document.getElementById('via-prog').style.width=`${Math.round(((idx+1)/VIA_Q.length)*100)}%`;
+  const saved=state.viaAnswers[q.id];
+  document.getElementById('via-questions').innerHTML=`
+    <div style="padding:.25rem 0 1rem;">
+      <div class="phase-badge">🧬 VIA Strengths · ${idx+1}/${VIA_Q.length}</div>
+      <p class="q-text">${q.text}</p>
+      <p class="q-sub">${q.sub}</p>
+      <div class="mc-opts">
+        ${q.opts.map((o,i)=>`
+          <div class="mc-opt${saved===i?' sel':''}" onclick="selectVia(${idx},${i})">
+            <span class="mc-letter">${['A','B','C','D'][i]}</span>
+            <span>${o}</span>
+          </div>`).join('')}
+      </div>
+    </div>`;
+}
+
+function selectVia(qIdx,optIdx){
+  const q=VIA_Q[qIdx];
+  const prev=state.viaAnswers[q.id];
+  if(prev!==undefined&&prev!==optIdx) trackChange('via_'+q.id);
+  // Remove old score
+  if(prev!==undefined) state.viaScores[q.cluster]-=q.scores[prev];
+  state.viaAnswers[q.id]=optIdx;
+  state.viaScores[q.cluster]+=q.scores[optIdx];
+  renderViaQ(qIdx);
+}
+
+function viaNext(){
+  const q=VIA_Q[state.viaQ];
+  if(state.viaAnswers[q.id]===undefined){
+    shakeEl(document.getElementById('via-questions')); return;
+  }
+  stopTimer();
+  if(state.viaQ<VIA_Q.length-1){
+    state.viaQ++;
+    renderViaQ(state.viaQ);
+    startTimer('via_q'+state.viaQ);
+  } else {
+    state.mapQ=0;
+    renderMapQ(0);
+    showScreen('s-map');
+    startTimer('map_q0');
+  }
+  saveState();
+}
+
+function viaPrev(){
+  if(state.viaQ>0){ state.viaQ--; renderViaQ(state.viaQ); }
+  else showScreen('s-intro');
+}
+
+// ════════════════════════════════════════
+// MAP SECTION
+// ════════════════════════════════════════
+function renderMapQ(idx){
+  const q=MAP_Q[idx];
+  document.getElementById('map-counter').textContent=`${idx+1} / ${MAP_Q.length}`;
+  document.getElementById('map-prog').style.width=`${Math.round(((idx+1)/MAP_Q.length)*100)}%`;
+  const saved=state.mapAnswers[q.id];
+  const dimColors={mastery:'var(--gold)',autonomy:'var(--teal)',purpose:'var(--violet)'};
+  const dimLabels={mastery:'Mastery',autonomy:'Autonomy',purpose:'Purpose'};
+  document.getElementById('map-questions').innerHTML=`
+    <div style="padding:.25rem 0 1rem;">
+      <div class="phase-badge" style="border-color:rgba(34,211,184,.2);color:var(--teal);">
+        🎯 ${dimLabels[q.dim]} · ${idx+1}/${MAP_Q.length}
+      </div>
+      <p class="q-text">${q.text}</p>
+      <p class="q-sub">${q.sub}</p>
+      <div class="mc-opts">
+        ${q.opts.map((o,i)=>`
+          <div class="mc-opt${saved===i?' sel':''}" onclick="selectMap(${idx},${i})">
+            <span class="mc-letter">${['A','B','C','D'][i]}</span>
+            <span>${o}</span>
+          </div>`).join('')}
+      </div>
+    </div>`;
+}
+
+function selectMap(qIdx,optIdx){
+  const q=MAP_Q[qIdx];
+  const prev=state.mapAnswers[q.id];
+  if(prev!==undefined&&prev!==optIdx) trackChange('map_'+q.id);
+  if(prev!==undefined) state.mapScores[q.dim]-=q.scores[prev];
+  state.mapAnswers[q.id]=optIdx;
+  state.mapScores[q.dim]+=q.scores[optIdx];
+  renderMapQ(qIdx);
+}
+
+function mapNext(){
+  const q=MAP_Q[state.mapQ];
+  if(state.mapAnswers[q.id]===undefined){
+    shakeEl(document.getElementById('map-questions')); return;
+  }
+  stopTimer();
+  if(state.mapQ<MAP_Q.length-1){
+    state.mapQ++;
+    renderMapQ(state.mapQ);
+    startTimer('map_q'+state.mapQ);
+  } else {
+    computeDay1Result();
+    showScreen('s-day1-result');
+  }
+  saveState();
+}
+
+function mapPrev(){
+  if(state.mapQ>0){ state.mapQ--; renderMapQ(state.mapQ); }
+  else{ state.viaQ=VIA_Q.length-1; renderViaQ(state.viaQ); showScreen('s-via'); }
+}
+
+// ════════════════════════════════════════
+// DAY 1 RESULT
+// ════════════════════════════════════════
+function computeDay1Result(){
+  // VIA top 5
+  const sorted=Object.entries(state.viaScores).sort((a,b)=>b[1]-a[1]);
+  const max=Math.max(...Object.values(state.viaScores),1);
+  document.getElementById('via-result-list').innerHTML=sorted.slice(0,5).map(([cl,sc],i)=>{
+    const m=VIA_CLUSTERS[cl];
+    const pct=Math.round((sc/max)*100);
+    return `<div class="via-card">
+      <div class="via-rank">${i+1}</div>
+      <div class="via-info">
+        <div class="via-name">${m.icon} ${m.name}</div>
+        <div class="via-desc">${m.desc}</div>
+        <div class="via-bar"><div class="via-bar-fill" style="width:${pct}%"></div></div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // MAP result
+  const ms=state.mapScores;
+  const mMax=Math.max(ms.mastery,ms.autonomy,ms.purpose,1);
+  const mDom=ms.mastery>=ms.autonomy&&ms.mastery>=ms.purpose?'Mastery':
+             ms.autonomy>=ms.purpose?'Autonomy':'Purpose';
+  const mDescs={
+    Mastery:'Kamu didorong oleh keinginan untuk terus berkembang dan menjadi ahli. Belajar bukan kewajiban — ini passion.',
+    Autonomy:'Kamu paling efektif ketika punya kendali atas cara belajar dan hidupmu. Homeschool adalah lingkungan ideal untukmu.',
+    Purpose:'Kamu butuh tahu MENGAPA sebelum bisa termotivasi. Ketika ada tujuan yang jelas, tidak ada yang bisa menghentikanmu.',
+  };
+  document.getElementById('map-result').innerHTML=`
+    <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:.75rem;">
+      ${['mastery','autonomy','purpose'].map(d=>{
+        const pct=Math.round((ms[d]/mMax)*100);
+        const colors={mastery:'var(--gold)',autonomy:'var(--teal)',purpose:'var(--violet)'};
+        return `<div class="p-row">
+          <div class="p-label"><span style="text-transform:capitalize">${d}</span><span>${pct}%</span></div>
+          <div class="p-track"><div class="p-fill" style="width:${pct}%;background:${colors[d]}"></div></div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div style="font-size:.85rem;color:rgba(238,234,224,.7);line-height:1.65;">
+      <strong style="color:var(--teal);">Dominant drive: ${mDom}</strong><br>${mDescs[mDom]}
+    </div>`;
+
+  // Identity statement
+  const topVia=sorted[0][0];
+  const topViaName=VIA_CLUSTERS[topVia].name;
+  document.getElementById('identity-statement').textContent=
+    `"Saya Musa. Kekuatan terbesar saya adalah ${topViaName}. Saya belajar paling baik ketika `+
+    (ms.autonomy>=ms.mastery&&ms.autonomy>=ms.purpose?'punya kebebasan untuk mengeksplorasi dengan cara saya sendiri.':
+     ms.mastery>=ms.purpose?'ada tantangan yang mendorong saya untuk terus berkembang.':
+     'saya tahu bahwa apa yang saya pelajari akan berguna untuk orang lain.')+'\"';
+}
+
+// ════════════════════════════════════════
+// TOUR DE TALENT
+// ════════════════════════════════════════
+function startTourDeTalent(){
+  state.tdtDay=2; state.tdtQ=0;
+  renderTdtQ();
+  showScreen('s-tdt');
+  startTimer(`tdt_d${state.tdtDay}_q0`);
+}
+
+function renderTdtQ(){
+  const qs=TDT_Q[state.tdtDay];
+  const q=qs[state.tdtQ];
+  const dayLabels={2:'Day 2 · Discover',3:'Day 3 · Connect'};
+  const dayTitles={2:'Kenali Sang Pengubah Dunia',3:'Hubungkan ke Dirimu'};
+  document.getElementById('tdt-day-label').textContent=dayLabels[state.tdtDay];
+  document.getElementById('tdt-day-title').textContent=dayTitles[state.tdtDay];
+  document.getElementById('tdt-counter').textContent=`${state.tdtQ+1}/${qs.length}`;
+  const totalDone=((state.tdtDay-2)*5)+state.tdtQ;
+  document.getElementById('tdt-prog').style.width=`${Math.round((totalDone/10)*100)}%`;
+  document.getElementById('rm-card').style.display=(state.tdtDay===2&&state.tdtQ===0)?'block':'none';
+
+  let html='<div style="padding:.25rem 0 1rem;">';
+  if(q.type==='mc'){
+    const saved=state.tdtAnswers[q.id];
+    html+=`<p class="q-text">${q.text}</p><p class="q-sub">${q.sub}</p>
+      <div class="mc-opts">
+        ${q.opts.map((o,i)=>`
+          <div class="mc-opt${saved===i?' sel':''}" onclick="selectTdt('${q.id}',${i},'${q.field[i]}')">
+            <span class="mc-letter">${['A','B','C','D'][i]}</span>
+            <span>${o}</span>
+          </div>`).join('')}
+      </div>`;
+  } else if(q.type==='swipe'){
+    const saved=state.tdtAnswers[q.id];
+    html+=`<p class="q-text">${q.text}</p><p class="q-sub">${q.sub}</p>
+      <div class="swipe-card">${q.card}</div>
+      <div class="swipe-row">
+        <button class="swipe-btn no${saved==='no'?' sel':''}" onclick="selectTdtSwipe('${q.id}','no','${q.noField}')">${q.noLabel}</button>
+        <button class="swipe-btn yes${saved==='yes'?' sel':''}" onclick="selectTdtSwipe('${q.id}','yes','${q.yesField}')">${q.yesLabel}</button>
+      </div>`;
+  } else if(q.type==='slider'){
+    const val=state.sliders[q.sliderKey]||5;
+    html+=`<p class="q-text">${q.text}</p><p class="q-sub">${q.sub}</p>
+      <div class="slider-wrap">
+        <div class="slider-labels"><span>${q.leftLabel}</span><span>${q.rightLabel}</span></div>
+        <input type="range" min="1" max="10" value="${val}" id="sl-${q.sliderKey}"
+          oninput="state.sliders['${q.sliderKey}']=parseInt(this.value);document.getElementById('slv-${q.sliderKey}').textContent=this.value;">
+        <div class="slider-val" id="slv-${q.sliderKey}">${val}</div>
+      </div>`;
+  }
+  html+='</div>';
+  document.getElementById('tdt-questions').innerHTML=html;
+}
+
+function selectTdt(qId,optIdx,field){
+  const prev=state.tdtAnswers[qId];
+  if(prev!==undefined&&prev!==optIdx) trackChange('tdt_'+qId);
+  state.tdtAnswers[qId]=optIdx;
+  if(field&&state.fieldScores.hasOwnProperty(field)) state.fieldScores[field]+=1;
+  renderTdtQ();
+}
+
+function selectTdtSwipe(qId,val,field){
+  const prev=state.tdtAnswers[qId];
+  if(prev!==undefined&&prev!==val) trackChange('tdt_'+qId);
+  state.tdtAnswers[qId]=val;
+  if(field&&state.fieldScores.hasOwnProperty(field)) state.fieldScores[field]+=1;
+  renderTdtQ();
+}
+
+function tdtNext(){
+  const qs=TDT_Q[state.tdtDay];
+  const q=qs[state.tdtQ];
+  // Validate
+  if(q.type==='mc'&&state.tdtAnswers[q.id]===undefined){ shakeEl(document.getElementById('tdt-questions')); return; }
+  if(q.type==='swipe'&&state.tdtAnswers[q.id]===undefined){ shakeEl(document.getElementById('tdt-questions')); return; }
+  stopTimer();
+  saveState();
+
+  if(state.tdtQ<qs.length-1){
+    state.tdtQ++;
+    renderTdtQ();
+    startTimer(`tdt_d${state.tdtDay}_q${state.tdtQ}`);
+  } else if(state.tdtDay===2){
+    // Day 2 complete → show overlay → Day 3
+    state.mvp.dayCompleteTimes.day2=new Date().toISOString();
+    saveState();
+    showDayOverlay(3,()=>{ state.tdtDay=3; state.tdtQ=0; renderTdtQ(); startTimer('tdt_d3_q0'); });
+  } else {
+    // All done
+    state.mvp.completedAt=new Date().toISOString();
+    saveState();
+    computeFinalResult();
+    showScreen('s-result');
+  }
+}
+
+function tdtPrev(){
+  if(state.tdtQ>0){ state.tdtQ--; renderTdtQ(); }
+  else if(state.tdtDay===3){ state.tdtDay=2; state.tdtQ=TDT_Q[2].length-1; renderTdtQ(); }
+  else showScreen('s-day1-result');
+}
+
+// ════════════════════════════════════════
+// DAY OVERLAY
+// ════════════════════════════════════════
+let overlayCallback=null;
+function showDayOverlay(nextDay,cb){
+  overlayCallback=cb;
+  const labels={3:'Day 3 · Connect'};
+  const descs={3:'Hubungkan semua ke dirimu sendiri'};
+  const icons={3:'🪞'};
+  document.getElementById('ov-emoji').textContent='✅';
+  document.getElementById('ov-tag').textContent='Day 2 Selesai!';
+  document.getElementById('ov-title').innerHTML='Bagus sekali,<br><em>Musa!</em>';
+  document.getElementById('ov-desc').textContent='Kamu sudah selesaikan semua pertanyaan hari ini.';
+  document.getElementById('ov-next-icon').textContent=icons[nextDay]||'🎯';
+  document.getElementById('ov-next-label').textContent=labels[nextDay]||'Day '+nextDay;
+  document.getElementById('ov-next-desc').textContent=descs[nextDay]||'';
+  document.getElementById('ov-btn').textContent=`Lanjut ke ${labels[nextDay]} →`;
+  document.getElementById('ov-btn').onclick=()=>{
+    document.getElementById('day-overlay').style.display='none';
+    if(overlayCallback) overlayCallback();
+  };
+  document.getElementById('day-overlay').style.display='flex';
+}
+
+// ════════════════════════════════════════
+// FINAL RESULT
+// ════════════════════════════════════════
+function computeFinalResult(){
+  const fs=state.fieldScores;
+  const sorted=Object.entries(fs).sort((a,b)=>b[1]-a[1]);
+  const topField=sorted[0]?.[0]||'tech';
+  const maxScore=Math.max(...Object.values(fs),1);
+  const top=FM[topField];
+
+  // Calling card
+  document.getElementById('r-calling-icon').textContent=top.icon;
+  document.getElementById('r-calling-field').textContent=top.label;
+  document.getElementById('r-calling-strength').textContent=top.strength;
+  document.getElementById('r-calling-roles').textContent=top.calling;
+
+  // Passion bars
+  document.getElementById('r-passion-bars').innerHTML=sorted.slice(0,5).map(([f,s])=>{
+    const m=FM[f]||{label:f,color:'#888',icon:'?'};
+    const pct=Math.round((s/maxScore)*100);
+    return `<div class="p-row"><div class="p-label"><span>${m.icon} ${m.label}</span><span>${pct}%</span></div>
+      <div class="p-track"><div class="p-fill" style="width:0%;background:${m.color}" data-t="${pct}"></div></div></div>`;
+  }).join('');
+  setTimeout(()=>document.querySelectorAll('.p-fill[data-t]').forEach(b=>b.style.width=b.dataset.t+'%'),150);
+
+  // VIA × Calling connection
+  const topVia=Object.entries(state.viaScores).sort((a,b)=>b[1]-a[1])[0]?.[0]||'wisdom';
+  const viaName=VIA_CLUSTERS[topVia]?.name||topVia;
+  document.getElementById('r-via-calling').innerHTML=
+    `Kekuatan terbesar kamu (<strong>${viaName}</strong>) sangat align dengan calling yang muncul dari eksplorasi role model.<br><br>
+    Orang-orang dengan kekuatan ini yang paling berhasil di bidang <strong>${top.label}</strong> adalah mereka yang menggunakannya untuk solve masalah yang benar-benar mereka pedulikan — bukan sekadar ikut tren.`;
+
+  // Next RMs
+  const rms=RMR[topField]||RMR.tech;
+  document.getElementById('r-next-rms').innerHTML=rms.map(rm=>`
+    <div class="rm-item"><span class="rm-em">${rm.emoji}</span>
+    <div class="rm-info"><div class="rm-name">${rm.name}</div><div class="rm-desc">${rm.desc}</div></div>
+    <span class="rm-match">${rm.match}</span></div>`).join('');
+
+  // Parent note
+  const excNote=state.sliders.excitement>=7?'tinggi':state.sliders.excitement>=4?'sedang':'rendah';
+  document.getElementById('r-parent-note').innerHTML=
+    `Bidang terkuat: <strong>${top.label}</strong>. Excitement Musa terhadap role model pertama: <strong>${state.sliders.excitement}/10 (${excNote})</strong>. 
+    Overall program: <strong>${state.sliders.overall}/10</strong>.<br><br>
+    Role model yang dipilih untuk lanjut: <strong>${RM_NAMES[state.roleModelPick]||'belum dipilih'}</strong>. 
+    Gunakan ini sebagai anchor Day 4-6 Tour de Talent.`;
+}
+
+// ════════════════════════════════════════
+// PARENT DASHBOARD
+// ════════════════════════════════════════
+function showParentDashboard(){
+  state.prevScreen=state.currentSection;
+  buildParentDashboard();
+  showScreen('s-parent');
+}
+
+function buildParentDashboard(){
+  const d=state.mvp;
+  const timings=Object.values(d.timings);
+  const avgTime=timings.length?Math.round(timings.reduce((s,t)=>s+t.duration,0)/timings.length):0;
+  const totalChg=Object.values(d.changes).reduce((s,c)=>s+c,0);
+  const eng=Math.min(10,Math.round(
+    (Math.min(avgTime,60)/60)*3+(state.sliders.excitement/10)*4+(state.sliders.overall/10)*3));
+
+  document.getElementById('p-eng').textContent=eng+'/10';
+  document.getElementById('p-avg').textContent=avgTime+'s';
+  document.getElementById('p-chg').textContent=totalChg+'x';
+  document.getElementById('p-exc').textContent=state.sliders.excitement+'/10';
+  document.getElementById('p-resp').textContent='—';
+  document.getElementById('p-ov').textContent=state.sliders.overall+'/10';
+  document.getElementById('p-rm').textContent=RM_NAMES[state.roleModelPick]||'Belum dipilih';
+
+  // MAP scores
+  const ms=state.mapScores;
+  const mMax=Math.max(ms.mastery,ms.autonomy,ms.purpose,1);
+  document.getElementById('p-map-scores').innerHTML=
+    ['mastery','autonomy','purpose'].map(d=>{
+      const pct=Math.round((ms[d]/mMax)*100);
+      const colors={mastery:'var(--gold)',autonomy:'var(--teal)',purpose:'var(--violet)'};
+      return `<div class="p-row" style="margin-bottom:.5rem;">
+        <div class="p-label"><span style="text-transform:capitalize;font-weight:500">${d}</span><span>${pct}%</span></div>
+        <div class="p-track"><div class="p-fill" style="width:${pct}%;background:${colors[d]}"></div></div>
+      </div>`;
+    }).join('');
+
+  // Timings
+  const qLabels={
+    'tdt_d2_q0':'D2·Profil Boyan Slat','tdt_d2_q1':'D2·1 Tahun bebas','tdt_d2_q2':'D2·Anak muda & dunia',
+    'tdt_d2_q3':'D2·Masalah marah','tdt_d2_q4':'D2·Excitement slider',
+    'tdt_d3_q0':'D3·Peran di masalah','tdt_d3_q1':'D3·Kemiskinan vs alam',
+    'tdt_d3_q2':'D3·Pelajaran ekstra','tdt_d3_q3':'D3·Yang diingat','tdt_d3_q4':'D3·Overall slider',
+  };
+  document.getElementById('p-timings').innerHTML=Object.entries(d.timings).map(([k,v])=>{
+    const dur=v.duration;
+    const flag=dur<5?'⚡ cepat':dur>45?'🤔 lama':'✅ normal';
+    const chg=(d.changes[k]||0)>1?` 🔄${d.changes[k]-1}x`:'';
+    return `<tr>
+      <td style="padding:.35rem .5rem;font-size:.75rem;color:rgba(238,234,224,.65)">${qLabels[k]||k}</td>
+      <td style="padding:.35rem .5rem;font-family:'Space Mono',monospace;font-size:.72rem;color:var(--gold);text-align:right">${dur}s</td>
+      <td style="padding:.35rem .5rem;font-size:.7rem;text-align:right">${flag}${chg}</td>
+    </tr>`;
+  }).join('')||'<tr><td colspan="3" style="padding:1rem;text-align:center;color:var(--muted);font-style:italic;font-size:.8rem">Belum ada data timing</td></tr>';
+
+  // Flags
+  document.getElementById('p-flags').innerHTML=d.flags.length
+    ?d.flags.map(f=>`<div style="padding:.35rem .7rem;background:rgba(240,180,41,.07);border-left:2px solid var(--gold);border-radius:.2rem;font-size:.78rem;margin-bottom:.4rem">${f}</div>`).join('')
+    :'<div style="color:var(--muted);font-size:.8rem;font-style:italic">Tidak ada perubahan — jawaban konsisten ✅</div>';
+
+  // Recommendation
+  const sorted=Object.entries(state.fieldScores).sort((a,b)=>b[1]-a[1]);
+  const tf=sorted[0]?.[0]||'tech';
+  const t2=FM[sorted[1]?.[0]]?.label||'-';
+  const topVia=Object.entries(state.viaScores).sort((a,b)=>b[1]-a[1])[0]?.[0]||'wisdom';
+  document.getElementById('p-rec').innerHTML=`
+    <p style="margin-bottom:.55rem">📍 <strong>Bidang terkuat:</strong> ${FM[tf]?.label||tf}</p>
+    <p style="margin-bottom:.55rem">📍 <strong>Bidang ke-2:</strong> ${t2}</p>
+    <p style="margin-bottom:.55rem">📍 <strong>VIA dominant:</strong> ${VIA_CLUSTERS[topVia]?.name||topVia} — ${VIA_CLUSTERS[topVia]?.desc||''}</p>
+    <p style="margin-bottom:.55rem">📍 <strong>MAP dominant drive:</strong> ${
+      state.mapScores.mastery>=state.mapScores.autonomy&&state.mapScores.mastery>=state.mapScores.purpose?'Mastery':
+      state.mapScores.autonomy>=state.mapScores.purpose?'Autonomy':'Purpose'}</p>
+    <p style="margin-bottom:.55rem">📍 <strong>Excitement (D2):</strong> ${
+      state.sliders.excitement>=7?'🟢 Tinggi — lanjutkan format ini':
+      state.sliders.excitement>=4?'🟡 Sedang — variasikan konten':'🔴 Rendah — pertimbangkan pivot'}</p>
+    <p style="margin-bottom:.55rem">📍 <strong>Overall (D3):</strong> ${
+      state.sliders.overall>=7?'🟢 Program dianggap valuable':
+      state.sliders.overall>=4?'🟡 Perlu penyesuaian':'🔴 Evaluasi ulang format'}</p>
+    <p style="color:rgba(238,234,224,.45);font-size:.75rem;margin-top:.65rem;font-style:italic">
+      Avg waktu/soal: ${avgTime}s — ${avgTime<6?'terlalu cepat, perlu diperhatikan':avgTime>40?'very thoughtful, membaca serius':'normal, engagement baik'}.
+    </p>`;
+}
+
+// ════════════════════════════════════════
+// UTILITIES
+// ════════════════════════════════════════
+function shakeEl(el){
+  el.style.transform='translateX(-7px)';
+  setTimeout(()=>{el.style.transform='translateX(7px)';},80);
+  setTimeout(()=>{el.style.transform='translateX(0)';},160);
+}
+
+function resetApp(){
+  clearState();
+  state={
+    currentSection:'intro',viaQ:0,mapQ:0,tdtDay:2,tdtQ:0,
+    viaAnswers:{},mapAnswers:{},tdtAnswers:{},
+    viaScores:{wisdom:0,courage:0,humanity:0,justice:0,temperance:0,transcendence:0},
+    mapScores:{mastery:0,autonomy:0,purpose:0},
+    fieldScores:{tech:0,science:0,social:0,environment:0,health:0,justice:0,leadership:0,courage:0},
+    sliders:{excitement:5,overall:7},
+    roleModelPick:null,
+    mvp:{sessionStart:null,timings:{},changes:{},flags:[],dayCompleteTimes:{},completedAt:null},
+    prevScreen:null,
+  };
+  document.querySelectorAll('.mc-opt.sel,.swipe-btn.sel').forEach(el=>el.classList.remove('sel'));
+  document.getElementById('day-overlay').style.display='none';
+  showScreen('s-intro');
+}
+
+// ── INIT ──
+window.addEventListener('DOMContentLoaded',()=>{
+  const hasSaved=loadState();
+  if(hasSaved&&state.currentSection&&state.currentSection!=='intro'&&state.currentSection!=='s-intro'){
+    if(confirm('Lanjutkan dari sesi sebelumnya?')){
+      // Re-render current section
+      if(state.currentSection==='s-via'){ renderViaQ(state.viaQ); showScreen('s-via'); }
+      else if(state.currentSection==='s-map'){ renderMapQ(state.mapQ); showScreen('s-map'); }
+      else if(state.currentSection==='s-day1-result'){ computeDay1Result(); showScreen('s-day1-result'); }
+      else if(state.currentSection==='s-tdt'){ renderTdtQ(); showScreen('s-tdt'); }
+      else if(state.currentSection==='s-result'){ computeFinalResult(); showScreen('s-result'); }
+      else showScreen('s-intro');
+    } else resetApp();
+  }
+});
+</script>
+</body>
+</html>
