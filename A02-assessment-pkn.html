@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A02 · Assessment PKN · UPK Musa</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#f0fdf4; --card:#ffffff; --border:#d1fae5;
+  --accent:#059669; --gold:#d97706; --green:#059669;
+  --red:#dc2626; --blue:#2563eb; --text:#1c1917; --muted:#6b7280;
+  --shadow:0 4px 24px rgba(5,150,105,0.08);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+body::before{content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse at 5% 5%,rgba(5,150,105,0.07) 0%,transparent 40%),
+             radial-gradient(ellipse at 95% 95%,rgba(217,119,6,0.06) 0%,transparent 40%);
+  pointer-events:none;z-index:0;}
+.wrap{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:20px 16px 60px;}
+.screen{display:none;}
+#splash{display:block;}
+
+/* ── SPLASH ── */
+.code-tag{display:inline-flex;align-items:center;gap:8px;
+  background:rgba(5,150,105,0.10);border:1.5px solid rgba(5,150,105,0.3);
+  color:var(--accent);font-size:11px;font-weight:800;
+  padding:5px 14px;border-radius:20px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px;}
+.splash-hero{text-align:center;padding:24px 0 18px;}
+.splash-hero h1{font-size:28px;font-weight:900;line-height:1.2;margin-bottom:8px;}
+.splash-hero h1 em{font-style:normal;color:var(--accent);}
+.splash-hero p{font-size:13px;color:var(--muted);line-height:1.8;}
+
+.topics-overview{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0;}
+.tov{background:var(--card);border:2px solid var(--border);border-radius:14px;padding:14px;box-shadow:var(--shadow);}
+.tov .tov-num{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--muted);margin-bottom:4px;}
+.tov .tov-name{font-size:13px;font-weight:800;}
+.tov .tov-q{font-size:11px;color:var(--muted);margin-top:2px;}
+.tov[data-t="0"] .tov-name{color:#dc2626;}
+.tov[data-t="1"] .tov-name{color:#d97706;}
+.tov[data-t="2"] .tov-name{color:#059669;}
+.tov[data-t="3"] .tov-name{color:#2563eb;}
+.tov[data-t="4"] .tov-name{color:#7c3aed;}
+.tov[data-t="5"] .tov-name{color:#0891b2;}
+
+.rules-card{background:var(--card);border:2px solid var(--border);border-radius:18px;padding:18px;margin-bottom:16px;box-shadow:var(--shadow);}
+.rules-card h3{font-size:12px;font-weight:900;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;}
+.rule{display:flex;gap:10px;align-items:flex-start;margin-bottom:9px;font-size:13px;line-height:1.6;}
+.rule:last-child{margin-bottom:0;}
+.ri{font-size:16px;flex-shrink:0;}
+
+/* TOPIC HEADER */
+.topic-hd{display:flex;align-items:center;gap:12px;margin-bottom:14px;
+  background:var(--card);border:2px solid var(--border);border-radius:14px;padding:14px;box-shadow:var(--shadow);}
+.th-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.th-info .th-code{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--muted);}
+.th-info .th-name{font-size:15px;font-weight:900;}
+.th-info .th-sub{font-size:11px;color:var(--muted);}
+
+/* QUIZ */
+.qz-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.topic-pill{font-size:11px;font-weight:800;padding:4px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:.8px;}
+.q-ctr{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--muted);}
+.timer-box{display:flex;align-items:center;gap:5px;background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:4px 11px;}
+.timer-box.warn{border-color:var(--gold);}
+.timer-box.warn .tv{color:var(--gold);}
+.timer-box.over{border-color:var(--red);animation:bl 1s infinite;}
+.timer-box.over .tv{color:var(--red);}
+.tv{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:.5}}
+.prog-wrap{margin-bottom:12px;}
+.prog-bg{height:6px;background:var(--border);border-radius:3px;}
+.prog-fg{height:100%;border-radius:3px;transition:width .4s;}
+
+.q-card{background:var(--card);border:2px solid var(--border);border-radius:18px;padding:20px;margin-bottom:11px;box-shadow:var(--shadow);}
+.q-no{font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:7px;}
+.q-txt{font-size:15px;font-weight:700;line-height:1.65;}
+.q-hint{font-size:12px;color:var(--muted);font-style:italic;margin-top:5px;}
+.vis{background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:10px;padding:12px;margin:10px 0;
+  font-size:13px;color:#065f46;line-height:1.8;display:none;}
+
+.opts{display:flex;flex-direction:column;gap:8px;margin-top:12px;}
+.opt{background:#f9fafb;border:2px solid var(--border);border-radius:11px;padding:11px 13px;
+  cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;
+  color:var(--text);transition:all .15s;display:flex;align-items:center;gap:10px;}
+.opt:hover:not(:disabled){border-color:var(--accent);background:#f0fdf4;transform:translateX(3px);}
+.opt .ol{width:28px;height:28px;border-radius:8px;flex-shrink:0;background:#e5e7eb;
+  display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;
+  font-family:'JetBrains Mono',monospace;transition:.15s;}
+.opt.correct{border-color:var(--green);background:#f0fdf4;}
+.opt.correct .ol{background:var(--green);color:#fff;}
+.opt.wrong{border-color:var(--red);background:#fef2f2;}
+.opt.wrong .ol{background:var(--red);color:#fff;}
+.opt:disabled{cursor:default;}
+
+.expl{background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:12px;padding:14px;margin-top:10px;display:none;}
+.expl.show{display:block;animation:up .3s ease;}
+.expl-hd{font-size:10px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;}
+.expl-txt{font-size:13px;line-height:1.75;}
+.expl-f{background:#dbeafe;border-radius:7px;padding:8px 12px;margin-top:8px;
+  font-size:12px;color:#1d4ed8;line-height:1.6;}
+
+.next-btn{width:100%;padding:13px;border:none;border-radius:12px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;
+  cursor:pointer;transition:transform .15s;display:none;margin-top:10px;color:#fff;}
+.next-btn.show{display:block;animation:up .2s ease;}
+.next-btn:hover{transform:translateY(-1px);}
+
+/* TRANSITION */
+.transition-card{background:var(--card);border:2px solid var(--border);border-radius:20px;
+  padding:26px;text-align:center;box-shadow:var(--shadow);}
+.tc-icon{font-size:48px;margin-bottom:12px;}
+.tc-title{font-size:20px;font-weight:900;margin-bottom:6px;}
+.tc-sub{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:16px;}
+.tc-score{display:inline-flex;align-items:center;gap:8px;
+  padding:8px 18px;border-radius:20px;font-weight:800;font-size:15px;margin-bottom:20px;}
+
+/* RESULT */
+.res-hd{text-align:center;padding:22px 0 14px;}
+.res-hd h2{font-size:26px;font-weight:900;margin-bottom:6px;}
+.res-hd p{font-size:13px;color:var(--muted);}
+.topic-scores{display:flex;flex-direction:column;gap:10px;margin:16px 0;}
+.ts-row{background:var(--card);border:2px solid var(--border);border-radius:14px;
+  padding:14px 16px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow);}
+.ts-icon{font-size:20px;flex-shrink:0;}
+.ts-info{flex:1;}
+.ts-name{font-size:14px;font-weight:800;}
+.ts-detail{font-size:11px;color:var(--muted);margin-top:1px;}
+.ts-right{display:flex;align-items:center;gap:8px;}
+.ts-bar{width:70px;height:7px;background:var(--border);border-radius:4px;}
+.ts-fill{height:100%;border-radius:4px;}
+.ts-score{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;min-width:36px;text-align:right;}
+.ts-badge{font-size:10px;font-weight:800;padding:2px 8px;border-radius:10px;white-space:nowrap;}
+.badge-strong{background:#dcfce7;color:#15803d;}
+.badge-ok{background:#fef3c7;color:#92400e;}
+.badge-weak{background:#fee2e2;color:#991b1b;}
+
+.priority-section{background:var(--card);border:2px solid var(--border);border-radius:18px;padding:18px;margin-bottom:12px;box-shadow:var(--shadow);}
+.ps-hd{font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;}
+.prio-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1.5px solid var(--border);font-size:13px;line-height:1.65;}
+.prio-item:last-child{border-bottom:none;padding-bottom:0;}
+.prio-code{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;
+  padding:2px 8px;border-radius:6px;flex-shrink:0;margin-top:1px;}
+
+.copy-btn{width:100%;padding:15px;border:none;border-radius:13px;
+  background:linear-gradient(135deg,#059669,#047857);color:#fff;
+  font-weight:800;font-size:15px;font-family:'Plus Jakarta Sans',sans-serif;
+  cursor:pointer;box-shadow:0 6px 20px rgba(5,150,105,0.3);
+  transition:transform .15s;margin-top:10px;}
+.copy-btn:hover{transform:translateY(-2px);}
+.ghost-btn{width:100%;padding:13px;border:2px solid var(--border);border-radius:13px;
+  background:var(--card);color:var(--muted);font-weight:700;font-size:14px;
+  font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;margin-top:8px;transition:.2s;}
+.ghost-btn:hover{border-color:var(--accent);color:var(--accent);}
+.big-btn{width:100%;padding:15px;border:none;border-radius:13px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;
+  cursor:pointer;transition:transform .15s,box-shadow .15s;color:#fff;}
+.big-btn:hover{transform:translateY(-2px);}
+
+@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ══ SPLASH ══ -->
+<div id="splash" class="screen" style="display:block">
+  <div class="splash-hero">
+    <div class="code-tag">A02 · Assessment PKN</div>
+    <h1>Peta Kemampuan<br><em>PKN</em> Musa 🇮🇩</h1>
+    <p>Kita uji <strong>6 topik PKN</strong> secara terpisah.<br>
+    Skor awal: <strong style="color:#d97706">65/100</strong> — ada ruang besar untuk naik!</p>
+  </div>
+
+  <div class="topics-overview">
+    <div class="tov" data-t="0"><div class="tov-num">TOPIK 1</div><div class="tov-name">🔴 Pancasila</div><div class="tov-q">5 soal</div></div>
+    <div class="tov" data-t="1"><div class="tov-num">TOPIK 2</div><div class="tov-name">📜 UUD 1945</div><div class="tov-q">5 soal</div></div>
+    <div class="tov" data-t="2"><div class="tov-num">TOPIK 3</div><div class="tov-name">🏛️ Lembaga Negara</div><div class="tov-q">5 soal</div></div>
+    <div class="tov" data-t="3"><div class="tov-num">TOPIK 4</div><div class="tov-name">⚖️ Hak & Kewajiban</div><div class="tov-q">5 soal</div></div>
+    <div class="tov" data-t="4"><div class="tov-num">TOPIK 5</div><div class="tov-name">🌏 Keberagaman</div><div class="tov-q">5 soal</div></div>
+    <div class="tov" data-t="5"><div class="tov-num">TOPIK 6</div><div class="tov-name">🗳️ Demokrasi & Pemilu</div><div class="tov-q">5 soal</div></div>
+  </div>
+
+  <div class="rules-card">
+    <h3>📋 Cara Kerja</h3>
+    <div class="rule"><span class="ri">📝</span><span>30 soal total — <strong>5 soal per topik</strong>, dikerjakan berurutan</span></div>
+    <div class="rule"><span class="ri">⏱️</span><span>Timer <strong>8 menit per topik</strong></span></div>
+    <div class="rule"><span class="ri">💡</span><span>Penjelasan detail langsung muncul setelah setiap jawaban</span></div>
+    <div class="rule"><span class="ri">📊</span><span>Hasil akhir: peta topik kuat vs lemah + rekomendasi B03 & B04</span></div>
+  </div>
+
+  <button class="big-btn" style="background:linear-gradient(135deg,#059669,#047857);box-shadow:0 6px 20px rgba(5,150,105,0.3)" onclick="startTopic(0)">🚀 Mulai Assessment PKN!</button>
+</div>
+
+<!-- ══ QUIZ ══ -->
+<div id="quiz-screen" class="screen">
+  <div class="topic-hd">
+    <div class="th-icon" id="th-icon"></div>
+    <div class="th-info">
+      <div class="th-code" id="th-code"></div>
+      <div class="th-name" id="th-name"></div>
+      <div class="th-sub" id="th-sub"></div>
+    </div>
+  </div>
+  <div class="qz-bar">
+    <span class="topic-pill" id="t-pill"></span>
+    <span class="q-ctr" id="q-ctr">1/5</span>
+    <div class="timer-box" id="t-box"><span>⏱</span><span class="tv" id="t-val">08:00</span></div>
+  </div>
+  <div class="prog-wrap"><div class="prog-bg"><div class="prog-fg" id="prog-fg" style="width:0%"></div></div></div>
+  <div class="q-card">
+    <div class="q-no" id="q-no">SOAL 01</div>
+    <div class="q-txt" id="q-txt"></div>
+    <div class="q-hint" id="q-hint"></div>
+    <div class="vis" id="q-vis"></div>
+    <div class="opts" id="q-opts"></div>
+    <div class="expl" id="q-expl"></div>
+  </div>
+  <button class="next-btn" id="next-btn" onclick="nextQ()"></button>
+</div>
+
+<!-- ══ TRANSITION ══ -->
+<div id="transition-screen" class="screen">
+  <div class="transition-card">
+    <div class="tc-icon" id="tc-icon"></div>
+    <div class="tc-title" id="tc-title"></div>
+    <div class="tc-sub" id="tc-sub"></div>
+    <div class="tc-score" id="tc-score"></div>
+    <button class="big-btn" id="tc-btn" style="background:linear-gradient(135deg,#059669,#047857)" onclick="continueNext()"></button>
+  </div>
+</div>
+
+<!-- ══ RESULT ══ -->
+<div id="result-screen" class="screen">
+  <div class="res-hd">
+    <div class="code-tag" style="margin-bottom:12px">A02 · Hasil Assessment</div>
+    <h2>Peta PKN Musa 🇮🇩</h2>
+    <p>5 April 2026 · Assessment per Topik</p>
+  </div>
+  <div class="topic-scores" id="topic-scores"></div>
+  <div class="priority-section" id="priority-section"></div>
+  <div class="priority-section" id="plan-section"></div>
+  <button class="copy-btn" id="copy-btn" onclick="copyResult()">📋 Salin Hasil → Kirim ke Claude untuk B03</button>
+  <button class="ghost-btn" onclick="if(confirm('Ulangi?')){location.reload()}">🔄 Ulangi A02</button>
+</div>
+
+</div>
+<script>
+const TOPICS = [
+  {id:'T1',name:'Pancasila',icon:'🔴',color:'#dc2626',bg:'#fef2f2',pill:'rgba(220,38,38,0.10)',pillc:'#dc2626',sub:'Sila, Lambang & Makna'},
+  {id:'T2',name:'UUD 1945',icon:'📜',color:'#d97706',bg:'#fffbeb',pill:'rgba(217,119,6,0.10)',pillc:'#d97706',sub:'Pasal-Pasal Penting'},
+  {id:'T3',name:'Lembaga Negara',icon:'🏛️',color:'#059669',bg:'#f0fdf4',pill:'rgba(5,150,105,0.10)',pillc:'#059669',sub:'Legislatif, Eksekutif, Yudikatif'},
+  {id:'T4',name:'Hak & Kewajiban',icon:'⚖️',color:'#2563eb',bg:'#eff6ff',pill:'rgba(37,99,235,0.10)',pillc:'#2563eb',sub:'Warga Negara & Negara'},
+  {id:'T5',name:'Keberagaman',icon:'🌏',color:'#7c3aed',bg:'#f5f0ff',pill:'rgba(124,58,237,0.10)',pillc:'#7c3aed',sub:'Bhinneka Tunggal Ika'},
+  {id:'T6',name:'Demokrasi & Pemilu',icon:'🗳️',color:'#0891b2',bg:'#ecfeff',pill:'rgba(8,145,178,0.10)',pillc:'#0891b2',sub:'Sistem Pemerintahan Indonesia'},
+];
+
+const ALL_Q = [
+  // T1 — Pancasila
+  [
+    {q:"Sila ke-2 Pancasila berbunyi...",hint:"Ingat urutan 5 sila Pancasila",vis:"1. Ketuhanan YME\n2. ?\n3. Persatuan Indonesia\n4. Kerakyatan...\n5. Keadilan Sosial...",
+     opts:["Persatuan Indonesia","Kemanusiaan yang Adil dan Beradab","Keadilan Sosial bagi Seluruh Rakyat Indonesia","Ketuhanan Yang Maha Esa"],ans:1,
+     exp:"Sila ke-2: 'Kemanusiaan yang Adil dan Beradab' — dilambangkan rantai emas yang melambangkan hubungan antar manusia.",
+     formula:"1-Ketuhanan · 2-Kemanusiaan · 3-Persatuan · 4-Kerakyatan · 5-Keadilan"},
+    {q:"Lambang sila ke-4 Pancasila adalah...",hint:"Sila ke-4: Kerakyatan yang dipimpin oleh hikmat...",vis:"",
+     opts:["Bintang emas","Rantai","Kepala banteng","Pohon beringin"],ans:2,
+     exp:"Sila ke-4 dilambangkan kepala banteng — melambangkan musyawarah/gotong royong dalam pengambilan keputusan.",
+     formula:"1-Bintang · 2-Rantai · 3-Pohon beringin · 4-Kepala banteng · 5-Padi & Kapas"},
+    {q:"Penerapan sila ke-3 Pancasila dalam kehidupan sehari-hari adalah...",hint:"Sila ke-3: Persatuan Indonesia",vis:"",
+     opts:["Rajin beribadah","Membantu korban bencana tanpa memandang suku","Mengikuti pemilu","Membayar pajak"],ans:1,
+     exp:"Membantu tanpa memandang suku/agama mencerminkan persatuan — inti sila ke-3 Pancasila.",
+     formula:"Sila ke-3 = Persatuan → tidak membeda-bedakan"},
+    {q:"Pancasila ditetapkan sebagai dasar negara pada tanggal...",hint:"PPKI bersidang pertama kali",vis:"",
+     opts:["1 Juni 1945","17 Agustus 1945","18 Agustus 1945","22 Juni 1945"],ans:2,
+     exp:"Pancasila ditetapkan 18 Agustus 1945 oleh PPKI bersamaan dengan UUD 1945 — bukan 1 Juni (hari lahir Pancasila versi pidato Soekarno).",
+     formula:"Hari lahir Pancasila: 1 Juni 1945 (pidato) · Ditetapkan: 18 Agustus 1945 (PPKI)"},
+    {q:"Nilai yang terkandung dalam sila ke-5 Pancasila adalah...",hint:"Sila ke-5: Keadilan Sosial bagi Seluruh Rakyat Indonesia",vis:"",
+     opts:["Percaya kepada Tuhan","Menghormati hak orang lain","Pemerataan kesejahteraan","Musyawarah mufakat"],ans:2,
+     exp:"Sila ke-5 mengandung nilai keadilan sosial — pemerataan kesejahteraan dan tidak ada kesenjangan antar warga.",
+     formula:"Sila ke-5 = Keadilan Sosial = pemerataan + tidak diskriminatif"},
+  ],
+  // T2 — UUD 1945
+  [
+    {q:"Hak warga negara mendapatkan pendidikan diatur dalam UUD 1945 pasal...",hint:"Pasal tentang pendidikan",vis:"",
+     opts:["Pasal 27","Pasal 29","Pasal 31","Pasal 34"],ans:2,
+     exp:"Pasal 31 ayat (1): 'Setiap warga negara berhak mendapat pendidikan.' Pasal 31 ayat (2): wajib belajar.",
+     formula:"Pasal 31 = Pendidikan · Pasal 29 = Agama · Pasal 27 = Hukum & Pekerjaan"},
+    {q:"Pasal yang mengatur kebebasan beragama dan beribadah adalah...",hint:"Berhubungan dengan agama",vis:"",
+     opts:["Pasal 27","Pasal 28","Pasal 29","Pasal 30"],ans:2,
+     exp:"Pasal 29 ayat (2): Negara menjamin kemerdekaan tiap penduduk untuk memeluk agama dan beribadah.",
+     formula:"Pasal 29 = Agama & Kepercayaan"},
+    {q:"Pasal 27 ayat 1 UUD 1945 mengatur tentang...",hint:"Hak yang sama di mata hukum",vis:"",
+     opts:["Hak mendapat pekerjaan","Persamaan kedudukan dalam hukum","Bela negara","Kebebasan berpendapat"],ans:1,
+     exp:"Pasal 27 ayat (1): 'Segala warga negara bersamaan kedudukannya di dalam hukum dan pemerintahan.'",
+     formula:"Pasal 27 ayat 1 = Persamaan di mata hukum"},
+    {q:"Amandemen UUD 1945 dilakukan sebanyak...",hint:"Dilakukan di era Reformasi 1999-2002",vis:"",
+     opts:["2 kali","3 kali","4 kali","5 kali"],ans:2,
+     exp:"UUD 1945 diamandemen 4 kali: 1999, 2000, 2001, dan 2002 pada era Reformasi.",
+     formula:"Amandemen: 1999 · 2000 · 2001 · 2002 = 4 kali"},
+    {q:"Pembukaan UUD 1945 alinea ke-4 berisi...",hint:"Alinea paling penting — berisi dasar negara",vis:"",
+     opts:["Pernyataan kemerdekaan","Tujuan negara & dasar negara Pancasila","Alasan kemerdekaan","Cita-cita bangsa"],ans:1,
+     exp:"Alinea ke-4 memuat: tujuan negara (melindungi, memajukan, mencerdaskan, ketertiban dunia) & dasar negara Pancasila.",
+     formula:"Alinea 1=Hak kemerdekaan · 2=Penjajahan · 3=Proklamasi · 4=Tujuan+Pancasila"},
+  ],
+  // T3 — Lembaga Negara
+  [
+    {q:"Lembaga yang berwenang membuat undang-undang di Indonesia adalah...",hint:"Lembaga legislatif",vis:"",
+     opts:["Presiden","DPR","Mahkamah Agung","BPK"],ans:1,
+     exp:"DPR (Dewan Perwakilan Rakyat) adalah lembaga legislatif yang berwenang membentuk UU bersama Presiden.",
+     formula:"Legislatif=DPR · Eksekutif=Presiden · Yudikatif=MA+MK+KY"},
+    {q:"Mahkamah Konstitusi (MK) berwenang untuk...",hint:"MK menguji UU terhadap apa?",vis:"",
+     opts:["Mengadili perkara pidana","Menguji UU terhadap UUD 1945","Membuat peraturan pemerintah","Mengawasi keuangan negara"],ans:1,
+     exp:"MK berwenang menguji UU terhadap UUD 1945, memutus sengketa kewenangan lembaga, dan memutus perkara pemilu.",
+     formula:"MK = judicial review UU terhadap UUD 1945"},
+    {q:"Badan Pemeriksa Keuangan (BPK) bertugas...",hint:"Berhubungan dengan uang negara",vis:"",
+     opts:["Membuat APBN","Memeriksa pengelolaan keuangan negara","Memungut pajak","Mengatur kebijakan moneter"],ans:1,
+     exp:"BPK bertugas memeriksa pengelolaan dan tanggung jawab keuangan negara secara independen.",
+     formula:"BPK = pemeriksa keuangan negara (independen)"},
+    {q:"DPD (Dewan Perwakilan Daerah) mewakili...",hint:"D terakhir = Daerah",vis:"",
+     opts:["Partai politik","Daerah provinsi","Golongan masyarakat","Angkatan bersenjata"],ans:1,
+     exp:"DPD mewakili kepentingan daerah provinsi di tingkat pusat, berbeda dengan DPR yang mewakili rakyat via parpol.",
+     formula:"DPR = mewakili rakyat via parpol · DPD = mewakili daerah provinsi"},
+    {q:"Komisi Yudisial (KY) bertugas...",hint:"Yudisial = berkaitan dengan hakim",vis:"",
+     opts:["Mengadili perkara korupsi","Mengusulkan dan mengawasi hakim agung","Membuat UU baru","Memeriksa keuangan pengadilan"],ans:1,
+     exp:"KY bertugas mengusulkan pengangkatan hakim agung dan menjaga kehormatan/perilaku hakim.",
+     formula:"KY = pengawas perilaku hakim & usul hakim agung"},
+  ],
+  // T4 — Hak & Kewajiban
+  [
+    {q:"Berikut yang merupakan kewajiban warga negara Indonesia adalah...",hint:"Kewajiban = harus dilakukan",vis:"",
+     opts:["Mendapat perlindungan hukum","Membayar pajak","Mendapat pendidikan","Bebas berpendapat"],ans:1,
+     exp:"Membayar pajak adalah kewajiban warga negara. Sisanya (perlindungan, pendidikan, berpendapat) adalah hak.",
+     formula:"Hak = diterima · Kewajiban = dilakukan · Pajak = kewajiban"},
+    {q:"Hak asasi manusia yang tidak dapat dicabut oleh siapapun disebut...",hint:"Non-derogable rights",vis:"",
+     opts:["Hak politik","Hak sipil","Hak yang tidak dapat dikurangi","Hak ekonomi"],ans:2,
+     exp:"Non-derogable rights adalah hak yang tidak dapat dikurangi dalam keadaan apapun, contohnya hak hidup dan larangan penyiksaan.",
+     formula:"Non-derogable = tidak bisa dikurangi = hak mutlak (hak hidup, dll)"},
+    {q:"Kewajiban bela negara bagi warga negara diatur dalam...",hint:"Ingat pasal bela negara",vis:"",
+     opts:["Pasal 27 ayat 3","Pasal 28 ayat 1","Pasal 30 ayat 1","Pasal 31 ayat 1"],ans:0,
+     exp:"Pasal 27 ayat (3): 'Setiap warga negara berhak dan wajib ikut serta dalam upaya pembelaan negara.'",
+     formula:"Pasal 27 ayat 3 = bela negara"},
+    {q:"Contoh pelaksanaan hak warga negara dalam bidang politik adalah...",hint:"Hak politik = ikut dalam pemerintahan",vis:"",
+     opts:["Membayar pajak tepat waktu","Mengikuti pemilihan umum","Menjaga kebersihan lingkungan","Mematuhi peraturan lalu lintas"],ans:1,
+     exp:"Mengikuti pemilu adalah hak politik warga negara — hak untuk memilih dan dipilih dalam pemerintahan.",
+     formula:"Hak politik = hak memilih & dipilih dalam pemilu"},
+    {q:"Hubungan antara hak dan kewajiban warga negara yang benar adalah...",hint:"Hak dan kewajiban harus...",vis:"",
+     opts:["Hak lebih penting dari kewajiban","Kewajiban lebih penting dari hak","Hak dan kewajiban harus seimbang","Hak didahulukan sebelum kewajiban"],ans:2,
+     exp:"Hak dan kewajiban harus seimbang — kita tidak bisa menuntut hak tanpa menjalankan kewajiban.",
+     formula:"Hak ↔ Kewajiban = seimbang & saling melengkapi"},
+  ],
+  // T5 — Keberagaman
+  [
+    {q:"Semboyan 'Bhinneka Tunggal Ika' berasal dari kitab...",hint:"Karya Mpu Tantular zaman Majapahit",vis:"",
+     opts:["Negarakertagama","Sutasoma","Pararaton","Arjunawiwaha"],ans:1,
+     exp:"'Bhinneka Tunggal Ika' diambil dari Kakawin Sutasoma karya Mpu Tantular pada masa Kerajaan Majapahit.",
+     formula:"Sutasoma (Mpu Tantular) → 'Bhinneka Tunggal Ika'"},
+    {q:"Sikap yang tepat dalam menghadapi keberagaman suku di Indonesia adalah...",hint:"Sikap yang menjaga persatuan",vis:"",
+     opts:["Menganggap suku sendiri paling baik","Menghindari bergaul dengan suku lain","Menghargai dan menghormati perbedaan","Memaksakan budaya suku mayoritas"],ans:2,
+     exp:"Menghargai dan menghormati perbedaan adalah sikap yang sesuai dengan nilai Bhinneka Tunggal Ika dan Pancasila.",
+     formula:"Keberagaman = aset bangsa → sikap: toleran & menghargai"},
+    {q:"Indonesia memiliki keberagaman agama yang diakui negara. Agama yang diakui resmi berjumlah...",hint:"Islam, Kristen, Katolik, Hindu, Buddha, dan...",vis:"",
+     opts:["4","5","6","7"],ans:2,
+     exp:"6 agama diakui resmi: Islam, Kristen Protestan, Katolik, Hindu, Buddha, dan Konghucu (ditambahkan kembali di era Gus Dur).",
+     formula:"6 agama resmi: Islam · Kristen · Katolik · Hindu · Buddha · Konghucu"},
+    {q:"Konflik antar suku dapat dicegah dengan cara...",hint:"Pencegahan konflik horisontal",vis:"",
+     opts:["Mengisolasi tiap suku di daerahnya","Memilih pemimpin dari suku mayoritas","Meningkatkan dialog dan kerja sama antar suku","Menghapus perbedaan budaya"],ans:2,
+     exp:"Dialog dan kerja sama antar suku membangun saling pengertian dan mencegah prasangka yang memicu konflik.",
+     formula:"Cegah konflik = dialog + kerja sama + toleransi"},
+    {q:"Manfaat keberagaman budaya bagi Indonesia adalah...",hint:"Keberagaman = kekayaan",vis:"",
+     opts:["Menyulitkan persatuan","Menjadi kekayaan dan daya tarik wisata","Membuat pemerintah sulit mengatur","Memperlemah identitas nasional"],ans:1,
+     exp:"Keberagaman budaya adalah kekayaan nasional yang menjadi daya tarik wisata dan memperkaya identitas Indonesia.",
+     formula:"Keberagaman = kekayaan → daya tarik wisata + identitas nasional"},
+  ],
+  // T6 — Demokrasi & Pemilu
+  [
+    {q:"Sistem pemerintahan Indonesia adalah...",hint:"Presiden sebagai kepala negara sekaligus kepala pemerintahan",vis:"",
+     opts:["Parlementer","Presidensial","Federal","Monarki konstitusional"],ans:1,
+     exp:"Indonesia menganut sistem presidensial — presiden dipilih langsung rakyat dan memegang kekuasaan eksekutif.",
+     formula:"Presidensial = presiden dipilih rakyat, tidak bertanggung jawab ke parlemen"},
+    {q:"Pemilihan umum di Indonesia diselenggarakan setiap...",hint:"Masa jabatan presiden = 5 tahun",vis:"",
+     opts:["3 tahun","4 tahun","5 tahun","6 tahun"],ans:2,
+     exp:"Pemilu diselenggarakan setiap 5 tahun sekali untuk memilih Presiden, DPR, DPD, dan DPRD secara serentak.",
+     formula:"Pemilu = setiap 5 tahun · 2019, 2024, 2029..."},
+    {q:"Asas pemilihan umum di Indonesia dikenal dengan istilah LUBER JURDIL. Kata 'LUBER' singkatan dari...",hint:"Sifat-sifat pelaksanaan pemilu",vis:"",
+     opts:["Langsung, Umum, Bebas, Rahasia","Lurus, Utama, Bersih, Rapi","Langsung, Utama, Bebas, Riil","Lembaga, Umum, Bebas, Rakyat"],ans:0,
+     exp:"LUBER = Langsung, Umum, Bebas, Rahasia. JURDIL = Jujur, Adil. Keduanya adalah asas pemilu Indonesia.",
+     formula:"LUBER = Langsung·Umum·Bebas·Rahasia · JURDIL = Jujur·Adil"},
+    {q:"Musyawarah untuk mencapai mufakat adalah bentuk demokrasi yang sesuai dengan...",hint:"Nilai khas demokrasi Indonesia",vis:"",
+     opts:["Demokrasi liberal","Demokrasi Pancasila","Demokrasi komunis","Demokrasi terpimpin"],ans:1,
+     exp:"Musyawarah mufakat adalah ciri khas Demokrasi Pancasila — mengutamakan kepentingan bersama melalui dialog.",
+     formula:"Demokrasi Pancasila = musyawarah mufakat + kepentingan bersama"},
+    {q:"Lembaga penyelenggara pemilu yang bersifat nasional, tetap, dan mandiri adalah...",hint:"Tiga huruf, bertugas menyelenggarakan pemilu",vis:"",
+     opts:["KPK","KPU","Bawaslu","DKPP"],ans:1,
+     exp:"KPU (Komisi Pemilihan Umum) adalah penyelenggara pemilu yang bersifat nasional, tetap, dan mandiri.",
+     formula:"KPU = penyelenggara · Bawaslu = pengawas · DKPP = kode etik"},
+  ],
+];
+
+// ══ STATE ══
+let curTopic=0,curQ=0,timerInt=null,elapsed=0;
+let topicScores=[],topicWrong=[],allWrong=[];
+const TIMER=8*60;
+const COLORS=['#dc2626','#d97706','#059669','#2563eb','#7c3aed','#0891b2'];
+
+function startTopic(t){
+  curTopic=t;curQ=0;elapsed=0;picked=false;
+  topicWrong[t]=[];
+  if(!topicScores[t])topicScores[t]=0;
+  showScreen('quiz-screen');
+  const tp=TOPICS[t];
+  document.getElementById('th-icon').textContent=tp.icon;
+  document.getElementById('th-icon').style.background=tp.bg;
+  document.getElementById('th-code').textContent=`A02 · ${tp.id} · ${t+1}/6`;
+  document.getElementById('th-name').textContent=tp.name;
+  document.getElementById('th-sub').textContent=tp.sub;
+  const pill=document.getElementById('t-pill');
+  pill.textContent=tp.name;pill.style.background=tp.pill;pill.style.color=tp.pillc;
+  pill.style.border=`1px solid ${tp.color}44`;
+  document.getElementById('prog-fg').style.background=tp.color;
+  clearInterval(timerInt);elapsed=0;updateTimer();
+  timerInt=setInterval(()=>{elapsed++;updateTimer();},1000);
+  renderQ();
+}
+
+function renderQ(){
+  const q=ALL_Q[curTopic][curQ],tot=ALL_Q[curTopic].length;
+  document.getElementById('q-no').textContent=`SOAL ${String(curQ+1).padStart(2,'0')}`;
+  document.getElementById('q-no').style.color=COLORS[curTopic];
+  document.getElementById('q-txt').textContent=q.q;
+  document.getElementById('q-hint').textContent=q.hint?`💡 ${q.hint}`:'';
+  document.getElementById('q-ctr').textContent=`${curQ+1}/${tot}`;
+  document.getElementById('prog-fg').style.width=`${(curQ/tot)*100}%`;
+  const vis=document.getElementById('q-vis');
+  if(q.vis){vis.textContent=q.vis;vis.style.display='block';}else vis.style.display='none';
+  document.getElementById('q-expl').className='expl';
+  document.getElementById('next-btn').className='next-btn';
+  const opts=document.getElementById('q-opts');
+  opts.innerHTML='';
+  ['A','B','C','D'].forEach((l,i)=>{
+    const b=document.createElement('button');
+    b.className='opt';
+    b.innerHTML=`<span class="ol">${l}</span><span>${q.opts[i]}</span>`;
+    b.onclick=()=>pickAns(i);
+    opts.appendChild(b);
+  });
+}
+
+let picked=false;
+function pickAns(idx){
+  if(picked)return;picked=true;
+  const q=ALL_Q[curTopic][curQ];
+  const btns=document.querySelectorAll('#q-opts .opt');
+  btns.forEach(b=>b.disabled=true);
+  if(idx===q.ans){btns[idx].classList.add('correct');topicScores[curTopic]=(topicScores[curTopic]||0)+1;}
+  else{
+    btns[idx].classList.add('wrong');btns[q.ans].classList.add('correct');
+    topicWrong[curTopic]=topicWrong[curTopic]||[];
+    topicWrong[curTopic].push({q:q.q,chosen:q.opts[idx],correct:q.opts[q.ans],exp:q.exp,formula:q.formula||''});
+    allWrong.push({topic:TOPICS[curTopic].name,q:q.q,chosen:q.opts[idx],correct:q.opts[q.ans]});
+  }
+  const ep=document.getElementById('q-expl');
+  ep.innerHTML=`<div class="expl-hd">💡 Penjelasan</div><div class="expl-txt">${q.exp}${q.formula?`<div class="expl-f">${q.formula}</div>`:''}</div>`;
+  ep.classList.add('show');
+  const nb=document.getElementById('next-btn');
+  const isLast=curQ===ALL_Q[curTopic].length-1;
+  nb.textContent=isLast?`Selesai Topik ${curTopic+1} →`:'Soal Berikutnya →';
+  nb.style.background=`linear-gradient(135deg,${COLORS[curTopic]},${COLORS[curTopic]}bb)`;
+  nb.classList.add('show');
+}
+
+function nextQ(){
+  picked=false;
+  if(curQ<ALL_Q[curTopic].length-1){curQ++;renderQ();}
+  else{clearInterval(timerInt);showTransition();}
+}
+
+function updateTimer(){
+  const rem=TIMER-elapsed,over=rem<0;
+  const d=over?elapsed-TIMER:rem;
+  document.getElementById('t-val').textContent=(over?'+':'')+String(Math.floor(d/60)).padStart(2,'0')+':'+String(d%60).padStart(2,'0');
+  const box=document.getElementById('t-box');
+  box.className='timer-box'+(over?' over':rem<=2*60?' warn':'');
+}
+
+function showTransition(){
+  showScreen('transition-screen');
+  const t=TOPICS[curTopic],sc=topicScores[curTopic]||0,tot=5;
+  const pct=Math.round((sc/tot)*100);
+  const isLast=curTopic===TOPICS.length-1;
+  document.getElementById('tc-icon').textContent=sc===tot?'🌟':sc>=4?'✅':sc>=3?'⚠️':'❗';
+  document.getElementById('tc-title').textContent=`${t.name} Selesai!`;
+  document.getElementById('tc-sub').textContent=
+    sc===tot?'Sempurna! Topik ini sudah sangat kamu kuasai.':
+    sc>=4?'Bagus! Hampir sempurna.':
+    sc>=3?'Cukup. Masih ada yang perlu diperkuat.':
+    'Topik ini perlu perhatian khusus.';
+  const scoreEl=document.getElementById('tc-score');
+  scoreEl.textContent=`${sc}/${tot} benar · ${pct}%`;
+  const col=pct>=80?'#059669':pct>=60?'#d97706':'#dc2626';
+  const bg=pct>=80?'#dcfce7':pct>=60?'#fef3c7':'#fee2e2';
+  scoreEl.style.cssText=`background:${bg};color:${col};border:1.5px solid ${col}44;display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:20px;font-weight:800;font-size:15px;margin-bottom:20px;`;
+  const btn=document.getElementById('tc-btn');
+  btn.textContent=isLast?'📊 Lihat Hasil Lengkap →':`Lanjut ke ${TOPICS[curTopic+1].name} →`;
+  btn.style.background=`linear-gradient(135deg,${COLORS[curTopic]},${COLORS[curTopic]}bb)`;
+}
+
+function continueNext(){
+  if(curTopic<TOPICS.length-1)startTopic(curTopic+1);
+  else showResult();
+}
+
+function showResult(){
+  showScreen('result-screen');
+  const scoresDiv=document.getElementById('topic-scores');
+  scoresDiv.innerHTML='';
+  let strong=[],ok=[],weak=[];
+  TOPICS.forEach((t,i)=>{
+    const sc=topicScores[i]||0,pct=Math.round((sc/5)*100);
+    const col=pct>=80?'#059669':pct>=60?'#d97706':'#dc2626';
+    const bcls=pct>=80?'badge-strong':pct>=60?'badge-ok':'badge-weak';
+    const blbl=pct>=80?'✅ Kuat':pct>=60?'⚠️ Perlu latihan':'❗ Lemah';
+    if(pct>=80)strong.push(t.name);
+    else if(pct>=60)ok.push(t.name);
+    else weak.push(t.name);
+    scoresDiv.innerHTML+=`
+      <div class="ts-row">
+        <span class="ts-icon">${t.icon}</span>
+        <div class="ts-info"><div class="ts-name">${t.name}</div><div class="ts-detail">${sc}/5 benar · ${t.sub}</div></div>
+        <div class="ts-right">
+          <div class="ts-bar"><div class="ts-fill" style="width:${pct}%;background:${col}"></div></div>
+          <div class="ts-score" style="color:${col}">${pct}</div>
+          <span class="ts-badge ${bcls}">${blbl}</span>
+        </div>
+      </div>`;
+  });
+
+  const ps=document.getElementById('priority-section');
+  ps.innerHTML=`<div class="ps-hd" style="color:var(--accent)">📌 Prioritas Program Belajar PKN</div>`;
+  if(weak.length)ps.innerHTML+=`<div class="prio-item"><span class="prio-code" style="background:#fee2e2;color:#991b1b">UTAMA</span><div>❗ <strong>Butuh perhatian:</strong> ${weak.join(', ')}</div></div>`;
+  if(ok.length)ps.innerHTML+=`<div class="prio-item"><span class="prio-code" style="background:#fef3c7;color:#92400e">SEDANG</span><div>⚠️ <strong>Perlu latihan:</strong> ${ok.join(', ')}</div></div>`;
+  if(strong.length)ps.innerHTML+=`<div class="prio-item"><span class="prio-code" style="background:#dcfce7;color:#15803d">KUAT</span><div>✅ <strong>Sudah kuat:</strong> ${strong.join(', ')}</div></div>`;
+
+  const weakTopics=TOPICS.filter((_,i)=>Math.round(((topicScores[i]||0)/5)*100)<60);
+  const okTopics=TOPICS.filter((_,i)=>{const p=Math.round(((topicScores[i]||0)/5)*100);return p>=60&&p<80;});
+  document.getElementById('plan-section').innerHTML=`
+    <div class="ps-hd" style="color:var(--green)">🗓️ Rekomendasi B03 & B04</div>
+    <div class="prio-item"><span class="prio-code" style="background:#eff6ff;color:#1d4ed8">B03</span>
+      <div>${weakTopics.length?`<strong>Fokus:</strong> ${weakTopics.map(t=>t.name).join(' & ')}`:'<strong>Fokus:</strong> Topik dengan skor terendah'}</div></div>
+    <div class="prio-item"><span class="prio-code" style="background:#eff6ff;color:#1d4ed8">B04</span>
+      <div>${okTopics.length?`<strong>Fokus:</strong> ${okTopics.map(t=>t.name).join(' & ')}`:'<strong>Fokus:</strong> Latihan soal campuran PKN'}</div></div>`;
+}
+
+function copyResult(){
+  let t=`📊 HASIL A02 — ASSESSMENT PKN PER TOPIK\n`;
+  t+=`Musa Brahma Batubara · 6 April 2026\n`;
+  t+=`Kode: A02 · Program Persiapan UPK Paket A\n`;
+  t+=`${'─'.repeat(50)}\n\nSKOR PER TOPIK:\n`;
+  TOPICS.forEach((tp,i)=>{
+    const sc=topicScores[i]||0,pct=Math.round((sc/5)*100);
+    const bar='█'.repeat(sc)+'░'.repeat(5-sc);
+    const st=pct>=80?'✅':pct>=60?'⚠️':'❗';
+    t+=`${st} ${tp.icon} ${tp.name.padEnd(22)} ${bar} ${sc}/5 (${pct}%)\n`;
+  });
+  t+=`\n${'─'.repeat(50)}\n`;
+  const weak=TOPICS.filter((_,i)=>Math.round(((topicScores[i]||0)/5)*100)<60);
+  const mid=TOPICS.filter((_,i)=>{const p=Math.round(((topicScores[i]||0)/5)*100);return p>=60&&p<80;});
+  const str=TOPICS.filter((_,i)=>Math.round(((topicScores[i]||0)/5)*100)>=80);
+  if(weak.length)t+=`❗ LEMAH: ${weak.map(x=>x.name).join(', ')}\n`;
+  if(mid.length)t+=`⚠️ SEDANG: ${mid.map(x=>x.name).join(', ')}\n`;
+  if(str.length)t+=`✅ KUAT: ${str.map(x=>x.name).join(', ')}\n`;
+  if(allWrong.length){
+    t+=`\nSOAL SALAH:\n`;
+    allWrong.forEach((w,i)=>{t+=`${i+1}. [${w.topic}] ${w.q}\n   → Jawab: ${w.chosen} | Benar: ${w.correct}\n`;});
+  }
+  t+=`\n${'─'.repeat(50)}\n`;
+  t+=`📌 Berdasarkan A02, buatkan:\n`;
+  t+=`B03 · PKN — fokus: ${weak.length?weak.map(x=>x.name).join(' & '):'topik skor terendah'}\n`;
+  t+=`B04 · PKN — fokus: ${mid.length?mid.map(x=>x.name).join(' & '):'latihan soal campuran PKN'}\n`;
+  t+=`Format: Pre-test → Materi → Post-test · Soal berbeda dari A02`;
+
+  navigator.clipboard.writeText(t).then(()=>{
+    const b=document.getElementById('copy-btn');
+    b.textContent='✅ Tersalin! Paste di chat Claude 👆';
+    b.style.background='linear-gradient(135deg,#059669,#047857)';
+    setTimeout(()=>{b.textContent='📋 Salin Hasil → Kirim ke Claude untuk B03';b.style.background='';},4000);
+  }).catch(()=>prompt('Salin:',t));
+}
+
+function showScreen(id){
+  ['splash','quiz-screen','transition-screen','result-screen'].forEach(s=>document.getElementById(s).style.display='none');
+  document.getElementById(id).style.display='block';
+}
+</script>
+</body>
+</html>
