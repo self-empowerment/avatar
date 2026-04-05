@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A05 · Assessment Bahasa Indonesia · UPK Musa</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#fdf4ff; --card:#ffffff; --border:#e9d5ff;
+  --accent:#7e22ce; --green:#059669; --red:#dc2626;
+  --blue:#2563eb; --gold:#d97706; --pink:#db2777;
+  --text:#1e1b4b; --muted:#6b7280; --shadow:0 4px 24px rgba(126,34,206,0.08);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+body::before{content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse at 5% 5%,rgba(126,34,206,0.08) 0%,transparent 40%),
+             radial-gradient(ellipse at 95% 95%,rgba(219,39,119,0.06) 0%,transparent 40%);
+  pointer-events:none;z-index:0;}
+.wrap{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:20px 16px 60px;}
+.screen{display:none;}
+#splash{display:block;}
+
+.code-tag{display:inline-flex;align-items:center;gap:8px;
+  background:rgba(126,34,206,0.10);border:1.5px solid rgba(126,34,206,0.3);
+  color:var(--accent);font-size:11px;font-weight:800;
+  padding:5px 14px;border-radius:20px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px;}
+.splash-hero{text-align:center;padding:24px 0 18px;}
+.splash-hero h1{font-size:28px;font-weight:900;line-height:1.2;margin-bottom:8px;}
+.splash-hero h1 em{font-style:normal;color:var(--accent);}
+.splash-hero p{font-size:13px;color:var(--muted);line-height:1.8;}
+
+.topics-overview{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0;}
+.tov{background:var(--card);border:2px solid var(--border);border-radius:14px;padding:14px;box-shadow:var(--shadow);}
+.tov .tov-num{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--muted);margin-bottom:4px;}
+.tov .tov-name{font-size:13px;font-weight:800;}
+.tov .tov-q{font-size:11px;color:var(--muted);margin-top:2px;}
+
+.rules-card{background:var(--card);border:2px solid var(--border);border-radius:18px;padding:18px;margin-bottom:16px;box-shadow:var(--shadow);}
+.rules-card h3{font-size:12px;font-weight:900;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;}
+.rule{display:flex;gap:10px;align-items:flex-start;margin-bottom:9px;font-size:13px;line-height:1.6;}
+.rule:last-child{margin-bottom:0;}
+
+.topic-hd{display:flex;align-items:center;gap:12px;margin-bottom:14px;background:var(--card);border:2px solid var(--border);border-radius:14px;padding:14px;box-shadow:var(--shadow);}
+.th-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.th-info .th-code{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--muted);}
+.th-info .th-name{font-size:15px;font-weight:900;}
+.th-info .th-sub{font-size:11px;color:var(--muted);}
+
+.qz-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.topic-pill{font-size:11px;font-weight:800;padding:4px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:.8px;}
+.q-ctr{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--muted);}
+.timer-box{display:flex;align-items:center;gap:5px;background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:4px 11px;}
+.timer-box.warn{border-color:var(--gold);} .timer-box.warn .tv{color:var(--gold);}
+.timer-box.over{border-color:var(--red);animation:bl 1s infinite;} .timer-box.over .tv{color:var(--red);}
+.tv{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:.5}}
+.prog-wrap{margin-bottom:12px;}
+.prog-bg{height:6px;background:var(--border);border-radius:3px;}
+.prog-fg{height:100%;border-radius:3px;transition:width .4s;}
+
+.q-card{background:var(--card);border:2px solid var(--border);border-radius:18px;padding:20px;margin-bottom:11px;box-shadow:var(--shadow);}
+.q-no{font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:7px;}
+.q-txt{font-size:15px;font-weight:700;line-height:1.65;}
+.q-hint{font-size:12px;color:var(--muted);font-style:italic;margin-top:5px;}
+.vis{background:#fdf4ff;border:1.5px solid #e9d5ff;border-radius:10px;padding:14px;margin:10px 0;font-size:13px;color:#7e22ce;line-height:1.85;display:none;font-style:italic;}
+
+.opts{display:flex;flex-direction:column;gap:8px;margin-top:12px;}
+.opt{background:#faf5ff;border:2px solid var(--border);border-radius:11px;padding:11px 13px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;color:var(--text);transition:all .15s;display:flex;align-items:center;gap:10px;}
+.opt:hover:not(:disabled){border-color:var(--accent);background:#f3e8ff;transform:translateX(3px);}
+.opt .ol{width:28px;height:28px;border-radius:8px;flex-shrink:0;background:#e9d5ff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;font-family:'JetBrains Mono',monospace;transition:.15s;}
+.opt.correct{border-color:var(--green);background:#f0fdf4;}
+.opt.correct .ol{background:var(--green);color:#fff;}
+.opt.wrong{border-color:var(--red);background:#fef2f2;}
+.opt.wrong .ol{background:var(--red);color:#fff;}
+.opt:disabled{cursor:default;}
+
+.expl{background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:12px;padding:14px;margin-top:10px;display:none;}
+.expl.show{display:block;animation:up .3s ease;}
+.expl-hd{font-size:10px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;}
+.expl-txt{font-size:13px;line-height:1.75;}
+.expl-f{background:#dbeafe;border-radius:7px;padding:8px 12px;margin-top:8px;font-size:12px;color:#1d4ed8;line-height:1.6;}
+
+.next-btn{width:100%;padding:13px;border:none;border-radius:12px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;cursor:pointer;transition:transform .15s;display:none;margin-top:10px;color:#fff;}
+.next-btn.show{display:block;animation:up .2s ease;}
+.next-btn:hover{transform:translateY(-1px);}
+
+.transition-card{background:var(--card);border:2px solid var(--border);border-radius:20px;padding:26px;text-align:center;box-shadow:var(--shadow);}
+.tc-icon{font-size:48px;margin-bottom:12px;}
+.tc-title{font-size:20px;font-weight:900;margin-bottom:6px;}
+.tc-sub{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:16px;}
+.tc-score{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:20px;font-weight:800;font-size:15px;margin-bottom:20px;}
+
+.res-hd{text-align:center;padding:22px 0 14px;}
+.res-hd h2{font-size:26px;font-weight:900;margin-bottom:6px;}
+.res-hd p{font-size:13px;color:var(--muted);}
+.topic-scores{display:flex;flex-direction:column;gap:10px;margin:16px 0;}
+.ts-row{background:var(--card);border:2px solid var(--border);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow);}
+.ts-icon{font-size:20px;flex-shrink:0;}
+.ts-info{flex:1;}
+.ts-name{font-size:14px;font-weight:800;}
+.ts-detail{font-size:11px;color:var(--muted);margin-top:1px;}
+.ts-right{display:flex;align-items:center;gap:8px;}
+.ts-bar{width:70px;height:7px;background:var(--border);border-radius:4px;}
+.ts-fill{height:100%;border-radius:4px;}
+.ts-score{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;min-width:36px;text-align:right;}
+.ts-badge{font-size:10px;font-weight:800;padding:2px 8px;border-radius:10px;white-space:nowrap;}
+.badge-strong{background:#dcfce7;color:#15803d;}
+.badge-ok{background:#fef3c7;color:#92400e;}
+.badge-weak{background:#fee2e2;color:#991b1b;}
+
+.priority-section{background:var(--card);border:2px solid var(--border);border-radius:18px;padding:18px;margin-bottom:12px;box-shadow:var(--shadow);}
+.ps-hd{font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;}
+.prio-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1.5px solid var(--border);font-size:13px;line-height:1.65;}
+.prio-item:last-child{border-bottom:none;padding-bottom:0;}
+.prio-code{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;flex-shrink:0;margin-top:1px;}
+
+.copy-btn{width:100%;padding:15px;border:none;border-radius:13px;background:linear-gradient(135deg,#7e22ce,#6b21a8);color:#fff;font-weight:800;font-size:15px;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;box-shadow:0 6px 20px rgba(126,34,206,0.3);transition:transform .15s;margin-top:10px;}
+.copy-btn:hover{transform:translateY(-2px);}
+.ghost-btn{width:100%;padding:13px;border:2px solid var(--border);border-radius:13px;background:var(--card);color:var(--muted);font-weight:700;font-size:14px;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;margin-top:8px;transition:.2s;}
+.ghost-btn:hover{border-color:var(--accent);color:var(--accent);}
+.big-btn{width:100%;padding:15px;border:none;border-radius:13px;font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;cursor:pointer;transition:transform .15s;color:#fff;}
+.big-btn:hover{transform:translateY(-2px);}
+@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ══ SPLASH ══ -->
+<div id="splash" class="screen" style="display:block">
+  <div class="splash-hero">
+    <div class="code-tag">A05 · Assessment Bahasa Indonesia</div>
+    <h1>Peta Kemampuan<br>Bahasa Indonesia <em>Musa</em> 📖</h1>
+    <p>Kita uji <strong>6 topik Bahasa Indonesia</strong> secara terpisah.<br>
+    Skor awal: <strong style="color:#d97706">75/100</strong> — sudah bagus! Mari kita cari tahu mana yang bisa lebih tinggi lagi.</p>
+  </div>
+
+  <div class="topics-overview">
+    <div class="tov"><div class="tov-num">TOPIK 1</div><div class="tov-name" style="color:#7e22ce">📝 Membaca & Memahami</div><div class="tov-q">5 soal · Ide Pokok & Teks</div></div>
+    <div class="tov"><div class="tov-num">TOPIK 2</div><div class="tov-name" style="color:#dc2626">✍️ Menulis & EYD</div><div class="tov-q">5 soal · Ejaan & Tanda Baca</div></div>
+    <div class="tov"><div class="tov-num">TOPIK 3</div><div class="tov-name" style="color:#d97706">📚 Kosakata</div><div class="tov-q">5 soal · Sinonim, Antonim & Makna</div></div>
+    <div class="tov"><div class="tov-num">TOPIK 4</div><div class="tov-name" style="color:#059669">🔤 Tata Bahasa</div><div class="tov-q">5 soal · Imbuhan & Kalimat</div></div>
+    <div class="tov"><div class="tov-num">TOPIK 5</div><div class="tov-name" style="color:#2563eb">📄 Jenis Teks</div><div class="tov-q">5 soal · Narasi, Deskripsi, Prosedur</div></div>
+    <div class="tov"><div class="tov-num">TOPIK 6</div><div class="tov-name" style="color:#db2777">🌸 Sastra & Peribahasa</div><div class="tov-q">5 soal · Puisi, Peribahasa & Ungkapan</div></div>
+  </div>
+
+  <div class="rules-card">
+    <h3>📋 Cara Kerja</h3>
+    <div class="rule"><span>📝</span><span>30 soal total — <strong>5 soal per topik</strong>, dikerjakan berurutan</span></div>
+    <div class="rule"><span>⏱️</span><span>Timer <strong>8 menit per topik</strong></span></div>
+    <div class="rule"><span>💡</span><span>Penjelasan detail langsung muncul setelah setiap jawaban</span></div>
+    <div class="rule"><span>📊</span><span>Hasil akhir: peta topik kuat vs lemah + rekomendasi B09 & B10</span></div>
+    <div class="rule"><span>🇦🇺</span><span>Catatan: Karena Musa sekolah di Perth, beberapa soal akan ada teks bacaan untuk mengukur pemahaman Bahasa Indonesia</span></div>
+  </div>
+
+  <button class="big-btn" style="background:linear-gradient(135deg,#7e22ce,#6b21a8);box-shadow:0 6px 20px rgba(126,34,206,0.3)" onclick="startTopic(0)">🚀 Mulai Assessment Bahasa Indonesia!</button>
+</div>
+
+<!-- ══ QUIZ ══ -->
+<div id="quiz-screen" class="screen">
+  <div class="topic-hd">
+    <div class="th-icon" id="th-icon"></div>
+    <div class="th-info">
+      <div class="th-code" id="th-code"></div>
+      <div class="th-name" id="th-name"></div>
+      <div class="th-sub" id="th-sub"></div>
+    </div>
+  </div>
+  <div class="qz-bar">
+    <span class="topic-pill" id="t-pill"></span>
+    <span class="q-ctr" id="q-ctr">1/5</span>
+    <div class="timer-box" id="t-box"><span>⏱</span><span class="tv" id="t-val">08:00</span></div>
+  </div>
+  <div class="prog-wrap"><div class="prog-bg"><div class="prog-fg" id="prog-fg" style="width:0%"></div></div></div>
+  <div class="q-card">
+    <div class="q-no" id="q-no">SOAL 01</div>
+    <div class="q-txt" id="q-txt"></div>
+    <div class="q-hint" id="q-hint"></div>
+    <div class="vis" id="q-vis"></div>
+    <div class="opts" id="q-opts"></div>
+    <div class="expl" id="q-expl"></div>
+  </div>
+  <button class="next-btn" id="next-btn" onclick="nextQ()"></button>
+</div>
+
+<!-- ══ TRANSITION ══ -->
+<div id="transition-screen" class="screen">
+  <div class="transition-card">
+    <div class="tc-icon" id="tc-icon"></div>
+    <div class="tc-title" id="tc-title"></div>
+    <div class="tc-sub" id="tc-sub"></div>
+    <div class="tc-score" id="tc-score"></div>
+    <button class="big-btn" id="tc-btn" onclick="continueNext()"></button>
+  </div>
+</div>
+
+<!-- ══ RESULT ══ -->
+<div id="result-screen" class="screen">
+  <div class="res-hd">
+    <div class="code-tag" style="margin-bottom:12px">A05 · Hasil Assessment</div>
+    <h2>Peta Bahasa Indonesia Musa 📖</h2>
+    <p>Assessment per Topik · Program UPK Paket A</p>
+  </div>
+  <div class="topic-scores" id="topic-scores"></div>
+  <div class="priority-section" id="priority-section"></div>
+  <div class="priority-section" id="plan-section"></div>
+  <div class="priority-section" id="complete-section"></div>
+  <button class="copy-btn" id="copy-btn" onclick="copyResult()">📋 Salin Hasil → Kirim ke Claude untuk B09</button>
+  <button class="ghost-btn" onclick="if(confirm('Ulangi?')){location.reload()}">🔄 Ulangi A05</button>
+</div>
+
+</div>
+<script>
+const TOPICS = [
+  {id:'T1',name:'Membaca & Memahami',icon:'📝',color:'#7e22ce',bg:'#fdf4ff',pill:'rgba(126,34,206,0.10)',pillc:'#7e22ce',sub:'Ide Pokok, Inferensi & Pemahaman Teks'},
+  {id:'T2',name:'Menulis & EYD',icon:'✍️',color:'#dc2626',bg:'#fef2f2',pill:'rgba(220,38,38,0.10)',pillc:'#dc2626',sub:'Ejaan, Huruf Kapital & Tanda Baca'},
+  {id:'T3',name:'Kosakata',icon:'📚',color:'#d97706',bg:'#fffbeb',pill:'rgba(217,119,6,0.10)',pillc:'#d97706',sub:'Sinonim, Antonim, Makna & Kata Baku'},
+  {id:'T4',name:'Tata Bahasa',icon:'🔤',color:'#059669',bg:'#f0fdf4',pill:'rgba(5,150,105,0.10)',pillc:'#059669',sub:'Imbuhan, Kalimat Efektif & Jenis Kalimat'},
+  {id:'T5',name:'Jenis Teks',icon:'📄',color:'#2563eb',bg:'#eff6ff',pill:'rgba(37,99,235,0.10)',pillc:'#2563eb',sub:'Narasi, Deskripsi, Eksposisi & Prosedur'},
+  {id:'T6',name:'Sastra & Peribahasa',icon:'🌸',color:'#db2777',bg:'#fdf2f8',pill:'rgba(219,39,119,0.10)',pillc:'#db2777',sub:'Puisi, Pantun, Peribahasa & Ungkapan'},
+];
+
+const ALL_Q = [
+  // T1 — Membaca & Memahami
+  [
+    {q:"Bacalah teks berikut, lalu tentukan ide pokoknya!\n\n\"Indonesia adalah negara kepulauan terbesar di dunia. Negara ini terdiri dari lebih dari 17.000 pulau yang tersebar dari Sabang sampai Merauke. Dengan wilayah yang luas ini, Indonesia memiliki keanekaragaman budaya, bahasa, dan suku bangsa yang sangat kaya.\"",
+     hint:"Ide pokok = gagasan utama yang dibahas di seluruh paragraf",vis:"",
+     opts:["Keanekaragaman budaya Indonesia","Indonesia adalah negara kepulauan terbesar","Jumlah pulau di Indonesia","Wilayah dari Sabang sampai Merauke"],ans:1,
+     exp:"Ide pokok adalah gagasan utama yang menjadi inti paragraf. Seluruh kalimat dalam paragraf ini membahas tentang Indonesia sebagai negara kepulauan terbesar — kalimat lain hanya mendukung/menjelaskan ide pokok.",
+     formula:"Ide pokok = kalimat utama + didukung semua kalimat lain dalam paragraf"},
+    {q:"Dari teks di atas, dapat disimpulkan bahwa Indonesia...",hint:"Inferensi = kesimpulan dari isi teks",vis:"\"...lebih dari 17.000 pulau... keanekaragaman budaya, bahasa, dan suku bangsa yang sangat kaya.\"",
+     opts:["Hanya memiliki satu budaya dominan","Merupakan negara yang homogen","Memiliki keberagaman yang tinggi karena wilayahnya luas","Sulit dipersatukan karena terlalu banyak pulau"],ans:2,
+     exp:"Inferensi yang tepat: wilayah yang luas dan banyak pulau menyebabkan keanekaragaman budaya, bahasa, dan suku yang tinggi. Ini sesuai dengan isi teks.",
+     formula:"Inferensi = simpulkan dari yang TERSIRAT dalam teks, bukan yang tersurat"},
+    {q:"Bacalah: \"Sampah plastik yang dibuang ke laut mengancam kehidupan biota laut. Ribuan penyu, ikan, dan burung laut mati setiap tahun karena menelan plastik atau terjerat sampah.\"\n\nTujuan utama penulis teks ini adalah...",hint:"Tujuan = apa yang ingin disampaikan penulis",vis:"",
+     opts:["Menghibur pembaca dengan cerita laut","Menginformasikan dampak sampah plastik di laut","Mengajarkan cara mendaur ulang plastik","Menceritakan pengalaman di laut"],ans:1,
+     exp:"Teks ini bersifat informatif — tujuannya menyampaikan informasi tentang bahaya sampah plastik bagi biota laut. Bukan menghibur, mengajarkan, atau bercerita.",
+     formula:"Tujuan teks: Informasi=menjelaskan · Persuasi=membujuk · Narasi=bercerita · Deskripsi=menggambarkan"},
+    {q:"Kata \"mengancam\" dalam kalimat 'sampah plastik mengancam kehidupan biota laut' bermakna...",hint:"Cari makna dalam konteks kalimat",vis:"",
+     opts:["Membantu","Membahayakan","Melindungi","Mengatur"],ans:1,
+     exp:"'Mengancam' dalam konteks ini bermakna membahayakan atau membuat terancam punah. Biota laut berada dalam bahaya akibat sampah plastik.",
+     formula:"Makna kata = sesuai konteks kalimat, bukan makna kata secara umum"},
+    {q:"Paragraf yang gagasan utamanya terletak di awal paragraf disebut paragraf...",hint:"Deduksi = dari umum ke khusus",vis:"Deduktif: Kalimat utama → Kalimat penjelas\nInduktif: Kalimat penjelas → Kalimat utama",
+     opts:["Induktif","Deduktif","Campuran","Deskriptif"],ans:1,
+     exp:"Paragraf deduktif dimulai dengan kalimat utama (gagasan umum) lalu diikuti kalimat-kalimat penjelas. Paragraf induktif = sebaliknya (penjelas dulu, simpulan di akhir).",
+     formula:"Deduktif=kalimat utama di awal · Induktif=kalimat utama di akhir · Campuran=awal+akhir"},
+  ],
+  // T2 — Menulis & EYD
+  [
+    {q:"Penulisan huruf kapital yang BENAR terdapat pada kalimat...",hint:"Kapital: awal kalimat, nama orang/tempat/lembaga",vis:"",
+     opts:["saya pergi ke jakarta kemarin","Saya Pergi Ke Jakarta Kemarin","Saya pergi ke Jakarta kemarin","saya Pergi Ke jakarta Kemarin"],ans:2,
+     exp:"Huruf kapital digunakan: (1) awal kalimat → 'Saya', (2) nama kota → 'Jakarta'. Kata biasa seperti 'pergi' dan 'ke' tidak perlu kapital.",
+     formula:"Kapital untuk: awal kalimat · nama orang · nama tempat · nama lembaga · judul"},
+    {q:"Tanda baca yang tepat untuk kalimat: 'Ibu membeli sayuran yaitu wortel bayam dan kangkung' adalah...",hint:"Ada daftar/rincian → butuh tanda baca",vis:"",
+     opts:["Ibu membeli sayuran yaitu: wortel, bayam dan kangkung.","Ibu membeli sayuran, yaitu: wortel, bayam, dan kangkung.","Ibu membeli sayuran yaitu wortel, bayam, dan kangkung.","Ibu membeli sayuran yaitu; wortel, bayam, dan kangkung."],ans:1,
+     exp:"Koma setelah 'sayuran' untuk jeda. Titik dua setelah 'yaitu' karena ada rincian. Koma setelah setiap item rincian. 'dan' sebelum item terakhir tetap pakai koma.",
+     formula:"yaitu: + rincian, rincian, dan rincian"},
+    {q:"Penulisan singkatan gelar yang benar adalah...",hint:"Singkatan nama gelar selalu diikuti tanda titik",vis:"",
+     opts:["dr Ahmad Sp.A","Dr. Ahmad, Sp.A.","dr. Ahmad, Sp.A.","Dr Ahmad SpA"],ans:2,
+     exp:"'dr.' (huruf kecil) = dokter umum. 'Dr.' (huruf besar) = Doktor (S3). Singkatan gelar diikuti titik dan dipisah koma dari nama. 'Sp.A.' = Spesialis Anak.",
+     formula:"dr. = dokter umum · Dr. = Doktor · Sp.A. = Spesialis Anak (semua pakai titik)"},
+    {q:"Kalimat berikut yang menggunakan tanda hubung (-) dengan BENAR adalah...",hint:"Tanda hubung untuk kata ulang, imbuhan khusus, atau rangkaian",vis:"",
+     opts:["Ibu me-masak nasi goreng","Adik berlari-lari di taman","Ani adalah anak-nya bu Siti","Buku itu ber-warna merah"],ans:1,
+     exp:"Tanda hubung (-) digunakan untuk kata ulang seperti 'berlari-lari'. Bukan untuk memisah imbuhan dari kata dasar ('me-masak' salah, seharusnya 'memasak').",
+     formula:"Tanda hubung untuk: kata ulang · penghubung kata gabung tertentu · angka (1999-2000)"},
+    {q:"Penulisan kata yang BAKU menurut KBBI adalah...",hint:"Kata baku = sesuai kaidah bahasa Indonesia yang benar",vis:"",
+     opts:["Ijin, aktifitas, bis","Izin, aktivitas, bus","Ijin, aktivitas, bus","Izin, aktifitas, bis"],ans:1,
+     exp:"Kata baku: izin (bukan ijin), aktivitas (bukan aktifitas — huruf 'v'), bus (bukan bis). KBBI adalah pedoman kata baku resmi Bahasa Indonesia.",
+     formula:"izin · aktivitas · bus · apotek · teknik · efektif · sistem"},
+  ],
+  // T3 — Kosakata
+  [
+    {q:"Sinonim (persamaan kata) dari kata 'gigih' adalah...",hint:"Gigih = tidak mau menyerah",vis:"",
+     opts:["Malas","Tekun","Ceroboh","Lambat"],ans:1,
+     exp:"Sinonim 'gigih' adalah 'tekun', 'ulet', 'pantang menyerah'. Gigih dan tekun sama-sama bermakna bekerja keras dengan penuh semangat.",
+     formula:"Sinonim gigih: tekun · ulet · rajin · sungguh-sungguh · pantang menyerah"},
+    {q:"Antonim (lawan kata) dari kata 'boros' adalah...",hint:"Kebalikan dari suka menghamburkan uang",vis:"",
+     opts:["Kaya","Hemat","Miskin","Kikir"],ans:1,
+     exp:"Antonim 'boros' adalah 'hemat' — sifat yang berlawanan. Boros = suka menghabiskan uang berlebihan. Hemat = menggunakan uang secukupnya.",
+     formula:"Antonim boros = hemat · Antonim kaya = miskin · Antonim kikir = dermawan"},
+    {q:"Makna kata 'ambigu' dalam kalimat 'Kalimat itu ambigu sehingga membingungkan pembaca' adalah...",hint:"Ambigu dari bahasa Inggris 'ambiguous'",vis:"",
+     opts:["Sangat jelas","Memiliki dua makna atau lebih","Terlalu panjang","Menggunakan kata asing"],ans:1,
+     exp:"Ambigu berarti bermakna ganda atau lebih dari satu makna, sehingga bisa menimbulkan salah tafsir. Kalimat ambigu membingungkan pembaca.",
+     formula:"Ambigu = bermakna ganda → bisa menimbulkan salah tafsir"},
+    {q:"Kata berimbuhan yang tepat untuk melengkapi kalimat: 'Para siswa ... tugas mereka dengan baik' adalah...",hint:"Subjek = para siswa, butuh kata kerja aktif",vis:"",
+     opts:["dikerjakan","pekerjaan","mengerjakan","pengerjaan"],ans:2,
+     exp:"'Mengerjakan' adalah kata kerja aktif dengan awalan 'me-' yang tepat karena subjeknya ('para siswa') yang melakukan pekerjaan.",
+     formula:"me- + kerja = mengerjakan (aktif) · di- + kerja = dikerjakan (pasif)"},
+    {q:"Kelompok kata yang semua termasuk kata baku adalah...",hint:"Periksa satu per satu sesuai KBBI",vis:"",
+     opts:["Karir, ijazah, praktek","Karier, ijazah, praktik","Karir, ijasah, praktik","Karier, ijasah, praktek"],ans:1,
+     exp:"Kata baku: karier (bukan karir), ijazah (bukan ijasah), praktik (bukan praktek). Selalu cek KBBI untuk memastikan kebakuan kata.",
+     formula:"Baku: karier · ijazah · praktik · nasihat · apotek · hakikat · izin"},
+  ],
+  // T4 — Tata Bahasa
+  [
+    {q:"Kalimat yang menggunakan imbuhan me- dengan BENAR adalah...",hint:"me- + kata dasar berawalan huruf tertentu bisa berubah",vis:"me- + p/t/k/s → luluh\nme- + b/d/g/l/m/n → tidak luluh",
+     opts:["Dia mentransfer uang ke rekeningku","Dia memtransfer uang ke rekeningku","Dia me-transfer uang ke rekeningku","Dia mentransferkan uang ke rekeningku"],ans:0,
+     exp:"'men-' + 'transfer' = 'mentransfer'. Imbuhan me- di depan kata berawalan 't' tidak selalu luluh jika kata dasarnya dari bahasa asing. 'mentransfer' adalah bentuk yang benar dan baku.",
+     formula:"me- + transfer = mentransfer · me- + tulis = menulis · me- + beli = membeli"},
+    {q:"Kalimat efektif yang benar adalah...",hint:"Kalimat efektif: tidak berlebihan, tidak ambigu, sesuai EYD",vis:"",
+     opts:["Para hadirin sekalian dipersilakan duduk","Para hadirin dipersilakan duduk","Semua para hadirin dipersilakan duduk","Hadirin-hadirin dipersilakan duduk"],ans:1,
+     exp:"'Para hadirin' sudah bermakna jamak, tidak perlu 'sekalian' atau 'semua'. 'Para hadirin' juga tidak perlu diulang jadi 'hadirin-hadirin'. Kalimat efektif menghindari pemborosan kata.",
+     formula:"Kalimat efektif: tidak mubazir · tidak ambigu · logis · sesuai EYD"},
+    {q:"Kalimat 'Adik dibelikan mainan baru oleh ayah' adalah kalimat...",hint:"Siapa yang melakukan dan yang dikenai?",vis:"Aktif: subjek melakukan\nPasif: subjek dikenai tindakan",
+     opts:["Aktif transitif","Pasif","Aktif intransitif","Majemuk"],ans:1,
+     exp:"Kalimat pasif ditandai predikat berimbuhan 'di-' dan subjek (adik) dikenai pekerjaan, bukan yang melakukan. Pelaku (ayah) dinyatakan dengan 'oleh'.",
+     formula:"Pasif: subjek + di+kata kerja + oleh + pelaku · Aktif: subjek + me+kata kerja + objek"},
+    {q:"Jenis klausa dalam kalimat 'Musa belajar keras karena ia ingin lulus UPK' adalah...",hint:"Ada dua klausa yang dihubungkan konjungsi",vis:"Kalimat majemuk: dua klausa atau lebih",
+     opts:["Kalimat tunggal","Kalimat majemuk setara","Kalimat majemuk bertingkat","Kalimat pasif"],ans:2,
+     exp:"Kalimat majemuk bertingkat memiliki klausa utama ('Musa belajar keras') dan klausa bawahan ('karena ia ingin lulus UPK'). Konjungsi 'karena' menandai hubungan sebab-akibat.",
+     formula:"Majemuk setara: dan/atau/tetapi · Majemuk bertingkat: karena/jika/ketika/agar"},
+    {q:"Kata 'pelajaran' terbentuk dari kata dasar 'ajar' dengan imbuhan...",hint:"pe- + ajar + -an",vis:"ajar → pelajaran\najar → mengajar → pelajar → pelajaran",
+     opts:["me- dan -an","pe- dan -an","ber- dan -an","di- dan -kan"],ans:1,
+     exp:"'pelajaran' = pe- + ajar + -an (konfiks pe-...-an). Proses: ajar → pe+ajar+an = pelajaran. Konfiks adalah imbuhan yang dilekatkan sekaligus di awal dan akhir kata.",
+     formula:"pe- + ajar + -an = pelajaran · pe- + latih + -an = pelatihan"},
+  ],
+  // T5 — Jenis Teks
+  [
+    {q:"Teks yang bertujuan menceritakan serangkaian peristiwa secara kronologis (urutan waktu) disebut teks...",hint:"Kronologis = berurutan dari awal sampai akhir",vis:"",
+     opts:["Deskripsi","Narasi","Eksposisi","Persuasi"],ans:1,
+     exp:"Teks narasi menceritakan peristiwa secara berurutan. Ciri: ada alur cerita, tokoh, latar, konflik. Contoh: cerita, novel, dongeng, cerpen.",
+     formula:"Narasi=bercerita · Deskripsi=menggambarkan · Eksposisi=menjelaskan · Persuasi=membujuk · Prosedur=langkah-langkah"},
+    {q:"Kalimat manakah yang merupakan ciri khas teks prosedur?",hint:"Prosedur = langkah-langkah melakukan sesuatu",vis:"",
+     opts:["Pemandangan itu sangat indah dan menakjubkan","Pertama, campurkan tepung dan gula dalam wadah besar","Menurut saya, produk ini sangat bermanfaat","Pada zaman dahulu, hiduplah seorang raja yang bijaksana"],ans:1,
+     exp:"Ciri teks prosedur: menggunakan kata urutan (pertama, kemudian, lalu), kalimat perintah, dan menjelaskan langkah-langkah secara berurutan.",
+     formula:"Prosedur: pertama/kemudian/lalu + kalimat perintah + tujuan yang jelas"},
+    {q:"Bacalah: \"Pantai Senggigi memiliki pasir putih yang lembut dan air laut yang jernih berwarna biru kehijauan. Pohon-pohon kelapa berjejer rapi di sepanjang tepi pantai, melengkapi keindahan alam yang memukau.\"\n\nTeks di atas termasuk jenis teks...",hint:"Menggambarkan sesuatu secara detail",vis:"",
+     opts:["Narasi","Prosedur","Deskripsi","Eksposisi"],ans:2,
+     exp:"Teks deskripsi bertujuan menggambarkan suatu objek/tempat secara detail sehingga pembaca seolah melihatnya. Ciri: banyak kata sifat dan detail indrawi.",
+     formula:"Deskripsi: banyak kata sifat · detail indrawi · pembaca 'melihat' objek"},
+    {q:"Teks eksposisi berbeda dari teks persuasi karena...",hint:"Eksposisi = menjelaskan · Persuasi = membujuk",vis:"",
+     opts:["Eksposisi menggunakan data, persuasi tidak","Eksposisi hanya menjelaskan fakta tanpa mengajak, persuasi mengajak pembaca bertindak","Eksposisi lebih panjang dari persuasi","Eksposisi selalu menggunakan gambar"],ans:1,
+     exp:"Teks eksposisi bertujuan menjelaskan/memaparkan informasi secara objektif. Teks persuasi bertujuan memengaruhi atau mengajak pembaca melakukan sesuatu.",
+     formula:"Eksposisi=menjelaskan+objektif · Persuasi=memengaruhi+mengajak+subjektif"},
+    {q:"Struktur teks narasi yang benar adalah...",hint:"Seperti struktur cerita pada umumnya",vis:"",
+     opts:["Orientasi → Komplikasi → Resolusi","Pernyataan → Argumentasi → Penegasan","Deskripsi → Klasifikasi → Deskripsi Bagian","Tujuan → Langkah-langkah → Penutup"],ans:0,
+     exp:"Struktur teks narasi: Orientasi (perkenalan tokoh/latar) → Komplikasi (masalah/konflik) → Resolusi (penyelesaian). Ini adalah struktur dasar semua cerita.",
+     formula:"Narasi: Orientasi→Komplikasi→Resolusi · Eksposisi: Pernyataan→Argumen→Penegasan"},
+  ],
+  // T6 — Sastra & Peribahasa
+  [
+    {q:"Peribahasa 'Air beriak tanda tak dalam' memiliki makna...",hint:"Air beriak = banyak gelombang di permukaan",vis:"",
+     opts:["Orang yang pandai selalu rendah hati","Orang yang banyak bicara biasanya kurang ilmu/kemampuannya","Air sungai yang jernih pertanda dangkal","Orang yang bijak tidak banyak berbicara"],ans:1,
+     exp:"'Air beriak tanda tak dalam' artinya orang yang banyak bicara/pamer biasanya ilmunya sedikit. Air yang dangkal mudah beriak, air yang dalam tenang.",
+     formula:"Air beriak=dangkal=banyak omong · Air dalam=tenang=banyak ilmu"},
+    {q:"Pantun terdiri dari...",hint:"Ingat struktur pantun: sampiran dan isi",vis:"Baris 1: sampiran\nBaris 2: sampiran\nBaris 3: isi\nBaris 4: isi",
+     opts:["2 baris, bersajak a-a","4 baris, bersajak a-b-a-b","4 baris, bersajak a-a-a-a","3 baris, bersajak a-a-b"],ans:1,
+     exp:"Pantun: 4 baris, baris 1-2 = sampiran (tidak bermakna langsung), baris 3-4 = isi (pesan). Sajak akhir: a-b-a-b (baris 1&3 berima, baris 2&4 berima).",
+     formula:"Pantun: 4 baris · 8-12 suku kata/baris · sampiran(1-2) + isi(3-4) · sajak a-b-a-b"},
+    {q:"Majas yang menyatakan sesuatu dengan menggunakan kata-kata yang bermakna berlawanan dengan maksud yang sesungguhnya disebut...",hint:"'Bagus sekali tulisanmu!' (padahal jelek)",vis:"",
+     opts:["Metafora","Simile","Ironi","Personifikasi"],ans:2,
+     exp:"Ironi adalah majas yang menggunakan kata berlawanan dari maksud sebenarnya, biasanya untuk sindiran. Contoh: 'Wah, rapih sekali kamarmu!' (padahal berantakan).",
+     formula:"Ironi=sindiran halus · Metafora=perbandingan langsung · Simile=seperti/bagaikan · Personifikasi=benda seperti manusia"},
+    {q:"Ungkapan 'buah tangan' memiliki arti...",hint:"Buah tangan bukan buah yang dibawa tangan",vis:"",
+     opts:["Tangan yang menghasilkan karya","Oleh-oleh atau souvenir","Hasil kerja keras","Tangan yang kuat"],ans:1,
+     exp:"'Buah tangan' adalah ungkapan (idiom) yang berarti oleh-oleh atau souvenir yang dibawa sebagai hadiah saat berkunjung. Maknanya tidak bisa ditafsirkan kata per kata.",
+     formula:"Ungkapan/idiom: maknanya tidak sama dengan gabungan makna kata-katanya"},
+    {q:"Puisi berbeda dari prosa karena...",hint:"Bentuk dan cara penyampaiannya berbeda",vis:"Puisi: baris · bait · rima\nProsa: paragraf · kalimat panjang",
+     opts:["Puisi selalu berima, prosa tidak pernah","Puisi menggunakan bahasa indah dan padat, disusun dalam baris dan bait","Puisi lebih panjang dari prosa","Puisi tidak boleh menggunakan majas"],ans:1,
+     exp:"Puisi menggunakan bahasa yang padat, indah, dan penuh makna, disusun dalam baris dan bait dengan memperhatikan irama. Prosa menggunakan kalimat dan paragraf biasa.",
+     formula:"Puisi: baris+bait+irama+bahasa padat · Prosa: paragraf+kalimat biasa+narasi panjang"},
+  ],
+];
+
+// ══ STATE ══
+let curTopic=0,curQ=0,timerInt=null,elapsed=0,picked=false;
+let topicScores=[],topicWrong=[],allWrong=[];
+const TIMER=8*60;
+const COLORS=['#7e22ce','#dc2626','#d97706','#059669','#2563eb','#db2777'];
+
+function startTopic(t){
+  curTopic=t;curQ=0;elapsed=0;picked=false;
+  topicWrong[t]=[];
+  if(!topicScores[t])topicScores[t]=0;
+  showScreen('quiz-screen');
+  const tp=TOPICS[t];
+  document.getElementById('th-icon').textContent=tp.icon;
+  document.getElementById('th-icon').style.background=tp.bg;
+  document.getElementById('th-code').textContent=`A05 · ${tp.id} · ${t+1}/6`;
+  document.getElementById('th-name').textContent=tp.name;
+  document.getElementById('th-sub').textContent=tp.sub;
+  const pill=document.getElementById('t-pill');
+  pill.textContent=tp.name;pill.style.background=tp.pill;pill.style.color=tp.pillc;
+  pill.style.border=`1px solid ${tp.color}44`;
+  document.getElementById('prog-fg').style.background=tp.color;
+  clearInterval(timerInt);elapsed=0;updateTimer();
+  timerInt=setInterval(()=>{elapsed++;updateTimer();},1000);
+  renderQ();
+}
+
+function renderQ(){
+  const q=ALL_Q[curTopic][curQ],tot=ALL_Q[curTopic].length;
+  document.getElementById('q-no').textContent=`SOAL ${String(curQ+1).padStart(2,'0')}`;
+  document.getElementById('q-no').style.color=COLORS[curTopic];
+  document.getElementById('q-txt').textContent=q.q;
+  document.getElementById('q-hint').textContent=q.hint?`💡 ${q.hint}`:'';
+  document.getElementById('q-ctr').textContent=`${curQ+1}/${tot}`;
+  document.getElementById('prog-fg').style.width=`${(curQ/tot)*100}%`;
+  const vis=document.getElementById('q-vis');
+  if(q.vis){vis.textContent=q.vis;vis.style.display='block';}else vis.style.display='none';
+  document.getElementById('q-expl').className='expl';
+  document.getElementById('next-btn').className='next-btn';
+  const opts=document.getElementById('q-opts');
+  opts.innerHTML='';
+  ['A','B','C','D'].forEach((l,i)=>{
+    const b=document.createElement('button');
+    b.className='opt';
+    b.innerHTML=`<span class="ol">${l}</span><span>${q.opts[i]}</span>`;
+    b.onclick=()=>pickAns(i);
+    opts.appendChild(b);
+  });
+}
+
+function pickAns(idx){
+  if(picked)return;picked=true;
+  const q=ALL_Q[curTopic][curQ];
+  const btns=document.querySelectorAll('#q-opts .opt');
+  btns.forEach(b=>b.disabled=true);
+  if(idx===q.ans){btns[idx].classList.add('correct');topicScores[curTopic]=(topicScores[curTopic]||0)+1;}
+  else{
+    btns[idx].classList.add('wrong');btns[q.ans].classList.add('correct');
+    topicWrong[curTopic]=topicWrong[curTopic]||[];
+    topicWrong[curTopic].push({q:q.q.substring(0,80)+'...',chosen:q.opts[idx],correct:q.opts[q.ans],exp:q.exp,formula:q.formula||''});
+    allWrong.push({topic:TOPICS[curTopic].name,q:q.q.substring(0,60)+'...',chosen:q.opts[idx],correct:q.opts[q.ans]});
+  }
+  const ep=document.getElementById('q-expl');
+  ep.innerHTML=`<div class="expl-hd">💡 Penjelasan</div><div class="expl-txt">${q.exp}${q.formula?`<div class="expl-f">${q.formula}</div>`:''}</div>`;
+  ep.classList.add('show');
+  const nb=document.getElementById('next-btn');
+  const isLast=curQ===ALL_Q[curTopic].length-1;
+  nb.textContent=isLast?`Selesai Topik ${curTopic+1} →`:'Soal Berikutnya →';
+  nb.style.background=`linear-gradient(135deg,${COLORS[curTopic]},${COLORS[curTopic]}bb)`;
+  nb.classList.add('show');
+}
+
+function nextQ(){
+  picked=false;
+  if(curQ<ALL_Q[curTopic].length-1){curQ++;renderQ();}
+  else{clearInterval(timerInt);showTransition();}
+}
+
+function updateTimer(){
+  const rem=TIMER-elapsed,over=rem<0;
+  const d=over?elapsed-TIMER:rem;
+  document.getElementById('t-val').textContent=(over?'+':'')+String(Math.floor(d/60)).padStart(2,'0')+':'+String(d%60).padStart(2,'0');
+  document.getElementById('t-box').className='timer-box'+(over?' over':rem<=2*60?' warn':'');
+}
+
+function showTransition(){
+  showScreen('transition-screen');
+  const t=TOPICS[curTopic],sc=topicScores[curTopic]||0,pct=Math.round((sc/5)*100);
+  const isLast=curTopic===TOPICS.length-1;
+  document.getElementById('tc-icon').textContent=sc===5?'🌟':sc>=4?'✅':sc>=3?'⚠️':'❗';
+  document.getElementById('tc-title').textContent=`${t.name} Selesai!`;
+  document.getElementById('tc-sub').textContent=sc===5?'Sempurna! Topik ini sudah dikuasai.':sc>=4?'Bagus! Hampir sempurna.':sc>=3?'Cukup. Ada yang perlu diperkuat.':'Topik ini perlu perhatian khusus.';
+  const scoreEl=document.getElementById('tc-score');
+  scoreEl.textContent=`${sc}/5 benar · ${pct}%`;
+  const col=pct>=80?'#059669':pct>=60?'#d97706':'#dc2626';
+  const bg=pct>=80?'#dcfce7':pct>=60?'#fef3c7':'#fee2e2';
+  scoreEl.style.cssText=`background:${bg};color:${col};border:1.5px solid ${col}44;display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:20px;font-weight:800;font-size:15px;margin-bottom:20px;`;
+  const btn=document.getElementById('tc-btn');
+  btn.textContent=isLast?'📊 Lihat Hasil Lengkap →':`Lanjut ke ${TOPICS[curTopic+1].name} →`;
+  btn.style.background=`linear-gradient(135deg,${COLORS[curTopic]},${COLORS[curTopic]}bb)`;
+}
+
+function continueNext(){
+  if(curTopic<TOPICS.length-1)startTopic(curTopic+1);
+  else showResult();
+}
+
+function showResult(){
+  showScreen('result-screen');
+  const div=document.getElementById('topic-scores');
+  div.innerHTML='';
+  let strong=[],ok=[],weak=[];
+  TOPICS.forEach((t,i)=>{
+    const sc=topicScores[i]||0,pct=Math.round((sc/5)*100);
+    const col=pct>=80?'#059669':pct>=60?'#d97706':'#dc2626';
+    const bcls=pct>=80?'badge-strong':pct>=60?'badge-ok':'badge-weak';
+    const blbl=pct>=80?'✅ Kuat':pct>=60?'⚠️ Perlu latihan':'❗ Lemah';
+    if(pct>=80)strong.push(t.name);else if(pct>=60)ok.push(t.name);else weak.push(t.name);
+    div.innerHTML+=`<div class="ts-row"><span class="ts-icon">${t.icon}</span><div class="ts-info"><div class="ts-name">${t.name}</div><div class="ts-detail">${sc}/5 benar · ${t.sub}</div></div><div class="ts-right"><div class="ts-bar"><div class="ts-fill" style="width:${pct}%;background:${col}"></div></div><div class="ts-score" style="color:${col}">${pct}</div><span class="ts-badge ${bcls}">${blbl}</span></div></div>`;
+  });
+
+  const ps=document.getElementById('priority-section');
+  ps.innerHTML=`<div class="ps-hd" style="color:var(--accent)">📌 Prioritas Program Belajar Bahasa Indonesia</div>`;
+  if(weak.length)ps.innerHTML+=`<div class="prio-item"><span class="prio-code" style="background:#fee2e2;color:#991b1b">UTAMA</span><div>❗ <strong>Butuh perhatian:</strong> ${weak.join(', ')}</div></div>`;
+  if(ok.length)ps.innerHTML+=`<div class="prio-item"><span class="prio-code" style="background:#fef3c7;color:#92400e">SEDANG</span><div>⚠️ <strong>Perlu latihan:</strong> ${ok.join(', ')}</div></div>`;
+  if(strong.length)ps.innerHTML+=`<div class="prio-item"><span class="prio-code" style="background:#dcfce7;color:#15803d">KUAT</span><div>✅ <strong>Sudah kuat:</strong> ${strong.join(', ')}</div></div>`;
+
+  const weakT=TOPICS.filter((_,i)=>Math.round(((topicScores[i]||0)/5)*100)<60);
+  const okT=TOPICS.filter((_,i)=>{const p=Math.round(((topicScores[i]||0)/5)*100);return p>=60&&p<80;});
+  document.getElementById('plan-section').innerHTML=`
+    <div class="ps-hd" style="color:var(--green)">🗓️ Rekomendasi B09 & B10</div>
+    <div class="prio-item"><span class="prio-code" style="background:#eff6ff;color:#1d4ed8">B09</span><div>${weakT.length?`<strong>Fokus:</strong> ${weakT.map(t=>t.name).join(' & ')}`:'<strong>Fokus:</strong> Topik skor terendah'}</div></div>
+    <div class="prio-item"><span class="prio-code" style="background:#eff6ff;color:#1d4ed8">B10</span><div>${okT.length?`<strong>Fokus:</strong> ${okT.map(t=>t.name).join(' & ')}`:'<strong>Fokus:</strong> Latihan soal campuran B.Indonesia'}</div></div>`;
+
+  // Completion message — all 5 assessments done!
+  document.getElementById('complete-section').innerHTML=`
+    <div class="ps-hd" style="color:#db2777">🎉 Semua Assessment Selesai!</div>
+    <div class="prio-item" style="border:none;padding-top:0">
+      <span style="font-size:24px">🏆</span>
+      <div style="font-size:13px;line-height:1.8;color:var(--text)">
+        Musa telah menyelesaikan <strong>A01 sampai A05</strong> — peta kemampuan semua mapel sudah lengkap!<br><br>
+        Langkah berikutnya: <strong>salin hasil ini</strong> dan kirim ke Claude bersama hasil A01–A04 untuk mendapatkan <strong>program belajar B01–B10 yang benar-benar personal</strong> berdasarkan semua data assessment.
+      </div>
+    </div>`;
+}
+
+function copyResult(){
+  let t=`📊 HASIL A05 — ASSESSMENT BAHASA INDONESIA PER TOPIK\n`;
+  t+=`Musa Brahma Batubara · 9 April 2026\n`;
+  t+=`Kode: A05 · Program Persiapan UPK Paket A\n`;
+  t+=`${'─'.repeat(50)}\n\nSKOR PER TOPIK:\n`;
+  TOPICS.forEach((tp,i)=>{
+    const sc=topicScores[i]||0,pct=Math.round((sc/5)*100);
+    const bar='█'.repeat(sc)+'░'.repeat(5-sc);
+    const st=pct>=80?'✅':pct>=60?'⚠️':'❗';
+    t+=`${st} ${tp.icon} ${tp.name.padEnd(24)} ${bar} ${sc}/5 (${pct}%)\n`;
+  });
+  t+=`\n${'─'.repeat(50)}\n`;
+  const weak=TOPICS.filter((_,i)=>Math.round(((topicScores[i]||0)/5)*100)<60);
+  const mid=TOPICS.filter((_,i)=>{const p=Math.round(((topicScores[i]||0)/5)*100);return p>=60&&p<80;});
+  const str=TOPICS.filter((_,i)=>Math.round(((topicScores[i]||0)/5)*100)>=80);
+  if(weak.length)t+=`❗ LEMAH: ${weak.map(x=>x.name).join(', ')}\n`;
+  if(mid.length)t+=`⚠️ SEDANG: ${mid.map(x=>x.name).join(', ')}\n`;
+  if(str.length)t+=`✅ KUAT: ${str.map(x=>x.name).join(', ')}\n`;
+  if(allWrong.length){
+    t+=`\nSOAL SALAH:\n`;
+    allWrong.forEach((w,i)=>{t+=`${i+1}. [${w.topic}] ${w.q}\n   → Jawab: ${w.chosen} | Benar: ${w.correct}\n`;});
+  }
+  t+=`\n${'─'.repeat(50)}\n`;
+  t+=`📌 Berdasarkan A05, buatkan:\n`;
+  t+=`B09 · B.Indonesia — fokus: ${weak.length?weak.map(x=>x.name).join(' & '):'topik skor terendah'}\n`;
+  t+=`B10 · B.Indonesia — fokus: ${mid.length?mid.map(x=>x.name).join(' & '):'latihan soal campuran B.Indonesia'}\n`;
+  t+=`Format: Pre-test → Materi → Post-test · Soal berbeda dari A05\n\n`;
+  t+=`🎉 CATATAN: Ini adalah assessment terakhir (A05). Semua fase assessment A01-A05 sudah selesai!\n`;
+  t+=`Kirim semua hasil A01-A05 ke Claude untuk mendapatkan program B01-B10 yang personal.`;
+
+  navigator.clipboard.writeText(t).then(()=>{
+    const b=document.getElementById('copy-btn');
+    b.textContent='✅ Tersalin! Paste di chat Claude 👆';
+    b.style.background='linear-gradient(135deg,#059669,#047857)';
+    setTimeout(()=>{b.textContent='📋 Salin Hasil → Kirim ke Claude untuk B09';b.style.background='';},4000);
+  }).catch(()=>prompt('Salin:',t));
+}
+
+function showScreen(id){
+  ['splash','quiz-screen','transition-screen','result-screen'].forEach(s=>document.getElementById(s).style.display='none');
+  document.getElementById(id).style.display='block';
+}
+</script>
+</body>
+</html>
