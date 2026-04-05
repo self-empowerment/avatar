@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A03 · Assessment Agama Islam · UPK Musa</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#fdf8f0; --card:#ffffff; --border:#e8d5b0;
+  --accent:#92400e; --green:#059669; --red:#dc2626;
+  --blue:#2563eb; --gold:#d97706; --teal:#0891b2;
+  --text:#1c1917; --muted:#78716c; --shadow:0 4px 24px rgba(146,64,14,0.08);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+body::before{content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse at 5% 5%,rgba(146,64,14,0.07) 0%,transparent 40%),
+             radial-gradient(ellipse at 95% 95%,rgba(217,119,6,0.07) 0%,transparent 40%);
+  pointer-events:none;z-index:0;}
+.wrap{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:20px 16px 60px;}
+.screen{display:none;}
+#splash{display:block;}
+
+.code-tag{display:inline-flex;align-items:center;gap:8px;
+  background:rgba(146,64,14,0.10);border:1.5px solid rgba(146,64,14,0.3);
+  color:var(--accent);font-size:11px;font-weight:800;
+  padding:5px 14px;border-radius:20px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px;}
+.splash-hero{text-align:center;padding:24px 0 18px;}
+.splash-hero h1{font-size:28px;font-weight:900;line-height:1.2;margin-bottom:8px;}
+.splash-hero h1 em{font-style:normal;color:var(--accent);}
+.splash-hero p{font-size:13px;color:var(--muted);line-height:1.8;}
+
+.topics-overview{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0;}
+.tov{background:var(--card);border:2px solid var(--border);border-radius:14px;padding:14px;box-shadow:var(--shadow);}
+.tov .tov-num{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--muted);margin-bottom:4px;}
+.tov .tov-name{font-size:13px;font-weight:800;}
+.tov .tov-q{font-size:11px;color:var(--muted);margin-top:2px;}
+
+.rules-card{background:var(--card);border:2px solid var(--border);border-radius:18px;padding:18px;margin-bottom:16px;box-shadow:var(--shadow);}
+.rules-card h3{font-size:12px;font-weight:900;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;}
+.rule{display:flex;gap:10px;align-items:flex-start;margin-bottom:9px;font-size:13px;line-height:1.6;}
+.rule:last-child{margin-bottom:0;}
+
+.topic-hd{display:flex;align-items:center;gap:12px;margin-bottom:14px;
+  background:var(--card);border:2px solid var(--border);border-radius:14px;padding:14px;box-shadow:var(--shadow);}
+.th-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.th-info .th-code{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--muted);}
+.th-info .th-name{font-size:15px;font-weight:900;}
+.th-info .th-sub{font-size:11px;color:var(--muted);}
+
+.qz-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.topic-pill{font-size:11px;font-weight:800;padding:4px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:.8px;}
+.q-ctr{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--muted);}
+.timer-box{display:flex;align-items:center;gap:5px;background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:4px 11px;}
+.timer-box.warn{border-color:var(--gold);} .timer-box.warn .tv{color:var(--gold);}
+.timer-box.over{border-color:var(--red);animation:bl 1s infinite;} .timer-box.over .tv{color:var(--red);}
+.tv{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:.5}}
+.prog-wrap{margin-bottom:12px;}
+.prog-bg{height:6px;background:var(--border);border-radius:3px;}
+.prog-fg{height:100%;border-radius:3px;transition:width .4s;}
+
+.q-card{background:var(--card);border:2px solid var(--border);border-radius:18px;padding:20px;margin-bottom:11px;box-shadow:var(--shadow);}
+.q-no{font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:7px;}
+.q-txt{font-size:15px;font-weight:700;line-height:1.65;}
+.q-hint{font-size:12px;color:var(--muted);font-style:italic;margin-top:5px;}
+.vis{background:#fdf8f0;border:1.5px solid #e8d5b0;border-radius:10px;padding:12px;margin:10px 0;
+  font-size:13px;color:#92400e;line-height:1.8;display:none;}
+
+.opts{display:flex;flex-direction:column;gap:8px;margin-top:12px;}
+.opt{background:#fdf8f0;border:2px solid var(--border);border-radius:11px;padding:11px 13px;
+  cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;
+  color:var(--text);transition:all .15s;display:flex;align-items:center;gap:10px;}
+.opt:hover:not(:disabled){border-color:var(--accent);background:#fef3c7;transform:translateX(3px);}
+.opt .ol{width:28px;height:28px;border-radius:8px;flex-shrink:0;background:#e8d5b0;
+  display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;
+  font-family:'JetBrains Mono',monospace;transition:.15s;}
+.opt.correct{border-color:var(--green);background:#f0fdf4;}
+.opt.correct .ol{background:var(--green);color:#fff;}
+.opt.wrong{border-color:var(--red);background:#fef2f2;}
+.opt.wrong .ol{background:var(--red);color:#fff;}
+.opt:disabled{cursor:default;}
+
+.expl{background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:12px;padding:14px;margin-top:10px;display:none;}
+.expl.show{display:block;animation:up .3s ease;}
+.expl-hd{font-size:10px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;}
+.expl-txt{font-size:13px;line-height:1.75;}
+.expl-f{background:#dbeafe;border-radius:7px;padding:8px 12px;margin-top:8px;font-size:12px;color:#1d4ed8;line-height:1.6;}
+
+.next-btn{width:100%;padding:13px;border:none;border-radius:12px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;
+  cursor:pointer;transition:transform .15s;display:none;margin-top:10px;color:#fff;}
+.next-btn.show{display:block;animation:up .2s ease;}
+.next-btn:hover{transform:translateY(-1px);}
+
+.transition-card{background:var(--card);border:2px solid var(--border);border-radius:20px;padding:26px;text-align:center;box-shadow:var(--shadow);}
+.tc-icon{font-size:48px;margin-bottom:12px;}
+.tc-title{font-size:20px;font-weight:900;margin-bottom:6px;}
+.tc-sub{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:16px;}
+.tc-score{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:20px;font-weight:800;font-size:15px;margin-bottom:20px;}
+
+.res-hd{text-align:center;padding:22px 0 14px;}
+.res-hd h2{font-size:26px;font-weight:900;margin-bottom:6px;}
+.res-hd p{font-size:13px;color:var(--muted);}
+.topic-scores{display:flex;flex-direction:column;gap:10px;margin:16px 0;}
+.ts-row{background:var(--card);border:2px solid var(--border);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow);}
+.ts-icon{font-size:20px;flex-shrink:0;}
+.ts-info{flex:1;}
+.ts-name{font-size:14px;font-weight:800;}
+.ts-detail{font-size:11px;color:var(--muted);margin-top:1px;}
+.ts-right{display:flex;align-items:center;gap:8px;}
+.ts-bar{width:70px;height:7px;background:var(--border);border-radius:4px;}
+.ts-fill{height:100%;border-radius:4px;}
+.ts-score{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;min-width:36px;text-align:right;}
+.ts-badge{font-size:10px;font-weight:800;padding:2px 8px;border-radius:10px;white-space:nowrap;}
+.badge-strong{background:#dcfce7;color:#15803d;}
+.badge-ok{background:#fef3c7;color:#92400e;}
+.badge-weak{background:#fee2e2;color:#991b1b;}
+
+.priority-section{background:var(--card);border:2px solid var(--border);border-radius:18px;padding:18px;margin-bottom:12px;box-shadow:var(--shadow);}
+.ps-hd{font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;}
+.prio-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1.5px solid var(--border);font-size:13px;line-height:1.65;}
+.prio-item:last-child{border-bottom:none;padding-bottom:0;}
+.prio-code{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;flex-shrink:0;margin-top:1px;}
+
+.copy-btn{width:100%;padding:15px;border:none;border-radius:13px;
+  background:linear-gradient(135deg,#92400e,#78350f);color:#fff;
+  font-weight:800;font-size:15px;font-family:'Plus Jakarta Sans',sans-serif;
+  cursor:pointer;box-shadow:0 6px 20px rgba(146,64,14,0.3);transition:transform .15s;margin-top:10px;}
+.copy-btn:hover{transform:translateY(-2px);}
+.ghost-btn{width:100%;padding:13px;border:2px solid var(--border);border-radius:13px;
+  background:var(--card);color:var(--muted);font-weight:700;font-size:14px;
+  font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;margin-top:8px;transition:.2s;}
+.ghost-btn:hover{border-color:var(--accent);color:var(--accent);}
+.big-btn{width:100%;padding:15px;border:none;border-radius:13px;font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;cursor:pointer;transition:transform .15s;color:#fff;}
+.big-btn:hover{transform:translateY(-2px);}
+@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ══ SPLASH ══ -->
+<div id="splash" class="screen" style="display:block">
+  <div class="splash-hero">
+    <div class="code-tag">A03 · Assessment Agama Islam</div>
+    <h1>Peta Kemampuan<br>Agama Islam <em>Musa</em> 🕌</h1>
+    <p>Kita uji <strong>6 topik Agama Islam</strong> secara terpisah.<br>
+    Skor awal: <strong style="color:#d97706">70/100</strong> — sudah baik, mari kita poles!</p>
+  </div>
+
+  <div class="topics-overview">
+    <div class="tov"><div class="tov-num">TOPIK 1</div><div class="tov-name" style="color:#dc2626">☪️ Akidah</div><div class="tov-q">5 soal · Rukun Iman & Sifat Allah</div></div>
+    <div class="tov"><div class="tov-num">TOPIK 2</div><div class="tov-name" style="color:#d97706">🕋 Fiqih Ibadah</div><div class="tov-q">5 soal · Shalat, Puasa, Zakat, Haji</div></div>
+    <div class="tov"><div class="tov-num">TOPIK 3</div><div class="tov-name" style="color:#059669">📖 Al-Qur'an & Hadits</div><div class="tov-q">5 soal · Ilmu Al-Qur'an</div></div>
+    <div class="tov"><div class="tov-num">TOPIK 4</div><div class="tov-name" style="color:#2563eb">😇 Akhlak</div><div class="tov-q">5 soal · Perilaku Terpuji & Tercela</div></div>
+    <div class="tov"><div class="tov-num">TOPIK 5</div><div class="tov-name" style="color:#7c3aed">📜 Sejarah Islam</div><div class="tov-q">5 soal · Nabi & Perkembangan Islam</div></div>
+    <div class="tov"><div class="tov-num">TOPIK 6</div><div class="tov-name" style="color:#0891b2">🌙 Ibadah Khusus</div><div class="tov-q">5 soal · Thaharah, Jenazah, Muamalah</div></div>
+  </div>
+
+  <div class="rules-card">
+    <h3>📋 Cara Kerja</h3>
+    <div class="rule"><span>📝</span><span>30 soal total — <strong>5 soal per topik</strong>, dikerjakan berurutan</span></div>
+    <div class="rule"><span>⏱️</span><span>Timer <strong>8 menit per topik</strong></span></div>
+    <div class="rule"><span>💡</span><span>Penjelasan detail langsung muncul setelah setiap jawaban</span></div>
+    <div class="rule"><span>📊</span><span>Hasil akhir: peta topik kuat vs lemah + rekomendasi B05 & B06</span></div>
+  </div>
+
+  <button class="big-btn" style="background:linear-gradient(135deg,#92400e,#78350f);box-shadow:0 6px 20px rgba(146,64,14,0.3)" onclick="startTopic(0)">🚀 Mulai Assessment Agama!</button>
+</div>
+
+<!-- ══ QUIZ ══ -->
+<div id="quiz-screen" class="screen">
+  <div class="topic-hd">
+    <div class="th-icon" id="th-icon"></div>
+    <div class="th-info">
+      <div class="th-code" id="th-code"></div>
+      <div class="th-name" id="th-name"></div>
+      <div class="th-sub" id="th-sub"></div>
+    </div>
+  </div>
+  <div class="qz-bar">
+    <span class="topic-pill" id="t-pill"></span>
+    <span class="q-ctr" id="q-ctr">1/5</span>
+    <div class="timer-box" id="t-box"><span>⏱</span><span class="tv" id="t-val">08:00</span></div>
+  </div>
+  <div class="prog-wrap"><div class="prog-bg"><div class="prog-fg" id="prog-fg" style="width:0%"></div></div></div>
+  <div class="q-card">
+    <div class="q-no" id="q-no">SOAL 01</div>
+    <div class="q-txt" id="q-txt"></div>
+    <div class="q-hint" id="q-hint"></div>
+    <div class="vis" id="q-vis"></div>
+    <div class="opts" id="q-opts"></div>
+    <div class="expl" id="q-expl"></div>
+  </div>
+  <button class="next-btn" id="next-btn" onclick="nextQ()"></button>
+</div>
+
+<!-- ══ TRANSITION ══ -->
+<div id="transition-screen" class="screen">
+  <div class="transition-card">
+    <div class="tc-icon" id="tc-icon"></div>
+    <div class="tc-title" id="tc-title"></div>
+    <div class="tc-sub" id="tc-sub"></div>
+    <div class="tc-score" id="tc-score"></div>
+    <button class="big-btn" id="tc-btn" onclick="continueNext()"></button>
+  </div>
+</div>
+
+<!-- ══ RESULT ══ -->
+<div id="result-screen" class="screen">
+  <div class="res-hd">
+    <div class="code-tag" style="margin-bottom:12px">A03 · Hasil Assessment</div>
+    <h2>Peta Agama Islam Musa 🕌</h2>
+    <p>Assessment per Topik · Program UPK Paket A</p>
+  </div>
+  <div class="topic-scores" id="topic-scores"></div>
+  <div class="priority-section" id="priority-section"></div>
+  <div class="priority-section" id="plan-section"></div>
+  <button class="copy-btn" id="copy-btn" onclick="copyResult()">📋 Salin Hasil → Kirim ke Claude untuk B05</button>
+  <button class="ghost-btn" onclick="if(confirm('Ulangi?')){location.reload()}">🔄 Ulangi A03</button>
+</div>
+
+</div>
+<script>
+const TOPICS = [
+  {id:'T1',name:'Akidah',icon:'☪️',color:'#dc2626',bg:'#fef2f2',pill:'rgba(220,38,38,0.10)',pillc:'#dc2626',sub:'Rukun Iman, Sifat Allah, Malaikat'},
+  {id:'T2',name:'Fiqih Ibadah',icon:'🕋',color:'#d97706',bg:'#fffbeb',pill:'rgba(217,119,6,0.10)',pillc:'#d97706',sub:'Shalat, Puasa, Zakat, Haji'},
+  {id:'T3',name:'Al-Qur\'an & Hadits',icon:'📖',color:'#059669',bg:'#f0fdf4',pill:'rgba(5,150,105,0.10)',pillc:'#059669',sub:'Ilmu Al-Qur\'an & Hadits'},
+  {id:'T4',name:'Akhlak',icon:'😇',color:'#2563eb',bg:'#eff6ff',pill:'rgba(37,99,235,0.10)',pillc:'#2563eb',sub:'Perilaku Terpuji & Tercela'},
+  {id:'T5',name:'Sejarah Islam',icon:'📜',color:'#7c3aed',bg:'#f5f0ff',pill:'rgba(124,58,237,0.10)',pillc:'#7c3aed',sub:'Nabi, Sahabat & Perkembangan Islam'},
+  {id:'T6',name:'Ibadah Khusus',icon:'🌙',color:'#0891b2',bg:'#ecfeff',pill:'rgba(8,145,178,0.10)',pillc:'#0891b2',sub:'Thaharah, Jenazah & Muamalah'},
+];
+
+const ALL_Q = [
+  // T1 — Akidah
+  [
+    {q:"Jumlah rukun iman dalam Islam adalah...",hint:"Rukun iman dimulai dari iman kepada Allah",vis:"Iman kepada: Allah · Malaikat · Kitab · Rasul · Hari Akhir · Qada & Qadar",
+     opts:["4","5","6","7"],ans:2,
+     exp:"Rukun iman ada 6: (1) Allah, (2) Malaikat, (3) Kitab-kitab Allah, (4) Rasul-rasul Allah, (5) Hari Akhir, (6) Qada dan Qadar.",
+     formula:"6 Rukun Iman: Allah·Malaikat·Kitab·Rasul·Hari Akhir·Qada&Qadar"},
+    {q:"Sifat wajib Allah yang berarti 'Maha Berkuasa' adalah...",hint:"Allah Maha Kuasa atas segala sesuatu",vis:"",
+     opts:["Wujud","Qidam","Qudrat","Iradat"],ans:2,
+     exp:"Qudrat artinya Maha Berkuasa/Maha Kuasa. Allah berkuasa atas segala sesuatu tanpa batas.",
+     formula:"Qudrat = Maha Berkuasa · Iradat = Maha Berkehendak · Wujud = Ada · Qidam = Terdahulu"},
+    {q:"Malaikat yang bertugas mencabut nyawa adalah...",hint:"Malaikat maut",vis:"",
+     opts:["Malaikat Jibril","Malaikat Mikail","Malaikat Izrail","Malaikat Israfil"],ans:2,
+     exp:"Malaikat Izrail bertugas mencabut nyawa. Jibril=menyampaikan wahyu, Mikail=mengatur rezeki, Israfil=meniup sangkakala.",
+     formula:"Izrail=maut · Jibril=wahyu · Mikail=rezeki · Israfil=sangkakala"},
+    {q:"Iman kepada qada dan qadar artinya percaya bahwa...",hint:"Qada = ketetapan, Qadar = takdir",vis:"",
+     opts:["Manusia bebas menentukan nasibnya sendiri","Segala sesuatu telah ditentukan Allah","Allah tidak mengatur urusan manusia","Nasib ditentukan oleh usaha manusia saja"],ans:1,
+     exp:"Iman kepada qada dan qadar berarti percaya bahwa segala sesuatu yang terjadi telah ditentukan oleh Allah SWT sesuai kehendak-Nya.",
+     formula:"Qada = ketetapan Allah · Qadar = ukuran/takdir Allah"},
+    {q:"Kitab suci yang diturunkan kepada Nabi Musa AS adalah...",hint:"Ada 4 kitab suci utama",vis:"Taurat→Musa · Zabur→Daud · Injil→Isa · Al-Qur'an→Muhammad",
+     opts:["Al-Qur'an","Injil","Taurat","Zabur"],ans:2,
+     exp:"Kitab Taurat diturunkan kepada Nabi Musa AS. Zabur kepada Nabi Daud, Injil kepada Nabi Isa, Al-Qur'an kepada Nabi Muhammad SAW.",
+     formula:"Taurat→Musa · Zabur→Daud · Injil→Isa · Al-Qur'an→Muhammad"},
+  ],
+  // T2 — Fiqih Ibadah
+  [
+    {q:"Syarat wajib shalat yang benar adalah...",hint:"Siapa yang wajib shalat?",vis:"",
+     opts:["Muslim, baligh, berakal, dan suci dari hadas","Muslim dan sudah berumur 10 tahun","Semua orang yang tinggal di negara Islam","Muslim, sudah menikah, dan berakal"],ans:0,
+     exp:"Syarat wajib shalat: Muslim, baligh (dewasa), berakal sehat, dan suci dari hadas besar maupun kecil.",
+     formula:"Wajib shalat: Muslim + baligh + berakal + suci dari hadas"},
+    {q:"Nishab zakat emas adalah...",hint:"Nishab = batas minimal harta yang wajib dizakati",vis:"",
+     opts:["50 gram","85 gram","93 gram","100 gram"],ans:1,
+     exp:"Nishab zakat emas adalah 85 gram. Jika seseorang memiliki emas ≥85 gram selama 1 tahun (haul), wajib zakat 2,5%.",
+     formula:"Nishab emas = 85 gram · Zakat = 2,5% · Haul = 1 tahun"},
+    {q:"Urutan pelaksanaan ibadah haji yang benar dimulai dari...",hint:"Ihram adalah yang pertama",vis:"Ihram → Wukuf → Tawaf → Sa'i → Tahallul",
+     opts:["Wukuf di Arafah","Ihram","Tawaf","Sa'i"],ans:1,
+     exp:"Urutan haji: Ihram (niat+pakaian ihram) → Wukuf di Arafah → Mabit di Muzdalifah → Lempar jumrah → Tawaf ifadah → Sa'i → Tahallul.",
+     formula:"Ihram → Wukuf → Mabit → Jumrah → Tawaf → Sa'i → Tahallul"},
+    {q:"Yang membatalkan puasa Ramadhan adalah...",hint:"Sesuatu yang dilakukan dengan sengaja",vis:"",
+     opts:["Mimpi buruk saat tidur","Berkumur-kumur saat wudhu","Makan dan minum dengan sengaja","Mencium aroma makanan"],ans:2,
+     exp:"Makan dan minum dengan sengaja membatalkan puasa. Mimpi, berkumur (tidak berlebihan), dan mencium bau tidak membatalkan puasa.",
+     formula:"Batal puasa: makan/minum sengaja · sengaja muntah · hubungan suami istri"},
+    {q:"Zakat fitrah wajib dibayarkan sebelum...",hint:"Batas akhir zakat fitrah",vis:"",
+     opts:["Awal bulan Ramadhan","Pertengahan Ramadhan","Shalat Idul Fitri","Akhir bulan Syawal"],ans:2,
+     exp:"Zakat fitrah wajib dibayarkan sebelum pelaksanaan Shalat Idul Fitri. Lebih utama dibayar di akhir Ramadhan.",
+     formula:"Zakat fitrah = sebelum Shalat Idul Fitri · 2,5 kg beras/makanan pokok"},
+  ],
+  // T3 — Al-Qur'an & Hadits
+  [
+    {q:"Surah terpanjang dalam Al-Qur'an adalah...",hint:"Surah ini berisi kisah Nabi Musa dan banyak hukum",vis:"",
+     opts:["Al-Fatihah","Al-Baqarah","Ali Imran","An-Nisa"],ans:1,
+     exp:"Surah Al-Baqarah adalah surah terpanjang dalam Al-Qur'an dengan 286 ayat. Surah terpendek adalah Al-Kautsar (3 ayat).",
+     formula:"Terpanjang: Al-Baqarah (286 ayat) · Terpendek: Al-Kautsar (3 ayat)"},
+    {q:"Jumlah juz dalam Al-Qur'an adalah...",hint:"Al-Qur'an dibagi rata ke dalam beberapa juz",vis:"",
+     opts:["20 juz","25 juz","30 juz","114 juz"],ans:2,
+     exp:"Al-Qur'an terdiri dari 30 juz, 114 surah, dan 6.236 ayat. Pembagian 30 juz memudahkan umat Islam membaca Al-Qur'an.",
+     formula:"Al-Qur'an: 30 juz · 114 surah · 6.236 ayat"},
+    {q:"Hadits yang diriwayatkan oleh banyak orang sehingga mustahil berdusta disebut...",hint:"Tingkatan hadits tertinggi dari segi sanad",vis:"",
+     opts:["Hadits dhaif","Hadits maudu","Hadits mutawatir","Hadits ahad"],ans:2,
+     exp:"Hadits mutawatir diriwayatkan oleh banyak perawi di setiap tingkatan sanad sehingga mustahil mereka bersepakat untuk berdusta.",
+     formula:"Mutawatir = banyak perawi · Ahad = sedikit perawi · Dhaif = lemah · Maudu = palsu"},
+    {q:"Hukum membaca Al-Qur'an bagi seorang muslim adalah...",hint:"Apakah wajib, sunnah, atau mubah?",vis:"",
+     opts:["Wajib setiap hari","Fardhu kifayah","Sunnah","Mubah"],ans:2,
+     exp:"Membaca Al-Qur'an hukumnya sunnah (sangat dianjurkan). Setiap huruf yang dibaca mendapat 10 kebaikan.",
+     formula:"Membaca Al-Qur'an = sunnah mu'akkadah (sangat dianjurkan)"},
+    {q:"Surah yang disebut 'induk Al-Qur'an' (Ummul Qur'an) adalah...",hint:"Surah ini dibaca di setiap rakaat shalat",vis:"",
+     opts:["Al-Ikhlas","Al-Baqarah","Al-Fatihah","Yasin"],ans:2,
+     exp:"Al-Fatihah disebut Ummul Qur'an karena mengandung inti ajaran Islam dan wajib dibaca di setiap rakaat shalat.",
+     formula:"Al-Fatihah = Ummul Qur'an = 7 ayat = wajib di setiap rakaat"},
+  ],
+  // T4 — Akhlak
+  [
+    {q:"Sifat yang berarti 'dapat dipercaya' dalam Islam adalah...",hint:"Salah satu sifat wajib Rasulullah",vis:"Sifat wajib Rasul: Siddiq · Amanah · Tabligh · Fathanah",
+     opts:["Siddiq","Amanah","Tabligh","Fathanah"],ans:1,
+     exp:"Amanah artinya dapat dipercaya. Siddiq=jujur, Tabligh=menyampaikan, Fathanah=cerdas. Keempat ini adalah sifat wajib Rasul.",
+     formula:"Siddiq=jujur · Amanah=dipercaya · Tabligh=menyampaikan · Fathanah=cerdas"},
+    {q:"Akhlak tercela yang harus dihindari seorang muslim adalah...",hint:"Kebalikan dari sifat terpuji",vis:"",
+     opts:["Sabar dalam menghadapi cobaan","Iri dan dengki terhadap orang lain","Bersyukur atas nikmat Allah","Bersikap rendah hati"],ans:1,
+     exp:"Iri dan dengki (hasad) adalah akhlak tercela yang dilarang dalam Islam karena dapat merusak hubungan dan menghanguskan amal kebaikan.",
+     formula:"Akhlak tercela: hasad · riya · sombong · bohong · khianat"},
+    {q:"Contoh perilaku yang mencerminkan sifat qana'ah adalah...",hint:"Qana'ah = merasa cukup dan bersyukur",vis:"",
+     opts:["Selalu ingin lebih banyak dari orang lain","Bersyukur dan menerima rezeki yang ada","Menolak pemberian orang lain","Bekerja keras tanpa henti"],ans:1,
+     exp:"Qana'ah adalah sikap menerima dan merasa cukup dengan apa yang dimiliki sambil tetap berusaha dan bersyukur kepada Allah.",
+     formula:"Qana'ah = syukur + rida + tidak serakah"},
+    {q:"Dalam Islam, berterima kasih kepada sesama manusia termasuk...",hint:"Hubungannya dengan syukur kepada Allah",vis:"",
+     opts:["Bid'ah","Bagian dari syukur kepada Allah","Riya","Tidak ada hubungannya dengan agama"],ans:1,
+     exp:"Nabi SAW bersabda: 'Tidak bersyukur kepada Allah orang yang tidak berterima kasih kepada manusia.' Berterima kasih kepada manusia adalah bagian dari syukur kepada Allah.",
+     formula:"Syukur kepada Allah mencakup syukur kepada sesama manusia"},
+    {q:"Perilaku yang menunjukkan sikap tawakal adalah...",hint:"Tawakal = berserah diri kepada Allah setelah berusaha",vis:"",
+     opts:["Pasrah tanpa berusaha sama sekali","Berusaha maksimal lalu menyerahkan hasil kepada Allah","Mengandalkan orang lain untuk segala urusan","Khawatir berlebihan tentang masa depan"],ans:1,
+     exp:"Tawakal bukan berarti pasif. Tawakal adalah berusaha semaksimal mungkin, kemudian menyerahkan hasilnya kepada Allah SWT.",
+     formula:"Tawakal = usaha maksimal + serahkan hasil kepada Allah"},
+  ],
+  // T5 — Sejarah Islam
+  [
+    {q:"Nabi Muhammad SAW lahir pada tahun...",hint:"Tahun Gajah — tahun kelahiran Nabi",vis:"",
+     opts:["570 M","610 M","622 M","632 M"],ans:0,
+     exp:"Nabi Muhammad SAW lahir pada 12 Rabiul Awwal tahun 570 M (Tahun Gajah) di Makkah. Beliau wafat pada 632 M.",
+     formula:"Lahir: 570 M · Wahyu pertama: 610 M · Hijrah: 622 M · Wafat: 632 M"},
+    {q:"Peristiwa Hijrah adalah perpindahan Nabi Muhammad SAW dari...",hint:"Dari kota suci ke kota Nabi",vis:"",
+     opts:["Makkah ke Madinah","Madinah ke Makkah","Makkah ke Thaif","Jerusalem ke Makkah"],ans:0,
+     exp:"Hijrah adalah perpindahan Nabi Muhammad SAW dan kaum muslimin dari Makkah ke Madinah pada tahun 622 M, menjadi awal kalender Hijriah.",
+     formula:"Hijrah: Makkah → Madinah (622 M) → awal kalender Hijriah"},
+    {q:"Khalifah pertama setelah wafatnya Nabi Muhammad SAW adalah...",hint:"Sahabat terdekat Nabi, mertua Nabi",vis:"",
+     opts:["Ali bin Abi Thalib","Umar bin Khattab","Utsman bin Affan","Abu Bakar Ash-Shiddiq"],ans:3,
+     exp:"Abu Bakar Ash-Shiddiq adalah khalifah pertama (632-634 M). Beliau mendapat julukan Ash-Shiddiq karena membenarkan Isra Mi'raj.",
+     formula:"Khulafaur Rasyidin: Abu Bakar → Umar → Utsman → Ali"},
+    {q:"Wahyu pertama yang diterima Nabi Muhammad SAW adalah surah...",hint:"Nama surah = 'Bacalah'",vis:"",
+     opts:["Al-Fatihah","Al-Mudatstsir","Al-Alaq","Al-Muzzammil"],ans:2,
+     exp:"Wahyu pertama adalah QS Al-Alaq ayat 1-5 ('Iqra' bismirabbika...') yang diturunkan di Gua Hira pada 17 Ramadhan.",
+     formula:"Wahyu pertama: Al-Alaq 1-5 · Tempat: Gua Hira · Tahun: 610 M"},
+    {q:"Penaklukan kota Makkah oleh kaum muslimin dikenal dengan...",hint:"Fathu = pembukaan/penaklukan",vis:"",
+     opts:["Perang Badar","Fathu Makkah","Hijrah","Isra Mi'raj"],ans:1,
+     exp:"Fathu Makkah (Pembukaan Makkah) terjadi pada tahun 8 Hijriah/630 M. Nabi masuk Makkah secara damai dan menghapus prasangka.",
+     formula:"Fathu Makkah = 8 H / 630 M → kemenangan tanpa perang besar"},
+  ],
+  // T6 — Ibadah Khusus
+  [
+    {q:"Thaharah yang membersihkan hadas besar dilakukan dengan...",hint:"Hadas besar lebih berat dari hadas kecil",vis:"",
+     opts:["Wudhu","Tayammum","Mandi wajib (junub)","Mencuci tangan"],ans:2,
+     exp:"Hadas besar (junub, haid, nifas) dibersihkan dengan mandi wajib. Hadas kecil dibersihkan dengan wudhu.",
+     formula:"Hadas kecil → wudhu · Hadas besar → mandi wajib · Darurat → tayammum"},
+    {q:"Shalat jenazah termasuk hukum...",hint:"Kalau ada yang melakukan, kewajiban gugur bagi yang lain",vis:"",
+     opts:["Fardhu ain","Fardhu kifayah","Sunnah mu'akkadah","Mubah"],ans:1,
+     exp:"Shalat jenazah hukumnya fardhu kifayah — wajib dikerjakan, tapi jika sudah ada yang melakukannya, gugur kewajibannya bagi yang lain.",
+     formula:"Fardhu kifayah = wajib bagi komunitas, bukan individu"},
+    {q:"Riba dalam muamalah Islam adalah...",hint:"Tambahan yang tidak dibenarkan syariat",vis:"",
+     opts:["Keuntungan dari jual beli yang halal","Tambahan (bunga) yang dilarang Islam","Zakat dari harta yang dimiliki","Biaya jasa dalam transaksi"],ans:1,
+     exp:"Riba adalah tambahan (bunga) yang diperoleh dari transaksi pinjam-meminjam uang yang dilarang dalam Islam karena mengandung kezaliman.",
+     formula:"Riba = haram · Jual beli = halal · Bagi hasil mudharabah = halal"},
+    {q:"Urutan rukun wudhu yang benar adalah...",hint:"Ada 6 rukun wudhu",vis:"Niat → Wajah → Tangan → Kepala → Telinga → Kaki",
+     opts:["Niat, wajah, tangan, kepala, kaki","Wajah, tangan, kepala, kaki","Niat, wajah, tangan, sebagian kepala, kaki","Niat, tangan, wajah, kepala, kaki"],ans:2,
+     exp:"Rukun wudhu: (1) Niat, (2) Membasuh wajah, (3) Membasuh tangan s.d. siku, (4) Mengusap sebagian kepala, (5) Membasuh kaki s.d. mata kaki, (6) Tertib.",
+     formula:"Niat→Wajah→Tangan(siku)→Sebagian kepala→Kaki(mata kaki)→Tertib"},
+    {q:"Dalam transaksi jual beli Islam, yang harus ada adalah...",hint:"Syarat sahnya jual beli",vis:"",
+     opts:["Penjual, pembeli, barang, dan harga","Penjual saja sudah cukup","Hanya ada harga dan barang","Saksi minimal 2 orang"],ans:0,
+     exp:"Rukun jual beli: (1) Penjual & pembeli yang cakap hukum, (2) Barang yang diperjualbelikan, (3) Harga/nilai tukar, (4) Ijab kabul (akad).",
+     formula:"Rukun jual beli: penjual + pembeli + barang + harga + akad"},
+  ],
+];
+
+// ══ STATE ══
+let curTopic=0,curQ=0,timerInt=null,elapsed=0,picked=false;
+let topicScores=[],topicWrong=[],allWrong=[];
+const TIMER=8*60;
+const COLORS=['#dc2626','#d97706','#059669','#2563eb','#7c3aed','#0891b2'];
+
+function startTopic(t){
+  curTopic=t;curQ=0;elapsed=0;picked=false;
+  topicWrong[t]=[];
+  if(!topicScores[t])topicScores[t]=0;
+  showScreen('quiz-screen');
+  const tp=TOPICS[t];
+  document.getElementById('th-icon').textContent=tp.icon;
+  document.getElementById('th-icon').style.background=tp.bg;
+  document.getElementById('th-code').textContent=`A03 · ${tp.id} · ${t+1}/6`;
+  document.getElementById('th-name').textContent=tp.name;
+  document.getElementById('th-sub').textContent=tp.sub;
+  const pill=document.getElementById('t-pill');
+  pill.textContent=tp.name;pill.style.background=tp.pill;pill.style.color=tp.pillc;
+  pill.style.border=`1px solid ${tp.color}44`;
+  document.getElementById('prog-fg').style.background=tp.color;
+  clearInterval(timerInt);elapsed=0;updateTimer();
+  timerInt=setInterval(()=>{elapsed++;updateTimer();},1000);
+  renderQ();
+}
+
+function renderQ(){
+  const q=ALL_Q[curTopic][curQ],tot=ALL_Q[curTopic].length;
+  document.getElementById('q-no').textContent=`SOAL ${String(curQ+1).padStart(2,'0')}`;
+  document.getElementById('q-no').style.color=COLORS[curTopic];
+  document.getElementById('q-txt').textContent=q.q;
+  document.getElementById('q-hint').textContent=q.hint?`💡 ${q.hint}`:'';
+  document.getElementById('q-ctr').textContent=`${curQ+1}/${tot}`;
+  document.getElementById('prog-fg').style.width=`${(curQ/tot)*100}%`;
+  const vis=document.getElementById('q-vis');
+  if(q.vis){vis.textContent=q.vis;vis.style.display='block';}else vis.style.display='none';
+  document.getElementById('q-expl').className='expl';
+  document.getElementById('next-btn').className='next-btn';
+  const opts=document.getElementById('q-opts');
+  opts.innerHTML='';
+  ['A','B','C','D'].forEach((l,i)=>{
+    const b=document.createElement('button');
+    b.className='opt';
+    b.innerHTML=`<span class="ol">${l}</span><span>${q.opts[i]}</span>`;
+    b.onclick=()=>pickAns(i);
+    opts.appendChild(b);
+  });
+}
+
+function pickAns(idx){
+  if(picked)return;picked=true;
+  const q=ALL_Q[curTopic][curQ];
+  const btns=document.querySelectorAll('#q-opts .opt');
+  btns.forEach(b=>b.disabled=true);
+  if(idx===q.ans){btns[idx].classList.add('correct');topicScores[curTopic]=(topicScores[curTopic]||0)+1;}
+  else{
+    btns[idx].classList.add('wrong');btns[q.ans].classList.add('correct');
+    topicWrong[curTopic]=topicWrong[curTopic]||[];
+    topicWrong[curTopic].push({q:q.q,chosen:q.opts[idx],correct:q.opts[q.ans],exp:q.exp,formula:q.formula||''});
+    allWrong.push({topic:TOPICS[curTopic].name,q:q.q,chosen:q.opts[idx],correct:q.opts[q.ans]});
+  }
+  const ep=document.getElementById('q-expl');
+  ep.innerHTML=`<div class="expl-hd">💡 Penjelasan</div><div class="expl-txt">${q.exp}${q.formula?`<div class="expl-f">${q.formula}</div>`:''}</div>`;
+  ep.classList.add('show');
+  const nb=document.getElementById('next-btn');
+  const isLast=curQ===ALL_Q[curTopic].length-1;
+  nb.textContent=isLast?`Selesai Topik ${curTopic+1} →`:'Soal Berikutnya →';
+  nb.style.background=`linear-gradient(135deg,${COLORS[curTopic]},${COLORS[curTopic]}bb)`;
+  nb.classList.add('show');
+}
+
+function nextQ(){
+  picked=false;
+  if(curQ<ALL_Q[curTopic].length-1){curQ++;renderQ();}
+  else{clearInterval(timerInt);showTransition();}
+}
+
+function updateTimer(){
+  const rem=TIMER-elapsed,over=rem<0;
+  const d=over?elapsed-TIMER:rem;
+  document.getElementById('t-val').textContent=(over?'+':'')+String(Math.floor(d/60)).padStart(2,'0')+':'+String(d%60).padStart(2,'0');
+  document.getElementById('t-box').className='timer-box'+(over?' over':rem<=2*60?' warn':'');
+}
+
+function showTransition(){
+  showScreen('transition-screen');
+  const t=TOPICS[curTopic],sc=topicScores[curTopic]||0,pct=Math.round((sc/5)*100);
+  const isLast=curTopic===TOPICS.length-1;
+  document.getElementById('tc-icon').textContent=sc===5?'🌟':sc>=4?'✅':sc>=3?'⚠️':'❗';
+  document.getElementById('tc-title').textContent=`${t.name} Selesai!`;
+  document.getElementById('tc-sub').textContent=sc===5?'Sempurna! Topik ini sudah sangat kamu kuasai.':sc>=4?'Bagus! Hampir sempurna.':sc>=3?'Cukup. Masih ada yang perlu diperkuat.':'Topik ini perlu perhatian khusus.';
+  const scoreEl=document.getElementById('tc-score');
+  scoreEl.textContent=`${sc}/5 benar · ${pct}%`;
+  const col=pct>=80?'#059669':pct>=60?'#d97706':'#dc2626';
+  const bg=pct>=80?'#dcfce7':pct>=60?'#fef3c7':'#fee2e2';
+  scoreEl.style.cssText=`background:${bg};color:${col};border:1.5px solid ${col}44;display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:20px;font-weight:800;font-size:15px;margin-bottom:20px;`;
+  const btn=document.getElementById('tc-btn');
+  btn.textContent=isLast?'📊 Lihat Hasil Lengkap →':`Lanjut ke ${TOPICS[curTopic+1].name} →`;
+  btn.style.background=`linear-gradient(135deg,${COLORS[curTopic]},${COLORS[curTopic]}bb)`;
+}
+
+function continueNext(){
+  if(curTopic<TOPICS.length-1)startTopic(curTopic+1);
+  else showResult();
+}
+
+function showResult(){
+  showScreen('result-screen');
+  const div=document.getElementById('topic-scores');
+  div.innerHTML='';
+  let strong=[],ok=[],weak=[];
+  TOPICS.forEach((t,i)=>{
+    const sc=topicScores[i]||0,pct=Math.round((sc/5)*100);
+    const col=pct>=80?'#059669':pct>=60?'#d97706':'#dc2626';
+    const bcls=pct>=80?'badge-strong':pct>=60?'badge-ok':'badge-weak';
+    const blbl=pct>=80?'✅ Kuat':pct>=60?'⚠️ Perlu latihan':'❗ Lemah';
+    if(pct>=80)strong.push(t.name);else if(pct>=60)ok.push(t.name);else weak.push(t.name);
+    div.innerHTML+=`<div class="ts-row"><span class="ts-icon">${t.icon}</span><div class="ts-info"><div class="ts-name">${t.name}</div><div class="ts-detail">${sc}/5 benar · ${t.sub}</div></div><div class="ts-right"><div class="ts-bar"><div class="ts-fill" style="width:${pct}%;background:${col}"></div></div><div class="ts-score" style="color:${col}">${pct}</div><span class="ts-badge ${bcls}">${blbl}</span></div></div>`;
+  });
+  const ps=document.getElementById('priority-section');
+  ps.innerHTML=`<div class="ps-hd" style="color:var(--accent)">📌 Prioritas Program Belajar Agama</div>`;
+  if(weak.length)ps.innerHTML+=`<div class="prio-item"><span class="prio-code" style="background:#fee2e2;color:#991b1b">UTAMA</span><div>❗ <strong>Butuh perhatian:</strong> ${weak.join(', ')}</div></div>`;
+  if(ok.length)ps.innerHTML+=`<div class="prio-item"><span class="prio-code" style="background:#fef3c7;color:#92400e">SEDANG</span><div>⚠️ <strong>Perlu latihan:</strong> ${ok.join(', ')}</div></div>`;
+  if(strong.length)ps.innerHTML+=`<div class="prio-item"><span class="prio-code" style="background:#dcfce7;color:#15803d">KUAT</span><div>✅ <strong>Sudah kuat:</strong> ${strong.join(', ')}</div></div>`;
+  const weakT=TOPICS.filter((_,i)=>Math.round(((topicScores[i]||0)/5)*100)<60);
+  const okT=TOPICS.filter((_,i)=>{const p=Math.round(((topicScores[i]||0)/5)*100);return p>=60&&p<80;});
+  document.getElementById('plan-section').innerHTML=`
+    <div class="ps-hd" style="color:var(--green)">🗓️ Rekomendasi B05 & B06</div>
+    <div class="prio-item"><span class="prio-code" style="background:#eff6ff;color:#1d4ed8">B05</span><div>${weakT.length?`<strong>Fokus:</strong> ${weakT.map(t=>t.name).join(' & ')}`:'<strong>Fokus:</strong> Topik skor terendah'}</div></div>
+    <div class="prio-item"><span class="prio-code" style="background:#eff6ff;color:#1d4ed8">B06</span><div>${okT.length?`<strong>Fokus:</strong> ${okT.map(t=>t.name).join(' & ')}`:'<strong>Fokus:</strong> Latihan soal campuran Agama'}</div></div>`;
+}
+
+function copyResult(){
+  let t=`📊 HASIL A03 — ASSESSMENT AGAMA ISLAM PER TOPIK\n`;
+  t+=`Musa Brahma Batubara · 7 April 2026\n`;
+  t+=`Kode: A03 · Program Persiapan UPK Paket A\n`;
+  t+=`${'─'.repeat(50)}\n\nSKOR PER TOPIK:\n`;
+  TOPICS.forEach((tp,i)=>{
+    const sc=topicScores[i]||0,pct=Math.round((sc/5)*100);
+    const bar='█'.repeat(sc)+'░'.repeat(5-sc);
+    const st=pct>=80?'✅':pct>=60?'⚠️':'❗';
+    t+=`${st} ${tp.icon} ${tp.name.padEnd(22)} ${bar} ${sc}/5 (${pct}%)\n`;
+  });
+  t+=`\n${'─'.repeat(50)}\n`;
+  const weak=TOPICS.filter((_,i)=>Math.round(((topicScores[i]||0)/5)*100)<60);
+  const mid=TOPICS.filter((_,i)=>{const p=Math.round(((topicScores[i]||0)/5)*100);return p>=60&&p<80;});
+  const str=TOPICS.filter((_,i)=>Math.round(((topicScores[i]||0)/5)*100)>=80);
+  if(weak.length)t+=`❗ LEMAH: ${weak.map(x=>x.name).join(', ')}\n`;
+  if(mid.length)t+=`⚠️ SEDANG: ${mid.map(x=>x.name).join(', ')}\n`;
+  if(str.length)t+=`✅ KUAT: ${str.map(x=>x.name).join(', ')}\n`;
+  if(allWrong.length){
+    t+=`\nSOAL SALAH:\n`;
+    allWrong.forEach((w,i)=>{t+=`${i+1}. [${w.topic}] ${w.q}\n   → Jawab: ${w.chosen} | Benar: ${w.correct}\n`;});
+  }
+  t+=`\n${'─'.repeat(50)}\n`;
+  t+=`📌 Berdasarkan A03, buatkan:\n`;
+  t+=`B05 · Agama — fokus: ${weak.length?weak.map(x=>x.name).join(' & '):'topik skor terendah'}\n`;
+  t+=`B06 · Agama — fokus: ${mid.length?mid.map(x=>x.name).join(' & '):'latihan soal campuran Agama'}\n`;
+  t+=`Format: Pre-test → Materi → Post-test · Soal berbeda dari A03`;
+  navigator.clipboard.writeText(t).then(()=>{
+    const b=document.getElementById('copy-btn');
+    b.textContent='✅ Tersalin! Paste di chat Claude 👆';
+    b.style.background='linear-gradient(135deg,#059669,#047857)';
+    setTimeout(()=>{b.textContent='📋 Salin Hasil → Kirim ke Claude untuk B05';b.style.background='';},4000);
+  }).catch(()=>prompt('Salin:',t));
+}
+
+function showScreen(id){
+  ['splash','quiz-screen','transition-screen','result-screen'].forEach(s=>document.getElementById(s).style.display='none');
+  document.getElementById(id).style.display='block';
+}
+</script>
+</body>
+</html>
