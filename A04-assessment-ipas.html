@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A04 · Assessment IPAS · UPK Musa</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#f0f9ff; --card:#ffffff; --border:#bae6fd;
+  --accent:#0369a1; --green:#059669; --red:#dc2626;
+  --blue:#2563eb; --gold:#d97706; --teal:#0891b2;
+  --text:#0c1a2e; --muted:#64748b; --shadow:0 4px 24px rgba(3,105,161,0.08);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+body::before{content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse at 5% 5%,rgba(3,105,161,0.08) 0%,transparent 40%),
+             radial-gradient(ellipse at 95% 95%,rgba(5,150,105,0.06) 0%,transparent 40%);
+  pointer-events:none;z-index:0;}
+.wrap{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:20px 16px 60px;}
+.screen{display:none;}
+#splash{display:block;}
+
+.code-tag{display:inline-flex;align-items:center;gap:8px;
+  background:rgba(3,105,161,0.10);border:1.5px solid rgba(3,105,161,0.3);
+  color:var(--accent);font-size:11px;font-weight:800;
+  padding:5px 14px;border-radius:20px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px;}
+.splash-hero{text-align:center;padding:24px 0 18px;}
+.splash-hero h1{font-size:28px;font-weight:900;line-height:1.2;margin-bottom:8px;}
+.splash-hero h1 em{font-style:normal;color:var(--accent);}
+.splash-hero p{font-size:13px;color:var(--muted);line-height:1.8;}
+
+.topics-overview{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0;}
+.tov{background:var(--card);border:2px solid var(--border);border-radius:14px;padding:14px;box-shadow:var(--shadow);}
+.tov .tov-num{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--muted);margin-bottom:4px;}
+.tov .tov-name{font-size:13px;font-weight:800;}
+.tov .tov-q{font-size:11px;color:var(--muted);margin-top:2px;}
+
+.rules-card{background:var(--card);border:2px solid var(--border);border-radius:18px;padding:18px;margin-bottom:16px;box-shadow:var(--shadow);}
+.rules-card h3{font-size:12px;font-weight:900;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;}
+.rule{display:flex;gap:10px;align-items:flex-start;margin-bottom:9px;font-size:13px;line-height:1.6;}
+.rule:last-child{margin-bottom:0;}
+
+.topic-hd{display:flex;align-items:center;gap:12px;margin-bottom:14px;background:var(--card);border:2px solid var(--border);border-radius:14px;padding:14px;box-shadow:var(--shadow);}
+.th-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.th-info .th-code{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--muted);}
+.th-info .th-name{font-size:15px;font-weight:900;}
+.th-info .th-sub{font-size:11px;color:var(--muted);}
+
+.qz-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.topic-pill{font-size:11px;font-weight:800;padding:4px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:.8px;}
+.q-ctr{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--muted);}
+.timer-box{display:flex;align-items:center;gap:5px;background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:4px 11px;}
+.timer-box.warn{border-color:var(--gold);} .timer-box.warn .tv{color:var(--gold);}
+.timer-box.over{border-color:var(--red);animation:bl 1s infinite;} .timer-box.over .tv{color:var(--red);}
+.tv{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:.5}}
+.prog-wrap{margin-bottom:12px;}
+.prog-bg{height:6px;background:var(--border);border-radius:3px;}
+.prog-fg{height:100%;border-radius:3px;transition:width .4s;}
+
+.q-card{background:var(--card);border:2px solid var(--border);border-radius:18px;padding:20px;margin-bottom:11px;box-shadow:var(--shadow);}
+.q-no{font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:7px;}
+.q-txt{font-size:15px;font-weight:700;line-height:1.65;}
+.q-hint{font-size:12px;color:var(--muted);font-style:italic;margin-top:5px;}
+.vis{background:#f0f9ff;border:1.5px solid #bae6fd;border-radius:10px;padding:12px;margin:10px 0;font-size:13px;color:#0369a1;line-height:1.8;display:none;}
+
+.opts{display:flex;flex-direction:column;gap:8px;margin-top:12px;}
+.opt{background:#f8fafc;border:2px solid var(--border);border-radius:11px;padding:11px 13px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;color:var(--text);transition:all .15s;display:flex;align-items:center;gap:10px;}
+.opt:hover:not(:disabled){border-color:var(--accent);background:#e0f2fe;transform:translateX(3px);}
+.opt .ol{width:28px;height:28px;border-radius:8px;flex-shrink:0;background:#bae6fd;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;font-family:'JetBrains Mono',monospace;transition:.15s;}
+.opt.correct{border-color:var(--green);background:#f0fdf4;}
+.opt.correct .ol{background:var(--green);color:#fff;}
+.opt.wrong{border-color:var(--red);background:#fef2f2;}
+.opt.wrong .ol{background:var(--red);color:#fff;}
+.opt:disabled{cursor:default;}
+
+.expl{background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:12px;padding:14px;margin-top:10px;display:none;}
+.expl.show{display:block;animation:up .3s ease;}
+.expl-hd{font-size:10px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;}
+.expl-txt{font-size:13px;line-height:1.75;}
+.expl-f{background:#dbeafe;border-radius:7px;padding:8px 12px;margin-top:8px;font-size:12px;color:#1d4ed8;line-height:1.6;}
+
+.next-btn{width:100%;padding:13px;border:none;border-radius:12px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;cursor:pointer;transition:transform .15s;display:none;margin-top:10px;color:#fff;}
+.next-btn.show{display:block;animation:up .2s ease;}
+.next-btn:hover{transform:translateY(-1px);}
+
+.transition-card{background:var(--card);border:2px solid var(--border);border-radius:20px;padding:26px;text-align:center;box-shadow:var(--shadow);}
+.tc-icon{font-size:48px;margin-bottom:12px;}
+.tc-title{font-size:20px;font-weight:900;margin-bottom:6px;}
+.tc-sub{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:16px;}
+.tc-score{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:20px;font-weight:800;font-size:15px;margin-bottom:20px;}
+
+.res-hd{text-align:center;padding:22px 0 14px;}
+.res-hd h2{font-size:26px;font-weight:900;margin-bottom:6px;}
+.res-hd p{font-size:13px;color:var(--muted);}
+.topic-scores{display:flex;flex-direction:column;gap:10px;margin:16px 0;}
+.ts-row{background:var(--card);border:2px solid var(--border);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow);}
+.ts-icon{font-size:20px;flex-shrink:0;}
+.ts-info{flex:1;}
+.ts-name{font-size:14px;font-weight:800;}
+.ts-detail{font-size:11px;color:var(--muted);margin-top:1px;}
+.ts-right{display:flex;align-items:center;gap:8px;}
+.ts-bar{width:70px;height:7px;background:var(--border);border-radius:4px;}
+.ts-fill{height:100%;border-radius:4px;}
+.ts-score{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;min-width:36px;text-align:right;}
+.ts-badge{font-size:10px;font-weight:800;padding:2px 8px;border-radius:10px;white-space:nowrap;}
+.badge-strong{background:#dcfce7;color:#15803d;}
+.badge-ok{background:#fef3c7;color:#92400e;}
+.badge-weak{background:#fee2e2;color:#991b1b;}
+
+.priority-section{background:var(--card);border:2px solid var(--border);border-radius:18px;padding:18px;margin-bottom:12px;box-shadow:var(--shadow);}
+.ps-hd{font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;}
+.prio-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1.5px solid var(--border);font-size:13px;line-height:1.65;}
+.prio-item:last-child{border-bottom:none;padding-bottom:0;}
+.prio-code{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;flex-shrink:0;margin-top:1px;}
+
+.copy-btn{width:100%;padding:15px;border:none;border-radius:13px;background:linear-gradient(135deg,#0369a1,#075985);color:#fff;font-weight:800;font-size:15px;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;box-shadow:0 6px 20px rgba(3,105,161,0.3);transition:transform .15s;margin-top:10px;}
+.copy-btn:hover{transform:translateY(-2px);}
+.ghost-btn{width:100%;padding:13px;border:2px solid var(--border);border-radius:13px;background:var(--card);color:var(--muted);font-weight:700;font-size:14px;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;margin-top:8px;transition:.2s;}
+.ghost-btn:hover{border-color:var(--accent);color:var(--accent);}
+.big-btn{width:100%;padding:15px;border:none;border-radius:13px;font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;cursor:pointer;transition:transform .15s;color:#fff;}
+.big-btn:hover{transform:translateY(-2px);}
+@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ══ SPLASH ══ -->
+<div id="splash" class="screen" style="display:block">
+  <div class="splash-hero">
+    <div class="code-tag">A04 · Assessment IPAS</div>
+    <h1>Peta Kemampuan<br>IPAS <em>Musa</em> 🔬</h1>
+    <p>Kita uji <strong>6 topik IPAS</strong> secara terpisah.<br>
+    Skor awal: <strong style="color:#d97706">75/100</strong> — sudah bagus, mari kita identifikasi yang masih bisa naik!</p>
+  </div>
+
+  <div class="topics-overview">
+    <div class="tov"><div class="tov-num">TOPIK 1</div><div class="tov-name" style="color:#059669">🌿 Makhluk Hidup</div><div class="tov-q">5 soal · Tumbuhan & Hewan</div></div>
+    <div class="tov"><div class="tov-num">TOPIK 2</div><div class="tov-name" style="color:#dc2626">🫀 Tubuh Manusia</div><div class="tov-q">5 soal · Organ & Sistem Tubuh</div></div>
+    <div class="tov"><div class="tov-num">TOPIK 3</div><div class="tov-name" style="color:#d97706">⚡ Fisika Dasar</div><div class="tov-q">5 soal · Gaya, Energi & Listrik</div></div>
+    <div class="tov"><div class="tov-num">TOPIK 4</div><div class="tov-name" style="color:#2563eb">🌍 Bumi & Alam Semesta</div><div class="tov-q">5 soal · Tata Surya & Cuaca</div></div>
+    <div class="tov"><div class="tov-num">TOPIK 5</div><div class="tov-name" style="color:#7c3aed">🌊 Lingkungan & Ekosistem</div><div class="tov-q">5 soal · Ekosistem & SDA</div></div>
+    <div class="tov"><div class="tov-num">TOPIK 6</div><div class="tov-name" style="color:#0891b2">🧪 Materi & Perubahannya</div><div class="tov-q">5 soal · Zat, Campuran & Perubahan</div></div>
+  </div>
+
+  <div class="rules-card">
+    <h3>📋 Cara Kerja</h3>
+    <div class="rule"><span>📝</span><span>30 soal total — <strong>5 soal per topik</strong>, dikerjakan berurutan</span></div>
+    <div class="rule"><span>⏱️</span><span>Timer <strong>8 menit per topik</strong></span></div>
+    <div class="rule"><span>💡</span><span>Penjelasan detail langsung muncul setelah setiap jawaban</span></div>
+    <div class="rule"><span>📊</span><span>Hasil akhir: peta topik kuat vs lemah + rekomendasi B07 & B08</span></div>
+  </div>
+
+  <button class="big-btn" style="background:linear-gradient(135deg,#0369a1,#075985);box-shadow:0 6px 20px rgba(3,105,161,0.3)" onclick="startTopic(0)">🚀 Mulai Assessment IPAS!</button>
+</div>
+
+<!-- ══ QUIZ ══ -->
+<div id="quiz-screen" class="screen">
+  <div class="topic-hd">
+    <div class="th-icon" id="th-icon"></div>
+    <div class="th-info">
+      <div class="th-code" id="th-code"></div>
+      <div class="th-name" id="th-name"></div>
+      <div class="th-sub" id="th-sub"></div>
+    </div>
+  </div>
+  <div class="qz-bar">
+    <span class="topic-pill" id="t-pill"></span>
+    <span class="q-ctr" id="q-ctr">1/5</span>
+    <div class="timer-box" id="t-box"><span>⏱</span><span class="tv" id="t-val">08:00</span></div>
+  </div>
+  <div class="prog-wrap"><div class="prog-bg"><div class="prog-fg" id="prog-fg" style="width:0%"></div></div></div>
+  <div class="q-card">
+    <div class="q-no" id="q-no">SOAL 01</div>
+    <div class="q-txt" id="q-txt"></div>
+    <div class="q-hint" id="q-hint"></div>
+    <div class="vis" id="q-vis"></div>
+    <div class="opts" id="q-opts"></div>
+    <div class="expl" id="q-expl"></div>
+  </div>
+  <button class="next-btn" id="next-btn" onclick="nextQ()"></button>
+</div>
+
+<!-- ══ TRANSITION ══ -->
+<div id="transition-screen" class="screen">
+  <div class="transition-card">
+    <div class="tc-icon" id="tc-icon"></div>
+    <div class="tc-title" id="tc-title"></div>
+    <div class="tc-sub" id="tc-sub"></div>
+    <div class="tc-score" id="tc-score"></div>
+    <button class="big-btn" id="tc-btn" onclick="continueNext()"></button>
+  </div>
+</div>
+
+<!-- ══ RESULT ══ -->
+<div id="result-screen" class="screen">
+  <div class="res-hd">
+    <div class="code-tag" style="margin-bottom:12px">A04 · Hasil Assessment</div>
+    <h2>Peta IPAS Musa 🔬</h2>
+    <p>Assessment per Topik · Program UPK Paket A</p>
+  </div>
+  <div class="topic-scores" id="topic-scores"></div>
+  <div class="priority-section" id="priority-section"></div>
+  <div class="priority-section" id="plan-section"></div>
+  <button class="copy-btn" id="copy-btn" onclick="copyResult()">📋 Salin Hasil → Kirim ke Claude untuk B07</button>
+  <button class="ghost-btn" onclick="if(confirm('Ulangi?')){location.reload()}">🔄 Ulangi A04</button>
+</div>
+
+</div>
+<script>
+const TOPICS = [
+  {id:'T1',name:'Makhluk Hidup',icon:'🌿',color:'#059669',bg:'#f0fdf4',pill:'rgba(5,150,105,0.10)',pillc:'#059669',sub:'Tumbuhan, Hewan & Klasifikasi'},
+  {id:'T2',name:'Tubuh Manusia',icon:'🫀',color:'#dc2626',bg:'#fef2f2',pill:'rgba(220,38,38,0.10)',pillc:'#dc2626',sub:'Organ & Sistem Tubuh Manusia'},
+  {id:'T3',name:'Fisika Dasar',icon:'⚡',color:'#d97706',bg:'#fffbeb',pill:'rgba(217,119,6,0.10)',pillc:'#d97706',sub:'Gaya, Energi, Listrik & Panas'},
+  {id:'T4',name:'Bumi & Alam Semesta',icon:'🌍',color:'#2563eb',bg:'#eff6ff',pill:'rgba(37,99,235,0.10)',pillc:'#2563eb',sub:'Tata Surya, Cuaca & Bencana Alam'},
+  {id:'T5',name:'Lingkungan & Ekosistem',icon:'🌊',color:'#7c3aed',bg:'#f5f0ff',pill:'rgba(124,58,237,0.10)',pillc:'#7c3aed',sub:'Ekosistem, Rantai Makanan & SDA'},
+  {id:'T6',name:'Materi & Perubahannya',icon:'🧪',color:'#0891b2',bg:'#ecfeff',pill:'rgba(8,145,178,0.10)',pillc:'#0891b2',sub:'Zat, Campuran & Perubahan Wujud'},
+];
+
+const ALL_Q = [
+  // T1 — Makhluk Hidup
+  [
+    {q:"Proses tumbuhan hijau membuat makanannya sendiri menggunakan cahaya matahari disebut...",hint:"Foto = cahaya, sintesis = membuat",vis:"CO₂ + H₂O + cahaya → glukosa + O₂",
+     opts:["Respirasi","Transpirasi","Fotosintesis","Reproduksi"],ans:2,
+     exp:"Fotosintesis adalah proses tumbuhan hijau mengubah CO₂ dan H₂O menjadi glukosa menggunakan cahaya matahari. Hasilnya: glukosa (makanan) dan O₂ (oksigen).",
+     formula:"CO₂ + H₂O + cahaya matahari → glukosa + O₂"},
+    {q:"Metamorfosis sempurna (holometabola) terjadi pada...",hint:"Melalui tahap pupa/kepompong",vis:"Telur → Larva → Pupa → Imago",
+     opts:["Belalang","Kecoak","Kupu-kupu","Jangkrik"],ans:2,
+     exp:"Kupu-kupu mengalami metamorfosis sempurna: telur → larva (ulat) → pupa (kepompong) → imago (dewasa). Belalang, kecoak, jangkrik = metamorfosis tidak sempurna.",
+     formula:"Sempurna (holometabola): telur→larva→pupa→imago · Tidak sempurna: telur→nimfa→dewasa"},
+    {q:"Bagian tumbuhan yang berfungsi menyerap air dan mineral dari tanah adalah...",hint:"Bagian yang ada di dalam tanah",vis:"",
+     opts:["Batang","Daun","Akar","Bunga"],ans:2,
+     exp:"Akar berfungsi menyerap air dan mineral dari tanah, menyimpan cadangan makanan, dan memperkokoh tumbuhan.",
+     formula:"Akar=serap air+mineral · Batang=angkut air · Daun=fotosintesis · Bunga=reproduksi"},
+    {q:"Hewan yang berkembang biak dengan cara bertelur disebut...",hint:"Ovipar = telur",vis:"Ovipar=telur · Vivipar=melahirkan · Ovovivipar=keduanya",
+     opts:["Vivipar","Ovipar","Ovovivipar","Hermafrodit"],ans:1,
+     exp:"Ovipar adalah hewan yang berkembang biak dengan bertelur, contoh: ayam, ikan, katak, reptil, burung. Vivipar = melahirkan (mamalia). Ovovivipar = telur dalam tubuh (hiu, ular tertentu).",
+     formula:"Ovipar=telur · Vivipar=melahirkan · Ovovivipar=telur dalam tubuh"},
+    {q:"Tumbuhan yang menyesuaikan diri di daerah kering dengan menyimpan air di batangnya disebut...",hint:"Tumbuhan gurun yang berduri",vis:"",
+     opts:["Hidrofit","Xerofit","Mesofit","Epifit"],ans:1,
+     exp:"Xerofit adalah tumbuhan yang beradaptasi di daerah kering (gurun). Contoh: kaktus — menyimpan air di batang, daun berubah menjadi duri untuk mengurangi penguapan.",
+     formula:"Xerofit=kering · Hidrofit=air · Mesofit=sedang · Epifit=menempel"},
+  ],
+  // T2 — Tubuh Manusia
+  [
+    {q:"Organ tubuh yang berfungsi menyaring darah dan menghasilkan urine adalah...",hint:"Bentuknya seperti kacang merah",vis:"",
+     opts:["Hati","Ginjal","Paru-paru","Lambung"],ans:1,
+     exp:"Ginjal berfungsi menyaring darah dari zat-zat sisa metabolisme dan menghasilkan urine. Manusia punya 2 ginjal yang menyaring sekitar 180 liter darah per hari.",
+     formula:"Ginjal=saring darah+urine · Hati=detoksifikasi · Paru=pertukaran gas · Lambung=cerna"},
+    {q:"Sistem peredaran darah manusia yang membawa darah dari jantung ke seluruh tubuh disebut...",hint:"Sistem besar vs kecil",vis:"Jantung → Aorta → Seluruh tubuh → Vena → Jantung",
+     opts:["Peredaran darah kecil","Peredaran darah besar","Peredaran darah paru","Peredaran darah limfa"],ans:1,
+     exp:"Peredaran darah besar (sistemik): jantung → seluruh tubuh → kembali ke jantung. Peredaran darah kecil (pulmonal): jantung → paru-paru → kembali ke jantung.",
+     formula:"Besar: jantung→tubuh→jantung · Kecil: jantung→paru-paru→jantung"},
+    {q:"Enzim yang berfungsi memecah protein dalam sistem pencernaan dihasilkan oleh...",hint:"Di lambung dan usus kecil",vis:"",
+     opts:["Hati","Pankreas dan lambung","Usus besar","Ginjal"],ans:1,
+     exp:"Enzim pemecah protein (protease): pepsin dihasilkan lambung, tripsin & kimotripsin dihasilkan pankreas. Keduanya bekerja di sistem pencernaan.",
+     formula:"Protease: pepsin (lambung) + tripsin (pankreas) → memecah protein"},
+    {q:"Tulang yang berfungsi melindungi otak adalah...",hint:"Tulang kepala",vis:"",
+     opts:["Tulang rusuk","Tulang belakang","Tulang tengkorak","Tulang sternum"],ans:2,
+     exp:"Tulang tengkorak (kranium) berfungsi melindungi otak. Tulang rusuk melindungi jantung dan paru-paru. Sternum = tulang dada.",
+     formula:"Tengkorak=lindungi otak · Rusuk=lindungi jantung+paru · Sternum=tulang dada"},
+    {q:"Penyakit yang disebabkan oleh kekurangan vitamin C adalah...",hint:"Gusi berdarah dan luka sulit sembuh",vis:"",
+     opts:["Anemia","Skorbut (scurvy)","Rakhitis","Beri-beri"],ans:1,
+     exp:"Kekurangan vitamin C menyebabkan skorbut: gusi berdarah, luka sulit sembuh, tulang rapuh. Vitamin C penting untuk pembentukan kolagen.",
+     formula:"Vitamin C=skorbut · Vitamin D=rakhitis · Vitamin B1=beri-beri · Fe=anemia"},
+  ],
+  // T3 — Fisika Dasar
+  [
+    {q:"Perpindahan panas melalui zat perantara yang disertai perpindahan zat itu sendiri disebut...",hint:"Air panas yang bergerak naik-turun di panci",vis:"Konduksi=padat · Konveksi=cair/gas · Radiasi=tanpa zat",
+     opts:["Konduksi","Konveksi","Radiasi","Evaporasi"],ans:1,
+     exp:"Konveksi adalah perpindahan panas melalui fluida (cair/gas) yang disertai perpindahan zat perantaranya. Contoh: angin darat/laut, air mendidih dalam panci.",
+     formula:"Konduksi=padat(sendok) · Konveksi=cair/gas(angin) · Radiasi=tanpa zat(matahari)"},
+    {q:"Sebuah benda dikatakan mengalami gaya jika...",hint:"Gaya = tarikan atau dorongan",vis:"",
+     opts:["Benda diam saja","Benda bergerak lurus beraturan","Ada tarikan atau dorongan yang bekerja padanya","Benda selalu bergerak cepat"],ans:2,
+     exp:"Gaya adalah tarikan atau dorongan yang dapat mengubah bentuk, kecepatan, atau arah gerak benda. Gaya merupakan besaran vektor (memiliki besar dan arah).",
+     formula:"Gaya = tarikan/dorongan → ubah bentuk/gerak/arah"},
+    {q:"Energi yang tersimpan dalam makanan dan bahan bakar disebut...",hint:"Energi yang masih tersimpan, belum digunakan",vis:"",
+     opts:["Energi kinetik","Energi potensial kimia","Energi mekanik","Energi listrik"],ans:1,
+     exp:"Energi potensial kimia tersimpan dalam ikatan kimia makanan dan bahan bakar. Saat digunakan (dibakar/dicerna), energi ini berubah menjadi bentuk energi lain.",
+     formula:"Potensial kimia=makanan+BBM · Kinetik=gerak · Potensial gravitasi=ketinggian"},
+    {q:"Rangkaian listrik yang memiliki lebih dari satu jalur untuk arus listrik disebut...",hint:"Kalau satu lampu mati, yang lain tetap nyala",vis:"Seri: satu jalur · Paralel: banyak jalur",
+     opts:["Rangkaian seri","Rangkaian paralel","Rangkaian campuran","Rangkaian tunggal"],ans:1,
+     exp:"Rangkaian paralel memiliki lebih dari satu jalur untuk arus. Kelebihan: jika satu komponen rusak, yang lain tetap berfungsi. Digunakan di rumah-rumah.",
+     formula:"Paralel=banyak jalur=satu mati lain nyala · Seri=satu jalur=satu mati semua mati"},
+    {q:"Alat yang mengubah energi gerak menjadi energi listrik adalah...",hint:"Digunakan di pembangkit listrik",vis:"",
+     opts:["Motor listrik","Generator","Transformator","Baterai"],ans:1,
+     exp:"Generator mengubah energi gerak (mekanik) menjadi energi listrik. Motor listrik = kebalikannya (listrik→gerak). Transformator = mengubah tegangan listrik.",
+     formula:"Generator=gerak→listrik · Motor=listrik→gerak · Transformator=ubah tegangan"},
+  ],
+  // T4 — Bumi & Alam Semesta
+  [
+    {q:"Lapisan atmosfer yang melindungi bumi dari sinar ultraviolet matahari adalah...",hint:"Lapisan yang mengandung ozon",vis:"Troposfer→Stratosfer(ozon)→Mesosfer→Termosfer→Eksosfer",
+     opts:["Troposfer","Stratosfer","Mesosfer","Termosfer"],ans:1,
+     exp:"Lapisan ozon berada di stratosfer (15-50 km). Lapisan ini menyerap sebagian besar radiasi UV dari matahari yang berbahaya bagi makhluk hidup.",
+     formula:"Stratosfer = lapisan ozon → menyerap UV matahari"},
+    {q:"Gerhana bulan terjadi ketika...",hint:"Bumi menghalangi sinar matahari ke bulan",vis:"Matahari → Bumi → Bulan (gerhana bulan)",
+     opts:["Bulan berada di antara matahari dan bumi","Bumi berada di antara matahari dan bulan","Matahari berada di antara bumi dan bulan","Bulan mendekat ke bumi"],ans:1,
+     exp:"Gerhana bulan terjadi saat bumi berada di antara matahari dan bulan, sehingga bayangan bumi menutupi bulan. Gerhana matahari = bulan di antara matahari dan bumi.",
+     formula:"Gerhana bulan: Matahari-Bumi-Bulan · Gerhana matahari: Matahari-Bulan-Bumi"},
+    {q:"Bencana alam yang dipicu oleh pergerakan lempeng tektonik di dasar laut dan dapat menyebabkan gelombang besar adalah...",hint:"Kata bahasa Jepang",vis:"",
+     opts:["Tornado","Tsunami","Badai","Abrasi"],ans:1,
+     exp:"Tsunami dipicu oleh gempa bumi di dasar laut, letusan gunung bawah laut, atau longsor bawah laut. Gelombangnya bisa mencapai puluhan meter.",
+     formula:"Tsunami = gempa dasar laut → gelombang raksasa → hantam pantai"},
+    {q:"Rotasi bumi menyebabkan terjadinya...",hint:"Bumi berputar pada sumbunya",vis:"Rotasi=bumi berputar sendiri · Revolusi=bumi mengelilingi matahari",
+     opts:["Pergantian musim","Perbedaan waktu siang dan malam","Pasang surut air laut","Pergantian tahun"],ans:1,
+     exp:"Rotasi bumi (berputar pada sumbu) menyebabkan siang dan malam. Revolusi bumi (mengelilingi matahari) menyebabkan pergantian musim dan tahun.",
+     formula:"Rotasi=siang&malam · Revolusi=musim+tahun"},
+    {q:"Planet terbesar dalam tata surya kita adalah...",hint:"Planet yang memiliki badai besar merah",vis:"Merkurius·Venus·Bumi·Mars·Jupiter·Saturnus·Uranus·Neptunus",
+     opts:["Saturnus","Jupiter","Uranus","Neptunus"],ans:1,
+     exp:"Jupiter adalah planet terbesar di tata surya, berdiameter sekitar 11 kali diameter Bumi. Jupiter memiliki Bintik Merah Besar — badai yang sudah berlangsung ratusan tahun.",
+     formula:"Urutan dari matahari: Merkurius·Venus·Bumi·Mars·Jupiter·Saturnus·Uranus·Neptunus"},
+  ],
+  // T5 — Lingkungan & Ekosistem
+  [
+    {q:"Organisme yang menguraikan sisa-sisa makhluk hidup yang sudah mati menjadi zat anorganik disebut...",hint:"Pengurai dalam rantai makanan",vis:"Produsen → Konsumen → Pengurai",
+     opts:["Produsen","Konsumen","Dekomposer","Parasit"],ans:2,
+     exp:"Dekomposer (pengurai) seperti bakteri dan jamur menguraikan sisa organisme mati menjadi zat anorganik yang dapat digunakan kembali oleh produsen.",
+     formula:"Produsen=tumbuhan · Konsumen=hewan · Dekomposer=bakteri+jamur"},
+    {q:"Hubungan antara dua organisme yang saling menguntungkan disebut...",hint:"Keduanya dapat manfaat",vis:"Mutualisme=+/+ · Komensalisme=+/0 · Parasitisme=+/-",
+     opts:["Parasitisme","Komensalisme","Mutualisme","Predasi"],ans:2,
+     exp:"Mutualisme adalah hubungan dua organisme yang saling menguntungkan. Contoh: lebah & bunga (lebah dapat nektar, bunga terbantu penyerbukan).",
+     formula:"Mutualisme=saling untung · Komensalisme=satu untung satu netral · Parasitisme=satu untung satu rugi"},
+    {q:"Sumber daya alam yang dapat diperbarui karena dapat tersedia kembali dalam waktu relatif singkat adalah...",hint:"Bisa tumbuh/berkembang kembali",vis:"",
+     opts:["Minyak bumi","Batu bara","Emas","Hutan"],ans:3,
+     exp:"Hutan adalah SDA yang dapat diperbarui karena dapat ditanam kembali. Minyak bumi, batu bara, dan emas adalah SDA tak terbarukan karena butuh jutaan tahun terbentuk.",
+     formula:"Terbarukan: hutan·air·angin·matahari · Tak terbarukan: minyak·batu bara·mineral"},
+    {q:"Pencemaran udara yang dapat menyebabkan hujan asam disebabkan oleh...",hint:"Gas dari pembakaran bahan bakar",vis:"",
+     opts:["Gas oksigen (O₂)","Gas karbon dioksida (CO₂)","Gas sulfur dioksida (SO₂) dan nitrogen oksida (NOₓ)","Gas nitrogen (N₂)"],ans:2,
+     exp:"Hujan asam disebabkan oleh SO₂ dan NOₓ yang berasal dari pembakaran bahan bakar fosil. Gas ini bereaksi dengan uap air membentuk asam sulfat dan asam nitrat.",
+     formula:"SO₂ + NOₓ + H₂O → asam sulfat + asam nitrat → hujan asam"},
+    {q:"Efek rumah kaca yang berlebihan menyebabkan...",hint:"Suhu bumi meningkat",vis:"",
+     opts:["Bumi menjadi lebih dingin","Pemanasan global","Lapisan ozon bertambah tebal","Curah hujan berkurang di seluruh dunia"],ans:1,
+     exp:"Efek rumah kaca yang berlebihan menyebabkan pemanasan global — suhu rata-rata bumi meningkat akibat terperangkapnya panas oleh gas rumah kaca (CO₂, CH₄, dll.).",
+     formula:"Gas rumah kaca↑ → panas terperangkap↑ → pemanasan global → perubahan iklim"},
+  ],
+  // T6 — Materi & Perubahannya
+  [
+    {q:"Perubahan es menjadi air termasuk perubahan...",hint:"Padat → cair",vis:"Padat→(lebur)→Cair→(menguap)→Gas",
+     opts:["Fisika, karena tidak menghasilkan zat baru","Kimia, karena menghasilkan zat baru","Biologi, karena melibatkan makhluk hidup","Tidak ada perubahan"],ans:0,
+     exp:"Es menjadi air adalah perubahan fisika (mencair/melebur) — tidak menghasilkan zat baru, hanya berubah wujud. Perubahan kimia menghasilkan zat baru yang berbeda sifatnya.",
+     formula:"Perubahan fisika = wujud berubah, zat sama · Perubahan kimia = zat baru terbentuk"},
+    {q:"Campuran yang dapat dipisahkan dengan cara penyaringan adalah...",hint:"Komponen tidak larut sempurna",vis:"",
+     opts:["Larutan gula","Larutan garam","Campuran air dan pasir","Sirup"],ans:2,
+     exp:"Campuran air dan pasir dapat dipisahkan dengan penyaringan (filtrasi) karena pasir tidak larut dalam air. Larutan gula/garam/sirup tidak bisa disaring karena terlarut sempurna.",
+     formula:"Filtrasi = pisahkan zat tidak larut · Distilasi = pisahkan larutan · Kristalisasi = pisahkan garam"},
+    {q:"Sifat yang membedakan benda padat, cair, dan gas adalah...",hint:"Bentuk dan volume",vis:"Padat: bentuk+volume tetap · Cair: bentuk berubah, volume tetap · Gas: keduanya berubah",
+     opts:["Warnanya","Massanya","Bentuk dan volume","Beratnya"],ans:2,
+     exp:"Perbedaan wujud: Padat (bentuk & volume tetap), Cair (bentuk berubah sesuai wadah, volume tetap), Gas (bentuk & volume berubah mengisi ruang).",
+     formula:"Padat=bentuk+vol tetap · Cair=vol tetap,bentuk berubah · Gas=keduanya berubah"},
+    {q:"Contoh perubahan kimia dalam kehidupan sehari-hari adalah...",hint:"Terbentuk zat baru yang berbeda sifat",vis:"",
+     opts:["Es mencair","Kertas dipotong","Besi berkarat","Gula larut dalam air"],ans:2,
+     exp:"Besi berkarat adalah perubahan kimia — menghasilkan zat baru (Fe₂O₃ = karat) yang berbeda sifat dari besi asli. Es mencair, kertas dipotong, gula larut = perubahan fisika.",
+     formula:"Kimia: besi berkarat · kayu terbakar · makanan busuk · Fisika: mencair · larut · dipotong"},
+    {q:"Zat murni yang tidak dapat diuraikan lagi menjadi zat yang lebih sederhana dengan reaksi kimia biasa disebut...",hint:"Contoh: emas, besi, oksigen",vis:"",
+     opts:["Senyawa","Campuran","Unsur","Larutan"],ans:2,
+     exp:"Unsur adalah zat murni yang tidak dapat diuraikan menjadi zat lebih sederhana dengan reaksi kimia biasa. Contoh: emas (Au), besi (Fe), oksigen (O₂). Senyawa bisa diuraikan.",
+     formula:"Unsur=tidak bisa diuraikan · Senyawa=bisa diuraikan · Campuran=fisika"},
+  ],
+];
+
+// ══ STATE ══
+let curTopic=0,curQ=0,timerInt=null,elapsed=0,picked=false;
+let topicScores=[],topicWrong=[],allWrong=[];
+const TIMER=8*60;
+const COLORS=['#059669','#dc2626','#d97706','#2563eb','#7c3aed','#0891b2'];
+
+function startTopic(t){
+  curTopic=t;curQ=0;elapsed=0;picked=false;
+  topicWrong[t]=[];
+  if(!topicScores[t])topicScores[t]=0;
+  showScreen('quiz-screen');
+  const tp=TOPICS[t];
+  document.getElementById('th-icon').textContent=tp.icon;
+  document.getElementById('th-icon').style.background=tp.bg;
+  document.getElementById('th-code').textContent=`A04 · ${tp.id} · ${t+1}/6`;
+  document.getElementById('th-name').textContent=tp.name;
+  document.getElementById('th-sub').textContent=tp.sub;
+  const pill=document.getElementById('t-pill');
+  pill.textContent=tp.name;pill.style.background=tp.pill;pill.style.color=tp.pillc;
+  pill.style.border=`1px solid ${tp.color}44`;
+  document.getElementById('prog-fg').style.background=tp.color;
+  clearInterval(timerInt);elapsed=0;updateTimer();
+  timerInt=setInterval(()=>{elapsed++;updateTimer();},1000);
+  renderQ();
+}
+
+function renderQ(){
+  const q=ALL_Q[curTopic][curQ],tot=ALL_Q[curTopic].length;
+  document.getElementById('q-no').textContent=`SOAL ${String(curQ+1).padStart(2,'0')}`;
+  document.getElementById('q-no').style.color=COLORS[curTopic];
+  document.getElementById('q-txt').textContent=q.q;
+  document.getElementById('q-hint').textContent=q.hint?`💡 ${q.hint}`:'';
+  document.getElementById('q-ctr').textContent=`${curQ+1}/${tot}`;
+  document.getElementById('prog-fg').style.width=`${(curQ/tot)*100}%`;
+  const vis=document.getElementById('q-vis');
+  if(q.vis){vis.textContent=q.vis;vis.style.display='block';}else vis.style.display='none';
+  document.getElementById('q-expl').className='expl';
+  document.getElementById('next-btn').className='next-btn';
+  const opts=document.getElementById('q-opts');
+  opts.innerHTML='';
+  ['A','B','C','D'].forEach((l,i)=>{
+    const b=document.createElement('button');
+    b.className='opt';
+    b.innerHTML=`<span class="ol">${l}</span><span>${q.opts[i]}</span>`;
+    b.onclick=()=>pickAns(i);
+    opts.appendChild(b);
+  });
+}
+
+function pickAns(idx){
+  if(picked)return;picked=true;
+  const q=ALL_Q[curTopic][curQ];
+  const btns=document.querySelectorAll('#q-opts .opt');
+  btns.forEach(b=>b.disabled=true);
+  if(idx===q.ans){btns[idx].classList.add('correct');topicScores[curTopic]=(topicScores[curTopic]||0)+1;}
+  else{
+    btns[idx].classList.add('wrong');btns[q.ans].classList.add('correct');
+    topicWrong[curTopic]=topicWrong[curTopic]||[];
+    topicWrong[curTopic].push({q:q.q,chosen:q.opts[idx],correct:q.opts[q.ans],exp:q.exp,formula:q.formula||''});
+    allWrong.push({topic:TOPICS[curTopic].name,q:q.q,chosen:q.opts[idx],correct:q.opts[q.ans]});
+  }
+  const ep=document.getElementById('q-expl');
+  ep.innerHTML=`<div class="expl-hd">💡 Penjelasan</div><div class="expl-txt">${q.exp}${q.formula?`<div class="expl-f">${q.formula}</div>`:''}</div>`;
+  ep.classList.add('show');
+  const nb=document.getElementById('next-btn');
+  const isLast=curQ===ALL_Q[curTopic].length-1;
+  nb.textContent=isLast?`Selesai Topik ${curTopic+1} →`:'Soal Berikutnya →';
+  nb.style.background=`linear-gradient(135deg,${COLORS[curTopic]},${COLORS[curTopic]}bb)`;
+  nb.classList.add('show');
+}
+
+function nextQ(){
+  picked=false;
+  if(curQ<ALL_Q[curTopic].length-1){curQ++;renderQ();}
+  else{clearInterval(timerInt);showTransition();}
+}
+
+function updateTimer(){
+  const rem=TIMER-elapsed,over=rem<0;
+  const d=over?elapsed-TIMER:rem;
+  document.getElementById('t-val').textContent=(over?'+':'')+String(Math.floor(d/60)).padStart(2,'0')+':'+String(d%60).padStart(2,'0');
+  document.getElementById('t-box').className='timer-box'+(over?' over':rem<=2*60?' warn':'');
+}
+
+function showTransition(){
+  showScreen('transition-screen');
+  const t=TOPICS[curTopic],sc=topicScores[curTopic]||0,pct=Math.round((sc/5)*100);
+  const isLast=curTopic===TOPICS.length-1;
+  document.getElementById('tc-icon').textContent=sc===5?'🌟':sc>=4?'✅':sc>=3?'⚠️':'❗';
+  document.getElementById('tc-title').textContent=`${t.name} Selesai!`;
+  document.getElementById('tc-sub').textContent=sc===5?'Sempurna! Topik ini sudah sangat kamu kuasai.':sc>=4?'Bagus! Hampir sempurna.':sc>=3?'Cukup. Ada yang perlu diperkuat.':'Topik ini perlu perhatian khusus.';
+  const scoreEl=document.getElementById('tc-score');
+  scoreEl.textContent=`${sc}/5 benar · ${pct}%`;
+  const col=pct>=80?'#059669':pct>=60?'#d97706':'#dc2626';
+  const bg=pct>=80?'#dcfce7':pct>=60?'#fef3c7':'#fee2e2';
+  scoreEl.style.cssText=`background:${bg};color:${col};border:1.5px solid ${col}44;display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:20px;font-weight:800;font-size:15px;margin-bottom:20px;`;
+  const btn=document.getElementById('tc-btn');
+  btn.textContent=isLast?'📊 Lihat Hasil Lengkap →':`Lanjut ke ${TOPICS[curTopic+1].name} →`;
+  btn.style.background=`linear-gradient(135deg,${COLORS[curTopic]},${COLORS[curTopic]}bb)`;
+}
+
+function continueNext(){
+  if(curTopic<TOPICS.length-1)startTopic(curTopic+1);
+  else showResult();
+}
+
+function showResult(){
+  showScreen('result-screen');
+  const div=document.getElementById('topic-scores');
+  div.innerHTML='';
+  let strong=[],ok=[],weak=[];
+  TOPICS.forEach((t,i)=>{
+    const sc=topicScores[i]||0,pct=Math.round((sc/5)*100);
+    const col=pct>=80?'#059669':pct>=60?'#d97706':'#dc2626';
+    const bcls=pct>=80?'badge-strong':pct>=60?'badge-ok':'badge-weak';
+    const blbl=pct>=80?'✅ Kuat':pct>=60?'⚠️ Perlu latihan':'❗ Lemah';
+    if(pct>=80)strong.push(t.name);else if(pct>=60)ok.push(t.name);else weak.push(t.name);
+    div.innerHTML+=`<div class="ts-row"><span class="ts-icon">${t.icon}</span><div class="ts-info"><div class="ts-name">${t.name}</div><div class="ts-detail">${sc}/5 benar · ${t.sub}</div></div><div class="ts-right"><div class="ts-bar"><div class="ts-fill" style="width:${pct}%;background:${col}"></div></div><div class="ts-score" style="color:${col}">${pct}</div><span class="ts-badge ${bcls}">${blbl}</span></div></div>`;
+  });
+  const ps=document.getElementById('priority-section');
+  ps.innerHTML=`<div class="ps-hd" style="color:var(--accent)">📌 Prioritas Program Belajar IPAS</div>`;
+  if(weak.length)ps.innerHTML+=`<div class="prio-item"><span class="prio-code" style="background:#fee2e2;color:#991b1b">UTAMA</span><div>❗ <strong>Butuh perhatian:</strong> ${weak.join(', ')}</div></div>`;
+  if(ok.length)ps.innerHTML+=`<div class="prio-item"><span class="prio-code" style="background:#fef3c7;color:#92400e">SEDANG</span><div>⚠️ <strong>Perlu latihan:</strong> ${ok.join(', ')}</div></div>`;
+  if(strong.length)ps.innerHTML+=`<div class="prio-item"><span class="prio-code" style="background:#dcfce7;color:#15803d">KUAT</span><div>✅ <strong>Sudah kuat:</strong> ${strong.join(', ')}</div></div>`;
+  const weakT=TOPICS.filter((_,i)=>Math.round(((topicScores[i]||0)/5)*100)<60);
+  const okT=TOPICS.filter((_,i)=>{const p=Math.round(((topicScores[i]||0)/5)*100);return p>=60&&p<80;});
+  document.getElementById('plan-section').innerHTML=`
+    <div class="ps-hd" style="color:var(--green)">🗓️ Rekomendasi B07 & B08</div>
+    <div class="prio-item"><span class="prio-code" style="background:#eff6ff;color:#1d4ed8">B07</span><div>${weakT.length?`<strong>Fokus:</strong> ${weakT.map(t=>t.name).join(' & ')}`:'<strong>Fokus:</strong> Topik skor terendah'}</div></div>
+    <div class="prio-item"><span class="prio-code" style="background:#eff6ff;color:#1d4ed8">B08</span><div>${okT.length?`<strong>Fokus:</strong> ${okT.map(t=>t.name).join(' & ')}`:'<strong>Fokus:</strong> Latihan soal campuran IPAS'}</div></div>`;
+}
+
+function copyResult(){
+  let t=`📊 HASIL A04 — ASSESSMENT IPAS PER TOPIK\n`;
+  t+=`Musa Brahma Batubara · 8 April 2026\n`;
+  t+=`Kode: A04 · Program Persiapan UPK Paket A\n`;
+  t+=`${'─'.repeat(50)}\n\nSKOR PER TOPIK:\n`;
+  TOPICS.forEach((tp,i)=>{
+    const sc=topicScores[i]||0,pct=Math.round((sc/5)*100);
+    const bar='█'.repeat(sc)+'░'.repeat(5-sc);
+    const st=pct>=80?'✅':pct>=60?'⚠️':'❗';
+    t+=`${st} ${tp.icon} ${tp.name.padEnd(24)} ${bar} ${sc}/5 (${pct}%)\n`;
+  });
+  t+=`\n${'─'.repeat(50)}\n`;
+  const weak=TOPICS.filter((_,i)=>Math.round(((topicScores[i]||0)/5)*100)<60);
+  const mid=TOPICS.filter((_,i)=>{const p=Math.round(((topicScores[i]||0)/5)*100);return p>=60&&p<80;});
+  const str=TOPICS.filter((_,i)=>Math.round(((topicScores[i]||0)/5)*100)>=80);
+  if(weak.length)t+=`❗ LEMAH: ${weak.map(x=>x.name).join(', ')}\n`;
+  if(mid.length)t+=`⚠️ SEDANG: ${mid.map(x=>x.name).join(', ')}\n`;
+  if(str.length)t+=`✅ KUAT: ${str.map(x=>x.name).join(', ')}\n`;
+  if(allWrong.length){
+    t+=`\nSOAL SALAH:\n`;
+    allWrong.forEach((w,i)=>{t+=`${i+1}. [${w.topic}] ${w.q}\n   → Jawab: ${w.chosen} | Benar: ${w.correct}\n`;});
+  }
+  t+=`\n${'─'.repeat(50)}\n`;
+  t+=`📌 Berdasarkan A04, buatkan:\n`;
+  t+=`B07 · IPAS — fokus: ${weak.length?weak.map(x=>x.name).join(' & '):'topik skor terendah'}\n`;
+  t+=`B08 · IPAS — fokus: ${mid.length?mid.map(x=>x.name).join(' & '):'latihan soal campuran IPAS'}\n`;
+  t+=`Format: Pre-test → Materi → Post-test · Soal berbeda dari A04`;
+  navigator.clipboard.writeText(t).then(()=>{
+    const b=document.getElementById('copy-btn');
+    b.textContent='✅ Tersalin! Paste di chat Claude 👆';
+    b.style.background='linear-gradient(135deg,#059669,#047857)';
+    setTimeout(()=>{b.textContent='📋 Salin Hasil → Kirim ke Claude untuk B07';b.style.background='';},4000);
+  }).catch(()=>prompt('Salin:',t));
+}
+
+function showScreen(id){
+  ['splash','quiz-screen','transition-screen','result-screen'].forEach(s=>document.getElementById(s).style.display='none');
+  document.getElementById(id).style.display='block';
+}
+</script>
+</body>
+</html>
