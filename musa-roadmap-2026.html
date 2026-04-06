@@ -115,7 +115,9 @@ body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(r
 .t-sys{color:var(--teal);border-color:rgba(0,229,160,0.3);background:rgba(0,229,160,0.04);}
 .ilink{font-family:var(--fm);font-size:9px;color:var(--lime);text-decoration:none;border:1px solid rgba(168,255,62,0.25);padding:2px 6px;border-radius:3px;transition:all .15s;letter-spacing:.5px;}
 .ilink:hover{background:rgba(168,255,62,0.08);}
-.idate{font-family:var(--fm);font-size:10px;color:var(--dim);white-space:nowrap;margin-top:2px;flex-shrink:0;}
+.idate{font-family:var(--fm);font-size:10px;color:var(--dim);white-space:normal;margin-top:2px;flex-shrink:0;text-align:right;min-width:82px;line-height:1.25;}
+.d-main{color:var(--text);font-size:10px;}
+.d-sub{color:var(--dim);font-size:8px;letter-spacing:.4px;margin-top:2px;}
 
 /* UPK ITEMS */
 .uitem{display:flex;align-items:flex-start;gap:10px;padding:8px 14px;border-bottom:1px solid var(--border);transition:background .15s;}
@@ -141,6 +143,17 @@ body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(r
 .exam-tag{color:var(--coral);border-color:rgba(255,107,107,.3);}
 .utime{font-family:var(--fm);font-size:9px;color:var(--muted);margin-top:3px;}
 .today-m{font-family:var(--fm);font-size:9px;color:var(--neon);border:1px solid rgba(0,245,255,.3);padding:1px 5px;border-radius:3px;letter-spacing:.5px;margin-left:6px;}
+.scorebar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:6px;}
+.scorebtn,.metabtn{font-family:var(--fm);font-size:9px;border:1px solid rgba(0,245,255,.25);background:var(--bg3);color:var(--neon);padding:2px 6px;border-radius:3px;cursor:pointer;letter-spacing:.4px;}
+.scorebtn:hover,.metabtn:hover{background:rgba(0,245,255,.06);}
+.scoreval{font-family:var(--fm);font-size:9px;color:var(--gold);border:1px solid rgba(255,208,96,.25);padding:2px 6px;border-radius:3px;letter-spacing:.3px;}
+.scoreok{color:var(--teal);border-color:rgba(0,229,160,.3);}
+.scorelow{color:var(--coral);border-color:rgba(255,107,107,.3);}
+.plan-note{font-family:var(--fm);font-size:9px;color:var(--muted);margin-top:5px;letter-spacing:.3px;line-height:1.5;}
+.plan-note.warn{color:var(--gold);}
+.plan-note.critical{color:var(--coral);}
+.riskline{font-family:var(--fm);font-size:10px;color:var(--gold);margin-top:6px;letter-spacing:.4px;}
+
 
 /* REPORT */
 .rblock{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--rl);overflow:hidden;margin-top:16px;}
@@ -228,7 +241,7 @@ body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(r
     <div class="phs" style="color:var(--blue)">■ FASE 1 — ASSESSMENT MENDALAM</div>
 
     <div class="uitem"><div class="uday">MIN 5 APR</div><div class="ucode">A01</div>
-      <div class="ubody"><div class="utit" id="ua01">Matematika — Assessment<span class="today-m" id="today-m">HARI INI</span></div><div class="usubj"><span class="us mtk">Matematika ✅</span></div></div>
+      <div class="ubody"><div class="utit" id="ua01">Matematika — Assessment</div><div class="usubj"><span class="us mtk">Matematika ✅</span></div></div>
       <div class="cb" id="cb-a01" onclick="tick('a01')"></div></div>
 
     <div class="uitem"><div class="uday">SEN 6 APR</div><div class="ucode">A02</div>
@@ -250,47 +263,47 @@ body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(r
     <div class="phs" style="color:var(--coral)">■ FASE 2 — BELAJAR HARIAN · Pre-test → Materi → Post-test · Target: 75/100</div>
 
     <div class="uitem"><div class="uday">JUM 10 APR</div><div class="ucode">B01</div>
-      <div class="ubody"><div class="utit" id="ub01">Matematika — Pecahan &amp; Persentase</div><div class="usubj"><span class="us mtk">Matematika</span></div></div>
+      <div class="ubody"><div class="utit" id="ub01">Matematika — Pecahan &amp; Persentase</div><div class="usubj"><span class="us mtk">Matematika</span></div><div class="im"><a class="ilink" href="https://self-empowerment.github.io/avatar/B01-matematika.html" target="_blank">Buka Materi ↗</a></div></div>
       <div class="cb" id="cb-b01" onclick="tick('b01')"></div></div>
 
     <div class="uitem"><div class="uday">SAB 11 APR</div><div class="ucode">B02</div>
-      <div class="ubody"><div class="utit" id="ub02">Matematika — Bangun Datar &amp; Ruang</div><div class="usubj"><span class="us mtk">Matematika</span></div></div>
+      <div class="ubody"><div class="utit" id="ub02">Matematika — Bangun Datar &amp; Ruang</div><div class="usubj"><span class="us mtk">Matematika</span><span class="us tka">Link pending</span></div><div class="plan-note">Materi dibuat dari hasil assessment Matematika sebelumnya.</div></div>
       <div class="cb" id="cb-b02" onclick="tick('b02')"></div></div>
 
     <div class="uitem"><div class="uday">MIN 12 APR</div><div class="ucode">B03</div>
-      <div class="ubody"><div class="utit" id="ub03">PKN — Topik Lemah #1 <span style="font-size:10px;color:var(--dim)">(dari A02)</span></div><div class="usubj"><span class="us pkn">PKN</span></div></div>
+      <div class="ubody"><div class="utit" id="ub03">PKN — Topik Lemah #1 <span style="font-size:10px;color:var(--dim)">(dari A02)</span></div><div class="usubj"><span class="us pkn">PKN</span></div><div class="im"><a class="ilink" href="https://self-empowerment.github.io/avatar/B03-pkn.html" target="_blank">Buka Materi ↗</a></div></div>
       <div class="cb" id="cb-b03" onclick="tick('b03')"></div></div>
 
     <div class="uitem"><div class="uday">SEN 13 APR</div><div class="ucode">B04</div>
-      <div class="ubody"><div class="utit" id="ub04">PKN — Topik Lemah #2 <span style="font-size:10px;color:var(--dim)">(dari A02)</span></div><div class="usubj"><span class="us pkn">PKN</span></div></div>
+      <div class="ubody"><div class="utit" id="ub04">PKN — Topik Lemah #2 <span style="font-size:10px;color:var(--dim)">(dari A02)</span></div><div class="usubj"><span class="us pkn">PKN</span><span class="us tka">Link pending</span></div><div class="plan-note">Materi dibuat dari hasil assessment PKN sebelumnya.</div></div>
       <div class="cb" id="cb-b04" onclick="tick('b04')"></div></div>
 
     <div class="uitem"><div class="uday">SEL 14 APR</div><div class="ucode">B05</div>
-      <div class="ubody"><div class="utit" id="ub05">Agama — Topik Lemah #1 <span style="font-size:10px;color:var(--dim)">(dari A03)</span></div><div class="usubj"><span class="us agm">Agama</span></div></div>
+      <div class="ubody"><div class="utit" id="ub05">Agama — Topik Lemah #1 <span style="font-size:10px;color:var(--dim)">(dari A03)</span></div><div class="usubj"><span class="us agm">Agama</span></div><div class="im"><a class="ilink" href="https://self-empowerment.github.io/avatar/B05_Agama_Fiqih_Akhlak.html" target="_blank">Buka Materi ↗</a></div></div>
       <div class="cb" id="cb-b05" onclick="tick('b05')"></div></div>
 
     <div class="uitem"><div class="uday">RAB 15 APR</div><div class="ucode">B06</div>
-      <div class="ubody"><div class="utit" id="ub06">Agama — Topik Lemah #2 <span style="font-size:10px;color:var(--dim)">(dari A03)</span></div><div class="usubj"><span class="us agm">Agama</span></div></div>
+      <div class="ubody"><div class="utit" id="ub06">Agama — Topik Lemah #2 <span style="font-size:10px;color:var(--dim)">(dari A03)</span></div><div class="usubj"><span class="us agm">Agama</span></div><div class="im"><a class="ilink" href="https://self-empowerment.github.io/avatar/B06_Agama_IbadahKhusus.html" target="_blank">Buka Materi ↗</a></div></div>
       <div class="cb" id="cb-b06" onclick="tick('b06')"></div></div>
 
     <div class="uitem"><div class="uday">KAM 16 APR</div><div class="ucode">B07</div>
-      <div class="ubody"><div class="utit" id="ub07">IPAS — Topik Lemah #1 <span style="font-size:10px;color:var(--dim)">(dari A04)</span></div><div class="usubj"><span class="us ipas">IPAS</span></div></div>
+      <div class="ubody"><div class="utit" id="ub07">IPAS — Topik Lemah #1 <span style="font-size:10px;color:var(--dim)">(dari A04)</span></div><div class="usubj"><span class="us ipas">IPAS</span></div><div class="im"><a class="ilink" href="https://self-empowerment.github.io/avatar/B07_IPAS_MakhlukHidup_TubuhManusia_FisikaDasar.html" target="_blank">Buka Materi ↗</a></div></div>
       <div class="cb" id="cb-b07" onclick="tick('b07')"></div></div>
 
     <div class="uitem"><div class="uday">JUM 17 APR</div><div class="ucode">B08</div>
-      <div class="ubody"><div class="utit" id="ub08">IPAS — Topik Lemah #2 <span style="font-size:10px;color:var(--dim)">(dari A04)</span></div><div class="usubj"><span class="us ipas">IPAS</span></div></div>
+      <div class="ubody"><div class="utit" id="ub08">IPAS — Topik Lemah #2 <span style="font-size:10px;color:var(--dim)">(dari A04)</span></div><div class="usubj"><span class="us ipas">IPAS</span></div><div class="im"><a class="ilink" href="https://self-empowerment.github.io/avatar/B08_IPAS_MakhlukHidup_TubuhManusia_FisikaDasar.html" target="_blank">Buka Materi ↗</a></div></div>
       <div class="cb" id="cb-b08" onclick="tick('b08')"></div></div>
 
     <div class="uitem"><div class="uday">SAB 18 APR</div><div class="ucode">B09</div>
-      <div class="ubody"><div class="utit" id="ub09">B. Indonesia — Topik Lemah #1 <span style="font-size:10px;color:var(--dim)">(dari A05)</span></div><div class="usubj"><span class="us indo">B. Indonesia</span></div></div>
+      <div class="ubody"><div class="utit" id="ub09">B. Indonesia — Topik Lemah #1 <span style="font-size:10px;color:var(--dim)">(dari A05)</span></div><div class="usubj"><span class="us indo">B. Indonesia</span></div><div class="im"><a class="ilink" href="https://self-empowerment.github.io/avatar/B09_BahasaIndonesia_Kosakata_TataBahasa.html" target="_blank">Buka Materi ↗</a></div></div>
       <div class="cb" id="cb-b09" onclick="tick('b09')"></div></div>
 
     <div class="uitem"><div class="uday">MIN 19 APR</div><div class="ucode">B10</div>
-      <div class="ubody"><div class="utit" id="ub10">B. Indonesia — Topik Lemah #2 <span style="font-size:10px;color:var(--dim)">(dari A05)</span></div><div class="usubj"><span class="us indo">B. Indonesia</span></div></div>
+      <div class="ubody"><div class="utit" id="ub10">B. Indonesia — Topik Lemah #2 <span style="font-size:10px;color:var(--dim)">(dari A05)</span></div><div class="usubj"><span class="us indo">B. Indonesia</span></div><div class="im"><a class="ilink" href="https://self-empowerment.github.io/avatar/B10_BahasaIndonesia_Kosakata_TataBahasa.html" target="_blank">Buka Materi ↗</a></div></div>
       <div class="cb" id="cb-b10" onclick="tick('b10')"></div></div>
 
     <div class="uitem"><div class="uday">SEN 20 APR</div><div class="ucode">B11</div>
-      <div class="ubody"><div class="utit" id="ub11">Review Campuran — Semua Mapel</div><div class="usubj"><span class="us mtk">MTK</span><span class="us pkn">PKN</span><span class="us agm">Agama</span><span class="us ipas">IPAS</span><span class="us indo">B.Indo</span></div></div>
+      <div class="ubody"><div class="utit" id="ub11">Review Campuran — Semua Mapel</div><div class="usubj"><span class="us mtk">MTK</span><span class="us pkn">PKN</span><span class="us agm">Agama</span><span class="us ipas">IPAS</span><span class="us indo">B.Indo</span><span class="us tka">Link pending</span></div><div class="plan-note">Soal review campuran akan dibuat dari hasil assessment dan post-test sebelumnya.</div></div>
       <div class="cb" id="cb-b11" onclick="tick('b11')"></div></div>
 
     <div class="phs" style="color:var(--gold)">■ FASE 3 — SIMULASI FINAL</div>
@@ -447,193 +460,797 @@ body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(r
 
 </div><!-- /wrap -->
 
-<script>
-const DEMO=new Date('2026-12-15T09:00:00');
-const KEY='musa_mc2_v1';
-const UPK=['a01','a02','a03','a04','a05','b01','b02','b03','b04','b05','b06','b07','b08','b09','b10','b11','s01','x01','x02','h01','h02','h03'];
-const PHS={ph0:['eng-test','tdt','7hab','tkd-start','notion','python','p1brief'],ph1:['p1data','p1check','p1code','p1write','p1site','tkd-w4'],ph2:['p2research','p2compare','p2essay','p2publish','tkd-w8'],ph3:['p3physics','p3report','p3video','tkd-w12'],ph4:['portfolio','acara','rehearsal','demo']};
-const UL={a01:'MTK Assessment',a02:'PKN Assessment',a03:'Agama Assessment',a04:'IPAS Assessment',a05:'B.Indonesia Assessment',b01:'MTK Pecahan & Persentase',b02:'MTK Bangun Datar & Ruang',b03:'PKN Topik Lemah #1',b04:'PKN Topik Lemah #2',b05:'Agama Topik Lemah #1',b06:'Agama Topik Lemah #2',b07:'IPAS Topik Lemah #1',b08:'IPAS Topik Lemah #2',b09:'B.Indo Topik Lemah #1',b10:'B.Indo Topik Lemah #2',b11:'Review Campuran',s01:'Simulasi Penuh',x01:'Buffer Istirahat',x02:'Cek Perlengkapan',h01:'Hari H 1 Agama+IPAS+PKN',h02:'Hari H 2 TKA+B.Indo',h03:'Hari H 3 TKA+MTK'};
-const PL={'eng-test':'English Level Test','tdt':'Tour de Talent 3 hari','7hab':'7 Habits sesi pertama','tkd-start':'TKD Program start + baseline','notion':'Jurnal mingguan setup','python':'Python basics bisa buat chart','p1brief':'Project Brief P1 + ACARA','p1data':'Data ABS per state','p1check':'Checkpoint presentasi data','p1code':'Dashboard Python selesai','p1write':'Laporan P1 selesai','p1site':'Website P1 live','tkd-w4':'TKD Re-test Week 4','p2research':'Riset cross-cultural 6+ budaya','p2compare':'Comparison table + visualisasi','p2essay':'Essay P2 selesai','p2publish':'Digital journal P2 published','tkd-w8':'TKD Re-test Week 8','p3physics':'Riset fisika + ekonomi antariksa','p3report':'Laporan + pitch deck P3','p3video':'Video pitch direkam','tkd-w12':'TKD Re-test final + PE portfolio','portfolio':'Portfolio lengkap dikompilasi','acara':'ACARA mapping selesai','rehearsal':'Mock demo 2x selesai','demo':'DEMO ke moderator'};
-const DL={'eng-test':new Date('2026-04-30'),'tdt':new Date('2026-04-30'),'7hab':new Date('2026-04-30'),'tkd-start':new Date('2026-04-30'),'notion':new Date('2026-04-30'),'python':new Date('2026-04-30'),'p1brief':new Date('2026-04-30'),'p1data':new Date('2026-05-31'),'p1check':new Date('2026-06-11'),'p1code':new Date('2026-07-11'),'p1write':new Date('2026-08-07'),'p1site':new Date('2026-08-14'),'p2research':new Date('2026-09-14'),'p2compare':new Date('2026-10-10'),'p2essay':new Date('2026-10-22'),'p2publish':new Date('2026-10-30'),'p3physics':new Date('2026-11-15'),'p3report':new Date('2026-11-22'),'p3video':new Date('2026-11-28'),'portfolio':new Date('2026-12-07'),'acara':new Date('2026-12-07'),'rehearsal':new Date('2026-12-14'),'demo':new Date('2026-12-15')};
-const BN=[
-  {tag:'■ UPK — MISI KRITIS AKTIF',main:'Fokus penuh ke UPK 24–26 April. Selesaikan assessment setiap hari, kirim hasil ke Claude.',items:['Assessment A01–A05: selesaikan satu per hari','Target post-test minimal 75/100 di setiap sesi B','Simulasi penuh 21 Apr — latihan kondisi ujian sesungguhnya'],upk:true},
-  {tag:'■ FASE 0 — POST-UPK SETUP',main:'UPK selesai! Setup sistem homeschool sebelum Project 1 mulai 1 Mei.',items:['Musa kerjakan English Level Test minggu ini','Selesaikan Tour de Talent 3 hari','Set start date TKD Program + ambil baseline'],upk:false},
-  {tag:'■ FASE 1 — AUSTRALIA PROJECT',main:'Project 1 berjalan. Kumpulkan data ABS, coding Python, jurnal terus diisi.',items:['Data ABS minimal 3 state sudah masuk','Musa coding Python minimal 3x seminggu','Jurnal bahasa Inggris per sesi TKD'],upk:false},
-  {tag:'■ FASE 2 — AVATAR ATLAS',main:'Project 1 selesai! Masuk riset cross-cultural yang lebih dalam.',items:['Riset minimal 2 budaya per minggu','TKD Re-test Week 8 sudah dijadwalkan','Essay harus pakai vocabulary Year 8+'],upk:false},
-  {tag:'■ FASE 3 — SPACE ECONOMY SPRINT',main:'Sprint terakhir! 4 minggu, fokus tinggi. Demo semakin dekat.',items:['Latihan presentasi video pitch setiap hari','Portfolio semua project siap dikompilasi','TKD Re-test final + compile PE portfolio'],upk:false},
-  {tag:'■ FASE 4 — FINISH LINE',main:'Dalam jangkauan! Polish semua deliverable dan latihan presentasi.',items:['Mock demo 2x minggu ini — record dan tonton ulang','ACARA mapping harus selesai sekarang','Semua URL/file portfolio bisa diakses moderator'],upk:false}
-];
 
-let S={};
-try{S=JSON.parse(localStorage.getItem(KEY)||'{}');}catch(e){}
-function sv(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+<script>
+const DEMO = new Date('2026-12-15T09:00:00+08:00');
+const KEY = 'musa_mc2_v2';
+const KEY_META = 'musa_mc2_meta_v1';
+const DAY_MS = 86400000;
+
+const UPK = ['a01','a02','a03','a04','a05','b01','b02','b03','b04','b05','b06','b07','b08','b09','b10','b11','s01','x01','x02','h01','h02','h03'];
+const PHS = {
+  ph0:['eng-test','tdt','7hab','tkd-start','notion','python','p1brief'],
+  ph1:['p1data','p1check','p1code','p1write','p1site','tkd-w4'],
+  ph2:['p2research','p2compare','p2essay','p2publish','tkd-w8'],
+  ph3:['p3physics','p3report','p3video','tkd-w12'],
+  ph4:['portfolio','acara','rehearsal','demo']
+};
+
+const UL = {
+  a01:'MTK Assessment',a02:'PKN Assessment',a03:'Agama Assessment',a04:'IPAS Assessment',a05:'B. Indonesia Assessment',
+  b01:'MTK Pecahan & Persentase',b02:'MTK Bangun Datar & Ruang',b03:'PKN Topik Lemah #1',b04:'PKN Topik Lemah #2',
+  b05:'Agama Topik Lemah #1',b06:'Agama Topik Lemah #2',b07:'IPAS Topik Lemah #1',b08:'IPAS Topik Lemah #2',
+  b09:'B. Indo Topik Lemah #1',b10:'B. Indo Topik Lemah #2',b11:'Review Campuran',s01:'Simulasi Penuh',
+  x01:'Buffer Istirahat',x02:'Cek Perlengkapan',h01:'Hari H 1 Agama+IPAS+PKN',h02:'Hari H 2 TKA+B. Indo',h03:'Hari H 3 TKA+MTK'
+};
+
+const PL = {
+  'eng-test':'English Level Test','tdt':'Tour de Talent 3 hari','7hab':'7 Habits sesi pertama','tkd-start':'TKD Program start + baseline',
+  'notion':'Jurnal mingguan setup','python':'Python basics bisa buat chart','p1brief':'Project Brief P1 + ACARA',
+  'p1data':'Data ABS per state','p1check':'Checkpoint presentasi data','p1code':'Dashboard Python selesai',
+  'p1write':'Laporan P1 selesai','p1site':'Website P1 live','tkd-w4':'TKD Re-test Week 4',
+  'p2research':'Riset cross-cultural 6+ budaya','p2compare':'Comparison table + visualisasi','p2essay':'Essay P2 selesai',
+  'p2publish':'Digital journal P2 published','tkd-w8':'TKD Re-test Week 8','p3physics':'Riset fisika + ekonomi antariksa',
+  'p3report':'Laporan + pitch deck P3','p3video':'Video pitch direkam','tkd-w12':'TKD Re-test final + PE portfolio',
+  'portfolio':'Portfolio lengkap dikompilasi','acara':'ACARA mapping selesai','rehearsal':'Mock demo 2x selesai','demo':'DEMO ke moderator'
+};
+
+const DL = {
+  'eng-test':new Date('2026-04-30T23:59:59+08:00'),'tdt':new Date('2026-04-30T23:59:59+08:00'),'7hab':new Date('2026-04-30T23:59:59+08:00'),
+  'tkd-start':new Date('2026-04-30T23:59:59+08:00'),'notion':new Date('2026-04-30T23:59:59+08:00'),'python':new Date('2026-04-30T23:59:59+08:00'),
+  'p1brief':new Date('2026-04-30T23:59:59+08:00'),'p1data':new Date('2026-05-31T23:59:59+08:00'),'p1check':new Date('2026-06-11T23:59:59+08:00'),
+  'p1code':new Date('2026-07-11T23:59:59+08:00'),'p1write':new Date('2026-08-07T23:59:59+08:00'),'p1site':new Date('2026-08-14T23:59:59+08:00'),
+  'p2research':new Date('2026-09-14T23:59:59+08:00'),'p2compare':new Date('2026-10-10T23:59:59+08:00'),'p2essay':new Date('2026-10-22T23:59:59+08:00'),
+  'p2publish':new Date('2026-10-30T23:59:59+08:00'),'p3physics':new Date('2026-11-15T23:59:59+08:00'),'p3report':new Date('2026-11-22T23:59:59+08:00'),
+  'p3video':new Date('2026-11-28T23:59:59+08:00'),'portfolio':new Date('2026-12-07T23:59:59+08:00'),'acara':new Date('2026-12-07T23:59:59+08:00'),
+  'rehearsal':new Date('2026-12-14T23:59:59+08:00'),'demo':new Date('2026-12-15T23:59:59+08:00')
+};
+
+const PHASE_META = {
+  ph0:{name:'Fase 0 · Persiapan',start:'2026-04-27',end:'2026-04-30'},
+  ph1:{name:'Project 1 · Australia by the Numbers',start:'2026-05-01',end:'2026-08-14'},
+  ph2:{name:'Project 2 · The Avatar Atlas',start:'2026-08-17',end:'2026-10-30'},
+  ph3:{name:'Project 3 · Space Economy 2050',start:'2026-11-02',end:'2026-11-28'},
+  ph4:{name:'Fase 4 · Demo Prep + Portfolio Final',start:'2026-11-30',end:'2026-12-15'}
+};
+
+const SCOREABLE = ['a01','a02','a03','a04','a05','b01','b02','b03','b04','b05','b06','b07','b08','b09','b10','b11','s01'];
+const ANCHORS = ['p1site','p2publish','p3video','portfolio','acara','demo'];
+
+const UPK_DATES = {
+  a01:'2026-04-05',a02:'2026-04-06',a03:'2026-04-07',a04:'2026-04-08',a05:'2026-04-09',
+  b01:'2026-04-10',b02:'2026-04-11',b03:'2026-04-12',b04:'2026-04-13',b05:'2026-04-14',b06:'2026-04-15',
+  b07:'2026-04-16',b08:'2026-04-17',b09:'2026-04-18',b10:'2026-04-19',b11:'2026-04-20',
+  s01:'2026-04-21',x01:'2026-04-22',x02:'2026-04-23',h01:'2026-04-24',h02:'2026-04-25',h03:'2026-04-26'
+};
+
+const PH0_PLAN = {
+  'eng-test':{plannedKey:'2026-04-27', label:'27 Apr', hard:'30 Apr'},
+  'tdt':{plannedKey:'2026-04-27', label:'27–29 Apr', hard:'30 Apr'},
+  '7hab':{plannedKey:'2026-04-28', label:'28 Apr', hard:'30 Apr'},
+  'tkd-start':{plannedKey:'2026-04-29', label:'29 Apr', hard:'30 Apr'},
+  'notion':{plannedKey:'2026-04-29', label:'29 Apr', hard:'30 Apr'},
+  'python':{plannedKey:'2026-04-30', label:'30 Apr', hard:'30 Apr'},
+  'p1brief':{plannedKey:'2026-04-30', label:'30 Apr', hard:'30 Apr'}
+};
+const PH0_ORDER = ['eng-test','tdt','7hab','tkd-start','notion','python','p1brief'];
+const PH0_SLOT_KEYS = ['2026-04-27','2026-04-27','2026-04-28','2026-04-29','2026-04-29','2026-04-30','2026-04-30'];
+
+const WEIGHTS = {
+  a01:2,a02:2,a03:2,a04:2,a05:2,
+  b01:2.5,b02:2.5,b03:2.5,b04:2.5,b05:2.5,b06:2.5,b07:2.5,b08:2.5,b09:2.5,b10:2.5,b11:3,
+  s01:4,x01:1,x02:1,h01:4,h02:4,h03:4,
+  'eng-test':2,'tdt':2,'7hab':1.5,'tkd-start':2,'notion':1,'python':2,'p1brief':2,
+  'p1data':3,'p1check':2,'p1code':4,'p1write':4,'p1site':6,'tkd-w4':2,
+  'p2research':3,'p2compare':3,'p2essay':4,'p2publish':6,'tkd-w8':2,
+  'p3physics':3,'p3report':4,'p3video':6,'tkd-w12':2,
+  'portfolio':6,'acara':6,'rehearsal':3,'demo':8
+};
+
+let S = {};
+let M = { scores:{} };
+
+try { S = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e) {}
+try {
+  const parsedMeta = JSON.parse(localStorage.getItem(KEY_META) || '{}');
+  if(parsedMeta && typeof parsedMeta === 'object'){ M = Object.assign({scores:{}}, parsedMeta); }
+  if(!M.scores) M.scores = {};
+} catch(e) {}
+
+function saveState(){
+  try{ localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){}
+  try{ localStorage.setItem(KEY_META, JSON.stringify(M)); } catch(e){}
+}
+
+function parsePerthDate(str){ return new Date(str+'T00:00:00+08:00'); }
+function startOfPerthDay(date){
+  const p = new Intl.DateTimeFormat('en-CA', {timeZone:'Australia/Perth', year:'numeric', month:'2-digit', day:'2-digit'}).formatToParts(date);
+  const year = p.find(x=>x.type==='year').value;
+  const month = p.find(x=>x.type==='month').value;
+  const day = p.find(x=>x.type==='day').value;
+  return new Date(`${year}-${month}-${day}T00:00:00+08:00`);
+}
+function perthKey(date){
+  const p = new Intl.DateTimeFormat('en-CA', {timeZone:'Australia/Perth', year:'numeric', month:'2-digit', day:'2-digit'}).formatToParts(date);
+  const year = p.find(x=>x.type==='year').value;
+  const month = p.find(x=>x.type==='month').value;
+  const day = p.find(x=>x.type==='day').value;
+  return `${year}-${month}-${day}`;
+}
+function fmtShort(date){
+  const d = date.getDate();
+  const MTH = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agt','Sep','Okt','Nov','Des'];
+  return `${d} ${MTH[date.getMonth()]}`;
+}
+function fmtMiniDay(date){
+  const D = ['MIN','SEN','SEL','RAB','KAM','JUM','SAB'];
+  const MTH = ['JAN','FEB','MAR','APR','MEI','JUN','JUL','AGT','SEP','OKT','NOV','DES'];
+  return `${D[date.getDay()]} ${date.getDate()} ${MTH[date.getMonth()]}`;
+}
+function daysBetween(a,b){
+  return Math.ceil((startOfPerthDay(b) - startOfPerthDay(a)) / DAY_MS);
+}
+function setText(id, text){ const el=document.getElementById(id); if(el) el.textContent=text; }
+function isDone(id){ return (S[id] || 'none') === 'done'; }
+function isPending(id){ return !isDone(id); }
+function allTaskIds(){ return [...UPK, ...Object.values(PHS).flat()]; }
+function titleEl(id){ return document.getElementById('u'+id) || document.getElementById('t-'+id); }
+function bodyEl(id){
+  const t = titleEl(id);
+  if(!t) return null;
+  return t.closest('.ubody') || t.closest('.ib');
+}
 
 function tick(id){
-  const c=S[id]||'none';
-  S[id]=c==='none'?'done':c==='done'?'skip':'none';
-  sv();rCb(id);updStats();
+  const c = S[id] || 'none';
+  S[id] = c === 'none' ? 'done' : c === 'done' ? 'skip' : 'none';
+  saveState();
+  renderAll();
+}
+
+function setScore(id){
+  const current = M.scores[id] ?? '';
+  const label = id.startsWith('a') ? 'Masukkan nilai assessment (0–100). Kosongkan untuk hapus.' : 'Masukkan nilai post-test / hasil latihan (0–100). Kosongkan untuk hapus.';
+  const input = prompt(label, current);
+  if(input === null) return;
+  const trimmed = String(input).trim();
+  if(trimmed === ''){
+    delete M.scores[id];
+    saveState();
+    renderAll();
+    return;
+  }
+  const num = Number(trimmed);
+  if(Number.isNaN(num) || num < 0 || num > 100){
+    alert('Nilai harus angka 0–100.');
+    return;
+  }
+  M.scores[id] = Math.round(num);
+  saveState();
+  renderAll();
+}
+
+function scoreTone(score){
+  if(score >= 75) return 'scoreok';
+  if(score >= 0) return 'scorelow';
+  return '';
+}
+
+function renderScoreBars(){
+  SCOREABLE.forEach(id=>{
+    const wrap = bodyEl(id);
+    if(!wrap) return;
+    let row = document.getElementById(`score-${id}`);
+    if(!row){
+      row = document.createElement('div');
+      row.id = `score-${id}`;
+      row.className = 'scorebar';
+      wrap.appendChild(row);
+    }
+    const score = M.scores[id];
+    const label = id.startsWith('a') ? 'Isi skor assessment' : 'Isi skor post-test';
+    const scoreText = score === undefined ? 'Belum ada skor' : `Skor: ${score}/100`;
+    const tone = score === undefined ? '' : scoreTone(score);
+    row.innerHTML = `
+      <button class="scorebtn" onclick="setScore('${id}')">${label}</button>
+      <span class="scoreval ${tone}">${scoreText}</span>
+    `;
+  });
 }
 
 function rCb(id){
-  const cb=document.getElementById('cb-'+id);if(!cb)return;
-  const s=S[id]||'none';
-  cb.className='cb'+(s==='done'?' done':s==='skip'?' skip':'');
-  cb.textContent=s==='done'?'✓':s==='skip'?'—':'';
-  const isU=UPK.includes(id);
-  const tid=document.getElementById((isU?'u':'t')+id.replace('-','_').replace(id,id));
-  const tidEl=document.getElementById(isU?'u'+id:'t-'+id);
-  if(tidEl){if(s==='done')tidEl.classList.add('fd');else tidEl.classList.remove('fd');}
-}
-
-function updStats(){
-  const now=new Date();
-  let tot=0,don=0;
-  const ud=UPK.filter(id=>(S[id]||'none')==='done').length;
-  const uc=document.getElementById('upk-c');if(uc)uc.textContent=ud+'/'+UPK.length;
-  UPK.forEach(()=>tot++);don+=ud;
-  Object.entries(PHS).forEach(([ph,ids])=>{
-    let pd=0;ids.forEach(id=>{tot++;if((S[id]||'none')==='done'){don++;pd++;}});
-    const b=document.getElementById(ph+'-c');if(b){b.textContent=pd+'/'+ids.length;b.classList.toggle('lit',pd>0);}
-  });
-  document.getElementById('sd').textContent=don;
-  document.getElementById('st').textContent=tot;
-  const pct=Math.round(don/tot*100);
-  document.getElementById('sp').textContent=pct+'%';
-  document.getElementById('pf').style.width=pct+'%';
-  document.getElementById('pr').textContent=don+' / '+tot;
-  document.getElementById('sdy').textContent=Math.max(0,Math.ceil((DEMO-now)/86400000));
-}
-
-function tog(id){
-  const b=document.getElementById(id+'-b'),v=document.getElementById(id+'-v');
-  if(!b)return;const o=b.classList.toggle('open');
-  if(v){v.textContent=o?'▼':'▶';v.classList.toggle('open',o);}
-}
-
-function getBi(){
-  const n=new Date();
-  if(n<=new Date('2026-04-26'))return 0;
-  if(n<=new Date('2026-04-30'))return 1;
-  if(n<=new Date('2026-08-14'))return 2;
-  if(n<=new Date('2026-10-30'))return 3;
-  if(n<=new Date('2026-11-30'))return 4;
-  return 5;
-}
-
-function updBanner(){
-  const b=BN[getBi()];
-  const ban=document.getElementById('banner');
-  if(ban)ban.className='banner '+(b.upk?'b-upk':'b-norm');
-  const tg=document.getElementById('btag');
-  if(tg){tg.textContent=b.tag;tg.style.color=b.upk?'var(--gold)':'var(--neon)';}
-  document.getElementById('bmain').textContent=b.main;
-  const c=document.getElementById('bitems');c.innerHTML='';
-  b.items.forEach(t=>{const d=document.createElement('div');d.className='bi';d.textContent=t;c.appendChild(d);});
-}
-
-function updToday(){
-  const now=new Date();
-  const tm=document.getElementById('today-m');if(!tm)return;
-  const today5=new Date('2026-04-05');
-  const same=now.getFullYear()===2026&&now.getMonth()===3&&now.getDate()===5;
-  tm.style.display=same?'':'none';
-}
-
-function updClk(){
-  const n=new Date();
-  const D=['MINGGU','SENIN','SELASA','RABU','KAMIS','JUMAT','SABTU'];
-  const M=['JAN','FEB','MAR','APR','MEI','JUN','JUL','AGT','SEP','OKT','NOV','DES'];
-  document.getElementById('clk').textContent=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')+':'+String(n.getSeconds()).padStart(2,'0');
-  document.getElementById('clkd').textContent=D[n.getDay()]+' '+n.getDate()+' '+M[n.getMonth()]+' '+n.getFullYear();
-  const df=DEMO-n;
-  if(df>0){
-    document.getElementById('cdd').textContent=Math.floor(df/86400000);
-    document.getElementById('cdh').textContent=String(Math.floor(df%86400000/3600000)).padStart(2,'0');
-    document.getElementById('cdm').textContent=String(Math.floor(df%3600000/60000)).padStart(2,'0');
-    document.getElementById('cds2').textContent=String(Math.floor(df%60000/1000)).padStart(2,'0');
+  const cb = document.getElementById('cb-'+id);
+  if(!cb) return;
+  const s = S[id] || 'none';
+  cb.className = 'cb' + (s === 'done' ? ' done' : s === 'skip' ? ' skip' : '');
+  cb.textContent = s === 'done' ? '✓' : s === 'skip' ? '—' : '';
+  const t = titleEl(id);
+  if(t){
+    if(s === 'done') t.classList.add('fd');
+    else t.classList.remove('fd');
   }
 }
 
-document.getElementById('o-nt').addEventListener('change',function(){document.getElementById('nwrap').style.display=this.checked?'block':'none';});
+function weightedProgress(){
+  let total = 0;
+  let done = 0;
+  let rawDone = 0;
+  const ids = allTaskIds();
+  ids.forEach(id=>{
+    const w = WEIGHTS[id] || 1;
+    total += w;
+    if(isDone(id)){ done += w; rawDone += 1; }
+  });
+  return {
+    totalWeight: total,
+    doneWeight: done,
+    pct: total ? Math.round(done / total * 100) : 0,
+    rawDone,
+    rawTotal: ids.length
+  };
+}
+
+function updatePhaseBadges(){
+  Object.entries(PHS).forEach(([ph, ids])=>{
+    const pd = ids.filter(isDone).length;
+    const b = document.getElementById(ph+'-c');
+    if(b){
+      b.textContent = `${pd}/${ids.length}`;
+      b.classList.toggle('lit', pd > 0);
+    }
+  });
+  const upkDone = UPK.filter(isDone).length;
+  const uc = document.getElementById('upk-c');
+  if(uc) uc.textContent = `${upkDone}/${UPK.length}`;
+}
+
+function getUPKAdaptivePlan(now=new Date()){
+  const today = startOfPerthDay(now);
+  const todayKey = perthKey(now);
+  const preExam = ['a01','a02','a03','a04','a05','b01','b02','b03','b04','b05','b06','b07','b08','b09','b10','b11','s01','x01','x02'];
+  const slots = preExam.map(id=>({id, date: parsePerthDate(UPK_DATES[id]), key: UPK_DATES[id]}));
+  const firstOpenIndex = Math.max(0, slots.findIndex(s => s.date >= today));
+  const schedule = {};
+  let cursor = firstOpenIndex === -1 ? slots.length : firstOpenIndex;
+
+  preExam.forEach((id, index)=>{
+    const originalKey = UPK_DATES[id];
+    const originalDate = parsePerthDate(originalKey);
+    if(isDone(id)){
+      schedule[id] = { originalKey, suggestedKey: originalKey, shifted:false, overflow:false, overdue:false };
+      return;
+    }
+    const targetIndex = Math.max(cursor, index);
+    if(targetIndex >= slots.length){
+      schedule[id] = { originalKey, suggestedKey:null, shifted:true, overflow:true, overdue: originalDate < today };
+      return;
+    }
+    const suggestedKey = slots[targetIndex].key;
+    schedule[id] = {
+      originalKey,
+      suggestedKey,
+      shifted: suggestedKey !== originalKey,
+      overflow:false,
+      overdue: originalDate < today
+    };
+    cursor = targetIndex + 1;
+  });
+
+  ['h01','h02','h03'].forEach(id=>{
+    schedule[id] = {
+      originalKey: UPK_DATES[id],
+      suggestedKey: UPK_DATES[id],
+      shifted:false,
+      overflow:false,
+      overdue:false
+    };
+  });
+
+  const overduePending = preExam.filter(id => isPending(id) && parsePerthDate(UPK_DATES[id]) < today);
+  const todayFocus = preExam.filter(id => isPending(id) && schedule[id] && schedule[id].suggestedKey === todayKey);
+  const upcoming = preExam.filter(id => isPending(id) && schedule[id] && schedule[id].suggestedKey && schedule[id].suggestedKey >= todayKey).slice(0,5);
+  const overflow = preExam.filter(id => schedule[id] && schedule[id].overflow);
+  const availableDays = preExam.filter(id => schedule[id] && schedule[id].suggestedKey && schedule[id].suggestedKey >= todayKey).length;
+  const remaining = preExam.filter(id => isPending(id)).length;
+  const pace = availableDays > 0 ? Math.ceil((remaining / availableDays) * 10) / 10 : remaining;
+
+  return { schedule, overduePending, todayFocus, upcoming, overflow, remaining, availableDays, pace };
+}
+
+function renderUPKPlan(){
+  document.querySelectorAll('.today-m.dynamic').forEach(el=>el.remove());
+  document.querySelectorAll('.auto-plan').forEach(el=>el.remove());
+
+  const plan = getUPKAdaptivePlan(new Date());
+
+  Object.keys(plan.schedule).forEach(id=>{
+    const t = titleEl(id);
+    const wrap = bodyEl(id);
+    const info = plan.schedule[id];
+    if(!wrap || !info) return;
+
+    const uitem = wrap.closest('.uitem');
+    const dayEl = uitem ? uitem.querySelector('.uday') : null;
+    if(dayEl){
+      if(!dayEl.dataset.orig) dayEl.dataset.orig = dayEl.innerHTML;
+      if(isPending(id) && info.shifted && info.suggestedKey && !info.overflow && !id.startsWith('h')){
+        dayEl.innerHTML = `${dayEl.dataset.orig}<br><span style="color:var(--gold);font-size:9px;">↺ ${fmtMiniDay(parsePerthDate(info.suggestedKey))}</span>`;
+      } else {
+        dayEl.innerHTML = dayEl.dataset.orig;
+      }
+    }
+
+    if(isPending(id) && info.suggestedKey === perthKey(new Date()) && id !== 'h01' && id !== 'h02' && id !== 'h03'){
+      const badge = document.createElement('span');
+      badge.className = 'today-m dynamic';
+      badge.textContent = 'HARI INI';
+      t.appendChild(badge);
+    }
+
+    if(id.startsWith('h')) return;
+    const note = document.createElement('div');
+    note.className = 'plan-note auto-plan';
+
+    if(info.overflow){
+      note.classList.add('critical');
+      note.textContent = 'Kritis: slot belajar sebelum ujian habis. Wajib kompres / gabungkan sesi.';
+    } else if(isPending(id) && info.shifted){
+      note.classList.add('warn');
+      note.textContent = `Recovery slot → ${fmtShort(parsePerthDate(info.suggestedKey))} (digeser dari ${fmtShort(parsePerthDate(info.originalKey))})`;
+    } else if(isPending(id) && info.suggestedKey){
+      note.textContent = `Slot aktif → ${fmtShort(parsePerthDate(info.suggestedKey))}`;
+    } else if(isDone(id)) {
+      note.textContent = `Selesai · target awal ${fmtShort(parsePerthDate(info.originalKey))}`;
+    }
+
+    if(note.textContent) wrap.appendChild(note);
+  });
+}
+
+function getPhase0AdaptivePlan(now=new Date()){
+  const today = startOfPerthDay(now);
+  const todayKey = perthKey(now);
+  const schedule = {};
+  const firstOpenIndexRaw = PH0_SLOT_KEYS.findIndex(key => parsePerthDate(key) >= today);
+  const firstOpenIndex = firstOpenIndexRaw === -1 ? PH0_SLOT_KEYS.length : firstOpenIndexRaw;
+  let cursor = firstOpenIndex;
+
+  PH0_ORDER.forEach((id, index)=>{
+    const meta = PH0_PLAN[id];
+    const originalKey = meta.plannedKey;
+    const originalDate = parsePerthDate(originalKey);
+    if(isDone(id)){
+      schedule[id] = {originalKey, suggestedKey: originalKey, shifted:false, overflow:false, overdue: false};
+      return;
+    }
+    const targetIndex = Math.max(cursor, index);
+    if(targetIndex >= PH0_SLOT_KEYS.length){
+      schedule[id] = {originalKey, suggestedKey:null, shifted:true, overflow:true, overdue: originalDate < today};
+      return;
+    }
+    const suggestedKey = PH0_SLOT_KEYS[targetIndex];
+    schedule[id] = {
+      originalKey,
+      suggestedKey,
+      shifted: suggestedKey !== originalKey,
+      overflow:false,
+      overdue: originalDate < today
+    };
+    cursor = targetIndex + 1;
+  });
+
+  const overduePending = PH0_ORDER.filter(id => isPending(id) && parsePerthDate(PH0_PLAN[id].plannedKey) < today);
+  const todayFocus = PH0_ORDER.filter(id => isPending(id) && schedule[id] && schedule[id].suggestedKey === todayKey);
+  const upcoming = PH0_ORDER.filter(id => isPending(id) && schedule[id] && schedule[id].suggestedKey && schedule[id].suggestedKey >= todayKey).slice(0,5);
+  const overflow = PH0_ORDER.filter(id => schedule[id] && schedule[id].overflow);
+  const availableSlots = PH0_ORDER.filter(id => schedule[id] && schedule[id].suggestedKey && schedule[id].suggestedKey >= todayKey).length;
+  const remaining = PH0_ORDER.filter(id => isPending(id)).length;
+  const pace = availableSlots > 0 ? Math.ceil((remaining / availableSlots) * 10) / 10 : remaining;
+
+  return { schedule, overduePending, todayFocus, upcoming, overflow, remaining, availableSlots, pace };
+}
+
+function renderPhase0Plan(){
+  document.querySelectorAll('.phase0-auto').forEach(el=>el.remove());
+  document.querySelectorAll('.today-m.phase0-dynamic').forEach(el=>el.remove());
+
+  const plan = getPhase0AdaptivePlan(new Date());
+  const todayKey = perthKey(new Date());
+
+  PH0_ORDER.forEach(id=>{
+    const wrap = bodyEl(id);
+    if(!wrap) return;
+    const item = wrap.closest('.item');
+    const dateEl = item ? item.querySelector('.idate') : null;
+    const info = plan.schedule[id];
+    const meta = PH0_PLAN[id];
+    if(!info || !dateEl) return;
+
+    let main = meta.label;
+    let sub = `hard stop ${meta.hard}`;
+
+    if(isDone(id)){
+      main = '✓ Selesai';
+      sub = `rencana ${meta.label}`;
+    } else if(info.overflow){
+      main = 'KRITIS';
+      sub = `slot habis · hard stop ${meta.hard}`;
+    } else if(info.shifted && info.suggestedKey){
+      main = `↺ ${fmtShort(parsePerthDate(info.suggestedKey))}`;
+      sub = `rencana ${meta.label} · hard stop ${meta.hard}`;
+    }
+
+    dateEl.innerHTML = `<div class="d-main">${main}</div><div class="d-sub">${sub}</div>`;
+
+    const t = titleEl(id);
+    if(t && !isDone(id) && info.suggestedKey === todayKey){
+      const badge = document.createElement('span');
+      badge.className = 'today-m dynamic phase0-dynamic';
+      badge.textContent = 'HARI INI';
+      t.appendChild(badge);
+    }
+
+    const note = document.createElement('div');
+    note.className = 'plan-note phase0-auto';
+    if(info.overflow){
+      note.classList.add('critical');
+      note.textContent = 'Kritis: slot Phase 0 habis. Wajib gabung task ringan atau dorong eksekusi di hari yang sama.';
+    } else if(!isDone(id) && info.shifted){
+      note.classList.add('warn');
+      note.textContent = `Recovery slot → ${fmtShort(parsePerthDate(info.suggestedKey))} (rencana awal ${meta.label})`;
+    } else if(!isDone(id)){
+      note.textContent = `Slot aktif → ${meta.label} · hard stop ${meta.hard}`;
+    } else {
+      note.textContent = `Selesai · rencana awal ${meta.label}`;
+    }
+    wrap.appendChild(note);
+  });
+}
+
+function getHomeschoolStatus(now=new Date()){
+  const phaseOrder = ['ph0','ph1','ph2','ph3','ph4'];
+  for(const ph of phaseOrder){
+    const overdue = PHS[ph].filter(id => DL[id] && DL[id] < now && !isDone(id));
+    if(overdue.length){
+      return { mode:'recovery', key:ph, overdue };
+    }
+  }
+  for(const ph of phaseOrder){
+    const meta = PHASE_META[ph];
+    const start = parsePerthDate(meta.start);
+    const end = parsePerthDate(meta.end);
+    if(now >= start && now <= new Date(end.getTime()+DAY_MS-1)){
+      return { mode:'active', key:ph, overdue:[] };
+    }
+  }
+  const nextPhase = phaseOrder.find(ph => PHS[ph].some(id => !isDone(id)));
+  return { mode:'queued', key: nextPhase || 'ph4', overdue:[] };
+}
+
+function buildBanner(){
+  const now = new Date();
+  const examEnd = new Date('2026-04-26T23:59:59+08:00');
+  const plan = getUPKAdaptivePlan(now);
+
+  if(now <= examEnd || plan.remaining > 0 && now <= new Date('2026-04-23T23:59:59+08:00')){
+    if(plan.overflow.length){
+      return {
+        style:'b-upk',
+        tag:'■ UPK · CRITICAL RECOVERY',
+        main:'Backlog sudah melampaui slot normal. Harus gabung sesi / pakai buffer untuk menjaga deadline ujian tetap.',
+        items:[
+          `Overload: ${plan.overflow.length} item belum kebagian slot`,
+          `Target minimal: ${plan.pace} item/hari sampai 23 Apr`,
+          'Prioritas: tuntaskan backlog tertua lebih dulu'
+        ]
+      };
+    }
+    if(plan.overduePending.length){
+      const firstThree = plan.todayFocus.concat(plan.upcoming).slice(0,3).map(id => UL[id]);
+      return {
+        style:'b-upk',
+        tag:'■ UPK · RECOVERY MODE',
+        main:`Ada ${plan.overduePending.length} item terlambat. Jadwal digeser otomatis secara virtual agar Hari H tidak ikut mundur.`,
+        items:[
+          `Kecepatan pemulihan: ±${plan.pace} item/hari`,
+          ...firstThree.map(t=>`Fokus terdekat: ${t}`),
+        ].slice(0,3)
+      };
+    }
+    const focus = plan.todayFocus.length ? plan.todayFocus : plan.upcoming.slice(0,2);
+    return {
+      style:'b-upk',
+      tag:'■ UPK · ON TRACK',
+      main:'Fokus penuh ke assessment, latihan bertopik lemah, dan simulasi. Isi skor agar progres kualitas ikut terbaca.',
+      items: focus.length ? focus.map(id=>`Hari ini: ${UL[id]}`) : ['Pantau progres harian sampai 23 Apr','Isi skor assessment/post-test','Jaga buffer X01–X02 tetap aman']
+    };
+  }
+
+  const hs = getHomeschoolStatus(now);
+  const meta = PHASE_META[hs.key];
+  const pending = (PHS[hs.key] || []).filter(id => !isDone(id)).slice(0,3).map(id => PL[id]);
+  const ph0Plan = getPhase0AdaptivePlan(now);
+  if(hs.key === 'ph0' && (ph0Plan.overduePending.length || ph0Plan.overflow.length)){
+    return {
+      style:'b-norm',
+      tag:'■ FASE 0 · RECOVERY MODE',
+      main:`Ada ${ph0Plan.overduePending.length} item Phase 0 yang sudah geser dari rencana awal. Deadline 1 Mei tetap dijaga.`,
+      items:[
+        `Kecepatan minimum: ±${ph0Plan.pace} item/slot`,
+        ...(ph0Plan.todayFocus.length ? ph0Plan.todayFocus.slice(0,2).map(id=>`Hari ini: ${PL[id]}`) : ph0Plan.upcoming.slice(0,2).map(id=>`Antrian: ${PL[id]}`)),
+        ...(ph0Plan.overflow.length ? ['Kompres task ringan atau kerjakan paralel di 30 Apr'] : [])
+      ].slice(0,3)
+    };
+  }
+  if(hs.key === 'ph0' && ph0Plan.remaining){
+    return {
+      style:'b-norm',
+      tag:'■ FASE 0 · ON TRACK',
+      main:'Phase 0 sekarang disebar 27–30 Apr. Targetnya bukan menumpuk di 30 Apr, tapi menutup setup sebelum 1 Mei.',
+      items:(ph0Plan.todayFocus.length ? ph0Plan.todayFocus : ph0Plan.upcoming.slice(0,3)).map(id=>`Slot aktif: ${PL[id]}`)
+    };
+  }
+  if(hs.mode === 'recovery'){
+    return {
+      style:'b-norm',
+      tag:`■ ${meta.name.toUpperCase()} · RECOVERY`,
+      main:'Fase aktif belum benar-benar clear. Prioritas baca backlog nyata, bukan sekadar tanggal kalender.',
+      items: hs.overdue.slice(0,3).map(id => `Terlambat: ${PL[id]}`)
+    };
+  }
+  return {
+    style:'b-norm',
+    tag:`■ ${meta.name.toUpperCase()}`,
+    main:'Fase aktif dibaca dari progres nyata + tanggal. Anchor besar tidak boleh ikut geser.',
+    items: pending.length ? pending.map(t=>`Prioritas: ${t}`) : ['Semua anchor di fase ini sudah aman','Lanjutkan fase berikutnya','Jaga ritme sampai demo final']
+  };
+}
+
+function updBanner(){
+  const b = buildBanner();
+  const ban = document.getElementById('banner');
+  if(ban) ban.className = 'banner ' + b.style;
+  const tg = document.getElementById('btag');
+  if(tg){
+    tg.textContent = b.tag;
+    tg.style.color = b.style === 'b-upk' ? 'var(--gold)' : 'var(--neon)';
+  }
+  setText('bmain', b.main);
+  const c = document.getElementById('bitems');
+  if(c){
+    c.innerHTML = '';
+    b.items.forEach(t=>{
+      const d = document.createElement('div');
+      d.className = 'bi';
+      d.textContent = t;
+      c.appendChild(d);
+    });
+  }
+}
+
+function hsKeyForReport(now=new Date()){
+  return getHomeschoolStatus(now).key;
+}
+
+function updStats(){
+  const now = new Date();
+  updatePhaseBadges();
+  const wp = weightedProgress();
+  setText('sd', String(wp.rawDone));
+  setText('st', String(wp.rawTotal));
+  setText('sp', `${wp.pct}%`);
+  const pf = document.getElementById('pf');
+  if(pf) pf.style.width = `${wp.pct}%`;
+  setText('pr', `Bobot ${wp.pct}% · ${wp.rawDone}/${wp.rawTotal} item`);
+  setText('sdy', String(Math.max(0, Math.ceil((DEMO - now) / DAY_MS))));
+}
+
+function tog(id){
+  const b = document.getElementById(id+'-b');
+  const v = document.getElementById(id+'-v');
+  if(!b) return;
+  const open = b.classList.toggle('open');
+  if(v){
+    v.textContent = open ? '▼' : '▶';
+    v.classList.toggle('open', open);
+  }
+}
+
+function updClk(){
+  const n = new Date();
+  const D = ['MINGGU','SENIN','SELASA','RABU','KAMIS','JUMAT','SABTU'];
+  const M = ['JAN','FEB','MAR','APR','MEI','JUN','JUL','AGT','SEP','OKT','NOV','DES'];
+  setText('clk', `${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}:${String(n.getSeconds()).padStart(2,'0')}`);
+  setText('clkd', `${D[n.getDay()]} ${n.getDate()} ${M[n.getMonth()]} ${n.getFullYear()}`);
+  const df = DEMO - n;
+  if(df > 0){
+    setText('cdd', String(Math.floor(df / DAY_MS)));
+    setText('cdh', String(Math.floor(df % DAY_MS / 3600000)).padStart(2,'0'));
+    setText('cdm', String(Math.floor(df % 3600000 / 60000)).padStart(2,'0'));
+    setText('cds2', String(Math.floor(df % 60000 / 1000)).padStart(2,'0'));
+  }
+}
+
+function overdueItems(now=new Date()){
+  return Object.entries(DL).filter(([id, dl]) => dl < now && !isDone(id)).map(([id, dl])=>({id, dl}));
+}
+function anchorRisk(now=new Date()){
+  return ANCHORS.filter(id => DL[id] && !isDone(id) && daysBetween(now, DL[id]) <= 14);
+}
+
+const ntBox = document.getElementById('o-nt');
+if(ntBox){
+  ntBox.addEventListener('change', function(){
+    const nwrap = document.getElementById('nwrap');
+    if(nwrap) nwrap.style.display = this.checked ? 'block' : 'none';
+  });
+}
 
 function genRep(){
-  const n=new Date();
-  const D=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
-  const M=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-  const MO=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agt','Sep','Okt','Nov','Des'];
-  const dl=Math.ceil((DEMO-n)/86400000);
-  let L=[];
+  const n = new Date();
+  const D = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+  const M = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+  const MO = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agt','Sep','Okt','Nov','Des'];
+  const dl = Math.ceil((DEMO - n) / DAY_MS);
+  const wp = weightedProgress();
+  const plan = getUPKAdaptivePlan(n);
+  const risk = anchorRisk(n);
+  let L = [];
+
   L.push('=== LAPORAN MUSA · MISSION CONTROL 2026 ===');
-  L.push('Tanggal: '+D[n.getDay()]+', '+n.getDate()+' '+M[n.getMonth()]+' '+n.getFullYear()+' · '+String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')+' AWST');
-  L.push('Demo moderator: 15 Desember 2026 ('+dl+' hari lagi)');L.push('');
+  L.push(`Tanggal: ${D[n.getDay()]}, ${n.getDate()} ${M[n.getMonth()]} ${n.getFullYear()} · ${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')} AWST`);
+  L.push(`Demo moderator: 15 Desember 2026 (${dl} hari lagi)`);
+  L.push(`Progress berbobot: ${wp.pct}% · raw ${wp.rawDone}/${wp.rawTotal} item`);
+  L.push('');
 
   if(document.getElementById('o-upk').checked){
-    const ud=UPK.filter(id=>(S[id]||'none')==='done').length;
+    const upkDone = UPK.filter(isDone).length;
     L.push('--- STATUS UPK PAKET B ---');
-    L.push('Progress: '+ud+'/'+UPK.length+' sesi · Ujian: 24–26 April 2026');
-    UPK.forEach(id=>{const s=S[id]||'none';L.push('  '+(s==='done'?'[✓]':s==='skip'?'[—]':'[ ]')+' '+id.toUpperCase()+' — '+UL[id]);});
+    L.push(`Progress: ${upkDone}/${UPK.length} sesi · Ujian: 24–26 April 2026`);
+    UPK.forEach(id=>{
+      const s = S[id] || 'none';
+      const planInfo = plan.schedule[id];
+      const score = M.scores[id];
+      let extra = '';
+      if(score !== undefined) extra += ` · skor ${score}/100`;
+      if(planInfo && planInfo.shifted && planInfo.suggestedKey) extra += ` · geser → ${fmtShort(parsePerthDate(planInfo.suggestedKey))}`;
+      if(planInfo && planInfo.overflow) extra += ' · KRITIS: slot habis';
+      L.push(`  ${(s==='done'?'[✓]':s==='skip'?'[—]':'[ ]')} ${id.toUpperCase()} — ${UL[id]}${extra}`);
+    });
     L.push('');
   }
 
   if(document.getElementById('o-prog').checked){
-    let tot=0,don=0;
-    Object.values(PHS).forEach(ids=>ids.forEach(id=>{tot++;if((S[id]||'none')==='done')don++;}));
     L.push('--- PROGRESS HOMESCHOOL ---');
-    L.push('Keseluruhan: '+don+'/'+tot+' ('+Math.round(don/tot*100)+'%)');L.push('');
-    const PN={ph0:'Fase 0 Persiapan',ph1:'Project 1 Australia',ph2:'Project 2 Avatar Atlas',ph3:'Project 3 Space Economy',ph4:'Fase 4 Demo Prep'};
-    Object.entries(PHS).forEach(([ph,ids])=>{
-      const pd=ids.filter(id=>(S[id]||'none')==='done').length;
-      L.push(PN[ph]+': '+pd+'/'+ids.length);
-      ids.forEach(id=>{const s=S[id]||'none';L.push('  '+(s==='done'?'[✓]':s==='skip'?'[—]':'[ ]')+' '+PL[id]);});
+    const PN = {ph0:'Fase 0 Persiapan',ph1:'Project 1 Australia',ph2:'Project 2 Avatar Atlas',ph3:'Project 3 Space Economy',ph4:'Fase 4 Demo Prep'};
+    Object.entries(PHS).forEach(([ph, ids])=>{
+      const pd = ids.filter(isDone).length;
+      L.push(`${PN[ph]}: ${pd}/${ids.length}`);
+      ids.forEach(id=>{
+        const s = S[id] || 'none';
+        L.push(`  ${(s==='done'?'[✓]':s==='skip'?'[—]':'[ ]')} ${PL[id]}`);
+      });
       L.push('');
     });
   }
 
   if(document.getElementById('o-blk').checked){
     L.push('--- ITEM LEWAT DEADLINE ---');
-    let f=false;
-    Object.entries(DL).forEach(([id,dl2])=>{if(dl2<n&&(S[id]||'none')!=='done'){f=true;const ov=Math.ceil((n-dl2)/86400000);L.push('  ! '+PL[id]+' (terlambat '+ov+' hari)');}});
-    if(!f)L.push('  Tidak ada item terlambat.');L.push('');
+    const overdue = overdueItems(n);
+    if(!overdue.length) L.push('  Tidak ada item terlambat.');
+    overdue.forEach(({id, dl})=>{
+      const ov = Math.ceil((n - dl) / DAY_MS);
+      L.push(`  ! ${PL[id]} (terlambat ${ov} hari)`);
+    });
+    L.push('');
   }
 
   if(document.getElementById('o-nxt').checked){
-    L.push('--- PRIORITAS MINGGU INI ---');
-    const nw=new Date(n.getTime()+7*86400000);let f=false;
-    Object.entries(DL).forEach(([id,dl2])=>{if(dl2<=nw&&(S[id]||'none')!=='done'){f=true;L.push('  → '+PL[id]+' ('+dl2.getDate()+' '+MO[dl2.getMonth()]+')');}});
-    if(!f)L.push('  Tidak ada deadline minggu ini.');L.push('');
+    L.push('--- PRIORITAS 7 HARI KE DEPAN ---');
+    const nw = new Date(n.getTime() + 7 * DAY_MS);
+    let found = false;
+    Object.entries(DL).forEach(([id, dl2])=>{
+      if(dl2 <= nw && !isDone(id)){
+        found = true;
+        L.push(`  → ${PL[id]} (${dl2.getDate()} ${MO[dl2.getMonth()]})`);
+      }
+    });
+    if(!found) L.push('  Tidak ada deadline minggu ini.');
+    L.push('');
   }
+
+  L.push('--- AUTO-PLAN / RECOVERY ---');
+  if(plan.overduePending.length || plan.overflow.length){
+    L.push(`Backlog UPK: ${plan.overduePending.length} item terlambat.`);
+    L.push(`Kecepatan pemulihan minimum: ±${plan.pace} item/hari sampai 23 Apr.`);
+    if(plan.todayFocus.length) L.push(`Fokus hari ini: ${plan.todayFocus.map(id=>UL[id]).join(' | ')}`);
+    if(plan.upcoming.length) L.push(`Antrian berikut: ${plan.upcoming.slice(0,3).map(id=>UL[id]).join(' | ')}`);
+    if(plan.overflow.length) L.push(`Kritis: ${plan.overflow.map(id=>UL[id]).join(' | ')}`);
+  } else {
+    L.push('UPK masih on track. Isi skor assessment/post-test agar kualitas belajar ikut terbaca.');
+  }
+  const ph0Plan = getPhase0AdaptivePlan(n);
+  if(ph0Plan.remaining && (ph0Plan.overduePending.length || ph0Plan.overflow.length || hsKeyForReport(n)==='ph0')){
+    L.push(`Phase 0 setup: ${ph0Plan.remaining} item belum selesai.`);
+    if(ph0Plan.overduePending.length) L.push(`  Geser dari rencana awal: ${ph0Plan.overduePending.map(id=>PL[id]).join(' | ')}`);
+    if(ph0Plan.todayFocus.length) L.push(`  Fokus Phase 0 hari ini: ${ph0Plan.todayFocus.map(id=>PL[id]).join(' | ')}`);
+    if(ph0Plan.upcoming.length) L.push(`  Antrian Phase 0: ${ph0Plan.upcoming.slice(0,3).map(id=>PL[id]).join(' | ')}`);
+    if(ph0Plan.overflow.length) L.push('  Kritis: slot Phase 0 habis, perlu kompres task ringan.');
+  }
+  if(risk.length){
+    L.push(`Anchor risk (≤14 hari): ${risk.map(id=>PL[id]).join(' | ')}`);
+  }
+  L.push('');
 
   if(document.getElementById('o-ph').checked){
-    const b=BN[getBi()];
-    L.push('--- FASE AKTIF ---');L.push(b.main);
-    b.items.forEach(t=>L.push('  • '+t));L.push('');
+    const b = buildBanner();
+    L.push('--- STATUS FASE AKTIF ---');
+    L.push(b.main);
+    b.items.forEach(t=>L.push(`  • ${t}`));
+    L.push('');
   }
 
-  const ntEl=document.getElementById('o-nt');
-  if(ntEl&&ntEl.checked){const nt=document.getElementById('nta').value.trim();if(nt){L.push('--- CATATAN / PERTANYAAN ---');L.push(nt);L.push('');}}
+  const ntEl = document.getElementById('o-nt');
+  if(ntEl && ntEl.checked){
+    const nt = document.getElementById('nta').value.trim();
+    if(nt){
+      L.push('--- CATATAN / PERTANYAAN ---');
+      L.push(nt);
+      L.push('');
+    }
+  }
 
-  L.push('=== TOLONG BANTU SAYA DENGAN LANGKAH BERIKUTNYA ===');
+  L.push('=== TOLONG BANTU SAYA MENENTUKAN LANGKAH BESOK, RISIKO TERDEKAT, DAN OPSI PERCEPATAN ===');
 
-  const ro=document.getElementById('rout'),ta=document.getElementById('rta');
-  ta.value=L.join('\n');ro.classList.add('show');
-  ta.style.height=Math.min(ta.scrollHeight,300)+'px';
-  ro.scrollIntoView({behavior:'smooth',block:'nearest'});
-  document.getElementById('cpok').style.display='none';
+  const ro = document.getElementById('rout');
+  const ta = document.getElementById('rta');
+  ta.value = L.join('\\n');
+  ro.classList.add('show');
+  ta.style.height = Math.min(ta.scrollHeight, 320) + 'px';
+  ro.scrollIntoView({behavior:'smooth', block:'nearest'});
+  const cp = document.getElementById('cpok');
+  if(cp) cp.style.display = 'none';
 }
 
 function cpRep(){
-  const ta=document.getElementById('rta');ta.select();
-  try{navigator.clipboard.writeText(ta.value).then(shCp).catch(()=>{document.execCommand('copy');shCp();});}
-  catch(e){document.execCommand('copy');shCp();}
+  const ta = document.getElementById('rta');
+  ta.select();
+  try{
+    navigator.clipboard.writeText(ta.value).then(showCopyOk).catch(()=>{ document.execCommand('copy'); showCopyOk(); });
+  }catch(e){
+    document.execCommand('copy');
+    showCopyOk();
+  }
 }
-function shCp(){const e=document.getElementById('cpok');e.style.display='block';setTimeout(()=>e.style.display='none',3500);}
+function showCopyOk(){
+  const e = document.getElementById('cpok');
+  if(!e) return;
+  e.style.display = 'block';
+  setTimeout(()=>e.style.display='none', 3500);
+}
+
+function renderAll(){
+  [...UPK, ...Object.values(PHS).flat()].forEach(rCb);
+  renderScoreBars();
+  renderUPKPlan();
+  renderPhase0Plan();
+  updStats();
+  updBanner();
+  updClk();
+}
 
 function init(){
-  [...UPK,...Object.values(PHS).flat()].forEach(id=>rCb(id));
-  updStats();updBanner();updToday();updClk();
-  setInterval(updClk,1000);
+  renderAll();
+  setInterval(()=>{
+    renderUPKPlan();
+    renderPhase0Plan();
+    updBanner();
+    updClk();
+    updStats();
+  }, 1000);
 }
 init();
 </script>
+
 </body>
 </html>
