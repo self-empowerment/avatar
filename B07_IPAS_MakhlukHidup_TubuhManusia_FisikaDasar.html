@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B07 · IPAS · Makhluk Hidup, Tubuh Manusia, Fisika Dasar</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Fira+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fffaf2;
+  --bg2:#f5fbff;
+  --card:#ffffff;
+  --text:#1f2937;
+  --muted:#6b7280;
+  --navy:#0f172a;
+  --orange:#ea580c;
+  --amber:#d97706;
+  --teal:#0f766e;
+  --sky:#0284c7;
+  --green:#16a34a;
+  --red:#dc2626;
+  --violet:#7c3aed;
+  --line:#fde6d3;
+  --line2:#d6eefb;
+  --shadow:0 16px 40px rgba(15,23,42,.10);
+  --soft:0 10px 26px rgba(234,88,12,.12);
+  --grad-main:linear-gradient(135deg,#ea580c 0%, #f59e0b 40%, #0284c7 100%);
+  --grad-soft:linear-gradient(135deg,rgba(234,88,12,.10),rgba(245,158,11,.08),rgba(2,132,199,.08));
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Outfit',system-ui,sans-serif;
+  color:var(--text);
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(234,88,12,.12), transparent 32%),
+    radial-gradient(circle at 100% 0%, rgba(245,158,11,.11), transparent 26%),
+    radial-gradient(circle at 100% 100%, rgba(2,132,199,.11), transparent 30%),
+    linear-gradient(180deg,var(--bg),var(--bg2));
+}
+.wrap{max-width:760px;margin:0 auto;padding:22px 16px 60px}
+.screen{display:none} #splash{display:block}
+.mono{font-family:'Fira Mono',monospace}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;background:rgba(234,88,12,.10);border:1px solid rgba(234,88,12,.18);color:var(--orange);font-size:11px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase}
+.hero{text-align:center;padding:16px 0 12px}
+.hero h1{font-size:31px;line-height:1.12;font-weight:800;letter-spacing:-.03em;margin:16px 0 10px}
+.hero h1 .accent{background:var(--grad-main);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{font-size:14px;line-height:1.85;color:var(--muted);max-width:640px;margin:0 auto}
+.card,.quiz-card,.transition-card,.material-card,.result-card,.topic-head{background:rgba(255,255,255,.93);border:1px solid rgba(255,255,255,.8);box-shadow:var(--shadow);border-radius:24px;backdrop-filter:blur(8px)}
+.panel{padding:18px;margin-top:16px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.topic-card{padding:16px;border-radius:20px;border:1px solid var(--line);background:linear-gradient(180deg,#fff,#fffaf5);box-shadow:var(--soft)}
+.topic-card .top{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.topic-card .icon{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px}
+.topic-card .code{font-size:10px;color:var(--muted);font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.topic-card .name{font-size:15px;font-weight:800}
+.topic-card .meta{font-size:12px;color:var(--muted);line-height:1.65}
+.section-hd{font-size:12px;font-weight:900;color:var(--orange);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:14px}
+.error-card,.flow-card{background:rgba(255,255,255,.93);border:1px solid rgba(255,255,255,.8);box-shadow:var(--shadow);border-radius:24px;padding:18px;margin-top:16px}
+.error-row,.rule{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid rgba(107,114,128,.14);font-size:13px;line-height:1.7}
+.error-row:last-child,.rule:last-child{border-bottom:none;padding-bottom:0}
+.fix-badge{display:inline-block;font-size:10px;font-weight:800;padding:2px 8px;border-radius:8px;background:#fff3e8;color:var(--orange);margin-top:5px}
+.cta,.ghost,.next-btn,.copy-btn{width:100%;border:none;border-radius:18px;padding:15px 18px;font:inherit;font-weight:800;cursor:pointer;transition:transform .16s ease, box-shadow .16s ease}
+.cta,.next-btn,.copy-btn{background:var(--grad-main);color:#fff;box-shadow:0 12px 28px rgba(234,88,12,.28)}
+.ghost{background:#fff;color:var(--muted);border:1px solid var(--line);margin-top:10px}
+.cta:hover,.ghost:hover,.next-btn:hover,.copy-btn:hover{transform:translateY(-2px)}
+.topic-head{display:flex;align-items:center;gap:12px;padding:16px 18px;margin-bottom:14px}
+.topic-head .icon{width:54px;height:54px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:26px;background:var(--grad-soft)}
+.topic-head .small{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:1px}
+.topic-head .title{font-size:18px;font-weight:800}
+.topic-head .sub{font-size:12px;color:var(--muted)}
+.quiz-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.pill{padding:7px 12px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;background:rgba(234,88,12,.10);color:var(--orange);border:1px solid rgba(234,88,12,.18)}
+.counter,.timer{font-size:12px;font-weight:700;color:var(--muted)}
+.timer{display:inline-flex;align-items:center;gap:7px;padding:8px 12px;border-radius:14px;background:#fff;border:1px solid var(--line)}
+.timer.warn{border-color:rgba(217,119,6,.3);color:var(--amber)}
+.timer.over{border-color:rgba(220,38,38,.3);color:var(--red);animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.56}}
+.progress{height:8px;border-radius:999px;background:#fdebdc;overflow:hidden;margin-bottom:14px}
+.progress>div{height:100%;width:0;background:var(--grad-main);transition:width .35s ease}
+.quiz-card{padding:22px}
+.q-label{font-size:11px;font-weight:900;letter-spacing:1.4px;text-transform:uppercase;color:var(--sky);margin-bottom:8px}
+.q-tag{display:inline-block;margin-bottom:8px;padding:5px 10px;border-radius:999px;background:rgba(2,132,199,.10);border:1px solid rgba(2,132,199,.16);font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--sky)}
+.q-text{font-size:18px;font-weight:800;line-height:1.6;letter-spacing:-.01em}
+.q-hint{margin-top:8px;color:var(--muted);font-size:13px;line-height:1.7}
+.q-visual{display:none;margin-top:12px;padding:12px 14px;border-radius:16px;background:linear-gradient(135deg,rgba(234,88,12,.08),rgba(2,132,199,.08));border:1px solid rgba(234,88,12,.12);font-size:13px;line-height:1.7;color:#334155}
+.options{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.opt{display:flex;align-items:center;gap:12px;text-align:left;padding:13px 14px;border-radius:18px;border:1.5px solid var(--line);background:#fff;cursor:pointer;font:inherit;font-size:14px;font-weight:700;color:var(--text);transition:.16s ease}
+.opt:hover:not(:disabled){border-color:rgba(234,88,12,.4);transform:translateX(4px);box-shadow:0 10px 22px rgba(234,88,12,.10)}
+.opt .ol{width:34px;height:34px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#fff3e8;color:var(--orange);font-weight:800}
+.opt.correct{background:#f0fdf4;border-color:rgba(22,163,74,.32)} .opt.correct .ol{background:var(--green);color:#fff}
+.opt.wrong{background:#fff1f2;border-color:rgba(220,38,38,.28)} .opt.wrong .ol{background:var(--red);color:#fff}
+.expl{display:none;margin-top:14px;padding:16px;border-radius:18px;background:linear-gradient(180deg,#fffaf5,#eff8ff);border:1px solid #d6eefb}
+.expl.show{display:block}
+.expl .eh{font-size:11px;font-weight:900;color:var(--sky);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.expl .et{font-size:14px;line-height:1.8;color:#1e293b}
+.expl .formula{margin-top:10px;padding:10px 12px;border-radius:14px;background:#e0f2fe;color:#0f4c81;font-size:12px;line-height:1.6}
+.next-btn{display:none;margin-top:14px} .next-btn.show{display:block}
+.transition-card,.material-card,.result-card{padding:24px;text-align:center}
+.transition-card .icon{font-size:52px;margin-bottom:10px}
+.transition-card .title{font-size:24px;font-weight:800;margin-bottom:8px}
+.transition-card .sub{font-size:14px;line-height:1.8;color:var(--muted);margin-bottom:16px}
+.score-chip{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:999px;font-weight:800;font-size:15px;margin-bottom:18px;border:1px solid var(--line)}
+.material-card{text-align:left}
+.material-intro{text-align:center;margin-bottom:18px}
+.material-intro h2{font-size:28px;font-weight:800;letter-spacing:-.03em;margin:10px 0 6px}
+.material-intro p{font-size:14px;line-height:1.8;color:var(--muted)}
+.tabs{display:flex;gap:8px;margin-bottom:14px;overflow-x:auto;padding-bottom:4px}
+.tab{background:#fff;border:2px solid var(--line);color:var(--muted);padding:8px 14px;border-radius:999px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;transition:.2s;font-family:'Outfit',sans-serif}
+.tab.on{background:rgba(234,88,12,.10);border-color:var(--orange);color:var(--orange)}
+.pdots{display:flex;justify-content:center;gap:6px;margin:10px 0 14px}
+.pdot{width:8px;height:8px;border-radius:50%;background:#fde6d3;transition:.2s}
+.pdot.done{background:var(--green)} .pdot.active{background:var(--orange);transform:scale(1.3)}
+.topic{display:none} .topic.on{display:block;animation:up .3s ease}
+@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.mc{background:linear-gradient(180deg,#fff,#fffaf5);border:1px solid var(--line2);border-radius:22px;padding:20px;box-shadow:0 10px 24px rgba(15,23,42,.08)}
+.mc h3{font-size:18px;font-weight:800;margin-bottom:5px}
+.mc .ms{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:14px}
+.abox{background:#fff7ed;border:1.5px solid rgba(234,88,12,.22);border-radius:16px;padding:14px;margin:10px 0 14px}
+.abox .al{font-size:10px;font-weight:800;color:var(--orange);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.abox p{font-size:13px;color:#7c2d12;line-height:1.75}
+.abox .fix{background:#ecfdf5;border-radius:10px;padding:8px 12px;margin-top:9px;font-size:13px;color:#14532d;font-weight:700}
+.ptable{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+.ptable th{background:#0f172a;color:#fff;padding:9px 12px;text-align:left;font-size:11px;font-weight:800}
+.ptable td{padding:10px 12px;border-bottom:1px solid #e6eef7;line-height:1.6;vertical-align:top}
+.ptable tr:nth-child(even) td{background:#f8fbff}
+.ptable tr:last-child td{border-bottom:none}
+.pnum{font-family:'Fira Mono',monospace;font-weight:700;color:var(--orange);white-space:nowrap}
+.pkey{display:inline-block;font-size:10px;font-weight:800;color:#0f4c81;background:#e0f2fe;padding:2px 7px;border-radius:999px}
+.cbox{background:rgba(22,163,74,.06);border:1.5px solid rgba(22,163,74,.18);border-radius:16px;padding:14px;margin:12px 0}
+.cbox .cl{font-size:10px;font-weight:800;color:var(--green);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.cbox .cs{font-size:13px;line-height:1.85;color:#14532d}
+.fbox{background:linear-gradient(135deg,rgba(234,88,12,.08),rgba(2,132,199,.08));border:1.5px solid rgba(2,132,199,.14);border-radius:16px;padding:14px;margin:12px 0}
+.fbox .fl{font-size:10px;font-weight:800;color:var(--sky);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.fbox .fm{font-family:'Fira Mono',monospace;font-size:13px;font-weight:700;color:#0f4c81;line-height:1.7;margin-bottom:4px}
+.fbox .fn{font-size:12px;color:var(--muted);line-height:1.7}
+.lgrid{display:flex;flex-direction:column;gap:10px;margin:12px 0}
+.litem{background:#f8fbff;border:1.5px solid #d6eefb;border-radius:14px;padding:13px 14px;display:flex;align-items:flex-start;gap:12px}
+.licon{font-size:22px;flex-shrink:0}
+.lname{font-size:13px;font-weight:800;color:var(--sky);margin-bottom:2px}
+.ldesc{font-size:12px;color:var(--muted);line-height:1.7}
+.lkey{font-size:11px;font-weight:700;color:var(--orange);margin-top:4px}
+.metrics{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:16px}
+.metric{padding:16px;border-radius:18px;border:1px solid var(--line);background:linear-gradient(180deg,#ffffff,#fffaf5)}
+.metric .label{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:800}
+.metric .value{font-size:28px;font-weight:800;letter-spacing:-.03em;margin-top:4px}
+.note-block{text-align:left;padding:18px;border-radius:20px;background:linear-gradient(180deg,#ffffff,#f7fff8);border:1px solid rgba(22,163,74,.16);margin:16px 0}
+.note-block h3{font-size:14px;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:var(--green);margin-bottom:10px}
+.note-block .item{padding:10px 0;border-bottom:1px solid rgba(107,114,128,.12);font-size:14px;line-height:1.8}
+.note-block .item:last-child{border-bottom:none;padding-bottom:0}
+.wrsec{text-align:left;margin-top:16px}
+.wrhd{font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.wrhd.pre{color:var(--red)} .wrhd.post{color:var(--green)}
+.wcard{background:#fff;border:1.5px solid rgba(220,38,38,.18);border-radius:16px;padding:14px;margin-bottom:10px}
+.wcard.post{border-color:rgba(22,163,74,.22)}
+.wq{font-size:13px;font-weight:800;margin-bottom:8px;line-height:1.7}
+.wa{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
+.wx{font-size:12px;color:var(--red)} .wc{font-size:12px;color:var(--green);font-weight:700}
+.we{background:rgba(59,130,246,.07);border-radius:10px;padding:12px;font-size:12px;line-height:1.8;color:#1e3a5f;border-left:3px solid #60a5fa}
+.wf{background:rgba(37,99,235,.08);border-radius:8px;padding:7px 11px;margin-top:7px;font-family:'Fira Mono',monospace;font-size:12px;color:#1d4ed8}
+.footer-tip{margin-top:12px;font-size:13px;color:var(--muted);line-height:1.8}
+@media (max-width:640px){
+  .hero h1{font-size:26px}
+  .grid-3,.metrics{grid-template-columns:1fr}
+  .q-text{font-size:17px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div id="splash" class="screen" style="display:block">
+  <div class="hero">
+    <span class="badge">B07 · IPAS · Pre-test → Materi → Post-test</span>
+    <h1>Penguatan <span class="accent">Makhluk Hidup, Tubuh Manusia, & Fisika Dasar</span></h1>
+    <p>B07 fokus ke <strong>tiga topik skor terendah</strong> pada A04. Karena ketiganya sama-sama 60%, semuanya masuk B07: <strong>Makhluk Hidup</strong>, <strong>Tubuh Manusia</strong>, dan <strong>Fisika Dasar</strong>. Strateginya bukan banyak topik, tapi membedakan konsep yang tadi tertukar.</p>
+  </div>
+
+  <div class="panel">
+    <div class="grid-3">
+      <div class="topic-card">
+        <div class="top">
+          <div class="icon" style="background:linear-gradient(135deg,rgba(22,163,74,.14),rgba(14,165,233,.10))">🌿</div>
+          <div><div class="code mono">Fokus 01</div><div class="name">Makhluk Hidup</div></div>
+        </div>
+        <div class="meta">Ovipar-vivipar-ovovivipar, adaptasi tumbuhan, dan ciri makhluk hidup yang sering tertukar.</div>
+      </div>
+      <div class="topic-card">
+        <div class="top">
+          <div class="icon" style="background:linear-gradient(135deg,rgba(239,68,68,.12),rgba(249,115,22,.10))">🫀</div>
+          <div><div class="code mono">Fokus 02</div><div class="name">Tubuh Manusia</div></div>
+        </div>
+        <div class="meta">Peredaran darah besar vs kecil, vitamin, organ, dan fungsi utama sistem tubuh.</div>
+      </div>
+      <div class="topic-card">
+        <div class="top">
+          <div class="icon" style="background:linear-gradient(135deg,rgba(2,132,199,.12),rgba(124,58,237,.10))">⚡</div>
+          <div><div class="code mono">Fokus 03</div><div class="name">Fisika Dasar</div></div>
+        </div>
+        <div class="meta">Konduksi-konveksi-radiasi, energi, gaya, dan pesawat sederhana.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="error-card">
+    <div class="section-hd">🔎 Analisis Error A04 — Pola Utama</div>
+    <div class="error-row"><span style="font-size:18px">🌿</span><div><strong style="color:var(--red)">Makhluk Hidup — istilah reproduksi & adaptasi tertukar</strong><br>Ovipar dijawab ovovivipar. Xerofit dijawab hidrofit. Artinya masalah utama ada pada <strong>kata kunci</strong>, bukan sekadar hafalan acak.<br><span class="fix-badge">Fix: tabel pembeda + contoh hewan/tumbuhan nyata</span></div></div>
+    <div class="error-row"><span style="font-size:18px">🫀</span><div><strong style="color:var(--red)">Tubuh Manusia — alur sistem dan fungsi zat gizi belum rapat</strong><br>Peredaran darah besar tertukar dengan limfa. Kekurangan vitamin C juga belum menempel.<br><span class="fix-badge">Fix: panah alur jantung + tabel vitamin & penyakit</span></div></div>
+    <div class="error-row"><span style="font-size:18px">⚡</span><div><strong style="color:var(--red)">Fisika Dasar — perpindahan panas dan jenis energi masih campur</strong><br>Konduksi tertukar dengan konveksi, energi kimia tertukar dengan energi mekanik.<br><span class="fix-badge">Fix: bedakan dari “apa yang bergerak” dan “energi tersimpan di mana”</span></div></div>
+  </div>
+
+  <div class="flow-card">
+    <div class="section-hd">🗺️ Alur B07</div>
+    <div class="rule"><span>🧪</span><span><strong>Pre-test</strong> 10 soal untuk memotret kelemahan awal.</span></div>
+    <div class="rule"><span>📖</span><span><strong>Materi mendalam</strong> 3 tab: Makhluk Hidup, Tubuh Manusia, Fisika Dasar.</span></div>
+    <div class="rule"><span>✅</span><span><strong>Post-test</strong> 10 soal baru dengan konsep sama, tapi bentuk soal berbeda.</span></div>
+    <div class="rule"><span>🎯</span><span>Target B07: konsep tidak lagi tertukar, terutama istilah yang mirip.</span></div>
+  </div>
+
+  <button class="cta" onclick="show('pretest-screen');startTimer('pre')">🧪 Mulai Pre-Test B07</button>
+</div>
+
+<div id="pretest-screen" class="screen">
+  <div class="topic-head">
+    <div class="icon">🧪</div>
+    <div>
+      <div class="small mono">B07 · PRE-TEST</div>
+      <div class="title">IPAS — Cek Awal</div>
+      <div class="sub">10 soal campuran · Makhluk Hidup, Tubuh Manusia, Fisika Dasar</div>
+    </div>
+  </div>
+  <div class="quiz-bar">
+    <span class="pill">🧪 Pre-test</span>
+    <span class="counter mono" id="pre-ctr">1/10</span>
+    <div class="timer mono" id="pre-timer"><span>⏱</span><span id="pre-tv">15:00</span></div>
+  </div>
+  <div class="progress"><div id="pre-pf"></div></div>
+  <div class="quiz-card">
+    <div class="q-label mono" id="pre-qno">SOAL 01</div>
+    <div class="q-tag" id="pre-qtag"></div>
+    <div class="q-text" id="pre-qtxt"></div>
+    <div class="q-hint" id="pre-qhint"></div>
+    <div class="q-visual" id="pre-vis"></div>
+    <div class="options" id="pre-opts"></div>
+    <div class="expl" id="pre-expl"></div>
+  </div>
+  <button class="next-btn" id="pre-nb" onclick="nextPre()">Lanjut →</button>
+</div>
+
+<div id="materi-screen" class="screen">
+  <div class="material-card">
+    <div class="material-intro">
+      <span class="badge">📖 Materi B07 — IPAS</span>
+      <h2>Bedakan yang Mirip</h2>
+      <p>B07 bukan dibuat untuk menghafal banyak hal sekaligus. Tujuannya sederhana: <strong>yang mirip jangan tertukar lagi</strong>.</p>
+    </div>
+
+    <div class="tabs">
+      <button class="tab on" onclick="goT(0)">🌿 Makhluk Hidup</button>
+      <button class="tab" onclick="goT(1)">🫀 Tubuh Manusia</button>
+      <button class="tab" onclick="goT(2)">⚡ Fisika Dasar</button>
+    </div>
+    <div class="pdots"><div class="pdot active" id="pd0"></div><div class="pdot" id="pd1"></div><div class="pdot" id="pd2"></div></div>
+
+    <div class="topic on" id="t0">
+      <div class="mc">
+        <h3>🌿 Makhluk Hidup — Reproduksi & Adaptasi</h3>
+        <div class="ms">Kesalahan A04 menunjukkan bahwa istilah mirip masih belum dibedakan dengan tegas.</div>
+        <div class="abox">
+          <div class="al">⚠️ Error utama A04</div>
+          <p>Ovipar dijawab ovovivipar. Xerofit dijawab hidrofit. Ini berarti contoh dan definisinya belum dikaitkan.</p>
+          <div class="fix">✅ Fix: hafal definisi singkat + contoh nyata + ciri kuncinya.</div>
+        </div>
+
+        <table class="ptable">
+          <tr><th>Istilah</th><th>Arti</th><th>Contoh</th></tr>
+          <tr><td class="pnum">Ovipar</td><td>Berkembang biak dengan <strong>bertelur</strong></td><td>Ayam, bebek, burung <span class="pkey">TELUR</span></td></tr>
+          <tr><td class="pnum">Vivipar</td><td>Berkembang biak dengan <strong>melahirkan</strong></td><td>Kucing, sapi, manusia <span class="pkey">LAHIR</span></td></tr>
+          <tr><td class="pnum">Ovovivipar</td><td>Telur berkembang di dalam tubuh induk lalu menetas</td><td>Beberapa ikan hiu, ular tertentu <span class="pkey">TELUR+TETAS DI DALAM</span></td></tr>
+        </table>
+
+        <table class="ptable">
+          <tr><th>Jenis Tumbuhan</th><th>Lingkungan</th><th>Ciri Utama</th></tr>
+          <tr><td class="pnum">Xerofit</td><td>Daerah kering</td><td>Menyimpan air, daun kecil/duri, batang tebal — contoh: kaktus</td></tr>
+          <tr><td class="pnum">Hidrofit</td><td>Air / sangat basah</td><td>Daun lebar, banyak rongga udara — contoh: teratai, eceng gondok</td></tr>
+          <tr><td class="pnum">Higrofit</td><td>Tempat lembap</td><td>Suka lingkungan teduh dan basah — contoh: lumut</td></tr>
+        </table>
+
+        <div class="fbox">
+          <div class="fl">🔑 Trik super singkat</div>
+          <div class="fm">Ovi = ovum = telur<br>Vivi = hidup/lahir<br>Xero = kering<br>Hidro = air</div>
+          <div class="fn">Kalau soal menyebut “menyimpan air di batang”, hampir pasti jawabannya <strong>xerofit</strong>.</div>
+        </div>
+
+        <div class="cbox">
+          <div class="cl">🧠 Cara membedakan cepat</div>
+          <div class="cs"><strong>Tanya 2 hal:</strong> (1) Apakah keluar sebagai telur atau anak? (2) Tumbuhan itu hidup di kering, air, atau lembap?</div>
+        </div>
+      </div>
+      <button class="ghost" onclick="goT(1)">Tubuh Manusia →</button>
+    </div>
+
+    <div class="topic" id="t1">
+      <div class="mc">
+        <h3>🫀 Tubuh Manusia — Alur Darah, Organ, Vitamin</h3>
+        <div class="ms">Di A04, masalah utamanya bukan nama organ, tapi <strong>fungsi dan arah alur</strong>.</div>
+        <div class="abox">
+          <div class="al">⚠️ Error utama A04</div>
+          <p>Peredaran darah besar tertukar dengan limfa. Skorbut karena kekurangan vitamin C juga belum menempel.</p>
+          <div class="fix">✅ Fix: hafal dari “dari mana → ke mana”, lalu hubungkan vitamin dengan penyakitnya.</div>
+        </div>
+
+        <table class="ptable">
+          <tr><th>Sistem</th><th>Alur</th><th>Kata Kunci</th></tr>
+          <tr><td class="pnum">Peredaran darah besar</td><td>Jantung → seluruh tubuh → kembali ke jantung</td><td><span class="pkey">KE SELURUH TUBUH</span></td></tr>
+          <tr><td class="pnum">Peredaran darah kecil</td><td>Jantung → paru-paru → kembali ke jantung</td><td><span class="pkey">KE PARU-PARU</span></td></tr>
+          <tr><td class="pnum">Limfa</td><td>Membantu pertahanan tubuh dan mengangkut cairan jaringan</td><td><span class="pkey">BUKAN ALUR UTAMA DARAH</span></td></tr>
+        </table>
+
+        <table class="ptable">
+          <tr><th>Vitamin</th><th>Fungsi Ringkas</th><th>Kekurangan</th></tr>
+          <tr><td class="pnum">Vitamin A</td><td>Kesehatan mata</td><td>Rabun senja</td></tr>
+          <tr><td class="pnum">Vitamin C</td><td>Gusi, luka, daya tahan</td><td>Skorbut</td></tr>
+          <tr><td class="pnum">Vitamin D</td><td>Tulang</td><td>Rakhitis</td></tr>
+          <tr><td class="pnum">Zat besi</td><td>Pembentukan sel darah merah</td><td>Anemia</td></tr>
+        </table>
+
+        <div class="lgrid">
+          <div class="litem"><span class="licon">❤️</span><div><div class="lname">Jantung</div><div class="ldesc">Memompa darah ke paru-paru dan ke seluruh tubuh.</div><div class="lkey">Kunci: pompa utama</div></div></div>
+          <div class="litem"><span class="licon">🫁</span><div><div class="lname">Paru-paru</div><div class="ldesc">Tempat pertukaran oksigen dan karbon dioksida, terutama di alveolus.</div><div class="lkey">Kunci: tukar gas</div></div></div>
+          <div class="litem"><span class="licon">🫘</span><div><div class="lname">Ginjal</div><div class="ldesc">Menyaring darah dan membentuk urine.</div><div class="lkey">Kunci: saring & buang sisa</div></div></div>
+        </div>
+
+        <div class="fbox">
+          <div class="fl">🔑 Trik cepat</div>
+          <div class="fm">Darah besar = perjalanan jauh ke tubuh<br>Darah kecil = muter pendek ke paru-paru</div>
+          <div class="fn">Kalau soal menyebut <strong>semua tubuh</strong>, pikirkan darah besar. Kalau menyebut <strong>paru-paru</strong>, darah kecil.</div>
+        </div>
+      </div>
+      <button class="ghost" onclick="goT(2)">Fisika Dasar →</button>
+    </div>
+
+    <div class="topic" id="t2">
+      <div class="mc">
+        <h3>⚡ Fisika Dasar — Panas, Energi, Gaya</h3>
+        <div class="ms">Di A04, konsep paling rawan adalah membedakan perpindahan panas berdasarkan <strong>apa yang ikut bergerak</strong>.</div>
+        <div class="abox">
+          <div class="al">⚠️ Error utama A04</div>
+          <p>Konveksi tertukar dengan konduksi. Energi kimia tertukar dengan energi mekanik.</p>
+          <div class="fix">✅ Fix: cek “zatnya ikut bergerak atau tidak?” dan “energinya tersimpan di mana?”</div>
+        </div>
+
+        <table class="ptable">
+          <tr><th>Jenis</th><th>Cara</th><th>Contoh</th></tr>
+          <tr><td class="pnum">Konduksi</td><td>Panas merambat tanpa perpindahan zat</td><td>Sendok logam ikut panas</td></tr>
+          <tr><td class="pnum">Konveksi</td><td>Panas berpindah bersama aliran zat</td><td>Air mendidih berputar, angin darat-laut</td></tr>
+          <tr><td class="pnum">Radiasi</td><td>Panas merambat tanpa zat perantara</td><td>Panas matahari ke bumi</td></tr>
+        </table>
+
+        <table class="ptable">
+          <tr><th>Energi</th><th>Arti Ringkas</th><th>Contoh</th></tr>
+          <tr><td class="pnum">Energi kimia</td><td>Tersimpan dalam zat/bahan</td><td>Makanan, baterai, bensin</td></tr>
+          <tr><td class="pnum">Energi gerak (kinetik)</td><td>Karena bergerak</td><td>Sepeda melaju</td></tr>
+          <tr><td class="pnum">Energi potensial</td><td>Karena posisi</td><td>Buku di rak, air di bendungan</td></tr>
+        </table>
+
+        <div class="lgrid">
+          <div class="litem"><span class="licon">🪵</span><div><div class="lname">Konduksi</div><div class="ldesc">Benda tetap, panas merambat. Tidak ada aliran zat.</div><div class="lkey">Kunci: zat tidak berpindah</div></div></div>
+          <div class="litem"><span class="licon">♨️</span><div><div class="lname">Konveksi</div><div class="ldesc">Zat ikut bergerak membawa panas.</div><div class="lkey">Kunci: ada aliran</div></div></div>
+          <div class="litem"><span class="licon">☀️</span><div><div class="lname">Radiasi</div><div class="ldesc">Tidak perlu medium. Bisa melalui ruang hampa.</div><div class="lkey">Kunci: tanpa perantara</div></div></div>
+        </div>
+
+        <div class="cbox">
+          <div class="cl">🧠 Pertanyaan tercepat</div>
+          <div class="cs">Kalau air/udara <strong>ikut bergerak</strong> = konveksi. Kalau hanya benda jadi panas = konduksi. Kalau dari matahari/lampu = radiasi.</div>
+        </div>
+
+        <button class="cta" onclick="show('posttest-screen');startTimer('post')">✅ Mulai Post-Test B07</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="posttest-screen" class="screen">
+  <div class="topic-head">
+    <div class="icon">✅</div>
+    <div>
+      <div class="small mono">B07 · POST-TEST</div>
+      <div class="title">IPAS — Cek Ulang</div>
+      <div class="sub">10 soal baru · Konsep sama, bentuk soal berbeda</div>
+    </div>
+  </div>
+  <div class="quiz-bar">
+    <span class="pill">✅ Post-test</span>
+    <span class="counter mono" id="post-ctr">1/10</span>
+    <div class="timer mono" id="post-timer"><span>⏱</span><span id="post-tv">15:00</span></div>
+  </div>
+  <div class="progress"><div id="post-pf"></div></div>
+  <div class="quiz-card">
+    <div class="q-label mono" id="post-qno">SOAL 01</div>
+    <div class="q-tag" id="post-qtag"></div>
+    <div class="q-text" id="post-qtxt"></div>
+    <div class="q-hint" id="post-qhint"></div>
+    <div class="q-visual" id="post-vis"></div>
+    <div class="options" id="post-opts"></div>
+    <div class="expl" id="post-expl"></div>
+  </div>
+  <button class="next-btn" id="post-nb" onclick="nextPost()">Lanjut →</button>
+</div>
+
+<div id="result-screen" class="screen">
+  <div class="result-card">
+    <span class="badge">📊 Hasil B07</span>
+    <div class="material-intro" style="margin-top:10px">
+      <h2 id="res-title"></h2>
+      <p id="res-sub"></p>
+    </div>
+
+    <div class="metrics">
+      <div class="metric"><div class="label">Pre-Test</div><div class="value" id="pre-score">0</div></div>
+      <div class="metric"><div class="label">Δ Poin</div><div class="value" id="delta-score">+0</div></div>
+      <div class="metric"><div class="label">Post-Test</div><div class="value" id="post-score">0</div></div>
+    </div>
+
+    <div class="note-block">
+      <h3>📝 Catatan B07</h3>
+      <div class="item" id="time-note"></div>
+      <div class="item" id="focus-note"></div>
+      <div class="item" id="target-note"></div>
+    </div>
+
+    <div class="wrsec" id="pre-ws" style="display:none">
+      <div class="wrhd pre">🧪 Soal Salah — Pre-Test</div>
+      <div id="pre-wl"></div>
+    </div>
+
+    <div class="wrsec" id="post-ws" style="display:none">
+      <div class="wrhd post">✅ Soal Salah — Post-Test</div>
+      <div id="post-wl"></div>
+    </div>
+
+    <button class="copy-btn" id="copy-btn" onclick="copyRes()">📋 Salin Hasil → lanjut ke B08</button>
+    <button class="ghost" onclick="if(confirm('Ulangi B07 dari awal?')){location.reload()}">🔄 Ulangi B07</button>
+    <div class="footer-tip">B08 nanti bisa dibuat lebih fokus lagi ke soal campuran dari tiga topik ini dengan tingkat jebakan sedikit lebih tinggi.</div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const TL=15*60;
+let preS=0, postS=0, preEl=0, postEl=0, preTi=null, postTi=null;
+let preW=[], postW=[], preCi=0, postCi=0, picked=false;
+
+const PQ = [
+  {tag:'🌿 Makhluk Hidup', q:"Hewan yang berkembang biak dengan cara bertelur disebut...", hint:"Pikirkan kata kunci ovum = telur.", vis:"", opts:["Ovipar","Vivipar","Ovovivipar","Membelah diri"], ans:0, exp:"Ovipar adalah hewan yang berkembang biak dengan bertelur, misalnya ayam dan bebek.", formula:"Ovipar=telur · Vivipar=melahirkan · Ovovivipar=telur menetas di dalam"},
+  {tag:'🌿 Makhluk Hidup', q:"Tumbuhan seperti kaktus yang hidup di daerah sangat kering termasuk kelompok...", hint:"Yang tahan kering, bukan yang hidup di air.", vis:"", opts:["Hidrofit","Xerofit","Higrofit","Parasit"], ans:1, exp:"Xerofit adalah tumbuhan yang beradaptasi di daerah kering. Ciri utamanya dapat menyimpan air dan mengurangi penguapan.", formula:"Xero=kering · Hidro=air · Higro=lembap"},
+  {tag:'🌿 Makhluk Hidup', q:"Kucing, sapi, dan manusia termasuk hewan...", hint:"Mereka melahirkan anak.", vis:"", opts:["Ovipar","Ovovivipar","Vivipar","Metamorfosis"], ans:2, exp:"Vivipar adalah hewan yang berkembang biak dengan melahirkan.", formula:"Vivipar=melahirkan"},
+  {tag:'🌿 Makhluk Hidup', q:"Teratai dan eceng gondok dikelompokkan sebagai tumbuhan...", hint:"Mereka hidup di perairan.", vis:"", opts:["Xerofit","Higrofit","Epifit","Hidrofit"], ans:3, exp:"Hidrofit adalah tumbuhan yang hidup di air atau tempat sangat basah, misalnya teratai dan eceng gondok.", formula:"Hidrofit=air"},
+  {tag:'🫀 Tubuh Manusia', q:"Peredaran darah yang membawa darah dari jantung ke seluruh tubuh lalu kembali lagi ke jantung disebut...", hint:"Bukan ke paru-paru.", vis:"", opts:["Peredaran darah besar","Peredaran darah kecil","Peredaran limfa","Peredaran tertutup"], ans:0, exp:"Peredaran darah besar mengalirkan darah dari jantung ke seluruh tubuh lalu kembali lagi ke jantung.", formula:"Darah besar = jantung → tubuh → jantung"},
+  {tag:'🫀 Tubuh Manusia', q:"Vitamin yang penting untuk kesehatan gusi dan membantu penyembuhan luka adalah vitamin...", hint:"Kekurangannya dapat menyebabkan skorbut.", vis:"", opts:["Vitamin A","Vitamin C","Vitamin D","Vitamin K"], ans:1, exp:"Vitamin C membantu menjaga kesehatan gusi, daya tahan tubuh, dan penyembuhan luka. Kekurangannya menyebabkan skorbut.", formula:"Vitamin C → skorbut"},
+  {tag:'🫀 Tubuh Manusia', q:"Organ yang menyaring darah dan menghasilkan urine adalah...", hint:"Berkaitan dengan sistem ekskresi.", vis:"", opts:["Hati","Paru-paru","Ginjal","Usus"], ans:2, exp:"Ginjal menyaring darah dan menghasilkan urine sebagai sisa metabolisme.", formula:"Ginjal = saring darah + bentuk urine"},
+  {tag:'🫀 Tubuh Manusia', q:"Pertukaran oksigen dan karbon dioksida pada paru-paru terutama terjadi di bagian...", hint:"Bagian sangat kecil seperti kantung udara.", vis:"", opts:["Bronkus","Trakea","Diafragma","Alveolus"], ans:3, exp:"Alveolus adalah kantung udara kecil di paru-paru yang menjadi tempat pertukaran gas.", formula:"Alveolus = tempat pertukaran gas"},
+  {tag:'⚡ Fisika Dasar', q:"Saat air mendidih, bagian air panas bergerak naik dan bagian lebih dingin turun. Peristiwa ini disebut...", hint:"Ada perpindahan panas sekaligus aliran zat.", vis:"", opts:["Konveksi","Konduksi","Radiasi","Refleksi"], ans:0, exp:"Konveksi adalah perpindahan panas yang disertai perpindahan zat perantaranya, misalnya aliran air saat mendidih.", formula:"Konveksi = panas + zat ikut bergerak"},
+  {tag:'⚡ Fisika Dasar', q:"Energi yang tersimpan dalam makanan, baterai, dan bahan bakar disebut energi...", hint:"Energi ini tersimpan di dalam zat.", vis:"", opts:["Gerak","Kimia","Panas","Bunyi"], ans:1, exp:"Energi kimia tersimpan di dalam zat seperti makanan, baterai, dan bensin.", formula:"Energi kimia = energi tersimpan dalam zat"}
+];
+
+const PTQ = [
+  {tag:'🌿 Makhluk Hidup', q:"Hewan yang telurnya berkembang dan menetas di dalam tubuh induknya disebut...", hint:"Gabungan antara bertelur dan melahirkan.", vis:"", opts:["Vivipar","Ovipar","Ovovivipar","Membelah diri"], ans:2, exp:"Ovovivipar adalah hewan yang menghasilkan telur, tetapi telurnya berkembang dan menetas di dalam tubuh induk.", formula:"Ovovivipar = telur berkembang di dalam tubuh induk"},
+  {tag:'🌿 Makhluk Hidup', q:"Teratai dapat hidup di air karena termasuk tumbuhan...", hint:"Bukan tumbuhan daerah kering.", vis:"", opts:["Xerofit","Parasit","Higrofit","Hidrofit"], ans:3, exp:"Teratai termasuk hidrofit, yaitu tumbuhan yang hidup di air atau tempat sangat basah.", formula:"Hidrofit = hidup di air"},
+  {tag:'🌿 Makhluk Hidup', q:"Daun berubah menjadi duri dan batang menebal untuk menyimpan air adalah contoh adaptasi tumbuhan...", hint:"Ciri khas kaktus.", vis:"", opts:["Xerofit","Hidrofit","Higrofit","Epifit"], ans:0, exp:"Adaptasi seperti daun menjadi duri dan batang menebal adalah ciri tumbuhan xerofit yang hidup di daerah kering.", formula:"Xerofit = daerah kering"},
+  {tag:'🫀 Tubuh Manusia', q:"Aliran darah dari jantung menuju paru-paru lalu kembali ke jantung disebut...", hint:"Jalur ini lebih pendek.", vis:"", opts:["Peredaran darah besar","Peredaran darah kecil","Peredaran limfa","Peredaran ganda"], ans:1, exp:"Peredaran darah kecil adalah aliran darah dari jantung ke paru-paru lalu kembali ke jantung.", formula:"Darah kecil = jantung → paru-paru → jantung"},
+  {tag:'🫀 Tubuh Manusia', q:"Kekurangan vitamin A dapat menyebabkan...", hint:"Berkaitan dengan penglihatan.", vis:"", opts:["Anemia","Skorbut","Rabun senja","Rakhitis"], ans:2, exp:"Vitamin A penting untuk kesehatan mata. Kekurangannya dapat menyebabkan rabun senja.", formula:"Vitamin A → rabun senja"},
+  {tag:'🫀 Tubuh Manusia', q:"Bagian tubuh yang berfungsi memompa darah ke seluruh tubuh adalah...", hint:"Pusat sistem peredaran darah.", vis:"", opts:["Paru-paru","Ginjal","Hati","Jantung"], ans:3, exp:"Jantung adalah organ pemompa darah utama dalam tubuh manusia.", formula:"Jantung = pompa darah"},
+  {tag:'⚡ Fisika Dasar', q:"Gagang sendok logam menjadi panas saat ujungnya dicelupkan ke teh panas. Ini contoh...", hint:"Panas merambat tanpa zat ikut berpindah.", vis:"", opts:["Konduksi","Konveksi","Radiasi","Evaporasi"], ans:0, exp:"Konduksi adalah perpindahan panas melalui benda padat tanpa perpindahan zatnya.", formula:"Konduksi = panas merambat, zat tidak ikut bergerak"},
+  {tag:'⚡ Fisika Dasar', q:"Panas matahari dapat sampai ke bumi melalui proses...", hint:"Tidak butuh zat perantara.", vis:"", opts:["Konduksi","Radiasi","Konveksi","Difusi"], ans:1, exp:"Radiasi adalah perpindahan panas tanpa memerlukan medium atau zat perantara.", formula:"Radiasi = tanpa medium"},
+  {tag:'⚡ Fisika Dasar', q:"Buku yang disimpan di rak tinggi memiliki energi...", hint:"Energi karena posisi.", vis:"", opts:["Kimia","Gerak","Potensial","Listrik"], ans:2, exp:"Energi potensial adalah energi yang dimiliki benda karena posisinya.", formula:"Energi potensial = karena posisi"},
+  {tag:'⚡ Fisika Dasar', q:"Alat seperti katrol, bidang miring, dan tuas termasuk...", hint:"Dipakai untuk mempermudah kerja.", vis:"", opts:["Sumber energi","Penghantar panas","Pengubah wujud","Pesawat sederhana"], ans:3, exp:"Katrol, bidang miring, dan tuas adalah contoh pesawat sederhana yang memudahkan pekerjaan manusia.", formula:"Pesawat sederhana = mempermudah kerja"}
+];
+
+function fmt(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+function startTimer(pfx){
+  if(pfx==='pre'){preEl=0; clearInterval(preTi); preTi=setInterval(()=>{preEl++;tick('pre',preEl);},1000);}
+  else{postEl=0; clearInterval(postTi); postTi=setInterval(()=>{postEl++;tick('post',postEl);},1000);}
+}
+function tick(pfx,el){
+  const rem=TL-el, over=rem<0, d=over?el-TL:rem;
+  document.getElementById(pfx+'-tv').textContent=(over?'+':'')+fmt(d);
+  document.getElementById(pfx+'-timer').className='timer mono'+(over?' over':rem<=3*60?' warn':'');
+}
+function renderQ(q,pfx,idx,total){
+  document.getElementById(pfx+'-qno').textContent='SOAL '+String(idx+1).padStart(2,'0');
+  document.getElementById(pfx+'-qtag').textContent=q.tag;
+  document.getElementById(pfx+'-qtxt').textContent=q.q;
+  document.getElementById(pfx+'-qhint').textContent=q.hint?'💡 '+q.hint:'';
+  document.getElementById(pfx+'-ctr').textContent=(idx+1)+'/'+total;
+  document.getElementById(pfx+'-pf').style.width=((idx/total)*100)+'%';
+  const vis=document.getElementById(pfx+'-vis');
+  if(q.vis){vis.textContent=q.vis;vis.style.display='block';} else {vis.style.display='none';}
+  document.getElementById(pfx+'-expl').className='expl';
+  document.getElementById(pfx+'-nb').className='next-btn';
+  const opts=document.getElementById(pfx+'-opts');
+  opts.innerHTML='';
+  ['A','B','C','D'].forEach((l,i)=>{
+    const b=document.createElement('button');
+    b.className='opt';
+    b.innerHTML='<span class="ol">'+l+'</span><span>'+q.opts[i]+'</span>';
+    b.onclick=()=>pick(i,q,pfx);
+    opts.appendChild(b);
+  });
+  picked=false;
+}
+function pick(idx,q,pfx){
+  if(picked)return;
+  picked=true;
+  const btns=document.querySelectorAll('#'+pfx+'-opts .opt');
+  btns.forEach(b=>b.disabled=true);
+  const arr=pfx==='pre'?preW:postW;
+  if(idx===q.ans){
+    btns[idx].classList.add('correct');
+    if(pfx==='pre') preS++; else postS++;
+  }else{
+    btns[idx].classList.add('wrong');
+    btns[q.ans].classList.add('correct');
+    arr.push({q:q.q, tag:q.tag, chosen:q.opts[idx], correct:q.opts[q.ans], exp:q.exp, formula:q.formula||''});
+  }
+  const ep=document.getElementById(pfx+'-expl');
+  ep.innerHTML='<div class="eh">💡 Penjelasan</div><div class="et">'+q.exp+(q.formula?'<div class="formula">'+q.formula+'</div>':'')+'</div>';
+  ep.classList.add('show');
+  const nb=document.getElementById(pfx+'-nb');
+  const all=pfx==='pre'?PQ:PTQ, ci=pfx==='pre'?preCi:postCi;
+  nb.textContent=ci===all.length-1?(pfx==='pre'?'📖 Lihat Materi →':'🏁 Lihat Hasil →'):'Soal Berikutnya →';
+  nb.classList.add('show');
+}
+function nextPre(){
+  picked=false;
+  if(preCi<PQ.length-1){preCi++; renderQ(PQ[preCi],'pre',preCi,PQ.length);}
+  else {clearInterval(preTi); show('materi-screen');}
+}
+function nextPost(){
+  picked=false;
+  if(postCi<PTQ.length-1){postCi++; renderQ(PTQ[postCi],'post',postCi,PTQ.length);}
+  else {clearInterval(postTi); showResult();}
+}
+function goT(n){
+  document.querySelectorAll('.topic').forEach((t,i)=>t.classList.toggle('on',i===n));
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('on',i===n));
+  for(let i=0;i<3;i++){
+    const p=document.getElementById('pd'+i);
+    p.className='pdot'+(i<n?' done':i===n?' active':'');
+  }
+}
+function show(id){
+  ['splash','pretest-screen','materi-screen','posttest-screen','result-screen'].forEach(s=>document.getElementById(s).style.display='none');
+  document.getElementById(id).style.display='block';
+  if(id==='pretest-screen'){preCi=0; preS=0; preW=[]; renderQ(PQ[0],'pre',0,PQ.length);}
+  if(id==='posttest-screen'){postCi=0; postS=0; postW=[]; renderQ(PTQ[0],'post',0,PTQ.length);}
+}
+function showResult(){
+  show('result-screen');
+  const pre=Math.round((preS/PQ.length)*100), post=Math.round((postS/PTQ.length)*100), delta=post-pre;
+  document.getElementById('pre-score').textContent=pre;
+  document.getElementById('post-score').textContent=post;
+  document.getElementById('delta-score').textContent=(delta>=0?'+':'')+delta;
+  document.getElementById('delta-score').style.color=delta>0?'#16a34a':delta<0?'#dc2626':'#0284c7';
+
+  let title='', sub='';
+  if(delta>=30){title='🚀 Lompatan Bagus'; sub='Konsep yang tadi tertukar mulai rapi.';}
+  else if(delta>0){title='📈 Ada Kemajuan'; sub='Sudah lebih baik, tapi masih ada bagian yang perlu dirapikan.';}
+  else if(delta===0){title='➡️ Masih Stabil'; sub='Perlu review materi lagi sebelum lanjut B08.';}
+  else{title='⚠️ Perlu Ulangi'; sub='Jangan lanjut cepat. Materi inti masih belum masuk.';}
+  document.getElementById('res-title').textContent=title;
+  document.getElementById('res-sub').textContent=sub;
+
+  document.getElementById('time-note').innerHTML='⏱️ Waktu Pre-Test: <strong>'+fmt(preEl)+'</strong> · Waktu Post-Test: <strong>'+fmt(postEl)+'</strong>';
+  const weak=[...new Set([...preW,...postW].map(w=>w.tag))];
+  document.getElementById('focus-note').innerHTML='📌 Topik yang masih muncul salah: <strong>'+(weak.length?weak.join(', '):'tidak ada, semua sudah rapi')+'</strong>';
+  document.getElementById('target-note').innerHTML='🎯 Target B07: <strong>'+(post>=80?'tercapai':'belum tercapai')+'</strong> — patokan sederhana: minimal 80 agar siap lanjut ke B08 dengan jebakan yang lebih halus.';
+
+  function rw(arr,sid,lid,cls){
+    if(arr.length){
+      document.getElementById(sid).style.display='block';
+      document.getElementById(lid).innerHTML=arr.map(w=>'<div class="wcard '+cls+'"><div style="font-size:10px;font-weight:800;color:var(--sky);margin-bottom:5px">'+w.tag+'</div><div class="wq">❓ '+w.q+'</div><div class="wa"><div class="wx">✗ '+w.chosen+'</div><div class="wc">✓ '+w.correct+'</div></div><div class="we">'+w.exp+(w.formula?'<div class="wf">'+w.formula+'</div>':'')+'</div></div>').join('');
+    }
+  }
+  rw(preW,'pre-ws','pre-wl','');
+  rw(postW,'post-ws','post-wl','post');
+}
+function copyRes(){
+  const pre=Math.round((preS/PQ.length)*100), post=Math.round((postS/PTQ.length)*100), delta=post-pre;
+  const weak=[...new Set([...preW,...postW].map(w=>w.tag))];
+  let t='📊 HASIL B07 — BELAJAR IPAS\n';
+  t+='Musa Brahma Batubara · Program Persiapan UPK Paket A\n';
+  t+='Fokus: Makhluk Hidup · Tubuh Manusia · Fisika Dasar\n';
+  t+='──────────────────────────────────────────────────\n\n';
+  t+='PRE-TEST  : '+pre+'/100  ('+preW.length+' salah dari 10)  ⏱'+fmt(preEl)+'\n';
+  t+='POST-TEST : '+post+'/100  ('+postW.length+' salah dari 10)  ⏱'+fmt(postEl)+'\n';
+  t+='DELTA     : '+(delta>=0?'+':'')+delta+' poin\n\n';
+  if(preW.length){
+    t+='SOAL SALAH PRE-TEST:\n';
+    preW.forEach((w,i)=>{t+=(i+1)+'. ['+w.tag.replace(/[^\w\s&]/g,'').trim()+'] '+w.q+'\n   → Jawab: '+w.chosen+' | Benar: '+w.correct+'\n';});
+    t+='\n';
+  }
+  if(postW.length){
+    t+='SOAL SALAH POST-TEST:\n';
+    postW.forEach((w,i)=>{t+=(i+1)+'. ['+w.tag.replace(/[^\w\s&]/g,'').trim()+'] '+w.q+'\n   → Jawab: '+w.chosen+' | Benar: '+w.correct+'\n';});
+    t+='\n';
+  }
+  t+='──────────────────────────────────────────────────\n';
+  t+='TOPIK MASIH LEMAH: '+(weak.length?weak.join(', '):'Semua sudah oke')+'\n';
+  t+='TARGET B07 (80): '+(post>=80?'✅ TERCAPAI':'❌ BELUM')+'\n\n';
+  t+='📌 Berdasarkan B07, lanjutkan B08:\n';
+  t+='Fokus: Makhluk Hidup & Tubuh Manusia & Fisika Dasar\n';
+  t+='Format: Pre-test → Materi → Post-test · Soal baru berbeda dari B07';
+  navigator.clipboard.writeText(t).then(()=>{
+    const b=document.getElementById('copy-btn');
+    b.textContent='✅ Tersalin! Siap lanjut B08';
+    setTimeout(()=>{b.textContent='📋 Salin Hasil → lanjut ke B08';},3500);
+  }).catch(()=>prompt('Salin hasil ini:',t));
+}
+</script>
+</body>
+</html>
