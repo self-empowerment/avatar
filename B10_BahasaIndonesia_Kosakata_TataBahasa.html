@@ -1,0 +1,540 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B10 · Bahasa Indonesia · Kosakata & Tata Bahasa Lanjutan</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7fbff;
+  --bg2:#eef9f7;
+  --card:#ffffff;
+  --text:#172033;
+  --muted:#667085;
+  --ink:#0f172a;
+  --navy:#1d4ed8;
+  --teal:#0f766e;
+  --cyan:#0891b2;
+  --mint:#10b981;
+  --amber:#d97706;
+  --rose:#e11d48;
+  --red:#dc2626;
+  --line:#dbeafe;
+  --line2:#ccfbf1;
+  --shadow:0 18px 40px rgba(8,145,178,.10);
+  --soft:0 12px 28px rgba(16,185,129,.10);
+  --grad-main:linear-gradient(135deg,#1d4ed8 0%, #0891b2 50%, #10b981 100%);
+  --grad-soft:linear-gradient(135deg,rgba(29,78,216,.10),rgba(8,145,178,.08),rgba(16,185,129,.08));
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Outfit',system-ui,sans-serif;
+  color:var(--text);
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(29,78,216,.10), transparent 32%),
+    radial-gradient(circle at 100% 0%, rgba(8,145,178,.09), transparent 28%),
+    radial-gradient(circle at 100% 100%, rgba(16,185,129,.10), transparent 30%),
+    linear-gradient(180deg,var(--bg),var(--bg2));
+}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(255,255,255,.35));}
+.wrap{position:relative;z-index:1;max-width:720px;margin:0 auto;padding:22px 16px 64px}
+.screen{display:none}
+#splash{display:block}
+.code-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;background:rgba(29,78,216,.10);color:var(--navy);border:1.5px solid rgba(29,78,216,.24);font-size:11px;font-weight:900;letter-spacing:1.2px;text-transform:uppercase}
+.hero{text-align:center;padding:18px 0 16px}
+.hero h1{font-size:30px;font-weight:900;line-height:1.12;margin:14px 0 10px;color:var(--ink)}
+.hero h1 em{font-style:normal;background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:13px;line-height:1.82;color:var(--muted)}
+.panel{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:20px;margin:16px 0;box-shadow:var(--shadow)}
+.panel h3{font-size:12px;font-weight:900;letter-spacing:1.2px;text-transform:uppercase;color:var(--navy);margin-bottom:14px}
+.error-row{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--line)}
+.error-row:last-child{border-bottom:none;padding-bottom:0}
+.fix-badge{display:inline-block;margin-top:5px;font-size:10px;font-weight:900;padding:3px 8px;border-radius:999px;background:#dff7f3;color:#0f766e}
+.flow{background:var(--grad-soft);border:2px solid var(--line2);border-radius:22px;padding:18px;margin-bottom:16px;box-shadow:var(--soft)}
+.flow h3{font-size:12px;font-weight:900;letter-spacing:1.2px;text-transform:uppercase;color:var(--teal);margin-bottom:14px}
+.flow-steps{display:flex;gap:10px;align-items:stretch}
+.step{flex:1;background:rgba(255,255,255,.78);border:1.5px solid rgba(255,255,255,.88);border-radius:16px;padding:14px 10px;text-align:center;position:relative}
+.step:not(:last-child)::after{content:'→';position:absolute;right:-10px;top:42%;font-size:16px;color:var(--muted)}
+.sicon{width:44px;height:44px;border-radius:14px;margin:0 auto 8px;display:flex;align-items:center;justify-content:center;font-size:20px}
+.slabel{font-size:12px;font-weight:800;color:var(--ink)}
+.ssub{font-size:10px;color:var(--muted);margin-top:2px}
+.bigbtn{width:100%;padding:15px 16px;border:none;border-radius:16px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:900;cursor:pointer;transition:.18s;color:#fff}
+.bigbtn:hover{transform:translateY(-2px)}
+.primary{background:var(--grad-main);box-shadow:0 14px 28px rgba(8,145,178,.22)}
+.secondary{background:linear-gradient(135deg,#0f766e,#1d4ed8);box-shadow:0 14px 28px rgba(15,118,110,.22)}
+.ghost{background:var(--card);color:var(--muted);border:2px solid var(--line);box-shadow:none}
+.ghost:hover{color:var(--navy);border-color:var(--navy)}
+.qbar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+.qtagpill{font-size:11px;font-weight:900;padding:5px 12px;border-radius:999px;text-transform:uppercase;letter-spacing:.8px}
+.pre{background:rgba(225,29,72,.10);color:var(--rose);border:1px solid rgba(225,29,72,.25)}
+.post{background:rgba(16,185,129,.10);color:var(--mint);border:1px solid rgba(16,185,129,.25)}
+.qctr{font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--muted)}
+.timer{display:flex;align-items:center;gap:6px;background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:5px 10px}
+.timer.warn{border-color:var(--amber)} .timer.warn .tv{color:var(--amber)}
+.timer.over{border-color:var(--red);animation:blink 1s infinite} .timer.over .tv{color:var(--red)}
+.tv{font-family:'Space Mono',monospace;font-size:13px;font-weight:700}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.5}}
+.progress{margin-bottom:12px}
+.pbg{height:7px;border-radius:999px;background:#e8f2ff;overflow:hidden}
+.pfg{height:100%;border-radius:999px;transition:width .35s}
+.qcard{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:20px;box-shadow:var(--shadow)}
+.qno{font-size:10px;font-weight:900;letter-spacing:1.6px;text-transform:uppercase;color:var(--navy);margin-bottom:6px}
+.qtopic{display:inline-block;font-size:10px;font-weight:900;padding:3px 9px;border-radius:999px;background:#eaf2ff;color:var(--navy);border:1px solid #dbeafe;margin-bottom:9px}
+.qtxt{font-size:16px;font-weight:800;line-height:1.62;color:var(--ink)}
+.qhint{font-size:12px;color:var(--muted);font-style:italic;margin-top:6px;line-height:1.7}
+.vis{display:none;background:#f0fbff;border:1.5px solid #cfeefe;border-radius:14px;padding:12px;margin:12px 0;color:#0369a1;font-size:12px;line-height:1.75;font-family:'Space Mono',monospace}
+.opts{display:flex;flex-direction:column;gap:9px;margin-top:14px}
+.opt{background:#f9fcff;border:2px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;gap:11px;align-items:center;cursor:pointer;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;color:var(--text);transition:.15s}
+.opt:hover:not(:disabled){transform:translateX(3px);border-color:var(--navy);background:#f4f9ff}
+.opt .ol{width:30px;height:30px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:#e5f0ff;color:var(--navy);font-family:'Space Mono',monospace;font-size:12px;font-weight:800;flex-shrink:0}
+.opt.correct{border-color:var(--mint);background:#f0fdf4} .opt.correct .ol{background:var(--mint);color:#fff}
+.opt.wrong{border-color:var(--red);background:#fff1f2} .opt.wrong .ol{background:var(--red);color:#fff}
+.opt:disabled{cursor:default}
+.expl{display:none;background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:14px;padding:14px;margin-top:12px}
+.expl.show{display:block;animation:up .25s ease}
+.expl-hd{font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:1px;color:var(--navy);margin-bottom:6px}
+.expl-txt{font-size:13px;line-height:1.78;color:#1e3a5f}
+.expl-f{background:#dbeafe;border-radius:10px;padding:8px 11px;margin-top:8px;font-size:12px;font-family:'Space Mono',monospace;color:#1d4ed8}
+.nxtbtn{width:100%;padding:13px 16px;border:none;border-radius:14px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:900;cursor:pointer;display:none;color:#fff;margin-top:12px}
+.nxtbtn.show{display:block;animation:up .2s ease}
+.nxtbtn:hover{transform:translateY(-1px)}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.mhead{text-align:center;padding:14px 0 12px}
+.mbadge{display:inline-block;padding:6px 14px;border-radius:999px;background:rgba(15,118,110,.10);color:var(--teal);border:1.5px solid rgba(15,118,110,.24);font-size:11px;font-weight:900;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
+.mhead h2{font-size:24px;font-weight:900;color:var(--ink);margin-bottom:6px}
+.mhead p{font-size:13px;color:var(--muted)}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:12px}
+.tab{background:var(--card);border:2px solid var(--line);color:var(--muted);padding:8px 14px;border-radius:999px;font-size:12px;font-weight:900;cursor:pointer;white-space:nowrap;transition:.18s;font-family:'Outfit',sans-serif}
+.tab.on{background:#eef7ff;border-color:var(--navy);color:var(--navy)}
+.pdots{display:flex;justify-content:center;gap:7px;margin:10px 0 14px}
+.pdot{width:8px;height:8px;border-radius:50%;background:#dbeafe;transition:.18s}
+.pdot.done{background:var(--mint)}
+.pdot.active{background:var(--navy);transform:scale(1.35)}
+.topic{display:none}
+.topic.on{display:block;animation:up .25s ease}
+.mcard{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:20px;box-shadow:var(--shadow)}
+.mcard h3{font-size:17px;font-weight:900;color:var(--ink);margin-bottom:4px}
+.msub{font-size:12px;color:var(--muted);line-height:1.75;margin-bottom:14px}
+.alert{background:#fff7f7;border:2px solid #fecdd3;border-radius:16px;padding:14px;margin:10px 0}
+.alert .al{font-size:10px;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:var(--rose);margin-bottom:6px}
+.alert p{font-size:13px;line-height:1.76;color:#881337}
+.alert .fix{background:#e6faf7;border-radius:10px;padding:9px 12px;margin-top:8px;font-size:12px;font-weight:900;color:#0f766e}
+.table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+.table th{background:var(--navy);color:#fff;padding:9px 12px;text-align:left;font-size:11px;font-weight:900}
+.table td{padding:10px 12px;border-bottom:1px solid var(--line);line-height:1.55}
+.table tr:last-child td{border-bottom:none}
+.table tr:nth-child(even) td{background:#f7fbff}
+.mono{font-family:'Space Mono',monospace;font-weight:700;color:var(--navy);white-space:nowrap}
+.key{font-size:10px;font-weight:900;color:#0f766e;background:#dff7f3;padding:2px 7px;border-radius:8px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.hcard{background:#f8fcff;border:1.5px solid var(--line);border-radius:16px;padding:13px}
+.hcard .hl{font-size:11px;font-weight:900;color:var(--teal);text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px}
+.hcard .hv{font-size:13px;font-weight:800;color:var(--ink);line-height:1.55}
+.hcard .hn{font-size:12px;color:var(--muted);line-height:1.65;margin-top:5px}
+.note{background:rgba(8,145,178,.06);border:1.5px solid rgba(8,145,178,.18);border-radius:16px;padding:14px;margin:10px 0}
+.note .nl{font-size:10px;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:var(--cyan);margin-bottom:6px}
+.note .nt{font-size:13px;line-height:1.82;color:#0c4a6e}
+.finalcall{background:linear-gradient(135deg,rgba(29,78,216,.08),rgba(16,185,129,.08));border:1.5px solid rgba(29,78,216,.14);border-radius:18px;padding:16px;text-align:center;margin:14px 0}
+.finalcall .t1{font-size:20px;margin-bottom:5px}
+.finalcall .t2{font-size:15px;font-weight:900;color:var(--navy);margin-bottom:4px}
+.finalcall .t3{font-size:12px;color:var(--muted)}
+.rhead{text-align:center;padding:18px 0 12px}
+.rhead h2{font-size:26px;font-weight:900;color:var(--ink);margin-bottom:6px}
+.rhead p{font-size:13px;color:var(--muted)}
+.score-row{display:flex;align-items:center;gap:12px;margin:16px 0}
+.sbox{flex:1;text-align:center;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:14px 10px;box-shadow:var(--shadow)}
+.sv{font-size:32px;font-weight:900}
+.sl{font-size:11px;font-weight:900;text-transform:uppercase;color:var(--muted);margin-top:2px}
+.arrowbox{text-align:center}
+.a1{font-size:22px}
+.a2{font-size:16px;font-weight:900;font-family:'Space Mono',monospace}
+.trow{text-align:center;font-size:12px;color:var(--muted);font-family:'Space Mono',monospace;margin-bottom:14px}
+.wsec{margin-top:14px}
+.whd{font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.whd.pre{color:var(--rose)} .whd.post{color:var(--mint)}
+.wcard{background:var(--card);border:2px solid #fecdd3;border-radius:16px;padding:14px;margin-bottom:10px}
+.wcard.post{border-color:#a7f3d0}
+.wq{font-size:13px;font-weight:800;color:var(--ink);line-height:1.6;margin-bottom:8px}
+.wa{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
+.wx{font-size:12px;color:var(--red)}
+.wc{font-size:12px;color:var(--mint);font-weight:800}
+.we{background:#eff6ff;border-left:4px solid var(--navy);border-radius:12px;padding:12px;font-size:12px;line-height:1.76;color:#1e3a5f}
+.wf{background:#dbeafe;border-radius:9px;padding:8px 10px;margin-top:8px;font-size:12px;font-family:'Space Mono',monospace;color:#1d4ed8}
+.rcard{background:var(--card);border:2px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--shadow);margin-top:14px}
+.copybtn{width:100%;padding:14px 16px;border:none;border-radius:16px;background:var(--grad-main);color:#fff;font-weight:900;font-size:14px;font-family:'Outfit',sans-serif;cursor:pointer;box-shadow:0 14px 26px rgba(8,145,178,.22);transition:.18s;margin-top:10px}
+.copybtn:hover{transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div id="splash" class="screen" style="display:block">
+  <div class="hero">
+    <div class="code-tag">B10 · Bahasa Indonesia · 10 April 2026</div>
+    <h1>Bahasa Indonesia:<br><em>lanjutan drill kata & kalimat</em> 📘</h1>
+    <p>B10 adalah latihan lanjutan setelah A05 dan B09.<br>Fokusnya tetap <strong>Kosakata</strong> dan <strong>Tata Bahasa</strong>, tetapi soal, contoh, dan jebakannya dibuat baru agar penguasaan konsep benar-benar naik.</p>
+  </div>
+
+  <div class="panel">
+    <h3>🔍 Target B10 — yang harus lebih otomatis</h3>
+    <div class="error-row"><span style="font-size:18px">📚</span><div><strong style="color:var(--navy)">Kosakata — jangan lagi tertukar antara arti, kata baku, dan ungkapan</strong><br>Di fase ini, Musa harus makin cepat membedakan <strong>makna kata</strong>, <strong>bentuk baku</strong>, serta <strong>makna ungkapan/peribahasa</strong> tanpa menebak.<br><span class="fix-badge">Fokus: konteks kalimat + hafalan pasangan baku</span></div></div>
+    <div class="error-row"><span style="font-size:18px">🔤</span><div><strong style="color:var(--navy)">Tata Bahasa — bentuk kata dan hubungan antarklausa harus lebih rapi</strong><br>B10 menajamkan <strong>imbuhan meN-/ber-/ter-</strong>, <strong>di/ke</strong>, serta pembeda <strong>kalimat tunggal, setara, bertingkat, induk klausa, dan anak klausa</strong>.<br><span class="fix-badge">Fokus: kata hubung + bentuk kerja + fungsi di/ke</span></div></div>
+    <div class="error-row"><span style="font-size:18px">🎯</span><div><strong style="color:var(--navy)">Tujuan B10</strong><br>Bukan sekadar mengulang B09, tetapi membuat jawaban benar menjadi <strong>lebih stabil</strong> saat menghadapi soal baru.<br><span class="fix-badge">Pola: pre-test → materi padat → post-test → review salah</span></div></div>
+  </div>
+
+  <div class="flow">
+    <h3>🗺️ Alur B10</h3>
+    <div class="flow-steps">
+      <div class="step"><div class="sicon" style="background:#ffe4ef">🧪</div><div class="slabel">Pre-Test</div><div class="ssub">10 soal · 12 menit</div></div>
+      <div class="step"><div class="sicon" style="background:#e7fbf7">📖</div><div class="slabel">Materi</div><div class="ssub">3 tab lanjutan</div></div>
+      <div class="step"><div class="sicon" style="background:#eff6ff">✅</div><div class="slabel">Post-Test</div><div class="ssub">10 soal · 12 menit</div></div>
+    </div>
+  </div>
+
+  <button class="bigbtn primary" onclick="show('pretest-screen');startTimer('pre')">🧪 Mulai B10!</button>
+</div>
+
+<div id="pretest-screen" class="screen">
+  <div class="qbar">
+    <span class="qtagpill pre">🧪 Pre-Test</span>
+    <span class="qctr" id="pre-ctr">1/10</span>
+    <div class="timer" id="pre-timer"><span>⏱</span><span class="tv" id="pre-tv">12:00</span></div>
+  </div>
+  <div class="progress"><div class="pbg"><div class="pfg" id="pre-pf" style="width:0%;background:linear-gradient(135deg,#e11d48,#0891b2)"></div></div></div>
+  <div class="qcard">
+    <div class="qno" id="pre-qno">SOAL 01</div>
+    <div class="qtopic" id="pre-qtag"></div>
+    <div class="qtxt" id="pre-qtxt"></div>
+    <div class="qhint" id="pre-qhint"></div>
+    <div class="vis" id="pre-vis"></div>
+    <div class="opts" id="pre-opts"></div>
+    <div class="expl" id="pre-expl"></div>
+  </div>
+  <button class="nxtbtn" id="pre-nb" onclick="nextPre()">Lanjut →</button>
+</div>
+
+<div id="materi-screen" class="screen">
+  <div class="mhead">
+    <div class="mbadge">📖 Materi B10 — Bahasa Indonesia</div>
+    <h2>Lanjutan: makin cepat, makin tepat</h2>
+    <p>Tab ini dibuat untuk mengunci titik rawan A05 dengan contoh yang lebih variatif.</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab on" onclick="goT(0)">📚 Makna & Kata Baku</button>
+    <button class="tab" onclick="goT(1)">🔤 Bentuk Kata & di/ke</button>
+    <button class="tab" onclick="goT(2)">🧩 Klausa & Kalimat</button>
+  </div>
+  <div class="pdots"><div class="pdot active" id="pd0"></div><div class="pdot" id="pd1"></div><div class="pdot" id="pd2"></div></div>
+
+  <div class="topic on" id="t0">
+    <div class="mcard">
+      <h3>📚 Kosakata — makna kata, bentuk baku, ungkapan, dan peribahasa</h3>
+      <div class="msub">Masalah A05 bukan pada membaca panjang, tetapi pada ketepatan memilih arti kata dan bentuk kata yang benar. Di B10, kita tambah satu tingkat: baca <strong>konteks</strong>, jangan hanya hafal bentuk.</div>
+
+      <div class="alert">
+        <div class="al">⚠️ Titik rawan dari A05</div>
+        <p><strong>Ambigu</strong> sempat tertukar, kata baku seperti <strong>karier</strong> dan <strong>ijazah</strong> belum otomatis, dan ungkapan seperti <strong>buah tangan</strong> masih dibaca secara keliru.</p>
+        <div class="fix">✅ Fix: lihat konteks kalimat, hafal pasangan baku, dan ingat bahwa ungkapan/peribahasa tidak dibaca harfiah.</div>
+      </div>
+
+      <table class="table">
+        <tr><th>Bentuk / Istilah</th><th>Makna / Bentuk Benar</th><th>Trik Cepat</th></tr>
+        <tr><td class="mono">ambigu</td><td>bermakna ganda / tidak jelas satu makna</td><td><span class="key">ganda = ambigu</span></td></tr>
+        <tr><td class="mono">efektif</td><td>tepat guna / memberi hasil</td><td><span class="key">berhasil</span></td></tr>
+        <tr><td class="mono">karier</td><td>bentuk baku</td><td><span class="key">pakai -e-</span></td></tr>
+        <tr><td class="mono">ijazah</td><td>bentuk baku</td><td><span class="key">bukan ijasah</span></td></tr>
+        <tr><td class="mono">sekadar</td><td>bentuk baku</td><td><span class="key">bukan sekedar</span></td></tr>
+        <tr><td class="mono">objek</td><td>bentuk baku</td><td><span class="key">bukan obyek</span></td></tr>
+      </table>
+
+      <div class="grid">
+        <div class="hcard"><div class="hl">Ungkapan</div><div class="hv">buah tangan = oleh-oleh</div><div class="hn">Jangan dibaca sebagai buah sungguhan.</div></div>
+        <div class="hcard"><div class="hl">Ungkapan</div><div class="hv">kambing hitam = pihak yang disalahkan</div><div class="hn">Makna kias, bukan hewan.</div></div>
+        <div class="hcard"><div class="hl">Peribahasa</div><div class="hv">hemat pangkal kaya</div><div class="hn">Biasakan hidup tidak boros.</div></div>
+        <div class="hcard"><div class="hl">Peribahasa</div><div class="hv">sedikit demi sedikit, lama-lama menjadi bukit</div><div class="hn">Hal kecil bisa menjadi besar jika terus dikumpulkan.</div></div>
+      </div>
+
+      <div class="note"><div class="nl">🧠 Rumus singkat</div><div class="nt">Untuk soal kosakata, lakukan 2 langkah: <strong>(1) lihat konteks kalimat</strong>, <strong>(2) cek apakah bentuk katanya baku atau tidak</strong>. Kalau bentuknya terasa “bahasa percakapan”, hati-hati — sering kali itu bukan jawaban ujian.</div></div>
+    </div>
+    <button class="bigbtn ghost" style="margin-top:8px" onclick="goT(1)">Bentuk Kata & di/ke →</button>
+  </div>
+
+  <div class="topic" id="t1">
+    <div class="mcard">
+      <h3>🔤 Tata Bahasa — imbuhan meN-, ber-, ter-, dan penulisan di/ke</h3>
+      <div class="msub">B10 melanjutkan B09 dengan menambah bentuk kata yang sering muncul di ujian: tidak hanya <strong>meN-</strong>, tetapi juga <strong>ber-</strong> dan <strong>ter-</strong>, plus penulisan <strong>di/ke</strong>.</div>
+
+      <div class="alert">
+        <div class="al">⚠️ Fokus lanjutan</div>
+        <p>Kalau bentuk kata kerja belum otomatis, siswa mudah terkecoh oleh opsi yang “mirip benar”. Karena itu, B10 memakai banyak contoh bentuk kata yang lazim dipakai dalam kalimat sehari-hari.</p>
+        <div class="fix">✅ Fix: kenali fungsi kata kerja, lalu cek apakah di/ke menunjukkan tempat/arah atau menjadi bagian dari kata.</div>
+      </div>
+
+      <table class="table">
+        <tr><th>Kata Dasar</th><th>Bentuk Tepat</th><th>Catatan</th></tr>
+        <tr><td class="mono">tolong</td><td>menolong</td><td>kata kerja tindakan</td></tr>
+        <tr><td class="mono">main</td><td>bermain</td><td>kegiatan dilakukan subjek</td></tr>
+        <tr><td class="mono">buka</td><td>terbuka</td><td>menyatakan keadaan/hasil</td></tr>
+        <tr><td class="mono">ambil</td><td>mengambil</td><td>bentuk meN- yang lazim</td></tr>
+        <tr><td class="mono">kumpul</td><td>berkumpul</td><td>kata kerja dengan ber-</td></tr>
+      </table>
+
+      <div class="grid">
+        <div class="hcard"><div class="hl">di + tempat</div><div class="hv">di rumah · di kelas</div><div class="hn">Dipisah karena menunjukkan tempat.</div></div>
+        <div class="hcard"><div class="hl">di- + kerja</div><div class="hv">ditulis · dibawa</div><div class="hn">Dirangkai karena membentuk kata kerja pasif.</div></div>
+        <div class="hcard"><div class="hl">ke + arah/tempat</div><div class="hv">ke taman · ke sekolah</div><div class="hn">Dipisah karena menunjukkan arah.</div></div>
+        <div class="hcard"><div class="hl">bukan kata depan</div><div class="hv">keluar · kemarin</div><div class="hn">Jangan dipisah asal-asalan.</div></div>
+      </div>
+
+      <div class="note"><div class="nl">🧠 Trik cepat</div><div class="nt">Cek kata sesudah <strong>di</strong> atau <strong>ke</strong>. Kalau itu tempat/arah, biasanya dipisah. Kalau membentuk kata kerja pasif seperti <strong>dibaca</strong> atau <strong>ditendang</strong>, dirangkai. Untuk imbuhan, pilih bentuk yang paling lazim dan alami dalam bahasa baku.</div></div>
+    </div>
+    <button class="bigbtn ghost" style="margin-top:8px" onclick="goT(2)">Klausa & Kalimat →</button>
+  </div>
+
+  <div class="topic" id="t2">
+    <div class="mcard">
+      <h3>🧩 Tata Bahasa — jenis kalimat, kata hubung, induk klausa, anak klausa</h3>
+      <div class="msub">A05 menunjukkan bagian ini masih gampang tertukar. B10 menajamkan cara membedakan <strong>setara</strong> dan <strong>bertingkat</strong>, lalu menentukan <strong>induk klausa</strong>.</div>
+
+      <div class="alert">
+        <div class="al">⚠️ Titik salah paling umum</div>
+        <p>Kalimat dengan kata <strong>karena</strong>, <strong>jika</strong>, <strong>ketika</strong>, atau <strong>agar</strong> sering tergoda dijawab sebagai setara, padahal biasanya itu <strong>bertingkat</strong> karena ada hubungan penjelas.</p>
+        <div class="fix">✅ Fix: hafal kata hubung kunci, lalu cari bagian yang tetap masuk akal bila berdiri sendiri. Itulah induk klausa.</div>
+      </div>
+
+      <table class="table">
+        <tr><th>Jenis</th><th>Ciri</th><th>Contoh</th></tr>
+        <tr><td class="mono">Kalimat tunggal</td><td>satu pola S-P utama</td><td>Rina membaca buku.</td></tr>
+        <tr><td class="mono">Majemuk setara</td><td>dua bagian sejajar</td><td>Ayah bekerja dan Ibu memasak.</td></tr>
+        <tr><td class="mono">Majemuk bertingkat</td><td>ada induk + anak klausa</td><td>Musa berlatih agar nilainya naik.</td></tr>
+      </table>
+
+      <div class="grid">
+        <div class="hcard"><div class="hl">Setara</div><div class="hv">dan · tetapi · lalu</div><div class="hn">Bagian kalimat biasanya sejajar.</div></div>
+        <div class="hcard"><div class="hl">Bertingkat</div><div class="hv">karena · jika · ketika · agar</div><div class="hn">Ada bagian inti dan bagian penjelas.</div></div>
+        <div class="hcard"><div class="hl">Induk klausa</div><div class="hv">inti kalimat</div><div class="hn">Masih masuk akal bila berdiri sendiri.</div></div>
+        <div class="hcard"><div class="hl">Anak klausa</div><div class="hv">penjelas / pelengkap</div><div class="hn">Bergantung pada induk klausa.</div></div>
+      </div>
+
+      <div class="note"><div class="nl">🧠 Cara tercepat</div><div class="nt">Begitu melihat <strong>karena, jika, ketika, agar</strong>, jangan buru-buru. Curigai dulu sebagai <strong>majemuk bertingkat</strong>. Setelah itu, potong bagian yang paling inti. Kalau bagian itu tetap jadi kalimat utuh, berarti itulah <strong>induk klausa</strong>.</div></div>
+
+      <div class="finalcall"><div class="t1">🎯</div><div class="t2">Materi B10 selesai</div><div class="t3">Sekarang cek apakah konsepnya tetap kuat ketika soalnya diganti lagi.</div></div>
+      <button class="bigbtn secondary" onclick="show('posttest-screen');startTimer('post')">✅ Mulai Post-Test!</button>
+    </div>
+  </div>
+</div>
+
+<div id="posttest-screen" class="screen">
+  <div class="qbar">
+    <span class="qtagpill post">✅ Post-Test</span>
+    <span class="qctr" id="post-ctr">1/10</span>
+    <div class="timer" id="post-timer"><span>⏱</span><span class="tv" id="post-tv">12:00</span></div>
+  </div>
+  <div class="progress"><div class="pbg"><div class="pfg" id="post-pf" style="width:0%;background:linear-gradient(135deg,#10b981,#1d4ed8)"></div></div></div>
+  <div class="qcard">
+    <div class="qno" id="post-qno">SOAL 01</div>
+    <div class="qtopic" id="post-qtag"></div>
+    <div class="qtxt" id="post-qtxt"></div>
+    <div class="qhint" id="post-qhint"></div>
+    <div class="vis" id="post-vis"></div>
+    <div class="opts" id="post-opts"></div>
+    <div class="expl" id="post-expl"></div>
+  </div>
+  <button class="nxtbtn" id="post-nb" onclick="nextPost()">Lanjut →</button>
+</div>
+
+<div id="result-screen" class="screen">
+  <div class="rhead">
+    <div class="code-tag">📊 Hasil B10</div>
+    <h2 id="res-title"></h2>
+    <p id="res-sub"></p>
+  </div>
+  <div class="score-row">
+    <div class="sbox"><div class="sv" id="pre-sv" style="color:var(--amber)">-</div><div class="sl">Pre-Test</div></div>
+    <div class="arrowbox"><div class="a1" id="arr-a1">→</div><div class="a2" id="arr-a2">+0</div></div>
+    <div class="sbox"><div class="sv" id="post-sv" style="color:var(--mint)">-</div><div class="sl">Post-Test</div></div>
+  </div>
+  <div class="trow" id="trow"></div>
+
+  <div class="wsec" id="pre-ws" style="display:none"><div class="whd pre">🧪 Soal Salah — Pre-Test</div><div id="pre-wl"></div></div>
+  <div class="wsec" id="post-ws" style="display:none"><div class="whd post">✅ Soal Salah — Post-Test</div><div id="post-wl"></div></div>
+
+  <div class="rcard" id="note-card"></div>
+  <button class="copybtn" id="copy-btn" onclick="copyRes()">📋 Salin Hasil B10</button>
+  <button class="bigbtn ghost" style="margin-top:8px" onclick="if(confirm('Ulangi B10?')){location.reload()}">🔄 Ulangi B10</button>
+</div>
+
+</div>
+
+<script>
+const TL=12*60;
+const PQ = [
+  {tag:"📚 Kosakata", q:"Makna kata “efektif” dalam kalimat “Cara belajar itu efektif” adalah...", hint:"Cari arti yang paling tepat dalam konteks hasil kerja.", vis:"", opts:["memberi hasil yang baik", "memakan banyak waktu", "membuat bingung", "sangat sulit dilakukan"], ans:0, exp:"Efektif berarti tepat guna atau memberi hasil yang baik.", formula:"efektif = tepat guna / berhasil"},
+  {tag:"📚 Kosakata", q:"Kelompok kata yang semuanya merupakan bentuk baku adalah...", hint:"Cari yang biasa dipakai dalam buku pelajaran.", vis:"", opts:["obyek, sekedar, nasehat", "objek, sekadar, nasihat", "ijasah, karir, resiko", "analisa, karna, hafal"], ans:1, exp:"Bentuk baku yang benar adalah objek, sekadar, dan nasihat.", formula:"objek · sekadar · nasihat"},
+  {tag:"📚 Kosakata", q:"Ungkapan “kambing hitam” berarti...", hint:"Ini makna kias, bukan arti sebenarnya.", vis:"", opts:["hewan peliharaan", "orang yang disayang", "pihak yang dipersalahkan", "orang yang pemalu"], ans:2, exp:"Kambing hitam berarti orang atau pihak yang dijadikan sasaran kesalahan.", formula:"kambing hitam = pihak yang disalahkan"},
+  {tag:"📚 Kosakata", q:"Antonim kata “hemat” adalah...", hint:"Cari lawan katanya.", vis:"", opts:["rajin", "padat", "ringkas", "boros"], ans:3, exp:"Antonim hemat adalah boros.", formula:"hemat >< boros"},
+  {tag:"📚 Kosakata", q:"Peribahasa “hemat pangkal kaya” mengajarkan bahwa kita harus...", hint:"Fokus pada pesan nasihatnya.", vis:"", opts:["hidup tidak boros", "selalu membeli barang baru", "sering meminjam uang", "menghabiskan uang cepat"], ans:0, exp:"Peribahasa itu mengajarkan hidup hemat agar keadaan ekonomi menjadi lebih baik.", formula:"hemat → tidak boros"},
+  {tag:"🔤 Tata Bahasa", q:"Kalimat yang menggunakan imbuhan ber- dengan benar adalah...", hint:"Pilih bentuk kerja yang paling baku.", vis:"", opts:["Mereka berlari-lari di lapangan.", "Mereka melari di lapangan.", "Mereka kelari di lapangan.", "Mereka berlari di lapangan."], ans:3, exp:"Bentuk yang paling tepat dan baku adalah “berlari”.", formula:"lari → berlari"},
+  {tag:"🔤 Tata Bahasa", q:"Penulisan kata depan “di” yang benar terdapat pada kalimat...", hint:"Kalau menunjukkan tempat, di ditulis terpisah.", vis:"di kelas · di rumah · di jalan", opts:["Buku itu disimpan dimeja.", "Sepatu itu ada di rak.", "Adik duduk dikursi belakang.", "Ibu memasak didapur."], ans:1, exp:"“Di rak” ditulis terpisah karena menunjukkan tempat.", formula:"di + tempat = dipisah"},
+  {tag:"🔤 Tata Bahasa", q:"Kalimat majemuk setara terdapat pada...", hint:"Cari dua bagian yang kedudukannya sejajar.", vis:"", opts:["Jika hujan turun, kami tetap berangkat.", "Kami belajar karena besok ujian.", "Ayah membaca koran dan Ibu menyiapkan sarapan.", "Ketika bel berbunyi, murid masuk kelas."], ans:2, exp:"Kalimat majemuk setara memiliki dua bagian yang sejajar, seperti “Ayah membaca koran” dan “Ibu menyiapkan sarapan”.", formula:"setara = sejajar · dan/tetapi/lalu"},
+  {tag:"🔤 Tata Bahasa", q:"Klausa utama dalam kalimat “Karena hujan deras, pertandingan ditunda” adalah...", hint:"Cari bagian inti yang tetap masuk akal bila berdiri sendiri.", vis:"", opts:["pertandingan ditunda", "karena hujan deras", "hujan deras", "karena pertandingan"], ans:0, exp:"Klausa utama adalah “pertandingan ditunda”. Bagian “karena hujan deras” adalah anak klausa.", formula:"induk klausa = inti kalimat"},
+  {tag:"🔤 Tata Bahasa", q:"Kalimat yang menggunakan kata depan “ke” dengan benar adalah...", hint:"Kalau menunjukkan arah/tempat, ke ditulis terpisah.", vis:"ke pasar · ke taman · ke sekolah", opts:["Kami kepantai saat libur.", "Ibu pergi ke dapur.", "Adik ketaman bermain.", "Ayah kebelakang rumah."], ans:1, exp:"“Ke dapur” ditulis terpisah karena menunjukkan arah/tempat.", formula:"ke + tempat = dipisah"}
+];
+
+const PTQ = [
+  {tag:"📚 Kosakata", q:"Makna kata “ambigu” yang paling tepat adalah...", hint:"Ingat kesalahan A05.", vis:"", opts:["sangat sederhana", "berbunyi keras", "sudah pasti benar", "memiliki lebih dari satu makna"], ans:3, exp:"Ambigu berarti bermakna ganda atau tidak hanya satu makna yang jelas.", formula:"ambigu = makna ganda"},
+  {tag:"📚 Kosakata", q:"Sinonim kata “lugas” adalah...", hint:"Lugas berkaitan dengan cara berbicara/menulis.", vis:"", opts:["berbelit-belit", "samar", "jelas", "ramai"], ans:2, exp:"Lugas berarti jelas, langsung, dan tidak berbelit-belit.", formula:"lugas = jelas"},
+  {tag:"📚 Kosakata", q:"Ungkapan “buah tangan” berarti...", hint:"Ini juga pernah muncul di A05.", vis:"", opts:["hasil kebun", "oleh-oleh", "kerajinan tangan", "buah yang dibawa"], ans:1, exp:"Buah tangan berarti oleh-oleh, bukan buah sungguhan.", formula:"buah tangan = oleh-oleh"},
+  {tag:"📚 Kosakata", q:"Penulisan kata baku yang benar adalah...", hint:"Pilih satu bentuk yang sesuai ejaan baku.", vis:"", opts:["resiko", "praktek", "sekedar", "risiko"], ans:3, exp:"Bentuk baku yang benar adalah risiko.", formula:"risiko · praktik · sekadar"},
+  {tag:"📚 Kosakata", q:"Peribahasa “sedikit demi sedikit, lama-lama menjadi bukit” berarti...", hint:"Lihat makna nasihatnya.", vis:"", opts:["masalah kecil akan hilang sendiri", "hal kecil tidak penting", "sesuatu yang dikumpulkan terus-menerus akan menjadi banyak", "orang kaya pasti lebih kuat"], ans:2, exp:"Peribahasa itu berarti sesuatu yang sedikit jika dikumpulkan terus-menerus akan menjadi banyak.", formula:"sedikit + terus-menerus = banyak"},
+  {tag:"🔤 Tata Bahasa", q:"Kalimat yang menggunakan imbuhan meN- dengan benar adalah...", hint:"Pilih bentuk kerja baku.", vis:"", opts:["Mira mengambil buku di rak.", "Mira ngambil buku di rak.", "Mira ambilkan buku di rak.", "Mira mengambilkan buku di rak itu untukku."], ans:0, exp:"Bentuk meN- yang tepat untuk kata dasar ambil ialah mengambil.", formula:"ambil → mengambil"},
+  {tag:"🔤 Tata Bahasa", q:"Penulisan “di” yang benar terdapat pada kalimat...", hint:"Tempat dipisah, kata kerja pasif dirangkai.", vis:"", opts:["Surat itu di tulis oleh Rina.", "Pakaian digantung di lemari.", "Buku itu di meja belajar.", "Ayah di baca koran di teras."], ans:1, exp:"“Digantung” dirangkai karena kata kerja pasif, sedangkan “di lemari” dipisah karena tempat.", formula:"di- + kerja = dirangkai · di + tempat = dipisah"},
+  {tag:"🔤 Tata Bahasa", q:"Kalimat majemuk bertingkat terdapat pada...", hint:"Cari hubungan sebab, waktu, syarat, atau tujuan.", vis:"", opts:["Adik mencuci piring lalu kakak menyapu.", "Ibu memasak dan Ayah membersihkan halaman.", "Rani membaca buku tetapi adiknya bermain.", "Musa berlatih agar nilainya meningkat."], ans:3, exp:"Kata “agar” menunjukkan hubungan tujuan, sehingga kalimat itu termasuk majemuk bertingkat.", formula:"agar = tujuan → bertingkat"},
+  {tag:"🔤 Tata Bahasa", q:"Kata hubung yang biasanya menandai kalimat majemuk bertingkat adalah...", hint:"Bandingkan dengan dan/tetapi/lalu.", vis:"", opts:["ketika", "dan", "tetapi", "lalu"], ans:0, exp:"Ketika biasanya menandai hubungan waktu dan sering menjadi ciri kalimat majemuk bertingkat.", formula:"ketika / jika / karena / agar = bertingkat"},
+  {tag:"🔤 Tata Bahasa", q:"Induk klausa dalam kalimat “Jika listrik padam, kami menyalakan lilin” adalah...", hint:"Cari bagian inti kalimat.", vis:"", opts:["jika listrik", "listrik padam", "kami menyalakan lilin", "jika kami"], ans:2, exp:"Induk klausa adalah “kami menyalakan lilin”. Bagian “Jika listrik padam” merupakan anak klausa bersyarat.", formula:"induk klausa = bagian inti"}
+];
+
+let preS=0, postS=0, preEl=0, postEl=0, preTi=null, postTi=null;
+let preW=[], postW=[], preCi=0, postCi=0, picked=false;
+
+function fmt(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
+function startTimer(mode){
+  if(mode==='pre'){clearInterval(preTi);preEl=0;preTi=setInterval(()=>{preEl++;tick('pre',preEl)},1000)}
+  else{clearInterval(postTi);postEl=0;postTi=setInterval(()=>{postEl++;tick('post',postEl)},1000)}
+}
+function tick(mode,el){
+  const rem=TL-el, over=rem<0, d=over?el-TL:rem;
+  document.getElementById(mode+'-tv').textContent=(over?'+':'')+fmt(d);
+  document.getElementById(mode+'-timer').className='timer'+(over?' over':rem<=3*60?' warn':'');
+}
+function renderQ(q,mode,idx,total){
+  document.getElementById(mode+'-qno').textContent='SOAL '+String(idx+1).padStart(2,'0');
+  document.getElementById(mode+'-qtag').textContent=q.tag;
+  document.getElementById(mode+'-qtxt').textContent=q.q;
+  document.getElementById(mode+'-qhint').textContent=q.hint?'💡 '+q.hint:'';
+  document.getElementById(mode+'-ctr').textContent=(idx+1)+'/'+total;
+  document.getElementById(mode+'-pf').style.width=((idx/total)*100)+'%';
+  const vis=document.getElementById(mode+'-vis');
+  if(q.vis){vis.textContent=q.vis;vis.style.display='block'} else {vis.style.display='none'}
+  document.getElementById(mode+'-expl').className='expl';
+  document.getElementById(mode+'-nb').className='nxtbtn';
+  const opts=document.getElementById(mode+'-opts');
+  opts.innerHTML='';
+  ['A','B','C','D'].forEach((l,i)=>{
+    const b=document.createElement('button');
+    b.className='opt';
+    b.innerHTML='<span class="ol">'+l+'</span><span>'+q.opts[i]+'</span>';
+    b.onclick=()=>pick(i,q,mode);
+    opts.appendChild(b);
+  });
+  picked=false;
+}
+function pick(idx,q,mode){
+  if(picked)return; picked=true;
+  const btns=document.querySelectorAll('#'+mode+'-opts .opt');
+  btns.forEach(b=>b.disabled=true);
+  const wrongArr = mode==='pre'?preW:postW;
+  if(idx===q.ans){
+    btns[idx].classList.add('correct');
+    if(mode==='pre') preS++; else postS++;
+  } else {
+    btns[idx].classList.add('wrong');
+    btns[q.ans].classList.add('correct');
+    wrongArr.push({q:q.q, tag:q.tag, chosen:q.opts[idx], correct:q.opts[q.ans], exp:q.exp, formula:q.formula||''});
+  }
+  const ep=document.getElementById(mode+'-expl');
+  ep.innerHTML='<div class="expl-hd">💡 Penjelasan</div><div class="expl-txt">'+q.exp+(q.formula?'<div class="expl-f">'+q.formula+'</div>':'')+'</div>';
+  ep.classList.add('show');
+  const nb=document.getElementById(mode+'-nb');
+  const arr = mode==='pre'?PQ:PTQ;
+  const ci = mode==='pre'?preCi:postCi;
+  nb.textContent = ci===arr.length-1 ? (mode==='pre' ? '📖 Lihat Materi →' : '🏁 Lihat Hasil →') : 'Soal Berikutnya →';
+  nb.style.background = mode==='pre' ? 'linear-gradient(135deg,#e11d48,#0891b2)' : 'linear-gradient(135deg,#10b981,#1d4ed8)';
+  nb.classList.add('show');
+}
+function nextPre(){picked=false; if(preCi<PQ.length-1){preCi++; renderQ(PQ[preCi],'pre',preCi,PQ.length)} else {clearInterval(preTi); show('materi-screen')}}
+function nextPost(){picked=false; if(postCi<PTQ.length-1){postCi++; renderQ(PTQ[postCi],'post',postCi,PTQ.length)} else {clearInterval(postTi); showResult()}}
+function goT(n){
+  document.querySelectorAll('.topic').forEach((t,i)=>t.classList.toggle('on',i===n));
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('on',i===n));
+  for(let i=0;i<3;i++){const p=document.getElementById('pd'+i); p.className='pdot'+(i<n?' done':i===n?' active':'')}
+}
+function showResult(){
+  show('result-screen');
+  const pre=Math.round((preS/PQ.length)*100), post=Math.round((postS/PTQ.length)*100), delta=post-pre;
+  document.getElementById('pre-sv').textContent=pre;
+  document.getElementById('post-sv').textContent=post;
+  document.getElementById('post-sv').style.color = post>=80 ? 'var(--mint)' : post>=60 ? 'var(--amber)' : 'var(--red)';
+  document.getElementById('arr-a2').textContent=(delta>=0?'+':'')+delta;
+  document.getElementById('arr-a2').style.color = delta>0 ? 'var(--mint)' : delta<0 ? 'var(--red)' : 'var(--navy)';
+  document.getElementById('arr-a1').textContent = delta>0 ? '↗' : delta<0 ? '↘' : '→';
+  document.getElementById('trow').textContent='Pre: '+fmt(preEl)+'  |  Post: '+fmt(postEl);
+  let title='', sub='';
+  if(delta>=30){title='🚀 Kenaikan Sangat Mantap!'; sub='Kosakata dan tata bahasa mulai lebih otomatis.'}
+  else if(delta>0){title='📈 Ada Kemajuan'; sub='Jawaban mulai lebih stabil. Tinggal perkuat bagian yang masih salah.'}
+  else if(delta===0){title='➡️ Stabil'; sub='Perlu pengulangan pada kata baku, imbuhan, dan induk klausa.'}
+  else {title='⚠️ Perlu Drill Lagi'; sub='Masih ada pola tertukar. Ulangi materi dan review soal salah.'}
+  document.getElementById('res-title').textContent=title;
+  document.getElementById('res-sub').textContent=sub;
+
+  function renderWrong(arr, sid, lid, cls){
+    if(arr.length){
+      document.getElementById(sid).style.display='block';
+      document.getElementById(lid).innerHTML = arr.map(w =>
+        '<div class="wcard '+cls+'">'+
+        '<div style="font-size:10px;font-weight:900;color:var(--navy);margin-bottom:5px">'+w.tag+'</div>'+
+        '<div class="wq">❓ '+w.q+'</div>'+
+        '<div class="wa"><div class="wx">✗ '+w.chosen+'</div><div class="wc">✓ '+w.correct+'</div></div>'+
+        '<div class="we">'+w.exp+(w.formula?'<div class="wf">'+w.formula+'</div>':'')+'</div></div>'
+      ).join('');
+    }
+  }
+  renderWrong(preW,'pre-ws','pre-wl','');
+  renderWrong(postW,'post-ws','post-wl','post');
+
+  const allW=[...preW,...postW];
+  const weak=[...new Set(allW.map(w=>w.tag))];
+  document.getElementById('note-card').innerHTML =
+    '<div style="font-size:12px;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:var(--navy);margin-bottom:10px">📝 Catatan akhir seri Bahasa Indonesia</div>'+
+    '<div style="font-size:13px;line-height:1.84;color:var(--text)">'+
+    (post>=75 ? '✅ B10 sudah masuk <strong style="color:var(--mint)">jalur aman</strong> untuk topik ini.' : '⚠️ B10 belum aman. Masih perlu drill tambahan sebelum dianggap stabil.')+
+    (weak.length ? '<br><br>📌 Bagian yang masih muncul sebagai titik rawan: <strong style="color:var(--cyan)">'+weak.join(', ')+'</strong>' : '')+
+    '<br><br>B10 menutup seri Bahasa Indonesia dengan latihan lanjutan untuk <strong>Kosakata</strong> dan <strong>Tata Bahasa</strong>. Review soal salah dipakai sebagai bahan pengulangan personal berikutnya.'+
+    '</div>';
+}
+function copyRes(){
+  const pre=Math.round((preS/PQ.length)*100), post=Math.round((postS/PTQ.length)*100), delta=post-pre;
+  const allW=[...preW,...postW];
+  const weak=[...new Set(allW.map(w=>w.tag))];
+  let t='📊 HASIL B10 — BAHASA INDONESIA\n';
+  t+='Musa Brahma Batubara · 10 April 2026\n';
+  t+='Fokus: Kosakata · Tata Bahasa\n';
+  t+='──────────────────────────────────────────────────\n\n';
+  t+='PRE-TEST  : '+pre+'/100  ('+preW.length+' salah dari 10)  ⏱'+fmt(preEl)+'\n';
+  t+='POST-TEST : '+post+'/100  ('+postW.length+' salah dari 10)  ⏱'+fmt(postEl)+'\n';
+  t+='DELTA     : '+(delta>=0?'+':'')+delta+' poin  '+(delta>0?'📈 NAIK':delta<0?'📉 TURUN':'➡️ SAMA')+'\n\n';
+  if(preW.length){t+='SOAL SALAH PRE-TEST:\n'; preW.forEach((w,i)=>{t+=(i+1)+'. '+w.tag+' — '+w.q+'\n   → Jawab: '+w.chosen+' | Benar: '+w.correct+'\n'}); t+='\n';}
+  if(postW.length){t+='SOAL SALAH POST-TEST:\n'; postW.forEach((w,i)=>{t+=(i+1)+'. '+w.tag+' — '+w.q+'\n   → Jawab: '+w.chosen+' | Benar: '+w.correct+'\n'}); t+='\n';}
+  t+='──────────────────────────────────────────────────\n';
+  t+='TOPIK MASIH LEMAH: '+(weak.length?weak.join(', '):'Semua sudah oke!')+'\n';
+  t+='TARGET B10 (75): '+(post>=75?'✅ TERCAPAI':'❌ BELUM')+'\n';
+  navigator.clipboard.writeText(t).then(()=>{
+    const b=document.getElementById('copy-btn');
+    b.textContent='✅ Tersalin!';
+    b.style.background='linear-gradient(135deg,#10b981,#0f766e)';
+    setTimeout(()=>{b.textContent='📋 Salin Hasil B10';b.style.background='';},3500);
+  }).catch(()=>prompt('Salin:',t));
+}
+function show(id){
+  ['splash','pretest-screen','materi-screen','posttest-screen','result-screen'].forEach(s=>document.getElementById(s).style.display='none');
+  document.getElementById(id).style.display='block';
+  if(id==='pretest-screen'){preCi=0; preS=0; preW=[]; renderQ(PQ[0],'pre',0,PQ.length)}
+  if(id==='posttest-screen'){postCi=0; postS=0; postW=[]; renderQ(PTQ[0],'post',0,PTQ.length)}
+}
+</script>
+</body>
+</html>
