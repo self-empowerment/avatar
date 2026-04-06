@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Musa 2026 · Master Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0e0f11;
+  --bg2: #161719;
+  --bg3: #1e2023;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --text: #e8e6e0;
+  --muted: #7a7870;
+  --accent: #c8ff47;
+  --accent2: #47c8ff;
+  --accent3: #ff8847;
+  --accent4: #b847ff;
+  --green: #3ecf6e;
+  --red: #ff4757;
+  --amber: #ffb830;
+  --blue: #4ea8ff;
+  --teal: #30cfb0;
+  --font-head: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --r: 10px;
+  --r-lg: 16px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* HEADER */
+.header {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.logo {
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: -0.5px;
+}
+.logo span { color: var(--accent); }
+.clock-wrap {
+  text-align: right;
+}
+.clock {
+  font-family: var(--font-head);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 1px;
+}
+.clock-date {
+  font-size: 11px;
+  color: var(--muted);
+}
+.header-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.hstat {
+  background: var(--bg3);
+  border-radius: var(--r);
+  padding: 8px 10px;
+  text-align: center;
+  border: 1px solid var(--border);
+}
+.hstat-val {
+  font-family: var(--font-head);
+  font-size: 18px;
+  font-weight: 700;
+}
+.hstat-lbl {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* REMINDER BANNER */
+.reminder {
+  margin: 16px 16px 0;
+  background: linear-gradient(135deg, rgba(200,255,71,0.08), rgba(71,200,255,0.05));
+  border: 1px solid rgba(200,255,71,0.2);
+  border-radius: var(--r-lg);
+  padding: 14px 16px;
+}
+.reminder-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+.reminder-text {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.5;
+}
+.reminder-items {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.reminder-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.reminder-item::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+.reminder-item.urgent { color: var(--text); }
+.reminder-item.urgent::before { background: var(--red); }
+
+/* MAIN */
+.main {
+  padding: 16px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* PROGRESS BAR */
+.master-progress {
+  margin-bottom: 20px;
+}
+.mp-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.mp-bar-bg {
+  height: 6px;
+  background: var(--bg3);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.mp-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  transition: width 0.5s ease;
+}
+
+/* PHASE */
+.phase {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  margin-bottom: 10px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.phase:hover { border-color: var(--border2); }
+.phase-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  cursor: pointer;
+  user-select: none;
+}
+.phase-left { display: flex; align-items: center; gap: 12px; }
+.phase-indicator {
+  width: 3px;
+  height: 32px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.phase-info {}
+.phase-title {
+  font-family: var(--font-head);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+}
+.phase-sub {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 1px;
+}
+.phase-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.phase-count {
+  font-family: var(--font-head);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 99px;
+  border: 1px solid var(--border2);
+  color: var(--muted);
+}
+.phase-count.active { color: var(--accent); border-color: rgba(200,255,71,0.3); }
+.phase-chevron {
+  font-size: 10px;
+  color: var(--muted);
+  transition: transform 0.2s;
+}
+.phase-chevron.open { transform: rotate(180deg); }
+
+/* PHASE BODY */
+.phase-body {
+  display: none;
+  border-top: 1px solid var(--border);
+}
+.phase-body.open { display: block; }
+
+/* SECTION LABEL */
+.section-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  padding: 12px 16px 6px;
+}
+
+/* ITEM */
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+.item:last-child { border-bottom: none; }
+.item:hover { background: rgba(255,255,255,0.02); }
+
+.cb-wrap { padding-top: 2px; }
+.cb {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  border: 1.5px solid rgba(255,255,255,0.15);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.15s;
+  font-size: 11px;
+  font-weight: 700;
+}
+.cb:hover { border-color: var(--accent); }
+.cb.done { background: var(--green); border-color: var(--green); color: #0e1a0a; }
+.cb.skip { background: var(--bg3); border-color: var(--border); color: var(--muted); }
+
+.item-content { flex: 1; min-width: 0; }
+.item-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.3;
+}
+.item-title.done-text { color: var(--muted); text-decoration: line-through; }
+.item-desc {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 3px;
+  line-height: 1.4;
+}
+.item-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+  align-items: center;
+}
+.tag {
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 7px;
+  border-radius: 99px;
+  border: 1px solid;
+}
+.tag-now { color: var(--red); border-color: rgba(255,71,87,0.3); background: rgba(255,71,87,0.08); }
+.tag-soon { color: var(--amber); border-color: rgba(255,184,48,0.3); background: rgba(255,184,48,0.06); }
+.tag-later { color: var(--muted); border-color: var(--border); background: transparent; }
+.tag-done { color: var(--green); border-color: rgba(62,207,110,0.3); background: rgba(62,207,110,0.06); }
+.tag-tkd { color: var(--accent4); border-color: rgba(184,71,255,0.3); background: rgba(184,71,255,0.06); }
+.tag-eng { color: var(--accent2); border-color: rgba(71,200,255,0.3); background: rgba(71,200,255,0.06); }
+.tag-acad { color: var(--blue); border-color: rgba(78,168,255,0.3); background: rgba(78,168,255,0.06); }
+.tag-sys { color: var(--teal); border-color: rgba(48,207,176,0.3); background: rgba(48,207,176,0.06); }
+.item-link {
+  font-size: 10px;
+  color: var(--accent);
+  text-decoration: none;
+  border: 1px solid rgba(200,255,71,0.2);
+  padding: 2px 7px;
+  border-radius: 99px;
+  transition: all 0.15s;
+}
+.item-link:hover { background: rgba(200,255,71,0.1); }
+
+.item-date {
+  font-family: var(--font-head);
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+/* DEADLINE badge */
+.deadline-badge {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 99px;
+  white-space: nowrap;
+}
+.deadline-overdue { background: rgba(255,71,87,0.15); color: var(--red); }
+.deadline-today { background: rgba(255,184,48,0.15); color: var(--amber); }
+.deadline-soon { background: rgba(200,255,71,0.1); color: var(--accent); }
+.deadline-future { background: var(--bg3); color: var(--muted); }
+
+/* GENERATE REPORT */
+.report-section {
+  margin: 20px 0;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+.report-header {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.report-title {
+  font-family: var(--font-head);
+  font-size: 13px;
+  font-weight: 600;
+}
+.report-body { padding: 14px 16px; }
+.report-desc {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+.report-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.report-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+.report-option input[type=checkbox] { accent-color: var(--accent); width: 14px; height: 14px; cursor: pointer; }
+.report-option label { font-size: 12px; color: var(--text); cursor: pointer; }
+.btn-generate {
+  width: 100%;
+  background: var(--accent);
+  color: #0e1a0a;
+  border: none;
+  border-radius: var(--r);
+  padding: 12px;
+  font-family: var(--font-head);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: all 0.15s;
+}
+.btn-generate:hover { background: #d9ff60; transform: translateY(-1px); }
+.btn-generate:active { transform: translateY(0); }
+.report-output {
+  display: none;
+  margin-top: 12px;
+}
+.report-output.show { display: block; }
+.report-textarea {
+  width: 100%;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: var(--r);
+  color: var(--text);
+  font-family: 'DM Mono', 'Courier New', monospace;
+  font-size: 11px;
+  line-height: 1.5;
+  padding: 12px;
+  resize: none;
+  height: 200px;
+}
+.btn-copy {
+  width: 100%;
+  margin-top: 8px;
+  background: var(--bg3);
+  color: var(--accent);
+  border: 1px solid rgba(200,255,71,0.3);
+  border-radius: var(--r);
+  padding: 10px;
+  font-family: var(--font-head);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-copy:hover { background: rgba(200,255,71,0.08); }
+.copy-success {
+  display: none;
+  text-align: center;
+  font-size: 12px;
+  color: var(--green);
+  margin-top: 8px;
+  font-weight: 500;
+}
+
+/* FOOTER */
+.footer {
+  padding: 24px 16px;
+  text-align: center;
+}
+.footer-text {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.footer-demo {
+  margin-top: 8px;
+  font-family: var(--font-head);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: -1px;
+}
+
+/* COUNTDOWN STRIP */
+.countdown-strip {
+  display: flex;
+  gap: 8px;
+  margin: 14px 16px 0;
+}
+.cd-box {
+  flex: 1;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 8px 6px;
+  text-align: center;
+}
+.cd-val {
+  font-family: var(--font-head);
+  font-size: 18px;
+  font-weight: 800;
+}
+.cd-lbl {
+  font-size: 9px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+@media (max-width: 480px) {
+  .header-stats { grid-template-columns: repeat(2, 1fr); }
+  .hstat-val { font-size: 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div class="logo">Musa <span>2026</span> · Roadmap</div>
+    <div class="clock-wrap">
+      <div class="clock" id="clock">--:--:--</div>
+      <div class="clock-date" id="clock-date">Loading...</div>
+    </div>
+  </div>
+  <div class="header-stats">
+    <div class="hstat">
+      <div class="hstat-val" id="s-done" style="color:var(--green)">0</div>
+      <div class="hstat-lbl">Selesai</div>
+    </div>
+    <div class="hstat">
+      <div class="hstat-val" id="s-total">26</div>
+      <div class="hstat-lbl">Total</div>
+    </div>
+    <div class="hstat">
+      <div class="hstat-val" id="s-pct" style="color:var(--accent)">0%</div>
+      <div class="hstat-lbl">Progress</div>
+    </div>
+    <div class="hstat">
+      <div class="hstat-val" id="s-days" style="color:var(--accent3)">254</div>
+      <div class="hstat-lbl">Hari ke demo</div>
+    </div>
+  </div>
+</div>
+
+<!-- COUNTDOWN -->
+<div class="countdown-strip">
+  <div class="cd-box">
+    <div class="cd-val" id="cd-d" style="color:var(--accent)">-</div>
+    <div class="cd-lbl">Hari</div>
+  </div>
+  <div class="cd-box">
+    <div class="cd-val" id="cd-h" style="color:var(--accent2)">-</div>
+    <div class="cd-lbl">Jam</div>
+  </div>
+  <div class="cd-box">
+    <div class="cd-val" id="cd-m" style="color:var(--accent3)">-</div>
+    <div class="cd-lbl">Menit</div>
+  </div>
+  <div class="cd-box">
+    <div class="cd-val" id="cd-s" style="color:var(--accent4)">-</div>
+    <div class="cd-lbl">Detik</div>
+  </div>
+</div>
+
+<!-- REMINDER -->
+<div class="reminder" id="reminder-box">
+  <div class="reminder-label" id="reminder-phase-label">Fase aktif sekarang</div>
+  <div class="reminder-text" id="reminder-main">Memuat...</div>
+  <div class="reminder-items" id="reminder-items"></div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- MASTER PROGRESS -->
+  <div class="master-progress">
+    <div class="mp-label">
+      <span>Progress keseluruhan</span>
+      <span id="mp-label-right">0 / 26 item selesai</span>
+    </div>
+    <div class="mp-bar-bg">
+      <div class="mp-bar" id="mp-bar" style="width:0%"></div>
+    </div>
+  </div>
+
+  <!-- ===== PHASE 0 ===== -->
+  <div class="phase" id="ph0">
+    <div class="phase-header" onclick="togglePhase('ph0')">
+      <div class="phase-left">
+        <div class="phase-indicator" style="background:var(--red)"></div>
+        <div class="phase-info">
+          <div class="phase-title">Fase 0 · Persiapan</div>
+          <div class="phase-sub">5 Apr – 30 Apr 2026 · Sekarang aktif</div>
+        </div>
+      </div>
+      <div class="phase-right">
+        <span class="phase-count active" id="ph0-count">0/7</span>
+        <span class="phase-chevron open" id="ph0-chv">▼</span>
+      </div>
+    </div>
+    <div class="phase-body open" id="ph0-body">
+      <div class="section-label">Apps yang sudah ada — Musa harus kerjakan dulu</div>
+
+      <div class="item" id="item-eng-test">
+        <div class="cb-wrap"><div class="cb" id="cb-eng-test" onclick="tick('eng-test')"></div></div>
+        <div class="item-content">
+          <div class="item-title" id="t-eng-test">Musa kerjakan English Level Test</div>
+          <div class="item-desc">Part 1–4 selesai, export hasil dikirim ke Claude untuk dianalisis. Ini baseline English sebelum program dimulai.</div>
+          <div class="item-meta">
+            <span class="tag tag-now">Minggu ini</span>
+            <span class="tag tag-eng">English</span>
+            <a class="item-link" href="https://rumayya-mentor.github.io/musa-universe-project-1/musa-level-test-ENGLISH.html" target="_blank">Buka app ↗</a>
+          </div>
+        </div>
+        <div class="item-date" id="dl-eng-test">12 Apr</div>
+      </div>
+
+      <div class="item" id="item-tdt">
+        <div class="cb-wrap"><div class="cb" id="cb-tdt" onclick="tick('tdt')"></div></div>
+        <div class="item-content">
+          <div class="item-title" id="t-tdt">Musa selesaikan Tour de Talent (3 hari)</div>
+          <div class="item-desc">Day 1 VIA+MAP, Day 2 Role Models, Day 3 Connect. Screenshot Parent Dashboard kirim ke Claude.</div>
+          <div class="item-meta">
+            <span class="tag tag-now">Minggu ini</span>
+            <span class="tag tag-sys">Karakter</span>
+            <a class="item-link" href="https://self-empowerment.github.io/avatar/tour-de-talent-v3.html" target="_blank">Buka app ↗</a>
+          </div>
+        </div>
+        <div class="item-date" id="dl-tdt">14 Apr</div>
+      </div>
+
+      <div class="item" id="item-7hab">
+        <div class="cb-wrap"><div class="cb" id="cb-7hab" onclick="tick('7hab')"></div></div>
+        <div class="item-content">
+          <div class="item-title" id="t-7hab">Cek & mulai 7 Habits — sesi pertama bersama Musa</div>
+          <div class="item-desc">Buka app, cek tab Progress. Kalau masih kosong, duduk bareng Musa dan mulai Habit 1 hari ini.</div>
+          <div class="item-meta">
+            <span class="tag tag-now">Minggu ini</span>
+            <span class="tag tag-sys">Karakter</span>
+            <a class="item-link" href="https://rumayya-mentor.github.io/musa-universe-project-1/7habit-assessment.html" target="_blank">Buka app ↗</a>
+          </div>
+        </div>
+        <div class="item-date" id="dl-7hab">11 Apr</div>
+      </div>
+
+      <div class="item" id="item-tkd-start">
+        <div class="cb-wrap"><div class="cb" id="cb-tkd-start" onclick="tick('tkd-start')"></div></div>
+        <div class="item-content">
+          <div class="item-title" id="t-tkd-start">Set tanggal mulai TKD Program + ambil baseline Tes Awal</div>
+          <div class="item-desc">Buka app → tab Misi → set start date → tab Tes Awal. Catat angka sprint, lompat, kick frequency.</div>
+          <div class="item-meta">
+            <span class="tag tag-soon">Mg 1–2</span>
+            <span class="tag tag-tkd">TKD</span>
+            <a class="item-link" href="https://rumayya-mentor.github.io/musa-universe-project-1/musa_tkd_program_revised_v11.html" target="_blank">Buka app ↗</a>
+          </div>
+        </div>
+        <div class="item-date" id="dl-tkd-start">18 Apr</div>
+      </div>
+
+      <div class="item" id="item-notion">
+        <div class="cb-wrap"><div class="cb" id="cb-notion" onclick="tick('notion')"></div></div>
+        <div class="item-content">
+          <div class="item-title" id="t-notion">Setup jurnal mingguan Musa (Google Doc / Notion)</div>
+          <div class="item-desc">Template: apa yang dipelajari, 1 hal yang sulit, 1 hal menarik. Tulis dalam bahasa Inggris — latihan writing low-pressure.</div>
+          <div class="item-meta">
+            <span class="tag tag-soon">Mg 1–2</span>
+            <span class="tag tag-eng">English writing</span>
+          </div>
+        </div>
+        <div class="item-date" id="dl-notion">18 Apr</div>
+      </div>
+
+      <div class="item" id="item-python">
+        <div class="cb-wrap"><div class="cb" id="cb-python" onclick="tick('python')"></div></div>
+        <div class="item-content">
+          <div class="item-title" id="t-python">Musa mulai Python basics — target: bisa buat chart dari CSV</div>
+          <div class="item-desc">Pakai freeCodeCamp Python atau CS50P (gratis). Target sebelum 1 Mei: print data, loop, buat grafik sederhana.</div>
+          <div class="item-meta">
+            <span class="tag tag-soon">Mg 2–4</span>
+            <span class="tag tag-acad">Coding</span>
+          </div>
+        </div>
+        <div class="item-date" id="dl-python">30 Apr</div>
+      </div>
+
+      <div class="item" id="item-p1brief">
+        <div class="cb-wrap"><div class="cb" id="cb-p1brief" onclick="tick('p1brief')"></div></div>
+        <div class="item-content">
+          <div class="item-title" id="t-p1brief">Buat Project Brief P1 + ACARA mapping Year 7–8</div>
+          <div class="item-desc">Dokumen kerja resmi: topik, learning outcomes, milestone, rubrik, format deliverable. Tanya Claude untuk bantu generate ini.</div>
+          <div class="item-meta">
+            <span class="tag tag-soon">Mg 3–4</span>
+            <span class="tag tag-acad">Akademik</span>
+          </div>
+        </div>
+        <div class="item-date" id="dl-p1brief">30 Apr</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PHASE 1 ===== -->
+  <div class="phase" id="ph1">
+    <div class="phase-header" onclick="togglePhase('ph1')">
+      <div class="phase-left">
+        <div class="phase-indicator" style="background:var(--blue)"></div>
+        <div class="phase-info">
+          <div class="phase-title">Fase 1 · Project 1 — Australia by the Numbers</div>
+          <div class="phase-sub">1 Mei – 14 Agt 2026 · 15 minggu</div>
+        </div>
+      </div>
+      <div class="phase-right">
+        <span class="phase-count" id="ph1-count">0/6</span>
+        <span class="phase-chevron" id="ph1-chv">▶</span>
+      </div>
+    </div>
+    <div class="phase-body" id="ph1-body">
+      <div class="section-label">Blok A · Riset & Data (Mg 1–5)</div>
+
+      <div class="item" id="item-p1data">
+        <div class="cb-wrap"><div class="cb" id="cb-p1data" onclick="tick('p1data')"></div></div>
+        <div class="item-content">
+          <div class="item-title" id="t-p1data">Kumpulkan & bersihkan data ABS per state</div>
+          <div class="item-desc">Populasi, GDP, iklim, pendidikan, lingkungan. Download dari abs.gov.au, simpan ke CSV. Min. 5 kategori, 8 state/territory.</div>
+          <div class="item-meta">
+            <span class="tag tag-later">Blok A · 1–31 Mei</span>
+            <span class="tag tag-acad">Math + HASS</span>
+          </div>
+        </div>
+        <div class="item-date" id="dl-p1data">31 Mei</div>
+      </div>
+
+      <div class="section-label">Blok B · Coding & Visualisasi (Mg 6–10)</div>
+
+      <div class="item" id="item-p1code">
+        <div class="cb-wrap"><div class="cb" id="cb-p1code" onclick="tick('p1code')"></div></div>
+        <div class="item-content">
+          <div class="item-title" id="t-p1code">Build dashboard / visualisasi data dengan Python</div>
+          <div class="item-desc">Target: 5+ chart interaktif, 1 map Australia dengan data choropleth per state. Pakai matplotlib, plotly, atau folium.</div>
+          <div class="item-meta">
+            <span class="tag tag-later">Blok B · Jun–Jul</span>
+            <span class="tag tag-acad">Coding</span>
+          </div>
+        </div>
+        <div class="item-date" id="dl-p1code">11 Jul</div>
+      </div>
+
+      <div class="item" id="item-p1check">
+        <div class="cb-wrap"><div class="cb" id="cb-p1check" onclick="tick('p1check')"></div></div>
+        <div class="item-content">
+          <div class="item-title" id="t-p1check">Checkpoint: Musa presentasi data ke orang tua</div>
+          <div class="item-desc">Jelaskan 3 temuan menarik dari data — dalam bahasa Inggris. Latihan presentasi informal. Record video, kirim ke Claude untuk feedback.</div>
+          <div class="item-meta">
+            <span class="tag tag-later">~11 Jun</span>
+            <span class="tag tag-eng">English speaking</span>
+          </div>
+        </div>
+        <div class="item-date" id="dl-p1check">11 Jun</div>
+      </div>
+
+      <div class="section-label">Blok C · Laporan & Polish (Mg 11–15)</div>
+
+      <div class="item" id="item-p1write">
+        <div class="cb-wrap"><div class="cb" id="cb-p1write" onclick="tick('p1write')"></div></div>
+        <div class="item-content">
+          <div class="item-title" id="t-p1write">Tulis laporan tertulis P1 dalam bahasa Inggris</div>
+          <div class="item-desc">800–1200 kata. Struktur: intro, findings per kategori, kesimpulan. Year 8 English writing evidence untuk moderator.</div>
+          <div class="item-meta">
+            <span class="tag tag-later">Blok C · Jul–Agt</span>
+            <span class="tag tag-eng">English writing</span>
+          </div>
+        </div>
+        <div class="item-date" id="dl-p1write">7 Agt</div>
+      </div>
+
+      <div class="item" id="item-p1site">
+        <div class="cb-wrap"><div class="cb" id="cb-p1site" onclick="tick('p1site')"></div></div>
+        <div class="item-content">
+          <div class="item-title" id="t-p1site">Publish website / dashboard live di GitHub Pages</div>
+          <div class="item-desc">Deliverable utama P1 — URL yang bisa diklik moderator saat demo. Masuk ke portfolio resmi.</div>
+          <div class="item-meta">
+            <span class="tag tag-later">Mg 14–15</span>
+            <span class="tag tag-acad">Digital Tech</span>
+          </div>
+        </div>
+        <div class="item-date" id="dl-p1site">14 Agt</div>
+      </div>
+
+      <div class="item" id="item-tkd-w4">
+        <div class="cb-wrap"><div class="cb" id="cb-tkd-w4" onclick="tick('tkd-w4')"></div></div>
+        <div class="item-content">
+          <div class="item-title" id="t-tkd-w4">TKD: Re-test setelah Week 4 (akhir Fase Fondasi)</div>
+          <div class="item-desc">Bandingkan sprint, lompat, kick freq vs baseline. Export data Tracker, kirim ke Claude untuk analisis progress.</div>
+          <div class="item-meta">
+            <span class="tag tag-later">~Jun</span>
+            <span class="tag tag-tkd">TKD · PE</span>
+          </div>
+        </div>
+        <div class="item-date" id="dl-tkd-w4">~Jun</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PHASE 2 ===== -->
+  <div class="phase" id="ph2">
+    <div class="phase-header" onclick="togglePhase('ph2')">
+      <div class="phase-left">
+        <div class="phase-indicator" style="background:var(--teal)"></div>
+        <div class="phase-info">
+          <div class="phase-title">Fase 2 · Project 2 — The Avatar Atlas</div>
+          <div class="phase-sub">17 Agt – 30 Okt 2026 · 11 minggu</div>
+        </div>
+      </div>
+      <div class="phase-right">
+        <span class="phase-count" id="ph2-count">0/5</span>
+        <span class="phase-chevron" id="ph2-chv">▶</span>
+      </div>
+    </div>
+    <div class="phase-body" id="ph2-body">
+      <div class="item" id="item-p2research">
+        <div class="cb-wrap"><div class="cb" id="cb-p2research" onclick="tick('p2research')"></div></div>
+        <div class="item-content">
+          <div class="item-title" id="t-p2research">Riset cross-cultural: konsep Avatar di 6+ budaya/agama</div>
+          <div class="item-desc">Hindu, Buddhist, Inuit, Abrahamic, Indigenous Australian, East Asian. Min. 2 sumber per budaya. Buat catatan terstruktur.</div>
+          <div class="item-meta">
+            <span class="tag tag-later">Blok A · Agt–Sep</span>
+            <span class="tag tag-acad">HASS</span>
+          </div>
+        </div>
+        <div class="item-date" id="dl-p2research">14 Sep</div>
+      </div>
+
+      <div class="item" id="item-p2compare">
+        <div class="cb-wrap"><div class="cb" id="cb-p2compare" onclick="tick('p2compare')"></div></div>
+        <div class="item-content">
+          <div class="item-title" id="t-p2compare">Comparison table + visualisasi pola lintas budaya</div>
+          <div class="item-desc">Apa persamaan & perbedaannya? Pakai Python/spreadsheet untuk chart. Ini adalah data analysis + HASS sekaligus.</div>
+          <div class="item-meta">
+            <span class="tag tag-later">Blok B · Sep–Okt</span>
+            <span class="tag tag-acad">Coding + HASS</span>
+          </div>
+        </div>
+        <div class="item-date" id="dl-p2compare">10 Okt</div>
+      </div>
+
+      <div class="item" id="item-p2essay">
+        <div class="cb-wrap"><div class="cb" id="cb-p2essay" onclick="tick('p2essay')"></div></div>
+        <div class="item-content">
+          <div class="item-title" id="t-p2essay">Tulis digital research essay dalam bahasa Inggris</div>
+          <div class="item-desc">1000–1500 kata. Persuasive/analytical. Argumen utama + bukti dari riset. Year 8 English writing evidence.</div>
+          <div class="item-meta">
+            <span class="tag tag-later">Blok C · Okt</span>
+            <span class="tag tag-eng">English writing</span>
+          </div>
+        </div>
+        <div class="item-date" id="dl-p2essay">22 Okt</div>
+      </div>
+
+      <div class="item" id="item-p2publish">
+        <div class="cb-wrap"><div class="cb" id="cb-p2publish" onclick="tick('p2publish')"></div></div>
+        <div class="item-content">
+          <div class="item-title" id="t-p2publish">Publish digital journal P2 (website atau PDF interaktif)</div>
+          <div class="item-desc">Essay + visualisasi + referensi dalam satu deliverable. URL atau file masuk ke portfolio moderator.</div>
+          <div class="item-meta">
+            <span class="tag tag-later">Mg 11 · Okt</span>
+            <span class="tag tag-acad">Digital Tech</span>
+          </div>
+        </div>
+        <div class="item-date" id="dl-p2publish">30 Okt</div>
+      </div>
+
+      <div class="item" id="item-tkd-w8">
+        <div class="cb-wrap"><div class="cb" id="cb-tkd-w8" onclick="tick('tkd-w8')"></div></div>
+        <div class="item-content">
+          <div class="item-title" id="t-tkd-w8">TKD: Re-test Week 8 (akhir Fase Intensifikasi)</div>
+          <div class="item-desc">Progress check ke-2. Bandingkan vs Week 4 dan baseline. Compile jurnal latihan minggu 5–8.</div>
+          <div class="item-meta">
+            <span class="tag tag-later">~Sep</span>
+            <span class="tag tag-tkd">TKD · PE</span>
+          </div>
+        </div>
+        <div class="item-date" id="dl-tkd-w8">~Sep</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PHASE 3 ===== -->
+  <div class="phase" id="ph3">
+    <div class="phase-header" onclick="togglePhase('ph3')">
+      <div class="phase-left">
+        <div class="phase-indicator" style="background:var(--accent3)"></div>
+        <div class="phase-info">
+          <div class="phase-title">Fase 3 · Project 3 — Space Economy 2050</div>
+          <div class="phase-sub">2 Nov – 28 Nov 2026 · 4 minggu</div>
+        </div>
+      </div>
+      <div class="phase-right">
+        <span class="phase-count" id="ph3-count">0/4</span>
+        <span class="phase-chevron" id="ph3-chv">▶</span>
+      </div>
+    </div>
+    <div class="phase-body" id="ph3-body">
+      <div class="item" id="item-p3physics">
+        <div class="cb-wrap"><div class="cb" id="cb-p3physics" onclick="tick('p3physics')"></div></div>
+        <div class="item-content">
+          <div class="item-title" id="t-p3physics">Riset & tulis: fisika + ekonomi bisnis antariksa</div>
+          <div class="item-desc">Forces, orbital mechanics, cost per kg ke orbit. NASA vs SpaceX vs Blue Origin — data comparison. Pakai Python untuk chart.</div>
+          <div class="item-meta">
+            <span class="tag tag-later">Mg 1–2 · Nov</span>
+            <span class="tag tag-acad">Science + Math</span>
+          </div>
+        </div>
+        <div class="item-date" id="dl-p3physics">15 Nov</div>
+      </div>
+
+      <div class="item" id="item-p3report">
+        <div class="cb-wrap"><div class="cb" id="cb-p3report" onclick="tick('p3report')"></div></div>
+        <div class="item-content">
+          <div class="item-title" id="t-p3report">Tulis laporan + buat pitch deck visual (8–10 slide)</div>
+          <div class="item-desc">Laporan 1000+ kata + slide deck. Format: "laporan investor muda". Harus include data chart dari Python.</div>
+          <div class="item-meta">
+            <span class="tag tag-later">Mg 3 · Nov</span>
+            <span class="tag tag-eng">English writing</span>
+          </div>
+        </div>
+        <div class="item-date" id="dl-p3report">22 Nov</div>
+      </div>
+
+      <div class="item" id="item-p3video">
+        <div class="cb-wrap"><div class="cb" id="cb-p3video" onclick="tick('p3video')"></div></div>
+        <div class="item-content">
+          <div class="item-title" id="t-p3video">Rekam video pitch Musa — 3–5 menit, bahasa Inggris</div>
+          <div class="item-desc">Musa present pitch deck ke kamera. Bukti English speaking + P3 deliverable sekaligus. Kirim video ke Claude untuk feedback.</div>
+          <div class="item-meta">
+            <span class="tag tag-later">Mg 4 · Nov</span>
+            <span class="tag tag-eng">English speaking</span>
+          </div>
+        </div>
+        <div class="item-date" id="dl-p3video">28 Nov</div>
+      </div>
+
+      <div class="item" id="item-tkd-w12">
+        <div class="cb-wrap"><div class="cb" id="cb-tkd-w12" onclick="tick('tkd-w12')"></div></div>
+        <div class="item-content">
+          <div class="item-title" id="t-tkd-w12">TKD: Re-test final Week 12 + compile PE portfolio</div>
+          <div class="item-desc">Test akhir 12 minggu program. Compile jurnal latihan + 3 re-test data → PE portfolio untuk moderator Desember.</div>
+          <div class="item-meta">
+            <span class="tag tag-later">~Nov</span>
+            <span class="tag tag-tkd">TKD · PE</span>
+          </div>
+        </div>
+        <div class="item-date" id="dl-tkd-w12">~Nov</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PHASE 4 ===== -->
+  <div class="phase" id="ph4">
+    <div class="phase-header" onclick="togglePhase('ph4')">
+      <div class="phase-left">
+        <div class="phase-indicator" style="background:var(--accent)"></div>
+        <div class="phase-info">
+          <div class="phase-title">Fase 4 · Demo Prep + Portfolio Final</div>
+          <div class="phase-sub">30 Nov – 15 Des 2026 · 2 minggu · FINISH LINE</div>
+        </div>
+      </div>
+      <div class="phase-right">
+        <span class="phase-count" id="ph4-count">0/4</span>
+        <span class="phase-chevron" id="ph4-chv">▶</span>
+      </div>
+    </div>
+    <div class="phase-body" id="ph4-body">
+      <div class="item" id="item-portfolio">
+        <div class="cb-wrap"><div class="cb" id="cb-portfolio" onclick="tick('portfolio')"></div></div>
+        <div class="item-content">
+          <div class="item-title" id="t-portfolio">Compile portfolio lengkap untuk moderator</div>
+          <div class="item-desc">P1 website + P2 digital journal + P3 video + PE TKD data + 7 Habits + English level baseline vs akhir.</div>
+          <div class="item-meta">
+            <span class="tag tag-later">30 Nov – 7 Des</span>
+            <span class="tag tag-sys">Portfolio</span>
+          </div>
+        </div>
+        <div class="item-date" id="dl-portfolio">7 Des</div>
+      </div>
+
+      <div class="item" id="item-acara">
+        <div class="cb-wrap"><div class="cb" id="cb-acara" onclick="tick('acara')"></div></div>
+        <div class="item-content">
+          <div class="item-title" id="t-acara">Buat dokumen ACARA mapping — semua ke Year 7–8 outcomes</div>
+          <div class="item-desc">Tabel: setiap learning area → strand → outcome → bukti dari project mana. Ini yang moderator tanya pertama kali.</div>
+          <div class="item-meta">
+            <span class="tag tag-later">30 Nov – 7 Des</span>
+            <span class="tag tag-sys">Moderator</span>
+          </div>
+        </div>
+        <div class="item-date" id="dl-acara">7 Des</div>
+      </div>
+
+      <div class="item" id="item-rehearsal">
+        <div class="cb-wrap"><div class="cb" id="cb-rehearsal" onclick="tick('rehearsal')"></div></div>
+        <div class="item-content">
+          <div class="item-title" id="t-rehearsal">Mock demo 2× — Musa present ke orang tua dulu</div>
+          <div class="item-desc">Latihan presentasi portfolio dalam bahasa Inggris. Record, tonton ulang bersama, perbaiki. Kirim video ke Claude untuk feedback bahasa.</div>
+          <div class="item-meta">
+            <span class="tag tag-later">8–14 Des</span>
+            <span class="tag tag-eng">English speaking</span>
+          </div>
+        </div>
+        <div class="item-date" id="dl-rehearsal">14 Des</div>
+      </div>
+
+      <div class="item" id="item-demo">
+        <div class="cb-wrap"><div class="cb" id="cb-demo" onclick="tick('demo')"></div></div>
+        <div class="item-content">
+          <div class="item-title" id="t-demo" style="color:var(--accent);font-family:var(--font-head);font-weight:700;">DEMO KE MODERATOR HOMESCHOOL</div>
+          <div class="item-desc">Target: moderator melihat Year 8 depth di semua area. Musa present sendiri dalam bahasa Inggris. Shenton College 2027 — GO!</div>
+          <div class="item-meta">
+            <span class="tag tag-done">15 Desember 2026</span>
+            <span class="tag tag-sys">FINAL</span>
+          </div>
+        </div>
+        <div class="item-date" id="dl-demo">15 Des</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== GENERATE REPORT ===== -->
+  <div class="report-section">
+    <div class="report-header">
+      <div class="report-title">Generate Laporan untuk Claude</div>
+      <span style="font-size:11px;color:var(--muted);">Copy → paste ke chat</span>
+    </div>
+    <div class="report-body">
+      <div class="report-desc">
+        Pilih apa yang ingin dilaporkan, klik Generate, lalu copy teksnya dan paste ke chat Claude untuk follow-up, analisis, atau bantuan langkah berikutnya.
+      </div>
+      <div class="report-options">
+        <label class="report-option"><input type="checkbox" id="opt-progress" checked><label for="opt-progress">Status progress semua item (selesai / belum)</label></label>
+        <label class="report-option"><input type="checkbox" id="opt-blockers"><label for="opt-blockers">Item yang sudah lewat deadline</label></label>
+        <label class="report-option"><input type="checkbox" id="opt-next"><label for="opt-next">Item yang harus dikerjakan minggu ini</label></label>
+        <label class="report-option"><input type="checkbox" id="opt-phase"><label for="opt-phase">Phase yang sedang aktif & konteksnya</label></label>
+        <label class="report-option"><input type="checkbox" id="opt-notes" id="opt-notes"><label for="opt-notes">Tambahkan catatan/pertanyaan manual</label></label>
+      </div>
+      <div id="notes-wrap" style="display:none;margin-bottom:12px;">
+        <textarea id="user-notes" style="width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);color:var(--text);font-family:var(--font-body);font-size:12px;padding:10px;resize:none;height:80px;" placeholder="Tulis catatan atau pertanyaan di sini..."></textarea>
+      </div>
+      <button class="btn-generate" onclick="generateReport()">Generate Laporan ↗</button>
+      <div class="report-output" id="report-output">
+        <textarea class="report-textarea" id="report-text" readonly></textarea>
+        <button class="btn-copy" onclick="copyReport()">Copy ke Clipboard</button>
+        <div class="copy-success" id="copy-success">Tersalin! Paste ke chat Claude sekarang ✓</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-text">Target utama · Shenton College Year 8 · 2027</div>
+  <div class="footer-demo" id="demo-countdown-footer">15 Desember 2026</div>
+  <div style="font-size:11px;color:var(--muted);margin-top:8px;">Progress tersimpan otomatis di browser ini</div>
+</div>
+
+<script>
+const DEMO_DATE = new Date('2026-12-15T09:00:00');
+const TODAY = new Date();
+const KEY = 'musa_roadmap_2026_v2';
+
+const PHASES_DEF = {
+  ph0: ['eng-test','tdt','7hab','tkd-start','notion','python','p1brief'],
+  ph1: ['p1data','p1code','p1check','p1write','p1site','tkd-w4'],
+  ph2: ['p2research','p2compare','p2essay','p2publish','tkd-w8'],
+  ph3: ['p3physics','p3report','p3video','tkd-w12'],
+  ph4: ['portfolio','acara','rehearsal','demo']
+};
+
+const DEADLINES = {
+  'eng-test': new Date('2026-04-12'),
+  'tdt': new Date('2026-04-14'),
+  '7hab': new Date('2026-04-11'),
+  'tkd-start': new Date('2026-04-18'),
+  'notion': new Date('2026-04-18'),
+  'python': new Date('2026-04-30'),
+  'p1brief': new Date('2026-04-30'),
+  'p1data': new Date('2026-05-31'),
+  'p1check': new Date('2026-06-11'),
+  'p1code': new Date('2026-07-11'),
+  'p1write': new Date('2026-08-07'),
+  'p1site': new Date('2026-08-14'),
+  'tkd-w4': new Date('2026-06-15'),
+  'p2research': new Date('2026-09-14'),
+  'p2compare': new Date('2026-10-10'),
+  'p2essay': new Date('2026-10-22'),
+  'p2publish': new Date('2026-10-30'),
+  'tkd-w8': new Date('2026-09-20'),
+  'p3physics': new Date('2026-11-15'),
+  'p3report': new Date('2026-11-22'),
+  'p3video': new Date('2026-11-28'),
+  'tkd-w12': new Date('2026-11-28'),
+  'portfolio': new Date('2026-12-07'),
+  'acara': new Date('2026-12-07'),
+  'rehearsal': new Date('2026-12-14'),
+  'demo': new Date('2026-12-15')
+};
+
+const ITEM_LABELS = {
+  'eng-test': 'English Level Test dikerjakan Musa',
+  'tdt': 'Tour de Talent 3 hari selesai',
+  '7hab': '7 Habits sesi pertama dimulai',
+  'tkd-start': 'TKD Program start + baseline Tes Awal',
+  'notion': 'Jurnal mingguan Musa setup',
+  'python': 'Python basics — bisa buat chart dari CSV',
+  'p1brief': 'Project Brief P1 + ACARA mapping',
+  'p1data': 'Data ABS per state dikumpulkan',
+  'p1check': 'Checkpoint presentasi data ke orang tua',
+  'p1code': 'Dashboard/visualisasi Python selesai',
+  'p1write': 'Laporan tertulis P1 selesai',
+  'p1site': 'Website P1 live di GitHub Pages',
+  'tkd-w4': 'TKD Re-test Week 4',
+  'p2research': 'Riset cross-cultural 6+ budaya',
+  'p2compare': 'Comparison table + visualisasi',
+  'p2essay': 'Research essay P2 selesai',
+  'p2publish': 'Digital journal P2 published',
+  'tkd-w8': 'TKD Re-test Week 8',
+  'p3physics': 'Riset fisika + ekonomi antariksa',
+  'p3report': 'Laporan + pitch deck P3 selesai',
+  'p3video': 'Video pitch Musa direkam',
+  'tkd-w12': 'TKD Re-test final + PE portfolio',
+  'portfolio': 'Portfolio lengkap dikompilasi',
+  'acara': 'Dokumen ACARA mapping selesai',
+  'rehearsal': 'Mock demo 2× selesai',
+  'demo': 'DEMO ke moderator'
+};
+
+const REMINDERS = {
+  0: {
+    label: 'Fase 0 AKTIF · Persiapan',
+    main: 'Minggu ini: selesaikan 3 hal paling mendesak sebelum melanjutkan apapun.',
+    items: [
+      { text: 'Duduk bersama Musa → buka English Level Test → kerjakan hari ini', urgent: true },
+      { text: 'Jadwalkan 3 hari untuk Tour de Talent minggu ini', urgent: true },
+      { text: 'Cek tab Progress di 7 Habits — kalau kosong, mulai sesi pertama', urgent: false },
+      { text: 'Project 1 mulai 1 Mei — 26 hari lagi untuk persiapan', urgent: false }
+    ]
+  },
+  1: {
+    label: 'Fase 1 AKTIF · Project 1 Australia',
+    main: 'Project 1 sedang berjalan. Fokus pada pengumpulan data dan Python skills.',
+    items: [
+      { text: 'Cek progress data ABS — sudah berapa state/territory?', urgent: false },
+      { text: 'Musa coding Python minimal 3x seminggu', urgent: false },
+      { text: 'Jurnal mingguan harus diisi setiap Minggu malam', urgent: false },
+      { text: 'TKD latihan 3x seminggu + jurnal bahasa Inggris per sesi', urgent: false }
+    ]
+  },
+  2: {
+    label: 'Fase 2 AKTIF · Project 2 Avatar Atlas',
+    main: 'Project 1 selesai. Sekarang masuk riset cross-cultural yang lebih dalam.',
+    items: [
+      { text: 'Riset minimal 2 budaya per minggu di Blok A', urgent: false },
+      { text: 'TKD Re-test Week 8 — bandingkan dengan baseline', urgent: false },
+      { text: 'Essay P2 harus gunakan vocabulary Year 8+', urgent: false }
+    ]
+  },
+  3: {
+    label: 'Fase 3 AKTIF · Project 3 Space Economy',
+    main: 'Sprint terakhir! 4 minggu, fokus tinggi. Demo tinggal hitungan hari.',
+    items: [
+      { text: 'Video pitch — Musa harus latihan presentasi setiap hari', urgent: true },
+      { text: 'Portfolio semua project sudah siap dikompilasi', urgent: false },
+      { text: 'TKD Re-test final + compile PE portfolio', urgent: false }
+    ]
+  },
+  4: {
+    label: 'Fase 4 AKTIF · Demo Prep',
+    main: 'FINISH LINE dalam jangkauan. Polish semua deliverable dan latihan presentasi.',
+    items: [
+      { text: 'Mock demo 2× minggu ini — record dan tonton ulang', urgent: true },
+      { text: 'ACARA mapping harus sudah selesai', urgent: true },
+      { text: 'Portfolio final — semua URL/file bisa diakses moderator', urgent: false }
+    ]
+  }
+};
+
+let state = {};
+try { state = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e) {}
+
+function save() {
+  try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+function tick(id) {
+  const cur = state[id] || 'none';
+  const next = cur === 'none' ? 'done' : cur === 'done' ? 'skip' : 'none';
+  state[id] = next;
+  save();
+  renderItem(id);
+  updateAll();
+}
+
+function renderItem(id) {
+  const cb = document.getElementById('cb-' + id);
+  const title = document.getElementById('t-' + id);
+  if (!cb) return;
+  const s = state[id] || 'none';
+  cb.className = 'cb' + (s === 'done' ? ' done' : s === 'skip' ? ' skip' : '');
+  cb.textContent = s === 'done' ? '✓' : s === 'skip' ? '—' : '';
+  if (title) {
+    if (s === 'done') title.classList.add('done-text');
+    else title.classList.remove('done-text');
+  }
+}
+
+function getPhaseNum() {
+  const now = new Date();
+  if (now < new Date('2026-05-01')) return 0;
+  if (now < new Date('2026-08-15')) return 1;
+  if (now < new Date('2026-11-02')) return 2;
+  if (now < new Date('2026-11-30')) return 3;
+  return 4;
+}
+
+function updateAll() {
+  let total = 0, done = 0;
+  Object.entries(PHASES_DEF).forEach(([ph, items]) => {
+    let phDone = 0;
+    items.forEach(id => {
+      total++;
+      if ((state[id] || 'none') === 'done') { done++; phDone++; }
+    });
+    const cnt = document.getElementById(ph + '-count');
+    if (cnt) {
+      cnt.textContent = phDone + '/' + items.length;
+      if (phDone > 0) cnt.classList.add('active');
+      else cnt.classList.remove('active');
+    }
+  });
+  document.getElementById('s-done').textContent = done;
+  document.getElementById('s-total').textContent = total;
+  const pct = total > 0 ? Math.round(done / total * 100) : 0;
+  document.getElementById('s-pct').textContent = pct + '%';
+  document.getElementById('mp-bar').style.width = pct + '%';
+  document.getElementById('mp-label-right').textContent = done + ' / ' + total + ' item selesai';
+
+  const daysLeft = Math.ceil((DEMO_DATE - new Date()) / 86400000);
+  document.getElementById('s-days').textContent = daysLeft > 0 ? daysLeft : 0;
+}
+
+function togglePhase(id) {
+  const body = document.getElementById(id + '-body');
+  const chv = document.getElementById(id + '-chv');
+  if (!body) return;
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  if (chv) {
+    chv.textContent = isOpen ? '▶' : '▼';
+    chv.classList.toggle('open', !isOpen);
+  }
+}
+
+function updateClock() {
+  const now = new Date();
+  const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+  const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agt','Sep','Okt','Nov','Des'];
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const s = String(now.getSeconds()).padStart(2,'0');
+  document.getElementById('clock').textContent = h + ':' + m + ':' + s;
+  document.getElementById('clock-date').textContent =
+    days[now.getDay()] + ', ' + now.getDate() + ' ' + months[now.getMonth()] + ' ' + now.getFullYear();
+
+  const diff = DEMO_DATE - now;
+  if (diff > 0) {
+    const td = Math.floor(diff / 86400000);
+    const th = Math.floor((diff % 86400000) / 3600000);
+    const tm = Math.floor((diff % 3600000) / 60000);
+    const ts = Math.floor((diff % 60000) / 1000);
+    document.getElementById('cd-d').textContent = td;
+    document.getElementById('cd-h').textContent = String(th).padStart(2,'0');
+    document.getElementById('cd-m').textContent = String(tm).padStart(2,'0');
+    document.getElementById('cd-s').textContent = String(ts).padStart(2,'0');
+  }
+}
+
+function updateReminder() {
+  const ph = getPhaseNum();
+  const r = REMINDERS[ph];
+  if (!r) return;
+  document.getElementById('reminder-phase-label').textContent = r.label;
+  document.getElementById('reminder-main').textContent = r.main;
+  const container = document.getElementById('reminder-items');
+  container.innerHTML = '';
+  r.items.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'reminder-item' + (item.urgent ? ' urgent' : '');
+    div.textContent = item.text;
+    container.appendChild(div);
+  });
+}
+
+document.getElementById('opt-notes').addEventListener('change', function() {
+  document.getElementById('notes-wrap').style.display = this.checked ? 'block' : 'none';
+});
+
+function generateReport() {
+  const now = new Date();
+  const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+  const months = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+  const dateStr = days[now.getDay()] + ', ' + now.getDate() + ' ' + months[now.getMonth()] + ' ' + now.getFullYear();
+  const timeStr = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+  const daysLeft = Math.ceil((DEMO_DATE - now) / 86400000);
+  const phaseNum = getPhaseNum();
+  const phaseNames = ['Fase 0 · Persiapan','Fase 1 · Project 1 Australia','Fase 2 · Project 2 Avatar Atlas','Fase 3 · Project 3 Space Economy','Fase 4 · Demo Prep'];
+
+  let total = 0, done = 0;
+  Object.values(PHASES_DEF).forEach(items => items.forEach(id => { total++; if ((state[id]||'none')==='done') done++; }));
+  const pct = Math.round(done/total*100);
+
+  let lines = [];
+  lines.push('=== LAPORAN PROGRESS MUSA 2026 ===');
+  lines.push('Tanggal: ' + dateStr + ' · ' + timeStr + ' AWST');
+  lines.push('Demo moderator: 15 Desember 2026 (' + daysLeft + ' hari lagi)');
+  lines.push('');
+
+  if (document.getElementById('opt-progress').checked) {
+    lines.push('--- PROGRESS KESELURUHAN ---');
+    lines.push('Selesai: ' + done + ' / ' + total + ' item (' + pct + '%)');
+    lines.push('');
+    Object.entries(PHASES_DEF).forEach(([ph, items], i) => {
+      const phDone = items.filter(id => (state[id]||'none')==='done').length;
+      lines.push(phaseNames[i] + ': ' + phDone + '/' + items.length);
+      items.forEach(id => {
+        const s = state[id] || 'none';
+        const icon = s === 'done' ? '[✓]' : s === 'skip' ? '[—]' : '[ ]';
+        lines.push('  ' + icon + ' ' + ITEM_LABELS[id]);
+      });
+      lines.push('');
+    });
+  }
+
+  if (document.getElementById('opt-blockers').checked) {
+    lines.push('--- ITEM LEWAT DEADLINE ---');
+    let found = false;
+    Object.entries(DEADLINES).forEach(([id, dl]) => {
+      if (dl < now && (state[id]||'none') !== 'done') {
+        found = true;
+        const daysOver = Math.ceil((now - dl) / 86400000);
+        lines.push('  ! ' + ITEM_LABELS[id] + ' (terlambat ' + daysOver + ' hari)');
+      }
+    });
+    if (!found) lines.push('  Tidak ada item yang terlambat.');
+    lines.push('');
+  }
+
+  if (document.getElementById('opt-next').checked) {
+    lines.push('--- ITEM UNTUK MINGGU INI ---');
+    const nextWeek = new Date(now.getTime() + 7 * 86400000);
+    let found = false;
+    Object.entries(DEADLINES).forEach(([id, dl]) => {
+      if (dl <= nextWeek && (state[id]||'none') !== 'done') {
+        found = true;
+        lines.push('  → ' + ITEM_LABELS[id] + ' (deadline: ' + dl.getDate() + ' ' + ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agt','Sep','Okt','Nov','Des'][dl.getMonth()] + ')');
+      }
+    });
+    if (!found) lines.push('  Tidak ada deadline minggu ini — tetap jaga momentum!');
+    lines.push('');
+  }
+
+  if (document.getElementById('opt-phase').checked) {
+    lines.push('--- FASE AKTIF SEKARANG ---');
+    lines.push(phaseNames[phaseNum]);
+    const r = REMINDERS[phaseNum];
+    if (r) {
+      lines.push(r.main);
+      r.items.forEach(item => lines.push('  • ' + item.text));
+    }
+    lines.push('');
+  }
+
+  const notesOpt = document.getElementById('opt-notes');
+  if (notesOpt && notesOpt.checked) {
+    const notes = document.getElementById('user-notes').value.trim();
+    if (notes) {
+      lines.push('--- CATATAN / PERTANYAAN ---');
+      lines.push(notes);
+      lines.push('');
+    }
+  }
+
+  lines.push('=== TOLONG BANTU SAYA DENGAN LANGKAH BERIKUTNYA ===');
+
+  const out = document.getElementById('report-output');
+  const ta = document.getElementById('report-text');
+  ta.value = lines.join('\n');
+  out.classList.add('show');
+  ta.style.height = Math.min(ta.scrollHeight, 300) + 'px';
+  out.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  document.getElementById('copy-success').style.display = 'none';
+}
+
+function copyReport() {
+  const ta = document.getElementById('report-text');
+  ta.select();
+  try {
+    navigator.clipboard.writeText(ta.value).then(() => showCopySuccess()).catch(() => {
+      document.execCommand('copy');
+      showCopySuccess();
+    });
+  } catch(e) {
+    document.execCommand('copy');
+    showCopySuccess();
+  }
+}
+
+function showCopySuccess() {
+  const el = document.getElementById('copy-success');
+  el.style.display = 'block';
+  setTimeout(() => { el.style.display = 'none'; }, 3000);
+}
+
+function init() {
+  Object.values(PHASES_DEF).forEach(items => items.forEach(id => renderItem(id)));
+  updateAll();
+  updateReminder();
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  const ph0body = document.getElementById('ph0-body');
+  const ph0chv = document.getElementById('ph0-chv');
+  if (ph0body) ph0body.classList.add('open');
+  if (ph0chv) { ph0chv.textContent = '▼'; ph0chv.classList.add('open'); }
+}
+
+init();
+</script>
+</body>
+</html>
