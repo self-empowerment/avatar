@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B03 · PKN · UPK Musa</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f0fdf4;--card:#fff;--border:#bbf7d0;--accent:#15803d;--green:#059669;--red:#dc2626;--blue:#2563eb;--gold:#d97706;--teal:#0891b2;--text:#1c1917;--muted:#6b7280;--shadow:0 4px 24px rgba(21,128,61,0.08);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 10% 10%,rgba(21,128,61,0.08) 0%,transparent 40%),radial-gradient(ellipse at 90% 90%,rgba(37,99,235,0.06) 0%,transparent 40%);pointer-events:none;z-index:0;}
+.wrap{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:20px 16px 60px;}
+.screen{display:none;}
+#splash{display:block;}
+.code-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(21,128,61,0.10);border:1.5px solid rgba(21,128,61,0.3);color:var(--accent);font-size:11px;font-weight:800;padding:5px 14px;border-radius:20px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px;}
+.hero{text-align:center;padding:24px 0 16px;}
+.hero h1{font-size:28px;font-weight:900;line-height:1.2;margin-bottom:8px;}
+.hero h1 em{font-style:normal;color:var(--accent);}
+.hero p{font-size:13px;color:var(--muted);line-height:1.8;}
+.ecard{background:var(--card);border:2px solid var(--border);border-radius:20px;padding:20px;margin:16px 0;box-shadow:var(--shadow);}
+.ecard h3{font-size:12px;font-weight:900;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;}
+.erow{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1.5px solid #bbf7d0;font-size:13px;line-height:1.65;}
+.erow:last-child{border-bottom:none;padding-bottom:0;}
+.ebadge{display:inline-block;font-size:10px;font-weight:800;padding:2px 8px;border-radius:8px;background:#fee2e2;color:#991b1b;margin-top:4px;}
+.fcard{background:linear-gradient(135deg,rgba(21,128,61,0.08),rgba(37,99,235,0.05));border:2px solid #bbf7d0;border-radius:20px;padding:18px;margin-bottom:16px;}
+.fcard h3{font-size:12px;font-weight:900;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;}
+.fsteps{display:flex;}
+.fs{flex:1;text-align:center;position:relative;}
+.fs::after{content:'→';position:absolute;right:-10px;top:45%;color:var(--muted);font-size:14px;}
+.fs:last-child::after{display:none;}
+.fsicon{width:44px;height:44px;border-radius:12px;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.fslbl{font-size:11px;font-weight:700;color:var(--muted);}
+.fssub{font-size:10px;color:var(--muted);opacity:.7;}
+.bigbtn{width:100%;padding:15px;border:none;border-radius:13px;font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;cursor:pointer;transition:transform .15s;color:#fff;}
+.bigbtn:hover{transform:translateY(-2px);}
+.bg{background:linear-gradient(135deg,#15803d,#059669);box-shadow:0 6px 20px rgba(21,128,61,0.3);}
+.bt{background:linear-gradient(135deg,#0891b2,#0369a1);box-shadow:0 6px 20px rgba(8,145,178,0.3);}
+.bgh{background:var(--card);border:2px solid var(--border);color:var(--muted);box-shadow:none;}
+.bgh:hover{border-color:var(--accent);color:var(--accent);}
+.qbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.ptag{font-size:11px;font-weight:800;padding:4px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:.8px;}
+.tpre{background:rgba(220,38,38,0.12);color:#dc2626;border:1px solid rgba(220,38,38,0.3);}
+.tpost{background:rgba(5,150,105,0.12);color:#059669;border:1px solid rgba(5,150,105,0.3);}
+.qctr{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--muted);}
+.tpill{display:flex;align-items:center;gap:5px;background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:4px 11px;}
+.tpill.warn{border-color:var(--gold);}.tpill.warn .tv{color:var(--gold);}
+.tpill.over{border-color:var(--red);animation:bl 1s infinite;}.tpill.over .tv{color:var(--red);}
+.tv{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:.5}}
+.pwrap{margin-bottom:12px;}
+.pbg{height:6px;background:#bbf7d0;border-radius:3px;}
+.pfg{height:100%;border-radius:3px;transition:width .4s;}
+.qcard{background:var(--card);border:2px solid var(--border);border-radius:18px;padding:20px;margin-bottom:11px;box-shadow:var(--shadow);}
+.qno{font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px;color:var(--accent);}
+.qtag{display:inline-block;font-size:10px;font-weight:800;padding:2px 8px;border-radius:8px;background:#dcfce7;border:1px solid #bbf7d0;color:var(--accent);margin-bottom:8px;}
+.qtxt{font-size:15px;font-weight:700;line-height:1.65;}
+.qhint{font-size:12px;color:var(--muted);font-style:italic;margin-top:5px;}
+.vis{background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:10px;padding:12px;margin:10px 0;font-family:'JetBrains Mono',monospace;font-size:13px;color:#15803d;line-height:1.8;display:none;}
+.opts{display:flex;flex-direction:column;gap:8px;margin-top:12px;}
+.opt{background:#f9fafb;border:2px solid var(--border);border-radius:11px;padding:11px 13px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;color:var(--text);transition:all .15s;display:flex;align-items:center;gap:10px;}
+.opt:hover:not(:disabled){border-color:var(--accent);background:#dcfce7;transform:translateX(3px);}
+.opt .ol{width:28px;height:28px;border-radius:8px;flex-shrink:0;background:#bbf7d0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;font-family:'JetBrains Mono',monospace;transition:.15s;}
+.opt.correct{border-color:var(--green);background:#f0fdf4;}.opt.correct .ol{background:var(--green);color:#fff;}
+.opt.wrong{border-color:var(--red);background:#fef2f2;}.opt.wrong .ol{background:var(--red);color:#fff;}
+.opt:disabled{cursor:default;}
+.expl{background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:12px;padding:14px;margin-top:10px;display:none;}
+.expl.show{display:block;animation:up .3s ease;}
+.expl-hd{font-size:10px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;}
+.expl-txt{font-size:13px;line-height:1.75;}
+.expl-f{background:#dbeafe;border-radius:7px;padding:8px 12px;margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#1d4ed8;line-height:1.6;}
+.nxtbtn{width:100%;padding:13px;border:none;border-radius:12px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;cursor:pointer;transition:transform .15s;display:none;margin-top:10px;color:#fff;}
+.nxtbtn.show{display:block;animation:up .2s ease;}
+.nxtbtn:hover{transform:translateY(-1px);}
+.mhd{text-align:center;padding:20px 0 14px;}
+.mbadge{display:inline-block;background:rgba(21,128,61,0.10);border:1.5px solid rgba(21,128,61,0.3);color:var(--accent);font-size:11px;font-weight:800;padding:5px 14px;border-radius:20px;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;}
+.mhd h2{font-size:22px;font-weight:900;margin-bottom:4px;}
+.mhd p{font-size:13px;color:var(--muted);}
+.tabs{display:flex;gap:8px;margin-bottom:14px;overflow-x:auto;padding-bottom:4px;}
+.tab{background:var(--card);border:2px solid var(--border);color:var(--muted);padding:7px 14px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;transition:.2s;font-family:'Plus Jakarta Sans',sans-serif;}
+.tab.on{background:rgba(21,128,61,0.12);border-color:var(--accent);color:var(--accent);}
+.topic{display:none;}
+.topic.on{display:block;animation:up .3s ease;}
+.pdots{display:flex;justify-content:center;gap:6px;margin:10px 0;}
+.pdot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:.2s;}
+.pdot.done{background:var(--green);}
+.pdot.active{background:var(--accent);transform:scale(1.3);}
+.mc{background:var(--card);border:2px solid var(--border);border-radius:18px;padding:20px;margin-bottom:12px;box-shadow:var(--shadow);}
+.mc h3{font-size:16px;font-weight:800;margin-bottom:4px;}
+.mc .ms{font-size:12px;color:var(--muted);margin-bottom:14px;}
+.abox{background:#fef2f2;border:2px solid #fca5a5;border-radius:14px;padding:14px;margin:10px 0;}
+.abox .al{font-size:10px;font-weight:800;color:var(--red);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.abox p{font-size:13px;color:#7f1d1d;line-height:1.7;}
+.abox .fix{background:#dcfce7;border-radius:8px;padding:8px 12px;margin-top:8px;font-size:13px;color:#14532d;font-weight:700;}
+.ptable{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px;}
+.ptable th{background:#15803d;color:#fff;padding:8px 12px;text-align:left;font-size:11px;font-weight:800;}
+.ptable td{padding:9px 12px;border-bottom:1px solid #bbf7d0;line-height:1.5;}
+.ptable tr:last-child td{border-bottom:none;}
+.ptable tr:nth-child(even) td{background:#f0fdf4;}
+.pnum{font-family:'JetBrains Mono',monospace;font-weight:700;color:#15803d;white-space:nowrap;}
+.pkey{font-size:10px;font-weight:800;color:#d97706;background:#fef3c7;padding:1px 6px;border-radius:6px;}
+.lgrid{display:flex;flex-direction:column;gap:8px;margin:12px 0;}
+.litem{background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:12px;padding:12px 14px;display:flex;align-items:flex-start;gap:12px;}
+.licon{font-size:22px;flex-shrink:0;}
+.lname{font-size:13px;font-weight:800;color:var(--accent);margin-bottom:2px;}
+.ldesc{font-size:12px;color:var(--muted);line-height:1.6;}
+.lkey{font-size:11px;font-weight:700;color:#0891b2;margin-top:4px;}
+.hgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;}
+.hcard{background:var(--card);border:2px solid var(--border);border-radius:12px;padding:12px;text-align:center;}
+.hcard .hl{font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+.hcard .hv{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:800;color:var(--accent);line-height:1.5;}
+.hcard .hn{font-size:11px;color:var(--muted);margin-top:4px;}
+.cbox{background:rgba(5,150,105,0.06);border:1.5px solid rgba(5,150,105,0.2);border-radius:14px;padding:14px;margin:10px 0;}
+.cbox .cl{font-size:10px;font-weight:800;color:var(--green);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.cbox .cs{font-size:13px;line-height:1.85;color:#14532d;}
+.fbox{background:linear-gradient(135deg,rgba(21,128,61,0.08),rgba(8,145,178,0.05));border:1.5px solid #bbf7d0;border-radius:14px;padding:14px;margin:10px 0;}
+.fbox .fl{font-size:10px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.fbox .fm{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:#14532d;line-height:1.6;margin-bottom:4px;}
+.fbox .fn{font-size:12px;color:var(--muted);line-height:1.6;}
+.rhd{text-align:center;padding:20px 0 12px;}
+.rhd h2{font-size:24px;font-weight:900;margin-bottom:6px;}
+.rhd p{font-size:13px;color:var(--muted);}
+.drow{display:flex;align-items:center;gap:12px;margin:16px 0;}
+.sbox{flex:1;text-align:center;background:var(--card);border:2px solid var(--border);border-radius:14px;padding:14px 10px;}
+.sbox .sv{font-size:32px;font-weight:900;}
+.sbox .sl{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;margin-top:2px;}
+.abox2{text-align:center;}
+.aav{font-size:22px;}
+.aad{font-size:16px;font-weight:900;font-family:'JetBrains Mono',monospace;}
+.trow{text-align:center;font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:16px;}
+.wrsec{margin-top:14px;}
+.wrhd{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
+.wrhd.pre{color:var(--red);}.wrhd.post{color:var(--green);}
+.wcard{background:var(--card);border:2px solid #fca5a5;border-radius:14px;padding:14px;margin-bottom:10px;}
+.wcard.post{border-color:#86efac;}
+.wq{font-size:13px;font-weight:700;margin-bottom:8px;line-height:1.6;}
+.wa{display:flex;flex-direction:column;gap:4px;margin-bottom:8px;}
+.wx{font-size:12px;color:#dc2626;}.wc{font-size:12px;color:#059669;font-weight:700;}
+.we{background:rgba(59,130,246,0.07);border-radius:10px;padding:12px;font-size:12px;line-height:1.75;color:#1e3a5f;border-left:3px solid var(--blue);}
+.wf{background:rgba(37,99,235,0.08);border-radius:7px;padding:7px 11px;margin-top:7px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#1d4ed8;}
+.pcard{background:var(--card);border:2px solid var(--border);border-radius:16px;padding:18px;margin-top:14px;}
+.cpbtn{width:100%;padding:14px;border:none;border-radius:13px;background:linear-gradient(135deg,#15803d,#0891b2);color:#fff;font-weight:800;font-size:14px;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;box-shadow:0 6px 18px rgba(21,128,61,0.3);transition:transform .15s;margin-top:10px;}
+.cpbtn:hover{transform:translateY(-2px);}
+@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div id="splash" class="screen" style="display:block">
+  <div class="hero">
+    <div class="code-tag">B03 · PKN · 12 April 2026</div>
+    <h1>PKN Hari Ini:<br><em>Hafalan yang Tepat!</em> 🇮🇩</h1>
+    <p>A02 sudah tunjukkan masalahnya dengan jelas.<br>Bukan susah — tapi <strong>belum dihafal dengan benar.</strong> Hari ini kita fix!</p>
+  </div>
+  <div class="ecard">
+    <h3>🔍 Analisis Error A02 — 3 Pattern Utama</h3>
+    <div class="erow"><span style="font-size:18px">📜</span><div><strong style="color:#dc2626">UUD 1945 — 0/5 NOLL! — Default ke Pasal 27 semua</strong><br>Musa tidak hafal nomor pasal. Murni masalah hafalan, bukan pemahaman.<br><span class="ebadge">Fix: Kartu hafalan 9 pasal + trik</span></div></div>
+    <div class="erow"><span style="font-size:18px">🏛️</span><div><strong style="color:#dc2626">Lembaga — MK vs MA, BPK, DPD tertukar</strong><br>MK dikira pidana. BPK dikira buat APBN. DPD dikira golongan masyarakat.<br><span class="ebadge">Fix: Kata kunci unik tiap lembaga</span></div></div>
+    <div class="erow"><span style="font-size:18px">🗳️</span><div><strong style="color:#dc2626">Demokrasi — LUBER salah, KPU/Bawaslu tertukar</strong><br>LUBER dijawab "Utama, Riil". KPU vs Bawaslu tertukar fungsinya.<br><span class="ebadge">Fix: Hafal LUBER JURDIL kata per kata</span></div></div>
+  </div>
+  <div class="fcard">
+    <h3>🗺️ Alur B03</h3>
+    <div class="fsteps">
+      <div class="fs"><div class="fsicon" style="background:#fee2e2">🧪</div><div class="fslbl">Pre-Test</div><div class="fssub">10 soal · 15 mnt</div></div>
+      <div class="fs"><div class="fsicon" style="background:#f0fdf4">📖</div><div class="fslbl">Materi</div><div class="fssub">3 topik hafalan</div></div>
+      <div class="fs"><div class="fsicon" style="background:#eff6ff">✅</div><div class="fslbl">Post-Test</div><div class="fssub">10 soal · 15 mnt</div></div>
+    </div>
+  </div>
+  <button class="bigbtn bg" onclick="show('pretest-screen');startTimer('pre')">🧪 Mulai Pre-Test!</button>
+</div>
+
+<div id="pretest-screen" class="screen">
+  <div class="qbar"><span class="ptag tpre">🧪 Pre-Test</span><span class="qctr" id="pre-ctr">1/10</span><div class="tpill" id="pre-tp"><span>⏱</span><span class="tv" id="pre-tv">15:00</span></div></div>
+  <div class="pwrap"><div class="pbg"><div class="pfg" id="pre-pf" style="width:0%;background:#dc2626"></div></div></div>
+  <div class="qcard"><div class="qno" id="pre-qno">SOAL 01</div><div class="qtag" id="pre-qtag"></div><div class="qtxt" id="pre-qtxt"></div><div class="qhint" id="pre-qhint"></div><div class="vis" id="pre-vis"></div><div class="opts" id="pre-opts"></div><div class="expl" id="pre-expl"></div></div>
+  <button class="nxtbtn" id="pre-nb" onclick="nextPre()">Lanjut →</button>
+</div>
+
+<div id="materi-screen" class="screen">
+  <div class="mhd"><div class="mbadge">📖 Materi B03 — PKN</div><h2>Hafalan Cerdas 🇮🇩</h2><p>3 topik — baca, hafal, lalu Post-Test!</p></div>
+  <div class="tabs">
+    <button class="tab on" onclick="goT(0)">📜 Pasal UUD</button>
+    <button class="tab" onclick="goT(1)">🏛️ Lembaga Negara</button>
+    <button class="tab" onclick="goT(2)">🗳️ Demokrasi</button>
+  </div>
+  <div class="pdots"><div class="pdot active" id="pd0"></div><div class="pdot" id="pd1"></div><div class="pdot" id="pd2"></div></div>
+
+  <div class="topic on" id="t0">
+    <div class="mc">
+      <h3>📜 Pasal UUD 1945 — Wajib Hafal</h3>
+      <div class="ms">Musa jawab "Pasal 27" untuk SEMUA soal UUD — hari ini kita hafalkan yang benar!</div>
+      <div class="abox"><div class="al">⚠️ Error A02 — 0/5 karena default Pasal 27</div><p>Pendidikan → jawab Pasal 27 (benar: <strong>Pasal 31</strong>)<br>Agama → jawab Pasal 27 (benar: <strong>Pasal 29</strong>)<br>Alinea 4 → jawab "pernyataan kemerdekaan" (benar: <strong>Tujuan + Pancasila</strong>)</p><div class="fix">✅ Fix: Hafal tabel + trik di bawah ini!</div></div>
+      <table class="ptable">
+        <tr><th>Pasal</th><th>Isi</th><th>Trik Hafal</th></tr>
+        <tr><td class="pnum">27 (1)</td><td>Persamaan di mata hukum</td><td><span class="pkey">HUKUM=27(1)</span></td></tr>
+        <tr><td class="pnum">27 (2)</td><td>Hak pekerjaan dan penghidupan layak</td><td><span class="pkey">KERJA=27(2)</span></td></tr>
+        <tr><td class="pnum">27 (3)</td><td>Bela negara</td><td><span class="pkey">BELA=27(3)</span></td></tr>
+        <tr><td class="pnum">28</td><td>Kemerdekaan berserikat dan berpendapat</td><td><span class="pkey">PENDAPAT=28</span></td></tr>
+        <tr><td class="pnum">29</td><td>Kebebasan beragama dan beribadah</td><td><span class="pkey">AGAMA=29</span></td></tr>
+        <tr><td class="pnum">30</td><td>Pertahanan dan keamanan negara</td><td><span class="pkey">TAHAN=30</span></td></tr>
+        <tr><td class="pnum">31</td><td>Hak mendapat pendidikan</td><td><span class="pkey">DIDIK=31</span></td></tr>
+        <tr><td class="pnum">33</td><td>Perekonomian nasional dan SDA</td><td><span class="pkey">EKONOMI=33</span></td></tr>
+        <tr><td class="pnum">34</td><td>Fakir miskin dan anak terlantar dipelihara negara</td><td><span class="pkey">SOSIAL=34</span></td></tr>
+      </table>
+      <div class="fbox"><div class="fl">📋 Alinea Pembukaan UUD 1945</div><div class="fm">Alinea 1 = Hak kemerdekaan semua bangsa<br>Alinea 2 = Perjuangan bangsa Indonesia<br>Alinea 3 = Pernyataan kemerdekaan (proklamasi)<br>Alinea 4 = Tujuan negara + Dasar negara Pancasila</div><div class="fn">⚠️ Alinea 3=proklamasi. Alinea 4=TUJUAN+PANCASILA (sering keluar di soal!)</div></div>
+      <div class="cbox"><div class="cl">🧠 Trik Hafal Urutan</div><div class="cs"><strong>27</strong>=HUKUM+KERJA+BELA · <strong>28</strong>=beriKAT(PENDAPAT) · <strong>29</strong>=tuHAN(AGAMA) · <strong>30</strong>=perTAHANan · <strong>31</strong>=penDIDIKan · <strong>33</strong>=EKONOMI · <strong>34</strong>=soSIAL</div></div>
+    </div>
+    <button class="bigbtn bgh" style="margin-top:8px" onclick="goT(1)">Lembaga Negara →</button>
+  </div>
+
+  <div class="topic" id="t1">
+    <div class="mc">
+      <h3>🏛️ Lembaga Negara — Kata Kunci Unik</h3>
+      <div class="ms">Hafal 1 kata kunci unik per lembaga — jangan tertukar!</div>
+      <div class="abox"><div class="al">⚠️ Error A02</div><p>MK → dikira seperti MA (mengadili pidana)<br>BPK → dikira yang buat APBN<br>DPD → dikira mewakili golongan masyarakat</p><div class="fix">✅ Fix: Kata kunci unik tiap lembaga!</div></div>
+      <div class="lgrid">
+        <div class="litem"><span class="licon">⚖️</span><div><div class="lname">DPR — Dewan Perwakilan Rakyat</div><div class="ldesc">Membuat UU bersama Presiden. Mewakili rakyat via partai politik.</div><div class="lkey">🔑 BUAT UU · via PARPOL</div></div></div>
+        <div class="litem"><span class="licon">🌏</span><div><div class="lname">DPD — Dewan Perwakilan Daerah</div><div class="ldesc">Mewakili kepentingan daerah/provinsi. BUKAN golongan, bukan parpol!</div><div class="lkey">🔑 D terakhir = DAERAH provinsi</div></div></div>
+        <div class="litem"><span class="licon">🏛️</span><div><div class="lname">MA — Mahkamah Agung</div><div class="ldesc">Pengadilan tertinggi. Mengadili perkara kasasi pidana dan perdata.</div><div class="lkey">🔑 AGUNG = PIDANA & PERDATA kasasi</div></div></div>
+        <div class="litem"><span class="licon">📜</span><div><div class="lname">MK — Mahkamah Konstitusi</div><div class="ldesc">Menguji UU terhadap UUD 1945. Memutus sengketa pemilu. Bukan mengadili pidana!</div><div class="lkey">🔑 KONSTITUSI = uji UU vs UUD · sengketa pemilu</div></div></div>
+        <div class="litem"><span class="licon">🔍</span><div><div class="lname">BPK — Badan Pemeriksa Keuangan</div><div class="ldesc">MEMERIKSA/mengaudit keuangan negara. BUKAN yang membuat APBN!</div><div class="lkey">🔑 PERIKSA keuangan = auditor negara</div></div></div>
+        <div class="litem"><span class="licon">👨‍⚖️</span><div><div class="lname">KY — Komisi Yudisial</div><div class="ldesc">Mengusulkan hakim agung dan mengawasi perilaku hakim.</div><div class="lkey">🔑 awasi HAKIM (bukan mengadili perkara)</div></div></div>
+      </div>
+      <div class="cbox"><div class="cl">🧠 Trik Beda MA vs MK</div><div class="cs"><strong>MA</strong>=Mahkamah AGUNG=PIDANA/PERDATA kasasi (ada sejak lama)<br><strong>MK</strong>=Mahkamah KONSTITUSI=uji UU vs UUD (lahir 2003 era Reformasi)<br><strong>BPK</strong>=PERIKSA=auditor (bukan pembuat kebijakan!)</div></div>
+    </div>
+    <button class="bigbtn bgh" style="margin-top:8px" onclick="goT(2)">Demokrasi & Pemilu →</button>
+  </div>
+
+  <div class="topic" id="t2">
+    <div class="mc">
+      <h3>🗳️ Demokrasi & Pemilu Indonesia</h3>
+      <div class="ms">LUBER JURDIL harus dihafal kata per kata!</div>
+      <div class="abox"><div class="al">⚠️ Error A02</div><p>LUBER → jawab "Langsung, <strong>Utama</strong>, Bebas, <strong>Riil</strong>" — SALAH TOTAL!<br>Benar: Langsung, <strong>Umum</strong>, Bebas, <strong>Rahasia</strong></p><div class="fix">✅ U=Umum (bukan Utama!) · R=Rahasia (bukan Riil!)</div></div>
+      <div class="hgrid">
+        <div class="hcard"><div class="hl">L</div><div class="hv">Langsung</div><div class="hn">Pilih sendiri, tidak diwakilkan</div></div>
+        <div class="hcard"><div class="hl">U ⚠️</div><div class="hv">Umum</div><div class="hn">Semua warga berhak memilih</div></div>
+        <div class="hcard"><div class="hl">B</div><div class="hv">Bebas</div><div class="hn">Tidak ada paksaan</div></div>
+        <div class="hcard"><div class="hl">ER ⚠️</div><div class="hv">Rahasia</div><div class="hn">Pilihan tidak diketahui orang lain</div></div>
+        <div class="hcard"><div class="hl">JUR</div><div class="hv">Jujur</div><div class="hn">Tidak ada kecurangan</div></div>
+        <div class="hcard"><div class="hl">DIL</div><div class="hv">Adil</div><div class="hn">Perlakuan sama semua pihak</div></div>
+      </div>
+      <div class="lgrid" style="margin-top:14px">
+        <div class="litem"><span class="licon">🗳️</span><div><div class="lname">KPU — Komisi Pemilihan Umum</div><div class="ldesc">Yang MENYELENGGARAKAN/menjalankan pemilu. Nasional, tetap, mandiri.</div><div class="lkey">🔑 KPU = JALANKAN pemilu</div></div></div>
+        <div class="litem"><span class="licon">👁️</span><div><div class="lname">Bawaslu — Badan Pengawas Pemilu</div><div class="ldesc">Yang MENGAWASI jalannya pemilu. Menangani pelanggaran pemilu.</div><div class="lkey">🔑 Bawaslu = AWASI pemilu (Bawas=Badan Pengawas)</div></div></div>
+      </div>
+      <div class="fbox"><div class="fl">🔑 Demokrasi Pancasila vs Liberal</div><div class="fm">Pancasila = musyawarah mufakat<br>Liberal = suara mayoritas menang</div><div class="fn">Indonesia = Demokrasi Pancasila → utamakan mufakat bersama</div></div>
+      <div style="background:#f0fdf4;border:2px solid #86efac;border-radius:14px;padding:16px;margin:14px 0;text-align:center;"><div style="font-size:20px;margin-bottom:6px">🎉</div><div style="font-weight:800;color:#059669;margin-bottom:4px">Materi selesai!</div><div style="font-size:13px;color:var(--muted)">Sekarang buktikan hafalanmu di Post-Test!</div></div>
+      <button class="bigbtn bt" onclick="show('posttest-screen');startTimer('post')">✅ Mulai Post-Test!</button>
+    </div>
+  </div>
+</div>
+
+<div id="posttest-screen" class="screen">
+  <div class="qbar"><span class="ptag tpost">✅ Post-Test</span><span class="qctr" id="post-ctr">1/10</span><div class="tpill" id="post-tp"><span>⏱</span><span class="tv" id="post-tv">15:00</span></div></div>
+  <div class="pwrap"><div class="pbg"><div class="pfg" id="post-pf" style="width:0%;background:#059669"></div></div></div>
+  <div class="qcard"><div class="qno" id="post-qno">SOAL 01</div><div class="qtag" id="post-qtag"></div><div class="qtxt" id="post-qtxt"></div><div class="qhint" id="post-qhint"></div><div class="vis" id="post-vis"></div><div class="opts" id="post-opts"></div><div class="expl" id="post-expl"></div></div>
+  <button class="nxtbtn" id="post-nb" onclick="nextPost()">Lanjut →</button>
+</div>
+
+<div id="result-screen" class="screen">
+  <div class="rhd"><div class="code-tag" style="margin-bottom:12px">📊 Hasil B03</div><h2 id="res-title"></h2><p id="res-sub"></p></div>
+  <div class="drow">
+    <div class="sbox"><div class="sv" id="pre-sv" style="color:#d97706">-</div><div class="sl">Pre-Test</div></div>
+    <div class="abox2"><div class="aav" id="arr-av">→</div><div class="aad" id="arr-ad">+0</div></div>
+    <div class="sbox"><div class="sv" id="post-sv" style="color:#059669">-</div><div class="sl">Post-Test</div></div>
+  </div>
+  <div class="trow" id="trow"></div>
+  <div class="wrsec" id="pre-ws" style="display:none"><div class="wrhd pre">🧪 Soal Salah — Pre-Test</div><div id="pre-wl"></div></div>
+  <div class="wrsec" id="post-ws" style="display:none"><div class="wrhd post">✅ Soal Salah — Post-Test</div><div id="post-wl"></div></div>
+  <div class="pcard" id="pesan"></div>
+  <button class="cpbtn" id="copy-btn" onclick="copyRes()">📋 Salin Hasil → Kirim ke Claude untuk B04</button>
+  <button class="bigbtn bgh" style="margin-top:8px" onclick="if(confirm('Ulangi?')){location.reload()}">🔄 Ulangi B03</button>
+</div>
+</div>
+
+<script>
+let preS=0,postS=0,preEl=0,postEl=0,preTi=null,postTi=null;
+let preW=[],postW=[],preCi=0,postCi=0,picked=false;
+const TL=15*60;
+const PQ=[
+  {tag:'📜 UUD 1945',q:"Hak mendapatkan pendidikan diatur dalam UUD 1945 pasal...",hint:"Ingat: DIDIK = 31",vis:"",opts:["Pasal 27","Pasal 29","Pasal 31","Pasal 34"],ans:2,exp:"Pasal 31 ayat (1): Setiap warga negara berhak mendapat pendidikan. Trik: DIDIK = 31.",formula:"DIDIK=31 · AGAMA=29 · HUKUM=27(1)"},
+  {tag:'📜 UUD 1945',q:"Kebebasan beragama dan beribadah dijamin UUD 1945 pasal...",hint:"Ingat: AGAMA = 29",vis:"",opts:["Pasal 27","Pasal 28","Pasal 29","Pasal 31"],ans:2,exp:"Pasal 29 ayat (2): Negara menjamin kemerdekaan tiap penduduk memeluk agamanya. Trik: AGAMA = 29.",formula:"AGAMA=29 · DIDIK=31 · PENDAPAT=28"},
+  {tag:'📜 UUD 1945',q:"Alinea ke-4 Pembukaan UUD 1945 berisi...",hint:"Alinea 4 = yang paling penting!",vis:"1=Hak · 2=Perjuangan · 3=Proklamasi · 4=?",opts:["Pernyataan kemerdekaan","Perjuangan bangsa","Tujuan negara dan dasar negara Pancasila","Hak kemerdekaan semua bangsa"],ans:2,exp:"Alinea 4 = tujuan negara + dasar negara Pancasila. Alinea 3 = proklamasi.",formula:"1=Hak · 2=Perjuangan · 3=Proklamasi · 4=Tujuan+Pancasila"},
+  {tag:'📜 UUD 1945',q:"Pasal 27 ayat 3 UUD 1945 mengatur tentang...",hint:"27(1)=hukum · 27(2)=kerja · 27(3)=?",vis:"",opts:["Hak atas pekerjaan","Persamaan di mata hukum","Bela negara","Kebebasan berpendapat"],ans:2,exp:"Pasal 27 ayat (3): Setiap warga negara berhak dan wajib ikut serta dalam upaya pembelaan negara.",formula:"27(1)=HUKUM · 27(2)=KERJA · 27(3)=BELA negara"},
+  {tag:'🏛️ Lembaga Negara',q:"Lembaga yang berwenang menguji UU terhadap UUD 1945 adalah...",hint:"MK = Konstitusi = uji UU vs UUD",vis:"",opts:["Mahkamah Agung","Mahkamah Konstitusi","Komisi Yudisial","DPR"],ans:1,exp:"MK berwenang menguji UU terhadap UUD 1945 (judicial review). MA = kasasi pidana/perdata.",formula:"MK=uji UU vs UUD · MA=kasasi pidana&perdata"},
+  {tag:'🏛️ Lembaga Negara',q:"BPK (Badan Pemeriksa Keuangan) bertugas...",hint:"BPK = PERIKSA, bukan buat kebijakan",vis:"",opts:["Membuat APBN","Mengelola keuangan negara","Memeriksa pengelolaan keuangan negara","Memungut pajak"],ans:2,exp:"BPK adalah auditor keuangan negara secara independen. Bukan yang membuat APBN.",formula:"BPK=PERIKSA keuangan=auditor negara"},
+  {tag:'🏛️ Lembaga Negara',q:"DPD (Dewan Perwakilan Daerah) mewakili...",hint:"D terakhir = DAERAH",vis:"",opts:["Partai politik","Golongan masyarakat","Daerah provinsi","Angkatan bersenjata"],ans:2,exp:"DPD mewakili kepentingan daerah provinsi. DPR = mewakili rakyat via parpol.",formula:"DPD=Daerah provinsi · DPR=Rakyat via parpol"},
+  {tag:'🗳️ Demokrasi & Pemilu',q:"Kata 'U' dalam asas LUBER singkatan dari...",hint:"Bukan Utama! Semua warga berhak memilih",vis:"L-U-B-E-R=?",opts:["Utama","Umum","Unggul","Universal"],ans:1,exp:"LUBER=Langsung,Umum,Bebas,Rahasia. U=Umum artinya semua warga yang memenuhi syarat berhak memilih.",formula:"LUBER=Langsung·Umum·Bebas·Rahasia"},
+  {tag:'🗳️ Demokrasi & Pemilu',q:"Lembaga yang MENYELENGGARAKAN pemilihan umum adalah...",hint:"KPU=jalankan · Bawaslu=awasi",vis:"",opts:["Bawaslu","DKPP","KPU","Mahkamah Konstitusi"],ans:2,exp:"KPU (Komisi Pemilihan Umum) adalah penyelenggara pemilu. Bawaslu=pengawas. MK=sengketa hasil.",formula:"KPU=jalankan · Bawaslu=awasi · MK=sengketa hasil"},
+  {tag:'🗳️ Demokrasi & Pemilu',q:"Musyawarah mufakat adalah ciri khas dari...",hint:"Indonesia tidak hanya voting",vis:"",opts:["Demokrasi liberal","Demokrasi komunis","Demokrasi Pancasila","Demokrasi terpimpin"],ans:2,exp:"Demokrasi Pancasila mengutamakan musyawarah mufakat sebelum voting. Liberal=suara mayoritas.",formula:"Demokrasi Pancasila=musyawarah mufakat · Liberal=suara mayoritas"},
+];
+const PTQ=[
+  {tag:'📜 UUD 1945',q:"Fakir miskin dan anak terlantar dipelihara negara. Diatur dalam pasal...",hint:"Ingat: SOSIAL = 34",vis:"",opts:["Pasal 31","Pasal 33","Pasal 34","Pasal 27"],ans:2,exp:"Pasal 34 ayat (1): Fakir miskin dan anak-anak yang terlantar dipelihara oleh negara. Trik: SOSIAL=34.",formula:"SOSIAL=34 · EKONOMI=33 · DIDIK=31"},
+  {tag:'📜 UUD 1945',q:"UUD 1945 telah mengalami amandemen sebanyak...",hint:"Era Reformasi 1999-2002",vis:"",opts:["2 kali","3 kali","4 kali","5 kali"],ans:2,exp:"UUD 1945 diamandemen 4 kali: 1999, 2000, 2001, 2002 pada era Reformasi.",formula:"4 kali amandemen: 1999·2000·2001·2002"},
+  {tag:'📜 UUD 1945',q:"Kemerdekaan berserikat dan berpendapat diatur dalam pasal...",hint:"Ingat: PENDAPAT = 28",vis:"",opts:["Pasal 27","Pasal 28","Pasal 29","Pasal 30"],ans:1,exp:"Pasal 28 mengatur kemerdekaan berserikat, berkumpul, dan berpendapat. Trik: 28=beriKAT.",formula:"SERIKAT & PENDAPAT=Pasal 28"},
+  {tag:'📜 UUD 1945',q:"Perekonomian nasional dan SDA diatur dalam pasal...",hint:"Ingat: EKONOMI = 33",vis:"",opts:["Pasal 31","Pasal 32","Pasal 33","Pasal 34"],ans:2,exp:"Pasal 33 mengatur perekonomian nasional berbasis kekeluargaan dan SDA dikuasai negara.",formula:"EKONOMI & SDA=Pasal 33"},
+  {tag:'🏛️ Lembaga Negara',q:"Komisi Yudisial (KY) bertugas...",hint:"Yudisial = berkaitan dengan hakim",vis:"",opts:["Mengadili perkara korupsi","Membuat undang-undang","Mengusulkan dan mengawasi hakim agung","Memeriksa keuangan pengadilan"],ans:2,exp:"KY bertugas mengusulkan pengangkatan hakim agung dan menjaga kehormatan/perilaku hakim.",formula:"KY=usul hakim agung+awasi perilaku hakim"},
+  {tag:'🏛️ Lembaga Negara',q:"Perbedaan utama DPR dan DPD adalah...",hint:"Keduanya di MPR tapi mewakili hal berbeda",vis:"DPR=Rakyat · DPD=Daerah",opts:["DPR buat UU saja, DPD tidak bisa","DPR mewakili rakyat via parpol, DPD mewakili daerah provinsi","DPR dipilih presiden, DPD dipilih rakyat","DPR lebih tinggi dari DPD"],ans:1,exp:"DPR mewakili rakyat melalui parpol. DPD mewakili kepentingan daerah/provinsi tanpa melalui parpol.",formula:"DPR=Rakyat+Parpol · DPD=Daerah+Tanpa parpol"},
+  {tag:'🗳️ Demokrasi & Pemilu',q:"Asas JURDIL dalam pemilu kepanjangan dari...",hint:"JUR=? · DIL=?",vis:"",opts:["Jujur dan Adil","Jelas dan Riil","Jujur dan Rileks","Jelas dan Adil"],ans:0,exp:"JURDIL=Jujur dan Adil. Jujur=tidak ada kecurangan. Adil=semua pihak diperlakukan sama.",formula:"JURDIL=Jujur+Adil · LUBER=Langsung+Umum+Bebas+Rahasia"},
+  {tag:'🗳️ Demokrasi & Pemilu',q:"Lembaga yang mengawasi pelanggaran dalam pemilu adalah...",hint:"Bawas = Badan Pengawas",vis:"",opts:["KPU","Bawaslu","DKPP","MK"],ans:1,exp:"Bawaslu (Badan Pengawas Pemilu) mengawasi jalannya pemilu dan menangani pelanggaran. KPU=penyelenggara.",formula:"Bawaslu=AWASI · KPU=JALANKAN"},
+  {tag:'🗳️ Demokrasi & Pemilu',q:"Pemilu di Indonesia diselenggarakan setiap...",hint:"Sama dengan masa jabatan presiden",vis:"",opts:["3 tahun","4 tahun","5 tahun","6 tahun"],ans:2,exp:"Pemilu diselenggarakan setiap 5 tahun sekali, sesuai masa jabatan Presiden dan anggota legislatif.",formula:"Pemilu=5 tahun sekali"},
+  {tag:'📜 UUD 1945',q:"Pertahanan dan keamanan negara diatur dalam pasal...",hint:"Ingat: PERTAHANAN = 30",vis:"",opts:["Pasal 27","Pasal 28","Pasal 30","Pasal 31"],ans:2,exp:"Pasal 30 mengatur pertahanan dan keamanan negara, termasuk TNI dan Polri. Trik: TAHAN=30.",formula:"PERTAHANAN=Pasal 30 · BELA negara=Pasal 27(3)"},
+];
+function fmt(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+function startTimer(pfx){
+  if(pfx==='pre'){preEl=0;preTi=setInterval(()=>{preEl++;tick('pre',preEl);},1000);}
+  else{postEl=0;postTi=setInterval(()=>{postEl++;tick('post',postEl);},1000);}
+}
+function tick(pfx,el){
+  const rem=TL-el,over=rem<0,d=over?el-TL:rem;
+  document.getElementById(pfx+'-tv').textContent=(over?'+':'')+fmt(d);
+  document.getElementById(pfx+'-tp').className='tpill'+(over?' over':rem<=3*60?' warn':'');
+}
+function renderQ(q,pfx,idx,total){
+  document.getElementById(pfx+'-qno').textContent='SOAL '+String(idx+1).padStart(2,'0');
+  document.getElementById(pfx+'-qtag').textContent=q.tag;
+  document.getElementById(pfx+'-qtxt').textContent=q.q;
+  document.getElementById(pfx+'-qhint').textContent=q.hint?'💡 '+q.hint:'';
+  document.getElementById(pfx+'-ctr').textContent=(idx+1)+'/'+total;
+  document.getElementById(pfx+'-pf').style.width=((idx/total)*100)+'%';
+  const vis=document.getElementById(pfx+'-vis');
+  if(q.vis){vis.textContent=q.vis;vis.style.display='block';}else vis.style.display='none';
+  document.getElementById(pfx+'-expl').className='expl';
+  document.getElementById(pfx+'-nb').className='nxtbtn';
+  const opts=document.getElementById(pfx+'-opts');
+  opts.innerHTML='';
+  ['A','B','C','D'].forEach((l,i)=>{
+    const b=document.createElement('button');b.className='opt';
+    b.innerHTML='<span class="ol">'+l+'</span><span>'+q.opts[i]+'</span>';
+    b.onclick=()=>pick(i,q,pfx);opts.appendChild(b);
+  });
+  picked=false;
+}
+function pick(idx,q,pfx){
+  if(picked)return;picked=true;
+  const btns=document.querySelectorAll('#'+pfx+'-opts .opt');
+  btns.forEach(b=>b.disabled=true);
+  const wArr=pfx==='pre'?preW:postW;
+  if(idx===q.ans){btns[idx].classList.add('correct');if(pfx==='pre')preS++;else postS++;}
+  else{btns[idx].classList.add('wrong');btns[q.ans].classList.add('correct');wArr.push({q:q.q,tag:q.tag,chosen:q.opts[idx],correct:q.opts[q.ans],exp:q.exp,formula:q.formula||''});}
+  const ep=document.getElementById(pfx+'-expl');
+  ep.innerHTML='<div class="expl-hd">💡 Penjelasan</div><div class="expl-txt">'+q.exp+(q.formula?'<div class="expl-f">'+q.formula+'</div>':'')+'</div>';
+  ep.classList.add('show');
+  const nb=document.getElementById(pfx+'-nb');
+  const arr=pfx==='pre'?PQ:PTQ,ci=pfx==='pre'?preCi:postCi;
+  nb.textContent=ci===arr.length-1?(pfx==='pre'?'📖 Lihat Materi →':'🏁 Lihat Hasil →'):'Soal Berikutnya →';
+  nb.style.background=pfx==='pre'?'linear-gradient(135deg,#15803d,#059669)':'linear-gradient(135deg,#0891b2,#0369a1)';
+  nb.classList.add('show');
+}
+function nextPre(){picked=false;if(preCi<PQ.length-1){preCi++;renderQ(PQ[preCi],'pre',preCi,PQ.length);}else{clearInterval(preTi);show('materi-screen');}}
+function nextPost(){picked=false;if(postCi<PTQ.length-1){postCi++;renderQ(PTQ[postCi],'post',postCi,PTQ.length);}else{clearInterval(postTi);showResult();}}
+function goT(n){
+  document.querySelectorAll('.topic').forEach((t,i)=>t.classList.toggle('on',i===n));
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('on',i===n));
+  for(let i=0;i<3;i++){const p=document.getElementById('pd'+i);p.className='pdot'+(i<n?' done':i===n?' active':'');}
+}
+function showResult(){
+  show('result-screen');
+  const pre=Math.round((preS/PQ.length)*100),post=Math.round((postS/PTQ.length)*100),delta=post-pre;
+  document.getElementById('pre-sv').textContent=pre;
+  document.getElementById('post-sv').textContent=post;
+  document.getElementById('post-sv').style.color=post>=75?'#059669':post>=60?'#d97706':'#dc2626';
+  const ad=document.getElementById('arr-ad');
+  ad.textContent=(delta>=0?'+':'')+delta;ad.style.color=delta>0?'#059669':delta<0?'#dc2626':'#7c3aed';
+  document.getElementById('arr-av').textContent=delta>0?'↗':delta<0?'↘':'→';
+  document.getElementById('trow').innerHTML='Pre: '+fmt(preEl)+'  |  Post: '+fmt(postEl);
+  let title,sub;
+  if(delta>=30){title='🚀 Lompatan Luar Biasa!';sub='Naik '+delta+' poin — hafalan hari ini sangat berhasil!';}
+  else if(delta>0){title='📈 Ada Kemajuan!';sub='Naik '+delta+' poin. Hafalan mulai masuk!';}
+  else if(delta===0){title='➡️ Stabil';sub='Coba ulangi tabel pasal dan LUBER JURDIL.';}
+  else{title='⚠️ Perlu Ulang';sub='Hafalan butuh waktu. Review materi lagi!';}
+  document.getElementById('res-title').textContent=title;
+  document.getElementById('res-sub').textContent=sub;
+  function rw(arr,sid,lid,cls){
+    if(arr.length){document.getElementById(sid).style.display='block';document.getElementById(lid).innerHTML=arr.map(w=>'<div class="wcard '+cls+'"><div style="font-size:10px;font-weight:800;color:var(--accent);margin-bottom:5px">'+w.tag+'</div><div class="wq">❓ '+w.q+'</div><div class="wa"><div class="wx">✗ '+w.chosen+'</div><div class="wc">✓ '+w.correct+'</div></div><div class="we">'+w.exp+(w.formula?'<div class="wf">'+w.formula+'</div>':'')+'</div></div>').join('');}
+  }
+  rw(preW,'pre-ws','pre-wl','');rw(postW,'post-ws','post-wl','post');
+  const allW=[...preW,...postW],weak=[...new Set(allW.map(w=>w.tag))];
+  document.getElementById('pesan').innerHTML='<div style="font-size:12px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">📝 Catatan untuk B04</div><div style="font-size:13px;line-height:1.8;">'+(post>=75?'✅ Target 75 <strong style="color:#059669">TERCAPAI</strong>!':'⚠️ Target 75 belum tercapai — B04 drill lebih intensif.')+(weak.length?'<br><br>📌 Masih perlu diulang: <strong style="color:#15803d">'+weak.join(', ')+'</strong>':'')+'<br><br>Salin hasil ini → kirim ke Claude untuk <strong>B04!</strong></div>';
+}
+function copyRes(){
+  const pre=Math.round((preS/PQ.length)*100),post=Math.round((postS/PTQ.length)*100),delta=post-pre;
+  const allW=[...preW,...postW],weak=[...new Set(allW.map(w=>w.tag))];
+  let t='📊 HASIL B03 — BELAJAR PKN\nMusa Brahma Batubara · 12 April 2026\nFokus: Pasal UUD 1945 · Lembaga Negara · Demokrasi & Pemilu\n'+'─'.repeat(50)+'\n\n';
+  t+='PRE-TEST  : '+pre+'/100  ('+preW.length+' salah dari 10)  ⏱'+fmt(preEl)+'\n';
+  t+='POST-TEST : '+post+'/100  ('+postW.length+' salah dari 10)  ⏱'+fmt(postEl)+'\n';
+  t+='DELTA     : '+(delta>=0?'+':'')+delta+' poin  '+(delta>0?'📈 NAIK':delta<0?'📉 TURUN':'➡️ SAMA')+'\n\n';
+  if(preW.length){t+='SOAL SALAH PRE-TEST:\n';preW.forEach((w,i)=>{t+=(i+1)+'. '+w.tag+' — '+w.q+'\n   → Jawab: '+w.chosen+' | Benar: '+w.correct+'\n';});t+='\n';}
+  if(postW.length){t+='SOAL SALAH POST-TEST:\n';postW.forEach((w,i)=>{t+=(i+1)+'. '+w.tag+' — '+w.q+'\n   → Jawab: '+w.chosen+' | Benar: '+w.correct+'\n';});t+='\n';}
+  t+='─'.repeat(50)+'\nTOPIK MASIH LEMAH: '+(weak.length?weak.join(', '):'Semua sudah oke!')+'\nTARGET B03 (75): '+(post>=75?'✅ TERCAPAI':'❌ BELUM')+'\n\n';
+  t+='📌 Berdasarkan B03, buatkan B04:\nFokus: '+(weak.length?weak.join(' & '):'Latihan soal campuran PKN')+'\nFormat: Pre-test → Materi → Post-test · Soal baru berbeda dari B03';
+  navigator.clipboard.writeText(t).then(()=>{
+    const b=document.getElementById('copy-btn');
+    b.textContent='✅ Tersalin! Paste di chat Claude 👆';
+    b.style.background='linear-gradient(135deg,#059669,#047857)';
+    setTimeout(()=>{b.textContent='📋 Salin Hasil → Kirim ke Claude untuk B04';b.style.background='';},4000);
+  }).catch(()=>prompt('Salin:',t));
+}
+function show(id){
+  ['splash','pretest-screen','materi-screen','posttest-screen','result-screen'].forEach(s=>document.getElementById(s).style.display='none');
+  document.getElementById(id).style.display='block';
+  if(id==='pretest-screen'){preCi=0;preS=0;preW=[];renderQ(PQ[0],'pre',0,PQ.length);}
+  if(id==='posttest-screen'){postCi=0;postS=0;postW=[];renderQ(PTQ[0],'post',0,PTQ.length);}
+}
+</script>
+</body>
+</html>
