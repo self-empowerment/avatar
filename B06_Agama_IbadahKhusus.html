@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B06 · Agama · Ibadah Khusus</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=IBM+Plex+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b1220;--bg2:#161b3a;--card:#131a2b;--card2:#1b2440;--line:#2e3b65;
+  --text:#f8fafc;--muted:#a5b4d4;--gold:#f59e0b;--sky:#38bdf8;--mint:#34d399;
+  --rose:#fb7185;--violet:#8b5cf6;--amber:#fbbf24;--red:#ef4444;--green:#10b981;
+  --shadow:0 16px 42px rgba(0,0,0,.34);--shadow2:0 10px 26px rgba(0,0,0,.22);
+  --grad:linear-gradient(135deg,#f59e0b 0%,#38bdf8 48%,#8b5cf6 100%);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Outfit',system-ui,sans-serif;color:var(--text);min-height:100vh;
+  background:
+    radial-gradient(circle at 0% 0%,rgba(245,158,11,.16),transparent 28%),
+    radial-gradient(circle at 100% 0%,rgba(56,189,248,.16),transparent 24%),
+    radial-gradient(circle at 100% 100%,rgba(139,92,246,.18),transparent 30%),
+    linear-gradient(180deg,var(--bg),var(--bg2));
+}
+.wrap{max-width:760px;margin:0 auto;padding:22px 16px 64px}
+.screen{display:none}
+#splash{display:block}
+.mono{font-family:'IBM Plex Mono',monospace}
+.badge{
+  display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;
+  background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.28);color:#ffd37a;
+  font-size:11px;font-weight:900;letter-spacing:1.2px;text-transform:uppercase
+}
+.hero{text-align:center;padding:14px 0 12px}
+.hero h1{font-size:32px;line-height:1.08;font-weight:900;letter-spacing:-.04em;margin:15px 0 10px}
+.hero h1 .accent{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{max-width:630px;margin:0 auto;font-size:14px;line-height:1.85;color:var(--muted)}
+.card,.panel,.quiz-card,.transition-card,.result-card,.material-card{
+  background:linear-gradient(180deg,rgba(19,26,43,.95),rgba(24,32,56,.95));
+  border:1px solid rgba(255,255,255,.06);box-shadow:var(--shadow);border-radius:26px
+}
+.panel{padding:18px;margin-top:16px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.focus-card{
+  padding:16px;border-radius:20px;border:1px solid var(--line);box-shadow:var(--shadow2);
+  background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01))
+}
+.focus-top{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.focus-icon{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px}
+.focus-code{font-size:10px;text-transform:uppercase;letter-spacing:1.1px;color:var(--muted);font-weight:800}
+.focus-name{font-size:16px;font-weight:800}
+.focus-meta{font-size:12px;color:var(--muted);line-height:1.7}
+.sec-title{font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:1.2px;color:#ffd37a;margin-bottom:12px}
+.line-item{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.75;margin:9px 0}
+.error-box{
+  margin-top:12px;padding:14px;border-radius:18px;background:rgba(251,113,133,.08);
+  border:1px solid rgba(251,113,133,.18)
+}
+.error-box .hd{font-size:11px;font-weight:900;color:#fecdd3;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+.error-box p{font-size:13px;line-height:1.75;color:#ffd6dc}
+.fix-box{
+  margin-top:10px;padding:12px;border-radius:14px;background:rgba(16,185,129,.10);
+  border:1px solid rgba(16,185,129,.18);font-size:13px;line-height:1.75;color:#c6ffe7
+}
+.cta,.ghost,.next-btn,.copy-btn{
+  width:100%;border:none;border-radius:18px;padding:15px 18px;font:inherit;font-weight:900;cursor:pointer;
+  transition:transform .16s ease, box-shadow .16s ease
+}
+.cta,.next-btn,.copy-btn{background:var(--grad);color:#08111f;box-shadow:0 14px 30px rgba(245,158,11,.16)}
+.ghost{background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--muted);margin-top:10px}
+.cta:hover,.ghost:hover,.next-btn:hover,.copy-btn:hover{transform:translateY(-2px)}
+.quiz-head{padding:16px 18px;display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.quiz-head .icon{width:54px;height:54px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:28px;
+  background:linear-gradient(135deg,rgba(245,158,11,.18),rgba(56,189,248,.14),rgba(139,92,246,.16))}
+.quiz-head .small{font-size:11px;text-transform:uppercase;letter-spacing:1.2px;font-weight:800;color:var(--muted)}
+.quiz-head .title{font-size:18px;font-weight:900}
+.quiz-head .sub{font-size:12px;color:var(--muted)}
+.quiz-bar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.pill{padding:7px 12px;border-radius:999px;font-size:11px;font-weight:900;letter-spacing:1px;text-transform:uppercase;border:1px solid}
+.pill.pre{background:rgba(251,113,133,.10);border-color:rgba(251,113,133,.25);color:#ffc6cf}
+.pill.post{background:rgba(16,185,129,.10);border-color:rgba(16,185,129,.22);color:#bcffe4}
+.counter,.timer{font-size:12px;font-weight:700;color:var(--muted)}
+.timer{display:inline-flex;align-items:center;gap:7px;padding:8px 12px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+.timer.warn{border-color:rgba(245,158,11,.32);color:#ffd37a}
+.timer.over{border-color:rgba(239,68,68,.36);color:#fecaca;animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.56}}
+.progress{height:8px;border-radius:999px;background:#22315a;overflow:hidden;margin-bottom:14px}
+.progress>div{height:100%;width:0;background:var(--grad);transition:width .35s}
+.quiz-card{padding:22px}
+.qlabel{font-size:11px;font-weight:900;letter-spacing:1.4px;text-transform:uppercase;color:#ffd37a;margin-bottom:8px}
+.qtag{display:inline-flex;align-items:center;gap:8px;padding:5px 10px;border-radius:999px;background:rgba(56,189,248,.10);border:1px solid rgba(56,189,248,.18);font-size:11px;font-weight:800;color:#c7f0ff;margin-bottom:10px}
+.qtext{font-size:18px;font-weight:800;line-height:1.62}
+.qhint{margin-top:8px;font-size:13px;color:var(--muted);line-height:1.75}
+.qvis{display:none;margin-top:12px;padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid var(--line);font-size:13px;line-height:1.75;color:#dbeafe}
+.options{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.opt{
+  display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:18px;border:1.4px solid var(--line);
+  background:rgba(255,255,255,.03);cursor:pointer;color:var(--text);font:inherit;font-size:14px;font-weight:700;transition:.16s
+}
+.opt:hover:not(:disabled){transform:translateX(4px);border-color:rgba(245,158,11,.42);box-shadow:var(--shadow2)}
+.opt .ol{width:34px;height:34px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:#23335c;color:#ffe3ad;font-weight:900;flex-shrink:0}
+.opt.correct{background:rgba(16,185,129,.10);border-color:rgba(16,185,129,.28)}
+.opt.correct .ol{background:var(--green);color:#05151a}
+.opt.wrong{background:rgba(239,68,68,.10);border-color:rgba(239,68,68,.28)}
+.opt.wrong .ol{background:var(--red);color:#fff}
+.expl{display:none;margin-top:14px;padding:16px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+.expl.show{display:block}
+.expl .hd{font-size:11px;font-weight:900;color:#ffd37a;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.expl .txt{font-size:14px;line-height:1.8;color:#e5ecfb}
+.expl .formula{margin-top:10px;padding:10px 12px;border-radius:14px;background:rgba(56,189,248,.10);border:1px solid rgba(56,189,248,.16);font-size:12px;line-height:1.65;color:#cdefff}
+.next-btn{display:none;margin-top:14px}
+.next-btn.show{display:block}
+.transition-card,.material-card,.result-card{padding:24px}
+.transition-card{text-align:center}
+.transition-card .ico{font-size:54px;margin-bottom:10px}
+.transition-card .ttl{font-size:24px;font-weight:900;margin-bottom:8px}
+.transition-card .sub{font-size:14px;line-height:1.85;color:var(--muted);margin-bottom:14px}
+.score-chip{
+  display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:999px;background:rgba(255,255,255,.05);
+  border:1px solid var(--line);font-size:15px;font-weight:900;margin-bottom:18px
+}
+.material-intro{text-align:center;margin-bottom:18px}
+.material-intro h2{font-size:29px;font-weight:900;letter-spacing:-.03em;margin:10px 0 6px}
+.material-intro p{font-size:14px;line-height:1.85;color:var(--muted)}
+.tabs{display:flex;gap:8px;overflow:auto;padding-bottom:6px;margin-bottom:14px}
+.tab{
+  border:none;background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--muted);
+  padding:8px 14px;border-radius:999px;font:inherit;font-size:12px;font-weight:800;white-space:nowrap;cursor:pointer
+}
+.tab.on{background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.28);color:#ffe3ad}
+.topic{display:none}
+.topic.on{display:block;animation:up .28s ease}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.lesson{
+  padding:18px;border-radius:20px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.02));
+  box-shadow:var(--shadow2);margin-bottom:12px
+}
+.lesson h3{font-size:17px;font-weight:900;margin-bottom:6px}
+.lesson .sub{font-size:12px;color:var(--muted);margin-bottom:12px}
+table.tbl{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+.tbl th{background:#22315a;color:#ffe3ad;padding:9px 11px;text-align:left;font-size:11px;font-weight:900}
+.tbl td{padding:10px 11px;border-bottom:1px solid rgba(255,255,255,.08);line-height:1.6;color:#e5ecfb;vertical-align:top}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:nth-child(even) td{background:rgba(255,255,255,.025)}
+.lesson ul{margin:8px 0 0 18px}
+.lesson li{margin:7px 0;font-size:14px;line-height:1.8;color:#e5ecfb}
+.call{
+  margin-top:10px;padding:12px 13px;border-radius:14px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.18);
+  font-size:13px;line-height:1.75;color:#ffe6b5
+}
+.result-head{text-align:center;padding:4px 0 10px}
+.result-head h2{font-size:28px;font-weight:900;margin:12px 0 6px}
+.result-head p{font-size:14px;color:var(--muted)}
+.metrics{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:14px 0}
+.metric{padding:16px;border-radius:18px;border:1px solid var(--line);background:rgba(255,255,255,.03);text-align:center}
+.metric .lab{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:900}
+.metric .val{font-size:30px;font-weight:900;margin-top:4px}
+.wrong-section{margin-top:16px}
+.wrong-section h3{font-size:12px;font-weight:900;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
+.wrong-card{padding:14px;border-radius:18px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);margin-bottom:10px}
+.wrong-card .tag{font-size:10px;font-weight:900;color:#ffe3ad;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px}
+.wrong-card .q{font-size:13px;line-height:1.7;font-weight:800;margin-bottom:8px}
+.wrong-card .x{font-size:12px;color:#fecaca}
+.wrong-card .c{font-size:12px;color:#bbf7d0;font-weight:800;margin-top:3px}
+.wrong-card .e{margin-top:8px;padding:10px 12px;border-radius:12px;background:rgba(56,189,248,.08);border-left:3px solid #38bdf8;font-size:12px;line-height:1.75;color:#dff4ff}
+.note{margin-top:14px;padding:18px;border-radius:20px;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.18)}
+.note h3{font-size:13px;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:#bbffe5;margin-bottom:8px}
+.note p{font-size:14px;line-height:1.85;color:#d6fff1}
+@media(max-width:640px){
+  .hero h1{font-size:27px}
+  .grid2,.metrics{grid-template-columns:1fr}
+  .qtext{font-size:17px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div id="splash" class="screen" style="display:block">
+  <div class="hero">
+    <span class="badge">B06 · Agama · Ibadah Khusus</span>
+    <h1>Penguatan <span class="accent">Ibadah Khusus</span></h1>
+    <p>B06 dibuat dari hasil A03. Topik ini belum lemah total, tetapi masih ada konsep yang tertukar. Target B06 adalah membuat Musa lebih mantap pada <strong>shalat khusus, bersuci, jenazah, haji-umrah, qurban, dan akikah</strong>.</p>
+  </div>
+
+  <div class="panel">
+    <div class="grid2">
+      <div class="focus-card">
+        <div class="focus-top">
+          <div class="focus-icon" style="background:linear-gradient(135deg,rgba(245,158,11,.18),rgba(56,189,248,.14))">🌙</div>
+          <div>
+            <div class="focus-code mono">Fokus Utama</div>
+            <div class="focus-name">Ibadah Khusus</div>
+          </div>
+        </div>
+        <div class="focus-meta">Bersuci, tayamum, shalat Jumat, shalat Id, shalat jenazah, haji, umrah, qurban, akikah, dan pengurusan jenazah.</div>
+      </div>
+
+      <div class="focus-card">
+        <div class="focus-top">
+          <div class="focus-icon" style="background:linear-gradient(135deg,rgba(52,211,153,.16),rgba(139,92,246,.16))">🎯</div>
+          <div>
+            <div class="focus-code mono">Target B06</div>
+            <div class="focus-name">Naik dari “sedang”</div>
+          </div>
+        </div>
+        <div class="focus-meta">Bukan sekadar hafal istilah, tetapi bisa membedakan urutan, hukum, dan fungsi ibadah khusus yang sering tertukar di soal.</div>
+      </div>
+    </div>
+
+    <div class="error-box">
+      <div class="hd">Error penting dari A03</div>
+      <p>Di A03, Musa masih tertukar pada dua titik penting: <strong>shalat jenazah</strong> dijawab sunnah muakkadah padahal <strong>fardhu kifayah</strong>, dan urutan rukun wudhu juga masih belum tepat. Itu tanda bahwa konsep dasar ibadah khusus perlu dirapikan, bukan cuma dihafal setengah.</p>
+      <div class="fix-box">Fix B06: pakai pre-test untuk cek ulang miskonsepsi, lalu masuk ke materi yang dibagi jadi 4 blok besar, lalu post-test dengan soal baru.</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="sec-title">Mode Belajar</div>
+    <div class="line-item"><span>🧪</span><span><strong>Pre-test</strong> dulu, supaya kelihatan bagian mana yang masih rancu.</span></div>
+    <div class="line-item"><span>📚</span><span><strong>Materi ekstensif</strong> setelah pre-test, dengan tabel pembeda dan trik hafalan cepat.</span></div>
+    <div class="line-item"><span>✅</span><span><strong>Post-test</strong> berisi soal baru, tetap satu level dengan Paket A.</span></div>
+    <div class="line-item"><span>⏱️</span><span>Timer <strong>12 menit</strong> untuk pre-test dan <strong>12 menit</strong> untuk post-test.</span></div>
+  </div>
+
+  <button class="cta" onclick="show('pre-screen');startTimer('pre')">Mulai B06</button>
+</div>
+
+<div id="pre-screen" class="screen">
+  <div class="panel quiz-head">
+    <div class="icon">🌙</div>
+    <div>
+      <div class="small mono">B06 · PRE-TEST · IBADAH KHUSUS</div>
+      <div class="title">Pre-test B06</div>
+      <div class="sub">10 soal untuk memotret pemahaman awal Musa</div>
+    </div>
+  </div>
+
+  <div class="quiz-bar">
+    <span class="pill pre">Pre-test</span>
+    <span class="counter mono" id="pre-ctr">1/10</span>
+    <span class="timer mono" id="pre-timer">⏱ <span id="pre-tv">12:00</span></span>
+  </div>
+
+  <div class="progress"><div id="pre-pf"></div></div>
+
+  <div class="quiz-card">
+    <div class="qlabel" id="pre-qlabel">Soal 01</div>
+    <div class="qtag" id="pre-qtag">Bersuci</div>
+    <div class="qtext" id="pre-qtext"></div>
+    <div class="qhint" id="pre-qhint"></div>
+    <div class="qvis" id="pre-qvis"></div>
+    <div class="options" id="pre-opts"></div>
+    <div class="expl" id="pre-expl"></div>
+    <button class="next-btn" id="pre-nb" onclick="nextPre()">Soal berikutnya →</button>
+  </div>
+</div>
+
+<div id="materi-screen" class="screen">
+  <div class="material-card">
+    <div class="material-intro">
+      <span class="badge">📚 Materi B06</span>
+      <h2>Ibadah Khusus, Dibuat Rapi</h2>
+      <p>Fokus materi ini bukan banyak-banyakan istilah, tetapi membedakan konsep yang sering tertukar di soal. Baca pelan, lalu masuk ke post-test.</p>
+    </div>
+
+    <div class="tabs">
+      <button class="tab on" onclick="goTab(0)">💧 Bersuci</button>
+      <button class="tab" onclick="goTab(1)">🕌 Shalat Khusus</button>
+      <button class="tab" onclick="goTab(2)">🕋 Haji & Umrah</button>
+      <button class="tab" onclick="goTab(3)">⚰️ Jenazah & Qurban</button>
+    </div>
+
+    <div class="topic on" id="topic0">
+      <div class="lesson">
+        <h3>💧 Bersuci: wudhu, mandi wajib, tayamum</h3>
+        <div class="sub">Ini fondasi sebelum ibadah lain. Kalau bagian ini rancu, banyak soal ikut salah.</div>
+        <table class="tbl">
+          <tr><th>Istilah</th><th>Dipakai untuk</th><th>Kata kunci</th></tr>
+          <tr><td>Wudhu</td><td>Membersihkan hadas kecil sebelum shalat</td><td>Hadas kecil</td></tr>
+          <tr><td>Mandi wajib</td><td>Membersihkan hadas besar</td><td>Hadas besar</td></tr>
+          <tr><td>Tayamum</td><td>Pengganti wudhu/mandi wajib saat tidak ada air atau tidak boleh kena air</td><td>Debu suci</td></tr>
+        </table>
+        <ul>
+          <li><strong>Rukun wudhu</strong> yang perlu diingat: niat, membasuh wajah, membasuh tangan sampai siku, mengusap sebagian kepala, membasuh kaki sampai mata kaki, tertib.</li>
+          <li>Yang sering tertukar: urutan <strong>wajah dulu</strong>, baru tangan, lalu kepala, lalu kaki.</li>
+          <li>Salah satu yang membatalkan wudhu: buang angin, buang air, tidur nyenyak, hilang akal.</li>
+        </ul>
+        <div class="call"><strong>Trik cepat:</strong> Wudhu = kecil, mandi wajib = besar, tayamum = darurat. Kalau soal bertanya “tidak ada air” atau “tidak boleh kena air”, pikirkan <strong>tayamum</strong>.</div>
+      </div>
+    </div>
+
+    <div class="topic" id="topic1">
+      <div class="lesson">
+        <h3>🕌 Shalat Khusus: Jumat, Id, dan jenazah</h3>
+        <div class="sub">Tiga jenis ini mirip karena sama-sama shalat, tapi hukumnya dan bentuknya berbeda.</div>
+        <table class="tbl">
+          <tr><th>Shalat</th><th>Jumlah rakaat</th><th>Ciri penting</th></tr>
+          <tr><td>Jumat</td><td>2 rakaat</td><td>Setelah 2 khutbah, wajib bagi laki-laki muslim yang memenuhi syarat</td></tr>
+          <tr><td>Idul Fitri / Idul Adha</td><td>2 rakaat</td><td>Shalat hari raya</td></tr>
+          <tr><td>Jenazah</td><td>Tidak pakai rakaat biasa</td><td>4 takbir, tanpa ruku dan sujud, hukumnya fardhu kifayah</td></tr>
+        </table>
+        <ul>
+          <li><strong>Shalat jenazah</strong> bukan sunnah muakkadah. Ini titik salah Musa di A03. Hukum yang benar: <strong>fardhu kifayah</strong>.</li>
+          <li>Shalat jenazah tidak ada ruku, i'tidal, sujud, dan duduk di antara dua sujud.</li>
+          <li>Setelah takbir pertama biasanya membaca <strong>Al-Fatihah</strong>.</li>
+          <li>Salah satu sunnah hari Jumat: mandi, memakai pakaian bersih, datang lebih awal ke masjid.</li>
+        </ul>
+        <div class="call"><strong>Trik cepat:</strong> Jumat = 2 rakaat + 2 khutbah. Jenazah = 4 takbir + tanpa ruku sujud. Id = 2 rakaat hari raya.</div>
+      </div>
+    </div>
+
+    <div class="topic" id="topic2">
+      <div class="lesson">
+        <h3>🕋 Haji & Umrah</h3>
+        <div class="sub">Di Paket A biasanya yang keluar bukan detail rumit, tetapi urutan dan pembeda utamanya.</div>
+        <table class="tbl">
+          <tr><th>Ibadah</th><th>Wajib untuk siapa</th><th>Pembeda utama</th></tr>
+          <tr><td>Haji</td><td>Muslim yang mampu, sekali seumur hidup</td><td>Ada wukuf di Arafah</td></tr>
+          <tr><td>Umrah</td><td>Sunnah/ibadah yang bisa dilakukan di luar musim haji</td><td>Tidak ada wukuf di Arafah</td></tr>
+        </table>
+        <ul>
+          <li>Wukuf adalah salah satu bagian paling penting dalam haji dan dilakukan di <strong>Arafah</strong>, terutama pada <strong>9 Zulhijjah</strong>.</li>
+          <li>Rangkaian umrah yang paling sederhana untuk diingat: <strong>ihram → tawaf → sa'i → tahallul</strong>.</li>
+          <li>Kalau ada soal yang menanyakan ibadah yang <strong>tidak termasuk umrah</strong>, sering jawabannya adalah <strong>wukuf</strong>.</li>
+        </ul>
+        <div class="call"><strong>Trik cepat:</strong> Haji = ada <strong>wukuf</strong>. Umrah = tidak ada wukuf. Kalau lihat kata Arafah, kemungkinan besar itu tentang <strong>haji</strong>.</div>
+      </div>
+    </div>
+
+    <div class="topic" id="topic3">
+      <div class="lesson">
+        <h3>⚰️ Jenazah, qurban, dan akikah</h3>
+        <div class="sub">Tiga hal ini sering muncul bersama, padahal fungsi dan waktunya beda.</div>
+        <table class="tbl">
+          <tr><th>Topik</th><th>Tujuan</th><th>Kata kunci</th></tr>
+          <tr><td>Pengurusan jenazah</td><td>Memuliakan muslim yang wafat</td><td>Memandikan → mengkafani → menyalatkan → menguburkan</td></tr>
+          <tr><td>Qurban</td><td>Ibadah penyembelihan pada Idul Adha/hari tasyrik</td><td>10–13 Zulhijjah</td></tr>
+          <tr><td>Akikah</td><td>Syukur atas kelahiran anak</td><td>Kelahiran anak</td></tr>
+        </table>
+        <ul>
+          <li>Urutan pengurusan jenazah harus hafal: <strong>memandikan, mengkafani, menyalatkan, menguburkan</strong>.</li>
+          <li>Qurban terkait <strong>Idul Adha</strong>, bukan kelahiran anak.</li>
+          <li>Akikah adalah bentuk syukur atas <strong>kelahiran anak</strong>, bukan pengganti qurban.</li>
+        </ul>
+        <div class="call"><strong>Trik cepat:</strong> Anak lahir = akikah. Idul Adha = qurban. Orang wafat = jenazah.</div>
+      </div>
+
+      <button class="cta" style="margin-top:8px" onclick="show('post-screen');startTimer('post')">Lanjut ke Post-test</button>
+    </div>
+  </div>
+</div>
+
+<div id="post-screen" class="screen">
+  <div class="panel quiz-head">
+    <div class="icon">✅</div>
+    <div>
+      <div class="small mono">B06 · POST-TEST · IBADAH KHUSUS</div>
+      <div class="title">Post-test B06</div>
+      <div class="sub">10 soal baru untuk cek apakah konsep sudah masuk</div>
+    </div>
+  </div>
+
+  <div class="quiz-bar">
+    <span class="pill post">Post-test</span>
+    <span class="counter mono" id="post-ctr">1/10</span>
+    <span class="timer mono" id="post-timer">⏱ <span id="post-tv">12:00</span></span>
+  </div>
+
+  <div class="progress"><div id="post-pf"></div></div>
+
+  <div class="quiz-card">
+    <div class="qlabel" id="post-qlabel">Soal 01</div>
+    <div class="qtag" id="post-qtag">Akikah</div>
+    <div class="qtext" id="post-qtext"></div>
+    <div class="qhint" id="post-qhint"></div>
+    <div class="qvis" id="post-qvis"></div>
+    <div class="options" id="post-opts"></div>
+    <div class="expl" id="post-expl"></div>
+    <button class="next-btn" id="post-nb" onclick="nextPost()">Soal berikutnya →</button>
+  </div>
+</div>
+
+<div id="transition-screen" class="screen">
+  <div class="transition-card">
+    <div class="ico" id="tr-ico">✅</div>
+    <div class="ttl" id="tr-title">Selesai</div>
+    <div class="sub" id="tr-sub">Ringkasan singkat</div>
+    <div class="score-chip" id="tr-chip">7/10 benar</div>
+    <button class="cta" id="tr-btn" onclick="continueFlow()">Lanjut</button>
+  </div>
+</div>
+
+<div id="result-screen" class="screen">
+  <div class="result-card">
+    <div class="result-head">
+      <span class="badge">📊 Hasil B06</span>
+      <h2 id="res-title">Hasil B06</h2>
+      <p id="res-sub">Ringkasan belajar Ibadah Khusus</p>
+    </div>
+
+    <div class="metrics">
+      <div class="metric">
+        <div class="lab">Pre-test</div>
+        <div class="val" id="pre-score">0</div>
+      </div>
+      <div class="metric">
+        <div class="lab">Delta</div>
+        <div class="val" id="delta-score">+0</div>
+      </div>
+      <div class="metric">
+        <div class="lab">Post-test</div>
+        <div class="val" id="post-score">0</div>
+      </div>
+    </div>
+
+    <div class="note">
+      <h3>Catatan ringkas</h3>
+      <p id="summary-note"></p>
+    </div>
+
+    <div class="wrong-section" id="pre-wrong-sec" style="display:none">
+      <h3 style="color:#fecaca">🧪 Soal salah — Pre-test</h3>
+      <div id="pre-wrong-list"></div>
+    </div>
+
+    <div class="wrong-section" id="post-wrong-sec" style="display:none">
+      <h3 style="color:#bbffe5">✅ Soal salah — Post-test</h3>
+      <div id="post-wrong-list"></div>
+    </div>
+
+    <button class="copy-btn" id="copy-btn" onclick="copyResult()">📋 Salin hasil B06</button>
+    <button class="ghost" onclick="if(confirm('Ulangi B06?')) location.reload()">🔄 Ulangi B06</button>
+  </div>
+</div>
+
+</div>
+
+<script>
+const TIME_LIMIT = 12 * 60;
+let preIdx = 0, postIdx = 0, preScore = 0, postScore = 0;
+let preElapsed = 0, postElapsed = 0, preTimer = null, postTimer = null;
+let preWrong = [], postWrong = [];
+let picked = false;
+let flowState = '';
+
+const PRE = [
+  {tag:'💧 Bersuci',q:'Jika tidak ada air atau sedang sakit sehingga tidak boleh kena air, cara bersuci yang benar adalah...',hint:'Pengganti wudhu atau mandi wajib saat darurat.',vis:'Kata kunci: tidak ada air / tidak boleh kena air.',opts:['Tayamum','Istinja','Mandi sunnah','Membasuh tangan saja'],ans:0,exp:'Tayamum adalah cara bersuci memakai debu suci sebagai pengganti wudhu atau mandi wajib ketika tidak ada air atau ada uzur.',formula:'Darurat air = tayamum'},
+  {tag:'⚰️ Shalat Jenazah',q:'Yang membedakan shalat jenazah dari shalat biasa adalah...',hint:'Ingat titik salah A03.',vis:'Cari jawaban yang paling khas.',opts:['Dilakukan 4 rakaat','Tidak ada ruku dan sujud','Hanya dilakukan di masjid','Wajib berjamaah'],ans:1,exp:'Shalat jenazah tidak memiliki ruku dan sujud. Ciri utamanya adalah 4 takbir serta doa-doa untuk jenazah.',formula:'Jenazah = 4 takbir, tanpa ruku & sujud'},
+  {tag:'🕌 Shalat Jumat',q:'Shalat Jumat dilaksanakan...',hint:'Perhatikan jumlah rakaat dan khutbah.',vis:'Jumat ≠ shalat Zuhur biasa.',opts:['4 rakaat sebelum khutbah','2 rakaat tanpa khutbah','2 rakaat setelah 2 khutbah','4 rakaat setelah 1 khutbah'],ans:2,exp:'Shalat Jumat dilaksanakan 2 rakaat setelah 2 khutbah dan menggantikan Zuhur bagi laki-laki muslim yang memenuhi syarat.',formula:'Jumat = 2 khutbah + 2 rakaat'},
+  {tag:'🕋 Haji',q:'Wukuf dilaksanakan di...',hint:'Ini penanda penting ibadah haji.',vis:'Kalau lihat kata “wukuf”, pikirkan satu tempat khusus.',opts:['Mina','Muzdalifah','Makkah','Arafah'],ans:3,exp:'Wukuf adalah bagian sangat penting dalam haji dan dilakukan di Padang Arafah.',formula:'Wukuf = Arafah'},
+  {tag:'⚰️ Pengurusan Jenazah',q:'Urutan pengurusan jenazah yang benar adalah...',hint:'Hafalkan empat langkah inti.',vis:'Mulai dari membersihkan sampai penguburan.',opts:['Memandikan → mengkafani → menyalatkan → menguburkan','Mengkafani → memandikan → menguburkan → menyalatkan','Menyalatkan → memandikan → mengkafani → menguburkan','Menguburkan → menyalatkan → mengkafani → memandikan'],ans:0,exp:'Urutan pengurusan jenazah yang benar adalah memandikan, mengkafani, menyalatkan, lalu menguburkan.',formula:'Mandi → kafan → salat → kubur'},
+  {tag:'⚰️ Shalat Jenazah',q:'Hukum shalat jenazah adalah...',hint:'Ini titik yang salah di A03.',vis:'Bukan sunnah muakkadah.',opts:['Fardhu ain','Fardhu kifayah','Sunnah muakkadah','Mubah'],ans:1,exp:'Shalat jenazah hukumnya fardhu kifayah. Jika sudah ada sebagian muslim yang melaksanakannya, gugurlah kewajiban bagi yang lain.',formula:'Jenazah = fardhu kifayah'},
+  {tag:'💧 Wudhu',q:'Salah satu rukun wudhu yang benar adalah...',hint:'Perhatikan bagian yang diusap, bukan dibasuh semua.',vis:'Rukun, bukan sunnah.',opts:['Membasuh telinga tiga kali','Berkumur sebelum niat','Mengusap sebagian kepala','Membaca doa setelah wudhu'],ans:2,exp:'Mengusap sebagian kepala adalah rukun wudhu. Adapun doa setelah wudhu termasuk amalan setelah wudhu, bukan rukun.',formula:'Rukun wudhu: niat, wajah, tangan, sebagian kepala, kaki, tertib'},
+  {tag:'🐄 Qurban',q:'Ibadah menyembelih hewan pada hari raya Idul Adha disebut...',hint:'Jangan tertukar dengan akikah.',vis:'Idul Adha punya ibadah penyembelihan khusus.',opts:['Nazar','Fidyah','Akikah','Qurban'],ans:3,exp:'Penyembelihan hewan pada Idul Adha dan hari tasyrik disebut qurban. Akikah adalah syukur atas kelahiran anak.',formula:'Idul Adha = qurban'},
+  {tag:'💧 Bersuci',q:'Jika seseorang sakit parah dan dilarang dokter terkena air, maka ia boleh bersuci dengan...',hint:'Masih satu konsep dengan soal pertama, tapi konteksnya berbeda.',vis:'Kata kunci: sakit + tidak boleh kena air.',opts:['Tayamum','Wudhu biasa','Mandi wajib','Menunggu sehat saja'],ans:0,exp:'Saat ada uzur syar’i seperti sakit dan tidak boleh kena air, tayamum boleh digunakan sebagai pengganti bersuci dengan air.',formula:'Sakit + tak boleh air = tayamum'},
+  {tag:'🌙 Shalat Id',q:'Shalat Idul Fitri dikerjakan sebanyak...',hint:'Bandingkan dengan Jumat.',vis:'Ingat jumlah rakaatnya.',opts:['1 rakaat','2 rakaat','3 rakaat','4 rakaat'],ans:1,exp:'Shalat Idul Fitri dikerjakan 2 rakaat. Yang membedakan dengan Jumat adalah konteks hari raya, bukan jumlah rakaat.',formula:'Shalat Id = 2 rakaat'}
+];
+
+const POST = [
+  {tag:'👶 Akikah',q:'Akikah biasanya dilaksanakan sebagai bentuk syukur atas...',hint:'Jangan tertukar dengan qurban.',vis:'Qurban ≠ akikah.',opts:['Panen yang berhasil','Kesembuhan dari sakit','Kelahiran anak','Kepulangan dari haji'],ans:2,exp:'Akikah adalah ibadah penyembelihan sebagai bentuk syukur atas kelahiran anak.',formula:'Anak lahir = akikah'},
+  {tag:'🕋 Haji',q:'Orang yang wajib menunaikan haji adalah muslim yang...',hint:'Syarat utamanya sering diringkas dalam satu kata.',vis:'Bukan semua muslim otomatis wajib haji.',opts:['Sudah tua','Tinggal di Arab Saudi','Sudah menikah','Mampu'],ans:3,exp:'Haji wajib bagi muslim yang mampu, baik mampu secara fisik, biaya, dan perjalanan.',formula:'Haji wajib = mampu'},
+  {tag:'💧 Wudhu',q:'Salah satu yang membatalkan wudhu adalah...',hint:'Cari yang benar-benar membatalkan, bukan sekadar aktivitas biasa.',vis:'Tidak semua aktivitas ringan membatalkan wudhu.',opts:['Buang angin','Membaca Al-Qur’an','Tersenyum','Memakai sandal'],ans:0,exp:'Buang angin termasuk hal yang membatalkan wudhu. Membaca Al-Qur’an dan tersenyum tidak membatalkan wudhu.',formula:'Batal wudhu: buang air/angin, tidur nyenyak, hilang akal'},
+  {tag:'🕋 Umrah',q:'Rangkaian ibadah umrah tidak mencakup...',hint:'Cari yang khusus milik haji.',vis:'Ada satu istilah yang bukan bagian umrah.',opts:['Tawaf','Wukuf di Arafah','Sa’i','Tahallul'],ans:1,exp:'Wukuf di Arafah adalah bagian dari haji, bukan umrah. Umrah terdiri dari ihram, tawaf, sa’i, dan tahallul.',formula:'Umrah = ihram → tawaf → sa’i → tahallul'},
+  {tag:'💧 Wudhu',q:'Dalam wudhu, kaki dibasuh sampai...',hint:'Bagian kaki punya batas tertentu.',vis:'Perhatikan ujung batasnya.',opts:['Betis','Lutut','Mata kaki','Jari kaki saja'],ans:2,exp:'Dalam wudhu, kaki dibasuh sampai mata kaki. Ini termasuk rukun wudhu.',formula:'Kaki wudhu = sampai mata kaki'},
+  {tag:'🕋 Haji',q:'Hari utama pelaksanaan wukuf adalah tanggal...',hint:'Ini tanggal penting di bulan Zulhijjah.',vis:'Satu hari sebelum Idul Adha.',opts:['1 Zulhijjah','8 Zulhijjah','10 Zulhijjah','9 Zulhijjah'],ans:3,exp:'Wukuf dilaksanakan pada 9 Zulhijjah di Arafah, yang merupakan salah satu inti ibadah haji.',formula:'9 Zulhijjah = wukuf'},
+  {tag:'⚰️ Shalat Jenazah',q:'Dalam shalat jenazah, setelah takbiratul ihram biasanya dibaca...',hint:'Bacaan pembuka utama.',vis:'Pikirkan bacaan yang juga wajib di banyak shalat.',opts:['Al-Fatihah','Doa qunut','Tasyahud awal','Surah Al-Ikhlas saja'],ans:0,exp:'Setelah takbir pertama dalam shalat jenazah, biasanya dibaca Al-Fatihah.',formula:'Takbir pertama jenazah = Al-Fatihah'},
+  {tag:'🕌 Shalat Jumat',q:'Salah satu sunnah pada hari Jumat adalah...',hint:'Cari amalan persiapan sebelum berangkat.',vis:'Bukan hal yang merusak ibadah.',opts:['Tidur sampai siang','Mandi sebelum shalat Jumat','Tidak pergi ke masjid','Melewatkan khutbah'],ans:1,exp:'Salah satu sunnah hari Jumat adalah mandi, memakai pakaian bersih, dan datang lebih awal ke masjid.',formula:'Sunnah Jumat: mandi, rapi, datang awal'},
+  {tag:'🕋 Umrah',q:'Setelah tawaf dalam umrah, ibadah berikutnya adalah...',hint:'Lanjutkan urutan sederhana umrah.',vis:'Urutannya jangan lompat.',opts:['Tahallul','Wukuf','Sa’i','Mabit'],ans:2,exp:'Setelah tawaf, rangkaian umrah berlanjut ke sa’i antara Shafa dan Marwah.',formula:'Umrah: ihram → tawaf → sa’i → tahallul'},
+  {tag:'🐄 Qurban',q:'Penyembelihan qurban dilakukan pada...',hint:'Terkait Idul Adha dan hari tasyrik.',vis:'Bukan sepanjang tahun.',opts:['Awal Ramadan','Akhir Syawal','Setiap hari Jumat','10–13 Zulhijjah'],ans:3,exp:'Qurban dilakukan pada 10 Zulhijjah (Idul Adha) dan hari-hari tasyrik sampai 13 Zulhijjah.',formula:'Qurban = 10–13 Zulhijjah'}
+];
+
+function fmt(sec){
+  return String(Math.floor(sec/60)).padStart(2,'0') + ':' + String(sec%60).padStart(2,'0');
+}
+function show(id){
+  ['splash','pre-screen','materi-screen','post-screen','transition-screen','result-screen'].forEach(x=>document.getElementById(x).style.display='none');
+  document.getElementById(id).style.display='block';
+}
+function startTimer(which){
+  if(which==='pre'){
+    clearInterval(preTimer); preElapsed = 0; updateTimer('pre',0);
+    preTimer = setInterval(()=>{preElapsed++;updateTimer('pre',preElapsed)},1000);
+    renderPre();
+  }else{
+    clearInterval(postTimer); postElapsed = 0; updateTimer('post',0);
+    postTimer = setInterval(()=>{postElapsed++;updateTimer('post',postElapsed)},1000);
+    renderPost();
+  }
+}
+function updateTimer(which, elapsed){
+  const rem = TIME_LIMIT - elapsed;
+  const box = document.getElementById(which+'-timer');
+  const val = document.getElementById(which+'-tv');
+  if(rem >= 0){
+    val.textContent = fmt(rem);
+    box.className = 'timer mono' + (rem<=180 ? ' warn':'' );
+  }else{
+    val.textContent = '+' + fmt(Math.abs(rem));
+    box.className = 'timer mono over';
+  }
+}
+function renderQuestion(which, arr, idx){
+  const q = arr[idx];
+  document.getElementById(which+'-ctr').textContent = (idx+1) + '/' + arr.length;
+  document.getElementById(which+'-pf').style.width = ((idx/arr.length)*100)+'%';
+  document.getElementById(which+'-qlabel').textContent = 'Soal ' + String(idx+1).padStart(2,'0');
+  document.getElementById(which+'-qtag').textContent = q.tag;
+  document.getElementById(which+'-qtext').textContent = q.q;
+  document.getElementById(which+'-qhint').textContent = q.hint ? '💡 ' + q.hint : '';
+  const vis = document.getElementById(which+'-qvis');
+  if(q.vis){vis.style.display='block';vis.textContent=q.vis}else{vis.style.display='none';vis.textContent=''}
+  const opts = document.getElementById(which+'-opts');
+  const expl = document.getElementById(which+'-expl');
+  const nb = document.getElementById(which+'-nb');
+  opts.innerHTML=''; expl.className='expl'; expl.innerHTML=''; nb.className='next-btn'; picked = false;
+  ['A','B','C','D'].forEach((l,i)=>{
+    const b = document.createElement('button');
+    b.className='opt';
+    b.innerHTML='<span class="ol">'+l+'</span><span>'+q.opts[i]+'</span>';
+    b.onclick=()=>pickAnswer(which,arr,idx,i);
+    opts.appendChild(b);
+  });
+}
+function pickAnswer(which, arr, idx, chosen){
+  if(picked) return;
+  picked = true;
+  const q = arr[idx];
+  const btns = document.querySelectorAll('#'+which+'-opts .opt');
+  btns.forEach(b=>b.disabled=true);
+  const wrongArr = which==='pre' ? preWrong : postWrong;
+  if(chosen===q.ans){
+    btns[chosen].classList.add('correct');
+    if(which==='pre') preScore++; else postScore++;
+  }else{
+    btns[chosen].classList.add('wrong');
+    btns[q.ans].classList.add('correct');
+    wrongArr.push({tag:q.tag,q:q.q,chosen:q.opts[chosen],correct:q.opts[q.ans],exp:q.exp,formula:q.formula||''});
+  }
+  const expl = document.getElementById(which+'-expl');
+  expl.innerHTML = '<div class="hd">Penjelasan</div><div class="txt">'+q.exp+(q.formula?'<div class="formula">'+q.formula+'</div>':'')+'</div>';
+  expl.className = 'expl show';
+  const nb = document.getElementById(which+'-nb');
+  nb.textContent = idx===arr.length-1 ? (which==='pre' ? 'Lihat materi →' : 'Lihat hasil →') : 'Soal berikutnya →';
+  nb.className = 'next-btn show';
+}
+function renderPre(){renderQuestion('pre', PRE, preIdx)}
+function renderPost(){renderQuestion('post', POST, postIdx)}
+function nextPre(){
+  if(preIdx < PRE.length-1){preIdx++;renderPre()}
+  else{clearInterval(preTimer);flowState='materi';showTransition('🧪','Pre-test selesai','Sekarang masuk ke materi. Fokusnya merapikan konsep yang sering tertukar di A03 dan pre-test B06.',preScore+'/'+PRE.length+' benar','Masuk ke materi')}
+}
+function nextPost(){
+  if(postIdx < POST.length-1){postIdx++;renderPost()}
+  else{clearInterval(postTimer);showResult()}
+}
+function showTransition(icon,title,sub,score,btn){
+  show('transition-screen');
+  document.getElementById('tr-ico').textContent=icon;
+  document.getElementById('tr-title').textContent=title;
+  document.getElementById('tr-sub').textContent=sub;
+  document.getElementById('tr-chip').textContent=score;
+  document.getElementById('tr-btn').textContent=btn;
+}
+function continueFlow(){
+  if(flowState==='materi'){show('materi-screen')}
+}
+function goTab(n){
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('on',i===n));
+  document.querySelectorAll('.topic').forEach((t,i)=>t.classList.toggle('on',i===n));
+}
+function showResult(){
+  show('result-screen');
+  const prePct = Math.round((preScore/PRE.length)*100);
+  const postPct = Math.round((postScore/POST.length)*100);
+  const delta = postPct - prePct;
+  document.getElementById('pre-score').textContent = prePct;
+  document.getElementById('post-score').textContent = postPct;
+  const d = document.getElementById('delta-score');
+  d.textContent = (delta>=0?'+':'') + delta;
+  d.style.color = delta>0 ? '#bbffe5' : delta<0 ? '#fecaca' : '#ffe3ad';
+  let title='✅ B06 selesai', sub='Latihan Ibadah Khusus selesai.';
+  if(postPct>=80 && delta>=20){title='🚀 Lompatan bagus di Ibadah Khusus';sub='Skor naik tajam dan konsep utama tampak lebih rapi.'}
+  else if(postPct>=80){title='✅ Ibadah Khusus sudah kuat';sub='Hasil post-test sudah masuk kategori aman.'}
+  else if(postPct>=60){title='⚠️ Sudah membaik, tapi masih perlu penguatan';sub='Masih ada beberapa konsep yang perlu diulang.'}
+  else {title='❗ Ibadah Khusus masih perlu diulang';sub='Ulang materi dan kerjakan lagi dengan pelan.'}
+  document.getElementById('res-title').textContent = title;
+  document.getElementById('res-sub').textContent = sub;
+  const note = [];
+  note.push('Pre-test: '+prePct+'/100, Post-test: '+postPct+'/100, delta: '+(delta>=0?'+':'')+delta+' poin.');
+  if(postPct>=80) note.push('Konsep yang paling penting tampaknya sudah mulai mantap: hukum shalat jenazah, urutan wudhu, dan pembeda haji-umrah.');
+  else note.push('Prioritas ulang: hukum shalat jenazah, urutan wudhu, pembeda qurban-akikah, dan wukuf di Arafah.');
+  if(postWrong.length) note.push('Lihat lagi bagian soal salah post-test, karena itulah titik konsep yang masih belum stabil.');
+  document.getElementById('summary-note').textContent = note.join(' ');
+  renderWrongList(preWrong,'pre-wrong-sec','pre-wrong-list');
+  renderWrongList(postWrong,'post-wrong-sec','post-wrong-list');
+}
+function renderWrongList(arr, secId, listId){
+  const sec = document.getElementById(secId);
+  const list = document.getElementById(listId);
+  if(!arr.length){sec.style.display='none';list.innerHTML='';return}
+  sec.style.display='block';
+  list.innerHTML = arr.map(w=>'<div class="wrong-card"><div class="tag">'+w.tag+'</div><div class="q">❓ '+w.q+'</div><div class="x">✗ Jawab: '+w.chosen+'</div><div class="c">✓ Benar: '+w.correct+'</div><div class="e">'+w.exp+(w.formula?'<div style="margin-top:7px;font-family:IBM Plex Mono,monospace">'+w.formula+'</div>':'')+'</div></div>').join('');
+}
+function copyResult(){
+  const prePct = Math.round((preScore/PRE.length)*100);
+  const postPct = Math.round((postScore/POST.length)*100);
+  const delta = postPct - prePct;
+  let txt = '📊 HASIL B06 — AGAMA (IBADAH KHUSUS)\n';
+  txt += 'Program Persiapan UPK Paket A\n';
+  txt += '────────────────────────────────────\n';
+  txt += 'Pre-test : '+prePct+'/100 ('+preScore+'/'+PRE.length+')\n';
+  txt += 'Post-test: '+postPct+'/100 ('+postScore+'/'+POST.length+')\n';
+  txt += 'Delta    : '+(delta>=0?'+':'')+delta+' poin\n\n';
+  if(preWrong.length){
+    txt += 'SOAL SALAH PRE-TEST:\n';
+    preWrong.forEach((w,i)=>{txt += (i+1)+'. ['+w.tag+'] '+w.q+'\n   → Jawab: '+w.chosen+' | Benar: '+w.correct+'\n';});
+    txt += '\n';
+  }
+  if(postWrong.length){
+    txt += 'SOAL SALAH POST-TEST:\n';
+    postWrong.forEach((w,i)=>{txt += (i+1)+'. ['+w.tag+'] '+w.q+'\n   → Jawab: '+w.chosen+' | Benar: '+w.correct+'\n';});
+  }
+  navigator.clipboard.writeText(txt).then(()=>{
+    const b=document.getElementById('copy-btn');
+    b.textContent='✅ Hasil B06 tersalin';
+    setTimeout(()=>b.textContent='📋 Salin hasil B06',3000);
+  }).catch(()=>prompt('Salin hasil:',txt));
+}
+</script>
+</body>
+</html>
