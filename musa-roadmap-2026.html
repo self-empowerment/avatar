@@ -1098,9 +1098,9 @@ if(ntBox){
 
 function genRep(){
   const n = new Date();
-  const D = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
-  const M = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-  const MO = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agt','Sep','Okt','Nov','Des'];
+  const DAY_NAMES = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+  const MONTH_NAMES = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+  const MONTH_SHORT = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agt','Sep','Okt','Nov','Des'];
   const dl = Math.ceil((DEMO - n) / DAY_MS);
   const wp = weightedProgress();
   const plan = getUPKAdaptivePlan(n);
@@ -1108,7 +1108,7 @@ function genRep(){
   let L = [];
 
   L.push('=== LAPORAN MUSA · MISSION CONTROL 2026 ===');
-  L.push(`Tanggal: ${D[n.getDay()]}, ${n.getDate()} ${M[n.getMonth()]} ${n.getFullYear()} · ${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')} AWST`);
+  L.push(`Tanggal: ${DAY_NAMES[n.getDay()]}, ${n.getDate()} ${MONTH_NAMES[n.getMonth()]} ${n.getFullYear()} · ${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')} AWST`);
   L.push(`Demo moderator: 15 Desember 2026 (${dl} hari lagi)`);
   L.push(`Progress berbobot: ${wp.pct}% · raw ${wp.rawDone}/${wp.rawTotal} item`);
   L.push('');
@@ -1162,7 +1162,7 @@ function genRep(){
     Object.entries(DL).forEach(([id, dl2])=>{
       if(dl2 <= nw && !isDone(id)){
         found = true;
-        L.push(`  → ${PL[id]} (${dl2.getDate()} ${MO[dl2.getMonth()]})`);
+        L.push(`  → ${PL[id]} (${dl2.getDate()} ${MONTH_SHORT[dl2.getMonth()]})`);
       }
     });
     if(!found) L.push('  Tidak ada deadline minggu ini.');
