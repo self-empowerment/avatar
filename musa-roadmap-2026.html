@@ -156,29 +156,30 @@ body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(r
 
 
 /* REPORT */
-.rblock{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--rl);overflow:hidden;margin-top:16px;}
-.rhdr{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg3);}
-.rtit{font-family:var(--fh);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--lime);}
-.rsub{font-family:var(--fm);font-size:10px;color:var(--muted);letter-spacing:1px;font-weight:500;}
-.rbody{padding:14px;}
-.rdesc{font-size:13px;color:var(--muted);margin-bottom:12px;line-height:1.6;font-weight:500;}
-.opts{display:flex;flex-direction:column;gap:7px;margin-bottom:14px;}
-.orow{display:flex;align-items:center;gap:8px;cursor:pointer;}
-.orow input{accent-color:var(--lime);width:13px;height:13px;cursor:pointer;}
-.orow label{font-size:12px;color:var(--text);cursor:pointer;font-weight:400;}
-.btn-g{width:100%;background:transparent;border:1px solid var(--lime);border-radius:var(--r);color:var(--lime);font-family:var(--fh);font-size:11px;font-weight:700;letter-spacing:2px;padding:12px;cursor:pointer;text-transform:uppercase;position:relative;overflow:hidden;transition:all .2s;}
-.btn-g::before{content:'';position:absolute;inset:0;background:var(--lime);transform:scaleX(0);transform-origin:left;transition:transform .3s;z-index:0;}
-.btn-g:hover::before{transform:scaleX(1);}
-.btn-g:hover{color:#060810;}
+.rblock{background:var(--bg2);border:1px solid rgba(255,255,255,.08);border-radius:20px;overflow:hidden;margin-top:20px;box-shadow:0 14px 38px rgba(0,0,0,.28), inset 0 0 0 1px rgba(255,255,255,.02);}
+.rhdr{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between;gap:10px;background:linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,.01));}
+.rtit{font-family:var(--fh);font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--lime);}
+.rsub{font-family:var(--fm);font-size:10px;color:var(--muted);letter-spacing:.8px;font-weight:600;}
+.rbody{padding:16px;}
+.rdesc{font-size:13px;color:var(--text);opacity:.82;margin-bottom:14px;line-height:1.65;font-weight:500;}
+.opts{display:flex;flex-direction:column;gap:9px;margin-bottom:16px;}
+.orow{display:flex;align-items:center;gap:10px;cursor:pointer;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:12px;padding:10px 12px;transition:background .18s,border-color .18s;}
+.orow:hover{background:rgba(255,255,255,.035);border-color:rgba(255,255,255,.09);}
+.orow input{accent-color:var(--lime);width:14px;height:14px;cursor:pointer;flex-shrink:0;}
+.orow label{font-size:12px;color:var(--text);cursor:pointer;font-weight:500;line-height:1.45;}
+.btn-g{width:100%;background:var(--lime);border:none;border-radius:16px;color:#0c1302;font-family:var(--fh);font-size:13px;font-weight:800;letter-spacing:.6px;padding:16px 14px;cursor:pointer;transition:transform .15s,filter .15s,box-shadow .15s;box-shadow:0 10px 24px rgba(168,255,62,.18);text-transform:none;}
+.btn-g:hover{transform:translateY(-1px);filter:brightness(1.04);}
+.btn-g:active{transform:translateY(0);}
 .btn-g span{position:relative;z-index:1;}
-.rout{display:none;margin-top:12px;}
+.rout{display:none;margin-top:14px;}
 .rout.show{display:block;}
-.rta{width:100%;background:var(--bg);border:1px solid var(--border2);border-radius:var(--r);color:var(--text);font-family:var(--fm);font-size:11px;line-height:1.6;padding:12px;resize:none;height:220px;letter-spacing:.3px;}
-.btn-c{width:100%;margin-top:8px;background:var(--bg3);color:var(--neon);border:1px solid rgba(0,245,255,.25);border-radius:var(--r);padding:10px;font-family:var(--fm);font-size:10px;letter-spacing:2px;cursor:pointer;text-transform:uppercase;transition:all .2s;}
-.btn-c:hover{background:rgba(0,245,255,.06);}
-.cpok{display:none;text-align:center;font-family:var(--fm);font-size:11px;color:var(--teal);margin-top:8px;letter-spacing:1px;font-weight:600;}
-.nta{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);color:var(--text);font-family:var(--fm);font-size:11px;padding:10px;resize:none;height:70px;margin-bottom:10px;}
+.rout-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:12px;}
+.rta{width:100%;background:#0d1117;border:1px solid rgba(168,255,62,.15);border-radius:12px;color:#e8f4f0;font-family:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace;font-size:11.5px;line-height:1.78;padding:16px;resize:vertical;min-height:320px;letter-spacing:.2px;box-shadow:inset 0 1px 0 rgba(255,255,255,.02),0 0 0 1px rgba(168,255,62,.06);}
+.btn-c{display:none;} /* removed - copy now inline */
+.cpok{display:none;text-align:center;font-family:var(--fm);font-size:11px;color:var(--lime);margin-top:8px;letter-spacing:.5px;font-weight:700;padding:8px;background:rgba(168,255,62,.07);border:1px solid rgba(168,255,62,.2);border-radius:8px;}
+.nta{width:100%;background:#171b25;border:1px solid rgba(255,255,255,.09);border-radius:14px;color:var(--text);font-family:var(--fb);font-size:12px;line-height:1.55;padding:12px 13px;resize:none;height:88px;margin-bottom:12px;}
 .nta::placeholder{color:var(--muted);}
+@media(max-width:480px){.rbody{padding:14px}.orow{padding:9px 11px}.btn-g{padding:15px 12px;font-size:12.5px}.rta{padding:14px;height:230px}}
 
 /* FOOTER */
 .foot{padding:24px 16px 32px;text-align:center;}
@@ -439,23 +440,36 @@ body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(r
 
 <!-- REPORT -->
 <div class="rblock">
-  <div class="rhdr"><div class="rtit">Generate Laporan → Claude</div><div class="rsub">COPY → PASTE KE CHAT</div></div>
-  <div class="rbody">
-    <div class="rdesc">Pilih isi laporan, klik Generate, copy, paste ke chat Claude untuk follow-up dan analisis langkah berikutnya.</div>
-    <div class="opts">
-      <div class="orow"><input type="checkbox" id="o-upk" checked><label for="o-upk">Status UPK hari ini &amp; progress assessment</label></div>
-      <div class="orow"><input type="checkbox" id="o-prog" checked><label for="o-prog">Progress semua item homeschool</label></div>
-      <div class="orow"><input type="checkbox" id="o-blk"><label for="o-blk">Item yang sudah lewat deadline</label></div>
-      <div class="orow"><input type="checkbox" id="o-nxt" checked><label for="o-nxt">Item prioritas minggu ini</label></div>
-      <div class="orow"><input type="checkbox" id="o-ph"><label for="o-ph">Fase aktif &amp; konteks reminder</label></div>
-      <div class="orow"><input type="checkbox" id="o-nt"><label for="o-nt">Tambah catatan / pertanyaan manual</label></div>
+  <div class="rhdr">
+    <div><div class="rtit">Generate Laporan → Claude</div><div class="rsub">PILIH SECTION · GENERATE · COPY · PASTE</div></div>
+    <div style="display:flex;gap:6px;">
+      <button onclick="exportData()" style="background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.3);border-radius:8px;color:var(--teal);font-family:var(--fm);font-size:10px;font-weight:700;padding:6px 10px;cursor:pointer;letter-spacing:.5px;" title="Export semua progress ke file JSON">⬇ EXPORT</button>
+      <button onclick="importData()" style="background:rgba(68,136,255,0.08);border:1px solid rgba(68,136,255,0.3);border-radius:8px;color:var(--blue);font-family:var(--fm);font-size:10px;font-weight:700;padding:6px 10px;cursor:pointer;letter-spacing:.5px;" title="Import progress dari file JSON">⬆ IMPORT</button>
     </div>
-    <div id="nwrap" style="display:none;margin-bottom:10px;"><textarea class="nta" id="nta" placeholder="Tulis catatan atau pertanyaan untuk Claude..."></textarea></div>
-    <button class="btn-g" onclick="genRep()"><span>▶ Generate Laporan</span></button>
+  </div>
+  <div class="rbody">
+    <div class="rdesc">Pilih bagian yang ingin disertakan, klik Generate, copy, lalu paste ke Claude.</div>
+    <div class="opts">
+      <div class="orow"><input type="checkbox" id="o-upk" checked><label for="o-upk">📊 Status UPK — progress sesi &amp; skor assessment</label></div>
+      <div class="orow"><input type="checkbox" id="o-prog" checked><label for="o-prog">🏠 Progress homeschool per fase (semua item)</label></div>
+      <div class="orow"><input type="checkbox" id="o-nxt" checked><label for="o-nxt">🎯 Item prioritas 7 hari ke depan</label></div>
+      <div class="orow"><input type="checkbox" id="o-blk"><label for="o-blk">⚠ Item yang sudah lewat deadline</label></div>
+      <div class="orow"><input type="checkbox" id="o-ph"><label for="o-ph">📍 Status &amp; konteks fase aktif</label></div>
+      <div class="orow"><input type="checkbox" id="o-nt"><label for="o-nt">✏️ Tambah catatan / pertanyaan manual</label></div>
+    </div>
+    <div id="nwrap" style="display:none;margin-bottom:10px;">
+      <textarea class="nta" id="nta" placeholder="Tulis catatan atau pertanyaan untuk Claude..."></textarea>
+    </div>
+    <button class="btn-g" onclick="genRep()"><span>⚡ Generate Laporan</span></button>
     <div class="rout" id="rout">
-      <textarea class="rta" id="rta" readonly></textarea>
-      <button class="btn-c" onclick="cpRep()">COPY KE CLIPBOARD ↗</button>
-      <div class="cpok" id="cpok">✓ TERSALIN — PASTE KE CHAT CLAUDE SEKARANG</div>
+      <div class="rout-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+          <span style="font-family:var(--fm);font-size:10px;color:var(--muted);letter-spacing:1px;font-weight:600;">LAPORAN SIAP — COPY &amp; PASTE KE CLAUDE</span>
+          <button onclick="cpRep()" style="background:var(--lime);border:none;border-radius:6px;color:#0c1302;font-family:var(--fm);font-size:10px;font-weight:800;padding:5px 12px;cursor:pointer;letter-spacing:.4px;">COPY ↗</button>
+        </div>
+        <textarea class="rta" id="rta" readonly></textarea>
+        <div class="cpok" id="cpok">✓ Tersalin ke clipboard. Tinggal paste ke Claude!</div>
+      </div>
     </div>
   </div>
 </div>
@@ -618,27 +632,7 @@ function tick(id){
   renderAll();
 }
 
-function setScore(id){
-  const current = M.scores[id] ?? '';
-  const label = id.startsWith('a') ? 'Masukkan nilai assessment (0–100). Kosongkan untuk hapus.' : 'Masukkan nilai post-test / hasil latihan (0–100). Kosongkan untuk hapus.';
-  const input = prompt(label, current);
-  if(input === null) return;
-  const trimmed = String(input).trim();
-  if(trimmed === ''){
-    delete M.scores[id];
-    saveState();
-    renderAll();
-    return;
-  }
-  const num = Number(trimmed);
-  if(Number.isNaN(num) || num < 0 || num > 100){
-    alert('Nilai harus angka 0–100.');
-    return;
-  }
-  M.scores[id] = Math.round(num);
-  saveState();
-  renderAll();
-}
+// setScore is now defined below as inline input version
 
 function scoreTone(score){
   if(score >= 75) return 'scoreok';
@@ -1105,118 +1099,201 @@ function genRep(){
   const wp = weightedProgress();
   const plan = getUPKAdaptivePlan(n);
   const risk = anchorRisk(n);
-  let L = [];
+  const dateStr = `${DAY_NAMES[n.getDay()]}, ${n.getDate()} ${MONTH_NAMES[n.getMonth()]} ${n.getFullYear()} · ${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')} AWST`;
 
-  L.push('=== LAPORAN MUSA · MISSION CONTROL 2026 ===');
-  L.push(`Tanggal: ${DAY_NAMES[n.getDay()]}, ${n.getDate()} ${MONTH_NAMES[n.getMonth()]} ${n.getFullYear()} · ${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')} AWST`);
-  L.push(`Demo moderator: 15 Desember 2026 (${dl} hari lagi)`);
-  L.push(`Progress berbobot: ${wp.pct}% · raw ${wp.rawDone}/${wp.rawTotal} item`);
+  const SEP = '═'.repeat(52);
+  const SEP2 = '─'.repeat(52);
+  const L = [];
+
+  // ── HEADER ──
+  L.push(SEP);
+  L.push('  LAPORAN PROGRESS MUSA 2026');
+  L.push(`  ${dateStr}`);
+  L.push(SEP);
   L.push('');
 
+  // ── RINGKASAN ──
+  const statusLabel = wp.pct >= 70 ? '🟢 ON TRACK' : wp.pct >= 40 ? '🟡 BERJALAN — masih perlu dorongan' : '🔴 FASE AWAL — butuh akselerasi';
+  L.push('▌ RINGKASAN UTAMA');
+  L.push(SEP2);
+  L.push(`  Status       : ${statusLabel}`);
+  L.push(`  Progress     : ${wp.pct}% bobot · ${wp.rawDone}/${wp.rawTotal} item selesai`);
+  L.push(`  Demo hari H  : 15 Desember 2026 (${dl} hari lagi)`);
+  L.push('');
+
+  // ── UPK SECTION ──
   if(document.getElementById('o-upk').checked){
     const upkDone = UPK.filter(isDone).length;
-    L.push('--- STATUS UPK PAKET B ---');
-    L.push(`Progress: ${upkDone}/${UPK.length} sesi · Ujian: 24–26 April 2026`);
-    UPK.forEach(id=>{
-      const s = S[id] || 'none';
-      const planInfo = plan.schedule[id];
-      const score = M.scores[id];
-      let extra = '';
-      if(score !== undefined) extra += ` · skor ${score}/100`;
-      if(planInfo && planInfo.shifted && planInfo.suggestedKey) extra += ` · geser → ${fmtShort(parsePerthDate(planInfo.suggestedKey))}`;
-      if(planInfo && planInfo.overflow) extra += ' · KRITIS: slot habis';
-      L.push(`  ${(s==='done'?'[✓]':s==='skip'?'[—]':'[ ]')} ${id.toUpperCase()} — ${UL[id]}${extra}`);
-    });
-    L.push('');
-  }
+    const hasScores = SCOREABLE.some(id => M.scores[id] !== undefined);
+    const avgScore = SCOREABLE.filter(id => M.scores[id] !== undefined).reduce((a,id,_,arr) => a + M.scores[id]/arr.length, 0);
 
-  if(document.getElementById('o-prog').checked){
-    L.push('--- PROGRESS HOMESCHOOL ---');
-    const PN = {ph0:'Fase 0 Persiapan',ph1:'Project 1 Australia',ph2:'Project 2 Avatar Atlas',ph3:'Project 3 Space Economy',ph4:'Fase 4 Demo Prep'};
-    Object.entries(PHS).forEach(([ph, ids])=>{
-      const pd = ids.filter(isDone).length;
-      L.push(`${PN[ph]}: ${pd}/${ids.length}`);
-      ids.forEach(id=>{
+    L.push('▌ UPK PAKET B · PKBM Piwulang Becik Salatiga');
+    L.push(SEP2);
+    L.push(`  Ujian        : 24–26 April 2026`);
+    L.push(`  Progress     : ${upkDone}/${UPK.length} sesi selesai`);
+    if(hasScores) L.push(`  Rata-rata    : ${Math.round(avgScore)}/100 · Target tiap sesi: 75+`);
+    if(plan.overduePending.length) L.push(`  ⚠ Backlog    : ${plan.overduePending.length} item terlambat dari jadwal`);
+    if(plan.overflow.length) L.push(`  🔴 Kritis    : ${plan.overflow.length} item tidak kebagian slot`);
+    L.push('');
+
+    // Group by phase
+    const phases = [
+      { label: 'FASE 1 — Assessment Mendalam', ids: ['a01','a02','a03','a04','a05'] },
+      { label: 'FASE 2 — Belajar Harian', ids: ['b01','b02','b03','b04','b05','b06','b07','b08','b09','b10','b11'] },
+      { label: 'FASE 3 — Simulasi Final', ids: ['s01'] },
+      { label: 'FASE 4 — Buffer', ids: ['x01','x02'] },
+      { label: 'HARI H — Ujian', ids: ['h01','h02','h03'] },
+    ];
+
+    phases.forEach(ph => {
+      L.push(`  [ ${ph.label} ]`);
+      ph.ids.forEach(id => {
         const s = S[id] || 'none';
-        L.push(`  ${(s==='done'?'[✓]':s==='skip'?'[—]':'[ ]')} ${PL[id]}`);
+        const planInfo = plan.schedule[id];
+        const score = M.scores[id];
+        const icon = s === 'done' ? '✓' : s === 'skip' ? '—' : '○';
+        let line = `    ${icon} ${id.toUpperCase().padEnd(4)} ${UL[id]}`;
+        if(score !== undefined){
+          const mark = score >= 75 ? '✓' : '⚠';
+          line += ` · ${mark} Skor ${score}/100`;
+        }
+        if(planInfo && planInfo.overflow) line += ' · 🔴 slot habis';
+        else if(isPending(id) && planInfo && planInfo.shifted && planInfo.suggestedKey)
+          line += ` · ↺ geser → ${fmtShort(parsePerthDate(planInfo.suggestedKey))}`;
+        L.push(line);
       });
       L.push('');
     });
   }
 
+  // ── HOMESCHOOL PROGRESS ──
+  if(document.getElementById('o-prog').checked){
+    L.push('▌ PROGRESS HOMESCHOOL — MISI UTAMA 2026');
+    L.push(SEP2);
+    const PN = {
+      ph0:'Fase 0 · Persiapan (27–30 Apr)',
+      ph1:'Project 1 · Australia by the Numbers (Mei–Agt)',
+      ph2:'Project 2 · The Avatar Atlas (Agt–Okt)',
+      ph3:'Project 3 · Space Economy 2050 (Nov)',
+      ph4:'Fase 4 · Demo Prep + Portfolio Final (Des)'
+    };
+    Object.entries(PHS).forEach(([ph, ids]) => {
+      const pd = ids.filter(isDone).length;
+      const pct = Math.round(pd/ids.length*100);
+      const bar = '█'.repeat(Math.round(pct/10)) + '░'.repeat(10-Math.round(pct/10));
+      L.push(`  ${PN[ph]}`);
+      L.push(`  Progress: [${bar}] ${pd}/${ids.length} (${pct}%)`);
+      ids.forEach(id => {
+        const s = S[id] || 'none';
+        const icon = s === 'done' ? '✓' : s === 'skip' ? '—' : '○';
+        L.push(`    ${icon} ${PL[id]}`);
+      });
+      L.push('');
+    });
+  }
+
+  // ── OVERDUE ITEMS ──
   if(document.getElementById('o-blk').checked){
-    L.push('--- ITEM LEWAT DEADLINE ---');
+    L.push('▌ ITEM SUDAH LEWAT DEADLINE');
+    L.push(SEP2);
     const overdue = overdueItems(n);
-    if(!overdue.length) L.push('  Tidak ada item terlambat.');
-    overdue.forEach(({id, dl})=>{
-      const ov = Math.ceil((n - dl) / DAY_MS);
-      L.push(`  ! ${PL[id]} (terlambat ${ov} hari)`);
-    });
+    if(!overdue.length){
+      L.push('  Tidak ada item yang terlambat. ✓');
+    } else {
+      overdue.forEach(({id, dl: dlDate}) => {
+        const ov = Math.ceil((n - dlDate) / DAY_MS);
+        L.push(`  🔴 ${PL[id]} — terlambat ${ov} hari`);
+      });
+    }
     L.push('');
   }
 
+  // ── PRIORITAS 7 HARI ──
   if(document.getElementById('o-nxt').checked){
-    L.push('--- PRIORITAS 7 HARI KE DEPAN ---');
+    L.push('▌ PRIORITAS 7 HARI KE DEPAN');
+    L.push(SEP2);
     const nw = new Date(n.getTime() + 7 * DAY_MS);
-    let found = false;
-    Object.entries(DL).forEach(([id, dl2])=>{
-      if(dl2 <= nw && !isDone(id)){
-        found = true;
-        L.push(`  → ${PL[id]} (${dl2.getDate()} ${MONTH_SHORT[dl2.getMonth()]})`);
-      }
+    const upcoming7 = [];
+    Object.entries(DL).forEach(([id, dl2]) => {
+      if(dl2 <= nw && !isDone(id)) upcoming7.push({id, dl: dl2});
     });
-    if(!found) L.push('  Tidak ada deadline minggu ini.');
+    upcoming7.sort((a,b) => a.dl - b.dl);
+    if(!upcoming7.length){
+      L.push('  Tidak ada deadline dalam 7 hari ke depan. ✓');
+    } else {
+      upcoming7.forEach(({id, dl: dlDate}) => {
+        const daysLeft = Math.ceil((dlDate - n) / DAY_MS);
+        const urgency = daysLeft <= 1 ? '🔴' : daysLeft <= 3 ? '🟡' : '🟢';
+        L.push(`  ${urgency} ${PL[id]} → ${fmtShort(dlDate)} (${daysLeft} hari)`);
+      });
+    }
     L.push('');
   }
 
-  L.push('--- AUTO-PLAN / RECOVERY ---');
+  // ── AUTO-PLAN & RECOVERY ──
+  L.push('▌ AUTO-PLAN & RECOVERY UPK');
+  L.push(SEP2);
   if(plan.overduePending.length || plan.overflow.length){
-    L.push(`Backlog UPK: ${plan.overduePending.length} item terlambat.`);
-    L.push(`Kecepatan pemulihan minimum: ±${plan.pace} item/hari sampai 23 Apr.`);
-    if(plan.todayFocus.length) L.push(`Fokus hari ini: ${plan.todayFocus.map(id=>UL[id]).join(' | ')}`);
-    if(plan.upcoming.length) L.push(`Antrian berikut: ${plan.upcoming.slice(0,3).map(id=>UL[id]).join(' | ')}`);
-    if(plan.overflow.length) L.push(`Kritis: ${plan.overflow.map(id=>UL[id]).join(' | ')}`);
+    L.push(`  Backlog UPK  : ${plan.overduePending.length} item terlambat`);
+    L.push(`  Kecepatan min: ±${plan.pace} item/hari sampai 23 Apr`);
+    if(plan.todayFocus.length) L.push(`  Fokus hari ini: ${plan.todayFocus.map(id=>UL[id]).join(' | ')}`);
+    if(plan.upcoming.length) L.push(`  Antrian berikut: ${plan.upcoming.slice(0,3).map(id=>UL[id]).join(' | ')}`);
+    if(plan.overflow.length) L.push(`  🔴 Kritis: ${plan.overflow.map(id=>UL[id]).join(' | ')}`);
   } else {
-    L.push('UPK masih on track. Isi skor assessment/post-test agar kualitas belajar ikut terbaca.');
+    L.push('  UPK masih on track. ✓');
+    if(plan.todayFocus.length) L.push(`  Fokus hari ini: ${plan.todayFocus.map(id=>UL[id]).join(' | ')}`);
+    L.push('  Isi skor assessment/post-test agar kualitas belajar ikut terbaca.');
   }
   const ph0Plan = getPhase0AdaptivePlan(n);
   if(ph0Plan.remaining && (ph0Plan.overduePending.length || ph0Plan.overflow.length || hsKeyForReport(n)==='ph0')){
-    L.push(`Phase 0 setup: ${ph0Plan.remaining} item belum selesai.`);
-    if(ph0Plan.overduePending.length) L.push(`  Geser dari rencana awal: ${ph0Plan.overduePending.map(id=>PL[id]).join(' | ')}`);
-    if(ph0Plan.todayFocus.length) L.push(`  Fokus Phase 0 hari ini: ${ph0Plan.todayFocus.map(id=>PL[id]).join(' | ')}`);
-    if(ph0Plan.upcoming.length) L.push(`  Antrian Phase 0: ${ph0Plan.upcoming.slice(0,3).map(id=>PL[id]).join(' | ')}`);
-    if(ph0Plan.overflow.length) L.push('  Kritis: slot Phase 0 habis, perlu kompres task ringan.');
+    L.push('');
+    L.push(`  Phase 0 setup: ${ph0Plan.remaining} item belum selesai.`);
+    if(ph0Plan.overduePending.length) L.push(`    Geser: ${ph0Plan.overduePending.map(id=>PL[id]).join(' | ')}`);
+    if(ph0Plan.todayFocus.length) L.push(`    Fokus: ${ph0Plan.todayFocus.map(id=>PL[id]).join(' | ')}`);
+    if(ph0Plan.overflow.length) L.push('    🔴 Slot Phase 0 habis — kompres task ringan.');
   }
   if(risk.length){
-    L.push(`Anchor risk (≤14 hari): ${risk.map(id=>PL[id]).join(' | ')}`);
+    L.push('');
+    L.push(`  ⚠ Anchor risk (≤14 hari): ${risk.map(id=>PL[id]).join(' | ')}`);
   }
   L.push('');
 
+  // ── STATUS FASE AKTIF ──
   if(document.getElementById('o-ph').checked){
     const b = buildBanner();
-    L.push('--- STATUS FASE AKTIF ---');
-    L.push(b.main);
-    b.items.forEach(t=>L.push(`  • ${t}`));
+    L.push('▌ STATUS FASE AKTIF');
+    L.push(SEP2);
+    L.push(`  ${b.tag}`);
+    L.push(`  ${b.main}`);
+    b.items.forEach(t => L.push(`  • ${t}`));
     L.push('');
   }
 
+  // ── CATATAN MANUAL ──
   const ntEl = document.getElementById('o-nt');
   if(ntEl && ntEl.checked){
     const nt = document.getElementById('nta').value.trim();
     if(nt){
-      L.push('--- CATATAN / PERTANYAAN ---');
-      L.push(nt);
+      L.push('▌ CATATAN / PERTANYAAN');
+      L.push(SEP2);
+      nt.split('\n').forEach(line => L.push(`  ${line}`));
       L.push('');
     }
   }
 
-  L.push('=== TOLONG BANTU SAYA MENENTUKAN LANGKAH BESOK, RISIKO TERDEKAT, DAN OPSI PERCEPATAN ===');
+  // ── FOOTER ──
+  L.push(SEP);
+  L.push('  YANG SAYA BUTUHKAN DARI AI:');
+  L.push('  1. Prioritas besok yang paling masuk akal');
+  L.push('  2. Risiko terdekat yang perlu dicegah');
+  L.push('  3. Opsi percepatan tanpa menggeser deadline akhir');
+  L.push(SEP);
 
   const ro = document.getElementById('rout');
   const ta = document.getElementById('rta');
-  ta.value = L.join('\\n');
+  ta.value = L.join('\n');
   ro.classList.add('show');
-  ta.style.height = Math.min(ta.scrollHeight, 320) + 'px';
+  ta.style.height = Math.min(Math.max(ta.scrollHeight, 320), 520) + 'px';
   ro.scrollIntoView({behavior:'smooth', block:'nearest'});
   const cp = document.getElementById('cpok');
   if(cp) cp.style.display = 'none';
@@ -1225,12 +1302,9 @@ function genRep(){
 function cpRep(){
   const ta = document.getElementById('rta');
   ta.select();
-  try{
-    navigator.clipboard.writeText(ta.value).then(showCopyOk).catch(()=>{ document.execCommand('copy'); showCopyOk(); });
-  }catch(e){
-    document.execCommand('copy');
-    showCopyOk();
-  }
+  navigator.clipboard.writeText(ta.value).then(showCopyOk).catch(()=>{
+    try{ document.execCommand('copy'); showCopyOk(); } catch(e){}
+  });
 }
 function showCopyOk(){
   const e = document.getElementById('cpok');
@@ -1238,6 +1312,101 @@ function showCopyOk(){
   e.style.display = 'block';
   setTimeout(()=>e.style.display='none', 3500);
 }
+
+function exportData(){
+  const data = {
+    state: S,
+    meta: M,
+    exported: new Date().toISOString(),
+    version: KEY
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `musa_mc_backup_${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importData(){
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.json';
+  input.onchange = e => {
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try{
+        const data = JSON.parse(ev.target.result);
+        if(data.state && typeof data.state === 'object'){
+          S = data.state;
+          M = data.meta && typeof data.meta === 'object' ? Object.assign({scores:{}}, data.meta) : {scores:{}};
+          if(!M.scores) M.scores = {};
+          saveState();
+          renderAll();
+          alert('✓ Data berhasil diimpor!');
+        } else {
+          alert('File tidak valid.');
+        }
+      } catch(err){
+        alert('Gagal membaca file: ' + err.message);
+      }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+
+// Inline score input instead of prompt()
+function setScore(id){
+  const wrap = bodyEl(id);
+  if(!wrap) return;
+  let row = document.getElementById(`score-${id}`);
+  if(!row) return;
+  const current = M.scores[id] ?? '';
+  const label = id.startsWith('a') ? 'assessment' : 'post-test';
+  row.innerHTML = `
+    <form onsubmit="submitScore('${id}',this);return false;" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+      <input id="si-${id}" type="number" min="0" max="100" value="${current}"
+        placeholder="0–100" autocomplete="off"
+        style="width:72px;background:#0c0e18;border:1px solid rgba(0,245,255,.4);border-radius:5px;color:#e8edff;
+               font-family:'JetBrains Mono',monospace;font-size:11px;padding:4px 7px;outline:none;font-weight:600;"
+        oninput="this.style.borderColor=this.value?'rgba(168,255,62,.6)':'rgba(0,245,255,.4)'"
+      />
+      <button type="submit" style="background:var(--lime);border:none;border-radius:5px;color:#0c1302;
+        font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:800;padding:4px 10px;cursor:pointer;letter-spacing:.3px;">
+        SIMPAN
+      </button>
+      <button type="button" onclick="renderScoreBars()" style="background:transparent;border:1px solid rgba(255,255,255,.1);
+        border-radius:5px;color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:10px;padding:4px 8px;cursor:pointer;">
+        BATAL
+      </button>
+    </form>
+  `;
+  const inp = document.getElementById(`si-${id}`);
+  if(inp) inp.focus();
+}
+
+function submitScore(id, form){
+  const inp = document.getElementById(`si-${id}`);
+  const trimmed = inp ? inp.value.trim() : '';
+  if(trimmed === ''){
+    delete M.scores[id];
+    saveState(); renderAll(); return;
+  }
+  const num = Number(trimmed);
+  if(Number.isNaN(num) || num < 0 || num > 100){
+    inp.style.borderColor = 'rgba(255,107,107,.8)';
+    inp.placeholder = '0–100!';
+    return;
+  }
+  M.scores[id] = Math.round(num);
+  saveState();
+  renderAll();
+}
+
 
 function renderAll(){
   [...UPK, ...Object.values(PHS).flat()].forEach(rCb);
