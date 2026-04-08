@@ -484,49 +484,57 @@ function copyRes(){
   const pre=Math.round((preS/PQ.length)*100), post=Math.round((postS/PTQ.length)*100), delta=post-pre;
   const allW=[...preW,...postW];
   const weak=[...new Set(allW.map(w=>w.tag))];
-  let t='📊 HASIL B09 — BAHASA INDONESIA
-';
-  t+='Musa Brahma Batubara · 9 April 2026
-';
-  t+='Fokus: Kosakata · Tata Bahasa
-';
-  t+='─'.repeat(50)+'
+  let t=`📊 HASIL B09 — BAHASA INDONESIA
+`;
+  t+=`Musa Brahma Batubara · 9 April 2026
+`;
+  t+=`Fokus: Kosakata · Tata Bahasa
+`;
+  t+=`${'─'.repeat(50)}
 
-';
-  t+='PRE-TEST  : '+pre+'/100  ('+preW.length+' salah dari 10)  ⏱'+fmt(preEl)+'
-';
-  t+='POST-TEST : '+post+'/100  ('+postW.length+' salah dari 10)  ⏱'+fmt(postEl)+'
-';
-  t+='DELTA     : '+(delta>=0?'+':'')+delta+' poin  '+(delta>0?'📈 NAIK':delta<0?'📉 TURUN':'➡️ SAMA')+'
+`;
+  t+=`PRE-TEST  : ${pre}/100  (${preW.length} salah dari 10)  ⏱${fmt(preEl)}
+`;
+  t+=`POST-TEST : ${post}/100  (${postW.length} salah dari 10)  ⏱${fmt(postEl)}
+`;
+  t+=`DELTA     : ${(delta>=0?'+':'')+delta} poin  ${delta>0?'📈 NAIK':delta<0?'📉 TURUN':'➡️ SAMA'}
 
-';
-  if(preW.length){t+='SOAL SALAH PRE-TEST:
-'; preW.forEach((w,i)=>{t+=(i+1)+'. '+w.tag+' — '+w.q+'
-   → Jawab: '+w.chosen+' | Benar: '+w.correct+'
-'}); t+='
-';}
-  if(postW.length){t+='SOAL SALAH POST-TEST:
-'; postW.forEach((w,i)=>{t+=(i+1)+'. '+w.tag+' — '+w.q+'
-   → Jawab: '+w.chosen+' | Benar: '+w.correct+'
-'}); t+='
-';}
-  t+='─'.repeat(50)+'
-';
-  t+='TOPIK MASIH LEMAH: '+(weak.length?weak.join(', '):'Semua sudah oke!')+'
-';
-  t+='TARGET B09 (75): '+(post>=75?'✅ TERCAPAI':'❌ BELUM')+'
+`;
+  if(preW.length){
+    t+=`SOAL SALAH PRE-TEST:
+`;
+    preW.forEach((w,i)=>{t+=`${i+1}. ${w.tag} — ${w.q}
+   → Jawab: ${w.chosen} | Benar: ${w.correct}
+`;});
+    t+=`
+`;
+  }
+  if(postW.length){
+    t+=`SOAL SALAH POST-TEST:
+`;
+    postW.forEach((w,i)=>{t+=`${i+1}. ${w.tag} — ${w.q}
+   → Jawab: ${w.chosen} | Benar: ${w.correct}
+`;});
+    t+=`
+`;
+  }
+  t+=`${'─'.repeat(50)}
+`;
+  t+=`TOPIK MASIH LEMAH: ${weak.length?weak.join(', '):'Semua sudah oke!'}
+`;
+  t+=`TARGET B09 (75): ${post>=75?'✅ TERCAPAI':'❌ BELUM'}
 
-';
-  t+='📌 Berdasarkan B09, buatkan B10:
-';
-  t+='Fokus: '+(weak.length?weak.join(' & '):'Kosakata & Tata Bahasa campuran')+'
-';
-  t+='Format: Pre-test → Materi → Post-test · Soal baru berbeda dari B09';
+`;
+  t+=`📌 Berdasarkan B09, buatkan B10:
+`;
+  t+=`Fokus: ${weak.length?weak.join(' & '):'Kosakata & Tata Bahasa campuran'}
+`;
+  t+=`Format: Pre-test → Materi → Post-test · Soal baru berbeda dari B09`;
   navigator.clipboard.writeText(t).then(()=>{
     const b=document.getElementById('copy-btn');
     b.textContent='✅ Tersalin!';
     b.style.background='linear-gradient(135deg,#059669,#2563eb)';
-    setTimeout(()=>{b.textContent='📋 Salin Hasil → Siapkan B10';b.style.background='var(--grad-main)';},4000);
+    setTimeout(()=>{b.textContent='📋 Salin Hasil → Siapkan B10';b.style.background='linear-gradient(135deg,#7c3aed,#ec4899)';},4000);
   }).catch(()=>prompt('Salin hasil ini:',t));
 }
 function show(id){
