@@ -7,13 +7,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#eef4ff;
-  --bg2:#eefaf5;
-  --card:#ffffff;
-  --line:#dbe5ff;
-  --line2:#d7efe6;
+  --bg:#f4f7ff;
+  --bg2:#eef8f4;
+  --card:rgba(255,255,255,.88);
+  --card-strong:#ffffff;
   --text:#182033;
   --muted:#64748b;
+  --line:#d7e2ff;
+  --line-soft:#dceee7;
   --indigo:#4f46e5;
   --cyan:#0891b2;
   --emerald:#059669;
@@ -22,41 +23,56 @@
   --violet:#7c3aed;
   --shadow:0 16px 40px rgba(79,70,229,.12);
   --shadow-soft:0 10px 28px rgba(15,23,42,.08);
-  --grad-main:linear-gradient(135deg,#4f46e5 0%,#0891b2 50%,#10b981 100%);
-  --grad-soft:linear-gradient(135deg,rgba(79,70,229,.10),rgba(8,145,178,.08),rgba(16,185,129,.08));
+  --grad-main:linear-gradient(135deg,#4f46e5 0%,#0891b2 48%,#10b981 100%);
+  --grad-soft:linear-gradient(135deg,rgba(79,70,229,.12),rgba(8,145,178,.10),rgba(16,185,129,.10));
 }
-*{margin:0;padding:0;box-sizing:border-box}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%}
 body{
-  font-family:'Manrope',system-ui,sans-serif;color:var(--text);min-height:100vh;
+  font-family:'Manrope',system-ui,sans-serif;
+  color:var(--text);
   background:
     radial-gradient(circle at 0% 0%, rgba(79,70,229,.12), transparent 32%),
     radial-gradient(circle at 100% 0%, rgba(8,145,178,.12), transparent 28%),
     radial-gradient(circle at 100% 100%, rgba(16,185,129,.10), transparent 30%),
     linear-gradient(180deg,var(--bg),var(--bg2));
 }
-.wrap{position:relative;max-width:760px;margin:0 auto;padding:22px 16px 60px}
-.screen{display:none} #splash{display:block}
+.wrap{max-width:760px;margin:0 auto;padding:22px 16px 56px;position:relative}
+.screen{display:none}
+#splash{display:block}
 .mono{font-family:'IBM Plex Mono',monospace}
-.badge{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;background:rgba(79,70,229,.10);border:1px solid rgba(79,70,229,.18);color:var(--indigo);font-size:11px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase}
-.hero{text-align:center;padding:18px 0 12px}
+.badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:7px 14px;border-radius:999px;
+  background:rgba(79,70,229,.10);border:1px solid rgba(79,70,229,.18);
+  color:var(--indigo);font-size:11px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase
+}
+.hero{
+  text-align:center;padding:18px 0 16px
+}
 .hero h1{font-size:31px;line-height:1.12;font-weight:800;letter-spacing:-.03em;margin:16px 0 10px}
 .hero h1 .accent{background:var(--grad-main);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero p{font-size:14px;line-height:1.85;color:var(--muted);max-width:640px;margin:0 auto}
-.card,.quiz-card,.transition-card,.material-card,.result-card,.topic-head,.note-card{background:rgba(255,255,255,.92);border:1px solid rgba(255,255,255,.82);box-shadow:var(--shadow);border-radius:24px;backdrop-filter:blur(10px)}
+.hero p{font-size:14px;line-height:1.8;color:var(--muted);max-width:620px;margin:0 auto}
+.panel, .card, .result-card, .quiz-card, .material-card, .transition-card{
+  background:var(--card);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.72);box-shadow:var(--shadow);border-radius:24px
+}
 .panel{padding:18px;margin-top:16px}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.topic-card{padding:16px;border-radius:20px;border:1px solid var(--line);background:linear-gradient(180deg,#fff,#f8fbff);box-shadow:var(--shadow-soft)}
+.topic-card{
+  padding:16px;border-radius:20px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(246,249,255,.92));
+  box-shadow:var(--shadow-soft)
+}
 .topic-card .top{display:flex;align-items:center;gap:12px;margin-bottom:10px}
 .topic-card .icon{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px}
 .topic-card .code{font-size:10px;color:var(--muted);font-weight:700;letter-spacing:1px;text-transform:uppercase}
 .topic-card .name{font-size:16px;font-weight:800}
-.topic-card .meta{font-size:12px;color:var(--muted);line-height:1.7}
-.section-hd{font-size:12px;font-weight:900;color:var(--indigo);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:14px}
-.error-card,.flow-card,.tip-card{background:rgba(255,255,255,.92);border:1px solid rgba(255,255,255,.82);box-shadow:var(--shadow);border-radius:24px;padding:18px;margin-top:16px}
-.error-row,.rule,.mini-row{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid rgba(100,116,139,.12);font-size:13px;line-height:1.7}
-.error-row:last-child,.rule:last-child,.mini-row:last-child{border-bottom:none;padding-bottom:0}
-.fix-badge{display:inline-block;font-size:10px;font-weight:800;padding:2px 8px;border-radius:8px;background:#eef2ff;color:var(--indigo);margin-top:5px}
-.cta,.ghost,.next-btn,.copy-btn{width:100%;border:none;border-radius:18px;padding:15px 18px;font:inherit;font-weight:800;cursor:pointer;transition:transform .16s ease, box-shadow .16s ease}
+.topic-card .meta{font-size:12px;color:var(--muted);line-height:1.6}
+.rules h3,.section-title{font-size:13px;font-weight:900;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:12px;color:var(--indigo)}
+.rule{display:flex;gap:10px;align-items:flex-start;margin:10px 0;color:var(--text);font-size:14px;line-height:1.7}
+.cta,.ghost,.next-btn,.copy-btn{
+  width:100%;border:none;border-radius:18px;padding:15px 18px;font:inherit;font-weight:800;cursor:pointer;transition:transform .16s ease, box-shadow .16s ease
+}
 .cta,.next-btn,.copy-btn{background:var(--grad-main);color:#fff;box-shadow:0 12px 28px rgba(79,70,229,.28)}
 .ghost{background:#fff;color:var(--muted);border:1px solid var(--line);margin-top:10px}
 .cta:hover,.ghost:hover,.next-btn:hover,.copy-btn:hover{transform:translateY(-2px)}
@@ -68,30 +84,36 @@ body{
 .quiz-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px;flex-wrap:wrap}
 .pill{padding:7px 12px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;background:rgba(79,70,229,.10);color:var(--indigo);border:1px solid rgba(79,70,229,.18)}
 .counter,.timer{font-size:12px;font-weight:700;color:var(--muted)}
-.timer{display:inline-flex;align-items:center;gap:7px;padding:8px 12px;border-radius:14px;background:#fff;border:1px solid var(--line)}
+.timer{
+  display:inline-flex;align-items:center;gap:7px;padding:8px 12px;border-radius:14px;background:#fff;border:1px solid var(--line)
+}
 .timer.warn{border-color:rgba(217,119,6,.3);color:var(--amber)}
 .timer.over{border-color:rgba(225,29,72,.3);color:var(--rose);animation:blink 1s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.56}}
 .progress{height:8px;border-radius:999px;background:#e8eefc;overflow:hidden;margin-bottom:14px}
-.progress>div{height:100%;width:0;background:var(--grad-main);transition:width .35s ease}
+.progress > div{height:100%;width:0;background:var(--grad-main);transition:width .35s ease}
 .quiz-card{padding:22px}
 .q-label{font-size:11px;font-weight:900;letter-spacing:1.4px;text-transform:uppercase;color:var(--cyan);margin-bottom:8px}
-.q-tag{display:inline-block;margin-bottom:8px;padding:5px 10px;border-radius:999px;background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.18);font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--emerald)}
 .q-text{font-size:18px;font-weight:800;line-height:1.6;letter-spacing:-.01em}
 .q-hint{margin-top:8px;color:var(--muted);font-size:13px;line-height:1.7}
 .q-visual{display:none;margin-top:12px;padding:12px 14px;border-radius:16px;background:linear-gradient(135deg,rgba(79,70,229,.08),rgba(8,145,178,.08));border:1px solid rgba(79,70,229,.12);font-size:13px;line-height:1.7;color:#334155}
 .options{display:flex;flex-direction:column;gap:10px;margin-top:16px}
-.opt{display:flex;align-items:center;gap:12px;text-align:left;padding:13px 14px;border-radius:18px;border:1.5px solid var(--line);background:#fff;cursor:pointer;font:inherit;font-size:14px;font-weight:700;color:var(--text);transition:.16s ease}
+.opt{
+  display:flex;align-items:center;gap:12px;text-align:left;padding:13px 14px;border-radius:18px;border:1.5px solid var(--line);background:#fff;cursor:pointer;font:inherit;font-size:14px;font-weight:700;color:var(--text);transition:.16s ease
+}
 .opt:hover:not(:disabled){border-color:rgba(79,70,229,.4);transform:translateX(4px);box-shadow:var(--shadow-soft)}
 .opt .ol{width:34px;height:34px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#eef2ff;color:var(--indigo);font-weight:800}
-.opt.correct{background:#ecfdf5;border-color:rgba(5,150,105,.32)} .opt.correct .ol{background:var(--emerald);color:#fff}
-.opt.wrong{background:#fff1f2;border-color:rgba(225,29,72,.28)} .opt.wrong .ol{background:var(--rose);color:#fff}
+.opt.correct{background:#ecfdf5;border-color:rgba(5,150,105,.32)}
+.opt.correct .ol{background:var(--emerald);color:#fff}
+.opt.wrong{background:#fff1f2;border-color:rgba(225,29,72,.28)}
+.opt.wrong .ol{background:var(--rose);color:#fff}
 .expl{display:none;margin-top:14px;padding:16px;border-radius:18px;background:linear-gradient(180deg,#f8fbff,#eef8ff);border:1px solid #dbeafe}
 .expl.show{display:block}
 .expl .eh{font-size:11px;font-weight:900;color:var(--cyan);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
 .expl .et{font-size:14px;line-height:1.8;color:#1e293b}
 .expl .formula{margin-top:10px;padding:10px 12px;border-radius:14px;background:#e0f2fe;color:#0f4c81;font-size:12px;line-height:1.6}
-.next-btn{display:none;margin-top:14px} .next-btn.show{display:block}
+.next-btn{display:none;margin-top:14px}
+.next-btn.show{display:block}
 .transition-card,.material-card,.result-card{padding:24px;text-align:center}
 .transition-card .icon{font-size:52px;margin-bottom:10px}
 .transition-card .title{font-size:24px;font-weight:800;margin-bottom:8px}
@@ -101,42 +123,14 @@ body{
 .material-intro{text-align:center;margin-bottom:18px}
 .material-intro h2{font-size:28px;font-weight:800;letter-spacing:-.03em;margin:10px 0 6px}
 .material-intro p{font-size:14px;line-height:1.8;color:var(--muted)}
-.tabs{display:flex;gap:8px;margin-bottom:14px;overflow-x:auto;padding-bottom:4px}
-.tab{background:#fff;border:2px solid var(--line);color:var(--muted);padding:8px 14px;border-radius:999px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;transition:.2s;font-family:'Manrope',sans-serif}
-.tab.on{background:rgba(79,70,229,.10);border-color:var(--indigo);color:var(--indigo)}
-.pdots{display:flex;justify-content:center;gap:6px;margin:10px 0 14px}
-.pdot{width:8px;height:8px;border-radius:50%;background:#d9e3ff;transition:.2s}
-.pdot.done{background:var(--emerald)} .pdot.active{background:var(--indigo);transform:scale(1.3)}
-.topic{display:none} .topic.on{display:block;animation:up .3s ease}
-@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.mc{background:linear-gradient(180deg,#fff,#f8fbff);border:1px solid var(--line2);border-radius:22px;padding:20px;box-shadow:var(--shadow-soft)}
-.mc h3{font-size:18px;font-weight:800;margin-bottom:5px}
-.mc .ms{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:14px}
-.abox{background:#fff1f2;border:1.5px solid rgba(225,29,72,.22);border-radius:16px;padding:14px;margin:10px 0 14px}
-.abox .al{font-size:10px;font-weight:800;color:var(--rose);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
-.abox p{font-size:13px;color:#7f1d1d;line-height:1.75}
-.abox .fix{background:#ecfdf5;border-radius:10px;padding:8px 12px;margin-top:9px;font-size:13px;color:#14532d;font-weight:700}
-.ptable{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
-.ptable th{background:#312e81;color:#fff;padding:9px 12px;text-align:left;font-size:11px;font-weight:800}
-.ptable td{padding:10px 12px;border-bottom:1px solid #dbe5ff;line-height:1.6;vertical-align:top}
-.ptable tr:nth-child(even) td{background:#f8fbff}
-.ptable tr:last-child td{border-bottom:none}
-.pnum{font-family:'IBM Plex Mono',monospace;font-weight:700;color:var(--indigo);white-space:nowrap}
-.pkey{display:inline-block;font-size:10px;font-weight:800;color:#0f4c81;background:#e0f2fe;padding:2px 7px;border-radius:999px}
-.cbox{background:rgba(5,150,105,.06);border:1.5px solid rgba(5,150,105,.18);border-radius:16px;padding:14px;margin:12px 0}
-.cbox .cl{font-size:10px;font-weight:800;color:var(--emerald);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
-.cbox .cs{font-size:13px;line-height:1.85;color:#14532d}
-.fbox{background:linear-gradient(135deg,rgba(79,70,229,.08),rgba(8,145,178,.08));border:1.5px solid rgba(79,70,229,.14);border-radius:16px;padding:14px;margin:12px 0}
-.fbox .fl{font-size:10px;font-weight:800;color:var(--indigo);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
-.fbox .fm{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:700;color:#1e3a8a;line-height:1.7;margin-bottom:4px}
-.fbox .fn{font-size:12px;color:var(--muted);line-height:1.7}
-.lgrid{display:flex;flex-direction:column;gap:10px;margin:12px 0}
-.litem{background:#f8fbff;border:1.5px solid #dbe5ff;border-radius:14px;padding:13px 14px;display:flex;align-items:flex-start;gap:12px}
-.licon{font-size:22px;flex-shrink:0}
-.lname{font-size:13px;font-weight:800;color:var(--indigo);margin-bottom:2px}
-.ldesc{font-size:12px;color:var(--muted);line-height:1.7}
-.lkey{font-size:11px;font-weight:700;color:var(--cyan);margin-top:4px}
-.metrics{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:16px}
+.material-grid{display:grid;gap:14px}
+.lesson{padding:18px;border-radius:20px;background:linear-gradient(180deg,#ffffff,#f7fbff);border:1px solid var(--line-soft);box-shadow:var(--shadow-soft)}
+.lesson h3{font-size:17px;font-weight:800;margin-bottom:8px}
+.lesson p{font-size:14px;line-height:1.85;color:#334155}
+.lesson ul{margin:10px 0 0 18px;color:#334155}
+.lesson li{margin:7px 0;line-height:1.75;font-size:14px}
+.mini-callout{margin-top:10px;padding:11px 12px;border-radius:14px;background:linear-gradient(135deg,rgba(16,185,129,.10),rgba(8,145,178,.10));font-size:13px;line-height:1.7;color:#0f3d36;border:1px solid rgba(16,185,129,.16)}
+.metrics{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
 .metric{padding:16px;border-radius:18px;border:1px solid var(--line);background:linear-gradient(180deg,#ffffff,#f8fbff)}
 .metric .label{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:800}
 .metric .value{font-size:28px;font-weight:800;letter-spacing:-.03em;margin-top:4px}
@@ -146,21 +140,11 @@ body{
 .result-name{font-size:16px;font-weight:800}
 .result-meta{font-size:12px;color:var(--muted)}
 .bar{height:8px;border-radius:999px;background:#e9efff;overflow:hidden;margin-top:8px}
-.bar>div{height:100%;background:var(--grad-main)}
+.bar > div{height:100%;background:var(--grad-main)}
 .note-block{text-align:left;padding:18px;border-radius:20px;background:linear-gradient(180deg,#ffffff,#f7fff8);border:1px solid rgba(16,185,129,.16);margin:16px 0}
 .note-block h3{font-size:14px;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:var(--emerald);margin-bottom:10px}
-.note-block .item{padding:10px 0;border-bottom:1px solid rgba(100,116,139,.12);font-size:14px;line-height:1.8}
+.note-block .item{padding:10px 0;border-bottom:1px solid rgba(100,116,139,.12);font-size:14px;line-height:1.75}
 .note-block .item:last-child{border-bottom:none;padding-bottom:0}
-.wrsec{text-align:left;margin-top:16px}
-.wrhd{font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
-.wrhd.pre{color:var(--rose)} .wrhd.post{color:var(--emerald)}
-.wcard{background:#fff;border:1.5px solid rgba(225,29,72,.18);border-radius:16px;padding:14px;margin-bottom:10px}
-.wcard.post{border-color:rgba(5,150,105,.22)}
-.wq{font-size:13px;font-weight:800;margin-bottom:8px;line-height:1.7}
-.wa{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
-.wx{font-size:12px;color:var(--rose)} .wc{font-size:12px;color:var(--emerald);font-weight:700}
-.we{background:rgba(59,130,246,.07);border-radius:10px;padding:12px;font-size:12px;line-height:1.8;color:#1e3a5f;border-left:3px solid #60a5fa}
-.wf{background:rgba(37,99,235,.08);border-radius:8px;padding:7px 11px;margin-top:7px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#1d4ed8}
 .footer-tip{margin-top:12px;font-size:13px;color:var(--muted);line-height:1.8}
 @media (max-width:640px){
   .hero h1{font-size:26px}
@@ -176,7 +160,7 @@ body{
   <div class="hero">
     <span class="badge">B05 · Agama · Pre-test → Materi → Post-test</span>
     <h1>Penguatan <span class="accent">Fiqih Ibadah & Akhlak</span></h1>
-    <p>B05 ini direvisi supaya tingkat kedalaman materinya setara dengan B03: ada <strong>analisis error</strong>, <strong>tab materi</strong>, <strong>tabel hafalan</strong>, <strong>trik cepat</strong>, dan <strong>hasil pre-post</strong>. Fokusnya tetap diambil dari A03: <strong>Fiqih Ibadah</strong> dan <strong>Akhlak</strong>.</p>
+    <p>B05 dibuat mengikuti pola A03, tetapi dengan nuansa visual yang berbeda. Fokus latihan ini diambil dari hasil A03: area yang paling perlu diperkuat adalah <strong>Fiqih Ibadah</strong> dan <strong>Akhlak</strong>.</p>
   </div>
 
   <div class="panel">
@@ -189,8 +173,9 @@ body{
             <div class="name">Fiqih Ibadah</div>
           </div>
         </div>
-        <div class="meta">Wudhu, syarat wajib vs syarat sah shalat, hadas vs najis, puasa, zakat, dan istilah dasar ibadah yang sering tertukar.</div>
+        <div class="meta">Wudhu, syarat sah shalat, puasa, zakat, najis, dan kebiasaan ibadah dasar yang sering tertukar.</div>
       </div>
+
       <div class="topic-card">
         <div class="top">
           <div class="icon" style="background:linear-gradient(135deg,rgba(16,185,129,.12),rgba(124,58,237,.12))">😇</div>
@@ -199,31 +184,24 @@ body{
             <div class="name">Akhlak</div>
           </div>
         </div>
-        <div class="meta">Amanah, siddiq, qana'ah, husnuzan, syukur, tawakal, dan contoh adab sehari-hari yang harus terlihat dalam tindakan nyata.</div>
+        <div class="meta">Amanah, jujur, tawadhu, husnuzan, syukur, qana'ah, dan adab sehari-hari yang harus terlihat dalam tindakan.</div>
       </div>
     </div>
   </div>
 
-  <div class="error-card">
-    <div class="section-hd">🔎 Analisis Error A03 — Pola Utama</div>
-    <div class="error-row"><span style="font-size:18px">🕋</span><div><strong style="color:var(--rose)">Fiqih Ibadah — konsep inti masih tertukar</strong><br>Syarat wajib shalat masih campur dengan syarat sah. Nishab zakat emas dan batas akhir zakat fitrah juga masih salah.<br><span class="fix-badge">Fix: tabel pembeda + angka kunci + checklist cepat</span></div></div>
-    <div class="error-row"><span style="font-size:18px">😇</span><div><strong style="color:var(--rose)">Akhlak — istilah hafal, perilaku belum nempel</strong><br>Amanah tertukar dengan siddiq, qana'ah dipahami terbalik, dan syukur kepada manusia belum dipahami sebagai bagian dari syukur kepada Allah.<br><span class="fix-badge">Fix: pasangan istilah + contoh tindakan nyata</span></div></div>
-    <div class="error-row"><span style="font-size:18px">🧭</span><div><strong style="color:var(--amber)">Strategi B05</strong><br>B05 tidak melebar ke semua topik agama. Fokusnya sengaja sempit tapi dalam: dua topik, materi lebih detail, lalu dites ulang dengan soal baru.<br><span class="fix-badge">Fix: belajar sedikit topik, tapi benar-benar rapat</span></div></div>
-  </div>
-
-  <div class="flow-card">
-    <div class="section-hd">🗺️ Alur B05</div>
-    <div class="rule"><span>🧪</span><span><strong>Pre-test</strong> 10 soal total untuk melihat kelemahan awal.</span></div>
-    <div class="rule"><span>📖</span><span><strong>Materi mendalam</strong> dengan tab, tabel hafalan, dan ringkasan fix seperti di B03.</span></div>
-    <div class="rule"><span>✅</span><span><strong>Post-test</strong> 10 soal baru untuk cek apakah konsep benar-benar masuk.</span></div>
-    <div class="rule"><span>⏱️</span><span>Timer <strong>8 menit per topik</strong> supaya ritme tetap cepat dan fokus.</span></div>
+  <div class="panel rules">
+    <h3>Mode Belajar</h3>
+    <div class="rule"><span>🧪</span><span><strong>Pre-test</strong> untuk memotret titik lemah awal.</span></div>
+    <div class="rule"><span>📚</span><span><strong>Materi ringkas</strong> setelah pre-test selesai, jadi Musa langsung belajar dari kesalahan paling penting.</span></div>
+    <div class="rule"><span>🔁</span><span><strong>Post-test</strong> dengan soal baru, bukan pengulangan dari A03.</span></div>
+    <div class="rule"><span>⏱️</span><span>Timer <strong>6 menit per topik</strong> agar ritme tetap cepat seperti A03.</span></div>
   </div>
 
   <button class="cta" onclick="startPhase('pre',0)">Mulai B05</button>
 </div>
 
 <div id="quiz-screen" class="screen">
-  <div class="topic-head">
+  <div class="panel topic-head">
     <div class="icon" id="th-icon">🕋</div>
     <div>
       <div class="small mono" id="th-code">B05 · PRE-TEST · TOPIK 1/2</div>
@@ -235,14 +213,13 @@ body{
   <div class="quiz-bar">
     <span class="pill" id="phase-pill">Pre-test</span>
     <span class="counter mono" id="q-counter">1/5</span>
-    <span class="timer mono" id="timer-box">⏱ <span id="timer-val">08:00</span></span>
+    <span class="timer mono" id="timer-box">⏱ <span id="timer-val">06:00</span></span>
   </div>
 
   <div class="progress"><div id="prog-fill"></div></div>
 
   <div class="quiz-card">
     <div class="q-label" id="q-label">Soal 01</div>
-    <div class="q-tag" id="q-tag">Fiqih Ibadah</div>
     <div class="q-text" id="q-text"></div>
     <div class="q-hint" id="q-hint"></div>
     <div class="q-visual" id="q-visual"></div>
@@ -265,96 +242,58 @@ body{
 <div id="material-screen" class="screen">
   <div class="material-card">
     <div class="material-intro">
-      <span class="badge">Materi Inti B05</span>
-      <h2>Belajar dari error yang nyata</h2>
-      <p>Bagian materi ini sengaja dibuat lebih tebal seperti B03: tidak cuma definisi, tetapi juga <strong>error yang terjadi</strong>, <strong>tabel pembeda</strong>, <strong>angka hafalan</strong>, dan <strong>contoh perilaku</strong>.</p>
+      <span class="badge">Materi Ringkas B05</span>
+      <h2>Belajar dari titik lemah</h2>
+      <p>Bagian ini merangkum konsep yang paling mudah tertukar. Fokusnya bukan banyak materi, tapi yang paling keluar di soal.</p>
     </div>
 
-    <div class="tabs">
-      <button class="tab on" onclick="goMaterial(0)">🕋 Fiqih — Peta Error</button>
-      <button class="tab" onclick="goMaterial(1)">🧼 Fiqih — Tabel Inti</button>
-      <button class="tab" onclick="goMaterial(2)">😇 Akhlak — Peta Error</button>
-      <button class="tab" onclick="goMaterial(3)">🤝 Akhlak — Aplikasi</button>
-    </div>
-    <div class="pdots"><div class="pdot active" id="pd0"></div><div class="pdot" id="pd1"></div><div class="pdot" id="pd2"></div><div class="pdot" id="pd3"></div></div>
+    <div class="material-grid">
+      <div class="lesson">
+        <h3>1. Fiqih Ibadah: bedakan yang wajib dan yang membuat sah</h3>
+        <p>Banyak anak keliru antara <strong>syarat wajib shalat</strong> dan <strong>syarat sah shalat</strong>. Wajib shalat menjawab: siapa yang terkena kewajiban. Sah shalat menjawab: apa yang harus dipenuhi agar shalatnya diterima secara hukum.</p>
+        <ul>
+          <li><strong>Syarat wajib shalat:</strong> muslim, baligh, berakal.</li>
+          <li><strong>Syarat sah shalat:</strong> suci dari hadas, suci dari najis, menutup aurat, masuk waktu, menghadap kiblat.</li>
+          <li><strong>Hadas kecil</strong> dibersihkan dengan wudhu. <strong>Hadas besar</strong> dibersihkan dengan mandi wajib.</li>
+        </ul>
+        <div class="mini-callout">Kalau pertanyaannya “siapa yang wajib?”, pikirkan orangnya. Kalau pertanyaannya “apa yang membuat shalat sah?”, pikirkan persiapannya.</div>
+      </div>
 
-    <div class="topic on" id="mt0">
-      <div class="mc">
-        <h3>🕋 Fiqih Ibadah — Peta Error A03</h3>
-        <div class="ms">Di A03, masalah utama bukan semua fiqih, tetapi beberapa titik yang sangat spesifik. Jadi perbaikannya juga harus spesifik.</div>
-        <div class="abox">
-          <div class="al">⚠️ Error nyata dari A03</div>
-          <p>Syarat wajib shalat dijawab: <strong>muslim dan sudah berumur 10 tahun</strong> padahal yang benar menekankan <strong>muslim, baligh, berakal</strong>.<br>Nishab zakat emas dijawab <strong>50 gram</strong>, padahal yang benar <strong>85 gram</strong>.<br>Zakat fitrah dijawab sebelum <strong>akhir bulan Syawal</strong>, padahal yang benar sebelum <strong>shalat Idul Fitri</strong>.</p>
-          <div class="fix">✅ Fix: bedakan istilah, hafal angka 85 gram, dan hafal batas akhir zakat fitrah = sebelum shalat Id.</div>
-        </div>
-        <table class="ptable">
-          <tr><th>Bagian</th><th>Yang Harus Diingat</th><th>Trik Cepat</th></tr>
-          <tr><td class="pnum">Wajib shalat</td><td>Muslim, baligh, berakal</td><td><span class="pkey">Orangnya</span></td></tr>
-          <tr><td class="pnum">Sah shalat</td><td>Suci dari hadas, suci dari najis, menutup aurat, masuk waktu, kiblat</td><td><span class="pkey">Persiapannya</span></td></tr>
-          <tr><td class="pnum">Nishab emas</td><td>85 gram</td><td><span class="pkey">Angka kunci</span></td></tr>
-          <tr><td class="pnum">Zakat fitrah</td><td>Sebelum shalat Idul Fitri</td><td><span class="pkey">Batas akhir</span></td></tr>
-          <tr><td class="pnum">Puasa</td><td>Batal jika sengaja makan/minum; kalau lupa tetap lanjut</td><td><span class="pkey">Sengaja vs lupa</span></td></tr>
-        </table>
-        <div class="fbox"><div class="fl">🧠 Rumus Ingat</div><div class="fm">WAJIB = orangnya siap<br>SAH = shalatnya siap<br>85 = nisab emas<br>Fitrah = sebelum Id</div><div class="fn">Kalau soalnya bertanya “siapa yang wajib?”, lihat orangnya. Kalau bertanya “apa yang membuat sah?”, lihat syarat pelaksanaannya.</div></div>
+      <div class="lesson">
+        <h3>2. Fiqih Ibadah: puasa, zakat, dan kebersihan</h3>
+        <p>Dalam puasa, yang membatalkan biasanya adalah hal yang dilakukan <strong>dengan sengaja</strong>. Kalau makan karena lupa, puasanya tetap lanjut. Dalam zakat, perlu kenal istilah: <strong>muzaki</strong> adalah yang membayar, <strong>mustahik</strong> adalah yang menerima.</p>
+        <ul>
+          <li><strong>Nisab zakat emas</strong>: 85 gram.</li>
+          <li><strong>Zakat fitrah</strong> dibayar sebelum shalat Id.</li>
+          <li>Pakaian, badan, dan tempat shalat harus bersih dari najis.</li>
+        </ul>
+        <div class="mini-callout">Kuncinya: sengaja vs lupa, muzaki vs mustahik, hadas vs najis.</div>
+      </div>
+
+      <div class="lesson">
+        <h3>3. Akhlak: bukan hafalan istilah saja</h3>
+        <p>Akhlak selalu harus terlihat dalam tindakan nyata. <strong>Amanah</strong> berarti bisa dipercaya. <strong>Siddiq</strong> berarti jujur. <strong>Tawadhu</strong> berarti rendah hati. <strong>Qana'ah</strong> berarti merasa cukup dan tidak serakah. <strong>Husnuzan</strong> berarti berprasangka baik.</p>
+        <ul>
+          <li>Amanah terlihat saat menjaga titipan dan menepati janji.</li>
+          <li>Syukur bukan cuma ucapan, tetapi juga memakai nikmat dengan benar.</li>
+          <li>Tawakal bukan pasrah tanpa usaha, tetapi berusaha maksimal lalu menyerahkan hasil kepada Allah.</li>
+        </ul>
+        <div class="mini-callout">Kalau ada soal akhlak, cari jawaban yang paling menunjukkan perilaku nyata, bukan sekadar kata yang terdengar baik.</div>
+      </div>
+
+      <div class="lesson">
+        <h3>4. Akhlak sehari-hari: adab kecil menentukan</h3>
+        <p>Akhlak sering diuji dalam hal kecil: bagaimana bicara ke orang tua, bagaimana meminjam barang, bagaimana menilai teman, dan bagaimana merespons nikmat.</p>
+        <ul>
+          <li>Berterima kasih kepada manusia adalah bagian dari syukur kepada Allah.</li>
+          <li>Meminjam lalu mengembalikan dengan baik adalah bentuk amanah.</li>
+          <li>Tidak mengejek, tidak pamer, dan tidak cepat menuduh adalah akhlak yang harus dibiasakan.</li>
+        </ul>
+        <div class="mini-callout">Akhlak yang benar biasanya membuat hubungan jadi lebih aman, lebih jujur, dan lebih tertib.</div>
       </div>
     </div>
 
-    <div class="topic" id="mt1">
-      <div class="mc">
-        <h3>🧼 Fiqih Ibadah — Tabel Pembeda Inti</h3>
-        <div class="ms">Empat pasangan ini wajib rapat di kepala, karena paling sering bikin salah saat ujian.</div>
-        <table class="ptable">
-          <tr><th>Pasangan</th><th>Makna</th><th>Contoh</th></tr>
-          <tr><td class="pnum">Hadas kecil vs hadas besar</td><td>Hadas kecil dibersihkan dengan wudhu. Hadas besar dibersihkan dengan mandi wajib.</td><td>Buang angin → wudhu. Junub → mandi wajib.</td></tr>
-          <tr><td class="pnum">Hadas vs najis</td><td>Hadas adalah keadaan tidak suci. Najis adalah benda kotor yang menempel.</td><td>Pakaian kena najis → dicuci. Wudhu batal → wudhu lagi.</td></tr>
-          <tr><td class="pnum">Muzaki vs mustahik</td><td>Muzaki membayar zakat. Mustahik menerima zakat.</td><td>Orang yang mengeluarkan zakat fitrah = muzaki.</td></tr>
-          <tr><td class="pnum">Sengaja vs lupa saat puasa</td><td>Sengaja bisa membatalkan. Lupa tidak membatalkan.</td><td>Makan karena lupa → puasa tetap jalan.</td></tr>
-        </table>
-        <div class="lgrid">
-          <div class="litem"><span class="licon">✅</span><div><div class="lname">Checklist sebelum shalat</div><div class="ldesc">Sudah wudhu? badan/pakaian/tempat suci? aurat tertutup? waktu shalat masuk? arah kiblat benar?</div><div class="lkey">Kunci: jangan cuma hafal istilah, tapi hafal urutan ceknya</div></div></div>
-          <div class="litem"><span class="licon">📌</span><div><div class="lname">Angka yang harus nempel</div><div class="ldesc">Nishab zakat emas = 85 gram. Angka ini sangat sering keluar dan mudah tertukar.</div><div class="lkey">Kunci: 85 = emas</div></div></div>
-          <div class="litem"><span class="licon">⏳</span><div><div class="lname">Batas waktu zakat fitrah</div><div class="ldesc">Bukan akhir Syawal. Yang tepat: sebelum shalat Idul Fitri.</div><div class="lkey">Kunci: Fitrah menutup Ramadan, jadi jangan lewat Id</div></div></div>
-        </div>
-        <div class="cbox"><div class="cl">🎯 Target setelah baca tab ini</div><div class="cs">Kalau keluar soal pembeda istilah, Musa tidak boleh lagi menjawab dengan feeling. Harus tahu persis: yang ditanya <strong>orangnya</strong>, <strong>keadaannya</strong>, <strong>bendanya</strong>, atau <strong>waktunya</strong>.</div></div>
-      </div>
-    </div>
-
-    <div class="topic" id="mt2">
-      <div class="mc">
-        <h3>😇 Akhlak — Peta Error A03</h3>
-        <div class="ms">Di A03, masalah akhlak terlihat jelas: istilah dikenali, tetapi arti dan contoh perilakunya belum konsisten.</div>
-        <div class="abox">
-          <div class="al">⚠️ Error nyata dari A03</div>
-          <p>Sifat “dapat dipercaya” dijawab <strong>siddiq</strong>, padahal yang benar <strong>amanah</strong>.<br>Qana'ah dipahami sebagai <strong>selalu ingin lebih banyak dari orang lain</strong>, padahal yang benar <strong>bersyukur dan menerima rezeki yang ada</strong>.<br>Berterima kasih kepada sesama dianggap <strong>tidak ada hubungannya dengan agama</strong>, padahal itu bagian dari <strong>syukur kepada Allah</strong>.</p>
-          <div class="fix">✅ Fix: hafal pasangan istilah + buktikan dengan contoh tindakan nyata.</div>
-        </div>
-        <table class="ptable">
-          <tr><th>Istilah</th><th>Arti</th><th>Tanda Nyata</th></tr>
-          <tr><td class="pnum">Siddiq</td><td>Jujur / benar</td><td>Tidak berbohong, tidak memalsukan alasan</td></tr>
-          <tr><td class="pnum">Amanah</td><td>Dapat dipercaya</td><td>Menjaga titipan, menepati janji</td></tr>
-          <tr><td class="pnum">Tabligh</td><td>Menyampaikan</td><td>Tidak menyembunyikan kebenaran yang wajib disampaikan</td></tr>
-          <tr><td class="pnum">Fathanah</td><td>Cerdas</td><td>Tepat mengambil keputusan dan memahami masalah</td></tr>
-          <tr><td class="pnum">Qana'ah</td><td>Merasa cukup</td><td>Tidak iri, tidak serakah, tetap berusaha</td></tr>
-          <tr><td class="pnum">Husnuzan</td><td>Berbaik sangka</td><td>Tidak cepat menuduh tanpa bukti</td></tr>
-        </table>
-        <div class="fbox"><div class="fl">🧠 Rumus Ingat</div><div class="fm">Siddiq = jujur<br>Amanah = dipercaya<br>Qana'ah = cukup<br>Husnuzan = prasangka baik</div><div class="fn">Kalau soalnya akhlak, jangan pilih jawaban yang terdengar “bagus” saja. Pilih yang paling cocok dengan arti istilahnya.</div></div>
-      </div>
-    </div>
-
-    <div class="topic" id="mt3">
-      <div class="mc">
-        <h3>🤝 Akhlak — Aplikasi dalam Kehidupan Sehari-hari</h3>
-        <div class="ms">Bagian ini penting supaya akhlak tidak berhenti sebagai istilah. Harus tampak dalam cara bicara, cara meminjam, dan cara menilai orang lain.</div>
-        <div class="lgrid">
-          <div class="litem"><span class="licon">📦</span><div><div class="lname">Amanah saat meminjam barang</div><div class="ldesc">Barang pinjaman dipakai dengan hati-hati, lalu dikembalikan dalam keadaan baik. Ini contoh amanah, bukan sekadar sopan santun biasa.</div><div class="lkey">Kunci: amanah = jaga kepercayaan</div></div></div>
-          <div class="litem"><span class="licon">🗣️</span><div><div class="lname">Syukur kepada manusia</div><div class="ldesc">Mengucapkan terima kasih kepada orang yang membantu adalah bagian dari syukur kepada Allah, karena nikmat Allah sering datang lewat perantaraan manusia.</div><div class="lkey">Kunci: syukur vertikal harus tampak horizontal</div></div></div>
-          <div class="litem"><span class="licon">🧍</span><div><div class="lname">Tawadhu dan tidak pamer</div><div class="ldesc">Kalau berhasil, tetap rendah hati. Tidak mengejek yang lebih lemah, tidak merasa paling hebat, tidak mengungkit kebaikan sendiri.</div><div class="lkey">Kunci: tawadhu menenangkan, sombong merusak</div></div></div>
-          <div class="litem"><span class="licon">🧠</span><div><div class="lname">Husnuzan dalam konflik kecil</div><div class="ldesc">Saat teman terlambat atau lupa, jangan langsung menuduh. Cari penjelasan dulu. Itu lebih dekat ke husnuzan daripada su'uzan.</div><div class="lkey">Kunci: tunda tuduhan, cari klarifikasi</div></div></div>
-        </div>
-        <div class="cbox"><div class="cl">⚡ Uji cepat diri sendiri</div><div class="cs">Kalau ditanya: “Perilaku mana yang benar?” pilih jawaban yang paling membuat hubungan jadi <strong>lebih jujur</strong>, <strong>lebih aman</strong>, dan <strong>lebih tertib</strong>. Biasanya itu jawaban akhlak yang benar.</div></div>
-        <button class="cta" style="margin-top:18px" onclick="startPhase('post',0)">Mulai Post-test B05</button>
-      </div>
-    </div>
+    <button class="cta" style="margin-top:18px" onclick="startPhase('post',0)">Mulai Post-test B05</button>
   </div>
 </div>
 
@@ -363,24 +302,27 @@ body{
     <span class="badge">Hasil Akhir B05</span>
     <div class="hero" style="padding:14px 0 0">
       <h1 style="font-size:28px">Perbandingan <span class="accent">Pre-test vs Post-test</span></h1>
-      <p>Targetnya bukan sekadar naik skor, tapi memastikan istilah dan perilaku yang tadi tertukar sekarang lebih rapat.</p>
+      <p>Tujuannya bukan cuma naik skor, tetapi memastikan konsep yang kemarin lemah sekarang lebih stabil.</p>
     </div>
 
     <div class="metrics">
-      <div class="metric"><div class="label">Skor awal</div><div class="value" id="pre-total">0/10</div></div>
-      <div class="metric"><div class="label">Skor akhir</div><div class="value" id="post-total">0/10</div></div>
-      <div class="metric"><div class="label">Delta</div><div class="value" id="delta-total">+0</div></div>
+      <div class="metric">
+        <div class="label">Skor awal</div>
+        <div class="value" id="pre-total">0/10</div>
+      </div>
+      <div class="metric">
+        <div class="label">Skor akhir</div>
+        <div class="value" id="post-total">0/10</div>
+      </div>
     </div>
 
     <div class="topic-results" id="topic-results"></div>
-    <div class="note-block" id="focus-notes"></div>
 
-    <div class="wrsec" id="pre-ws" style="display:none"><div class="wrhd pre">🧪 Soal Salah — Pre-test</div><div id="pre-wl"></div></div>
-    <div class="wrsec" id="post-ws" style="display:none"><div class="wrhd post">✅ Soal Salah — Post-test</div><div id="post-wl"></div></div>
+    <div class="note-block" id="focus-notes"></div>
 
     <button class="copy-btn" onclick="copySummary()">Salin ringkasan hasil</button>
     <button class="ghost" onclick="location.reload()">Ulangi B05</button>
-    <div class="footer-tip">Versi ini sudah direvisi supaya struktur pengajarannya lebih setara dengan B03: ada analisis error, materi bertingkat, tabel, trik, dan review soal salah.</div>
+    <div class="footer-tip">File ini sengaja dibuat dengan struktur mirip A03, tapi palet warna, tipografi, dan atmosfer visualnya diubah total.</div>
   </div>
 </div>
 
@@ -394,39 +336,199 @@ const TOPICS = [
 
 const PRE = [
   [
-    { tag:'Fiqih Ibadah', q:'Sebelum shalat, orang yang berhadas kecil harus...', hint:'Hadas kecil dibersihkan dengan cara yang berbeda dari hadas besar.', vis:'Hadas kecil → wudhu | Hadas besar → mandi wajib', opts:['mandi wajib','membaca niat saja','berwudhu','tayamum selalu'], ans:2, exp:'Hadas kecil dibersihkan dengan wudhu. Mandi wajib digunakan untuk hadas besar, bukan untuk kondisi biasa sebelum setiap shalat.', formula:'Hadas kecil = wudhu · Hadas besar = mandi wajib' },
-    { tag:'Fiqih Ibadah', q:'Salah satu syarat sah shalat adalah...', hint:'Cari yang membuat shalatnya sah, bukan yang membuat orangnya wajib shalat.', vis:'Bedakan: syarat wajib shalat vs syarat sah shalat', opts:['punya sajadah baru','hafal banyak surah','sudah menikah','menutup aurat'], ans:3, exp:'Menutup aurat termasuk syarat sah shalat. Tanpa itu, shalat tidak sah. Menikah, sajadah baru, atau hafal banyak surah bukan syarat sah shalat.', formula:'Syarat sah shalat: suci + aurat tertutup + masuk waktu + kiblat' },
-    { tag:'Fiqih Ibadah', q:'Orang yang mengeluarkan zakat disebut...', hint:'Yang menerima zakat punya istilah berbeda.', vis:'muzaki = pembayar zakat | mustahik = penerima zakat', opts:['amil','mustahik','muallaf','muzaki'], ans:3, exp:'Muzaki adalah orang yang menunaikan zakat. Mustahik adalah penerima zakat. Amil adalah pengelola zakat.', formula:'Muzaki = membayar · Mustahik = menerima · Amil = mengelola' },
-    { tag:'Fiqih Ibadah', q:'Jika seseorang makan saat puasa karena benar-benar lupa, maka puasanya...', hint:'Islam membedakan sengaja dan lupa.', vis:'Puasa batal jika pelanggaran dilakukan dengan sengaja.', opts:['batal total','haram dilanjutkan','wajib fidyah','tetap sah'], ans:3, exp:'Kalau makan atau minum karena lupa, puasanya tetap sah dan dilanjutkan. Yang membatalkan puasa adalah perbuatan yang dilakukan dengan sengaja.', formula:'Sengaja = batal · Lupa = tetap lanjut' },
-    { tag:'Fiqih Ibadah', q:'Pakaian yang terkena najis sebelum shalat seharusnya...', hint:'Najis berbeda dari hadas.', vis:'Najis harus dibersihkan dari badan, pakaian, dan tempat shalat.', opts:['dibersihkan terlebih dahulu','cukup diniatkan bersih','tetap dipakai tanpa dibersihkan','ditutup jaket saja'], ans:0, exp:'Najis pada pakaian harus dibersihkan lebih dulu. Niat saja tidak cukup. Kesucian pakaian termasuk bagian penting dalam syarat sah shalat.', formula:'Najis → dibersihkan | Hadas → wudhu/mandi' }
+    {
+      q:'Sebelum shalat, orang yang berhadas kecil harus...',
+      hint:'Hadas kecil dibersihkan dengan cara yang berbeda dari hadas besar.',
+      vis:'Hadas kecil → wudhu | Hadas besar → mandi wajib',
+      opts:['mandi wajib','tayamum selalu','berwudhu','membaca niat saja'],
+      ans:2,
+      exp:'Hadas kecil dibersihkan dengan wudhu. Mandi wajib digunakan untuk hadas besar, bukan untuk kondisi biasa sebelum setiap shalat.',
+      formula:'Hadas kecil = wudhu · Hadas besar = mandi wajib'
+    },
+    {
+      q:'Salah satu syarat sah shalat adalah...',
+      hint:'Cari yang membuat shalatnya sah, bukan yang membuat orangnya wajib shalat.',
+      vis:'Bedakan: syarat wajib shalat vs syarat sah shalat',
+      opts:['sudah menikah','menutup aurat','punya sajadah baru','hafal banyak surah'],
+      ans:1,
+      exp:'Menutup aurat termasuk syarat sah shalat. Tanpa itu, shalat tidak sah. Menikah, sajadah baru, atau hafal banyak surah bukan syarat sah shalat.',
+      formula:'Syarat sah shalat: suci + aurat tertutup + masuk waktu + kiblat'
+    },
+    {
+      q:'Orang yang mengeluarkan zakat disebut...',
+      hint:'Yang menerima zakat punya istilah berbeda.',
+      vis:'muzaki = pembayar zakat | mustahik = penerima zakat',
+      opts:['mustahik','muallaf','muzaki','amil'],
+      ans:2,
+      exp:'Muzaki adalah orang yang menunaikan zakat. Mustahik adalah penerima zakat. Amil adalah pengelola zakat.',
+      formula:'Muzaki = membayar · Mustahik = menerima · Amil = mengelola'
+    },
+    {
+      q:'Jika seseorang makan saat puasa karena benar-benar lupa, maka puasanya...',
+      hint:'Islam membedakan sengaja dan lupa.',
+      vis:'Puasa batal jika pelanggaran dilakukan dengan sengaja.',
+      opts:['batal total','tetap sah','wajib fidyah','haram dilanjutkan'],
+      ans:1,
+      exp:'Kalau makan atau minum karena lupa, puasanya tetap sah dan dilanjutkan. Yang membatalkan puasa adalah perbuatan yang dilakukan dengan sengaja.',
+      formula:'Sengaja = batal · Lupa = tetap lanjut'
+    },
+    {
+      q:'Pakaian yang terkena najis sebelum shalat seharusnya...',
+      hint:'Najis berbeda dari hadas.',
+      vis:'Najis harus dibersihkan dari badan, pakaian, dan tempat shalat.',
+      opts:['tetap dipakai tanpa dibersihkan','dibersihkan terlebih dahulu','ditutup jaket saja','cukup diniatkan bersih'],
+      ans:1,
+      exp:'Najis pada pakaian harus dibersihkan lebih dulu. Niat saja tidak cukup. Kesucian pakaian termasuk bagian penting dalam syarat sah shalat.',
+      formula:'Najis → dibersihkan | Hadas → bersuci dengan wudhu/mandi'
+    }
   ],
   [
-    { tag:'Akhlak', q:'Sifat terpuji yang berarti jujur adalah...', hint:'Ini salah satu sifat wajib Rasul.', vis:'Siddiq = jujur | Amanah = dapat dipercaya', opts:['amanah','siddiq','fathanah','tabligh'], ans:1, exp:'Siddiq berarti jujur atau benar. Amanah berarti dapat dipercaya. Tabligh berarti menyampaikan. Fathanah berarti cerdas.', formula:'Siddiq = jujur · Amanah = terpercaya · Tabligh = menyampaikan · Fathanah = cerdas' },
-    { tag:'Akhlak', q:'Lawan dari sifat rendah hati adalah...', hint:'Rendah hati = tawadhu.', vis:'Tawadhu membuat orang tidak merasa paling tinggi.', opts:['syukur','tawadhu','sombong','sabar'], ans:2, exp:'Lawan dari rendah hati adalah sombong. Dalam Islam, sombong adalah akhlak tercela karena membuat seseorang merendahkan orang lain.', formula:'Tawadhu ↔ sombong' },
-    { tag:'Akhlak', q:'Sikap yang benar saat diberi nikmat oleh Allah adalah...', hint:'Cari jawaban yang menunjukkan adab kepada Allah.', vis:'Syukur tampak dalam hati, ucapan, dan perbuatan.', opts:['meremehkan orang lain','bersyukur','pamer','iri pada orang lain'], ans:1, exp:'Sikap yang benar adalah bersyukur. Syukur berarti mengakui nikmat Allah dan menggunakannya dengan baik, bukan pamer atau merendahkan orang lain.', formula:'Syukur = sadar nikmat + gunakan dengan benar' },
-    { tag:'Akhlak', q:'Jika meminjam barang teman, maka kita harus...', hint:'Ini berkaitan dengan amanah.', vis:'Amanah tampak saat menjaga titipan dan menepati janji.', opts:['mengembalikan dalam keadaan baik','memakai sesuka hati','menyimpannya selama suka','meminjamkan lagi tanpa izin'], ans:0, exp:'Mengembalikan barang pinjaman dalam keadaan baik menunjukkan sifat amanah. Memakai sesuka hati atau memberikan ke orang lain tanpa izin adalah perilaku yang salah.', formula:'Amanah = jaga titipan + kembalikan dengan baik' },
-    { tag:'Akhlak', q:'Berprasangka baik kepada orang lain disebut...', hint:'Kebalikannya adalah cepat curiga dan menuduh.', vis:'Husnuzan = berbaik sangka', opts:['gibah','husnuzan','takabur','hasad'], ans:1, exp:'Husnuzan berarti berprasangka baik kepada orang lain. Ini penting agar kita tidak mudah menuduh atau merusak hubungan tanpa bukti.', formula:'Husnuzan = prasangka baik' }
+    {
+      q:'Sifat terpuji yang berarti jujur adalah...',
+      hint:'Ini salah satu sifat wajib Rasul.',
+      vis:'Siddiq = jujur | Amanah = dapat dipercaya',
+      opts:['amanah','tabligh','siddiq','fathanah'],
+      ans:2,
+      exp:'Siddiq berarti jujur atau benar. Amanah berarti dapat dipercaya. Tabligh berarti menyampaikan. Fathanah berarti cerdas.',
+      formula:'Siddiq = jujur · Amanah = terpercaya · Tabligh = menyampaikan · Fathanah = cerdas'
+    },
+    {
+      q:'Lawan dari sifat rendah hati adalah...',
+      hint:'Rendah hati = tawadhu.',
+      vis:'Tawadhu membuat orang tidak merasa paling tinggi.',
+      opts:['sabar','syukur','tawadhu','sombong'],
+      ans:3,
+      exp:'Lawan dari rendah hati adalah sombong. Dalam Islam, sombong adalah akhlak tercela karena membuat seseorang merendahkan orang lain.',
+      formula:'Tawadhu ↔ sombong'
+    },
+    {
+      q:'Sikap yang benar saat diberi nikmat oleh Allah adalah...',
+      hint:'Cari jawaban yang menunjukkan adab kepada Allah.',
+      vis:'Syukur tampak dalam hati, ucapan, dan perbuatan.',
+      opts:['iri pada orang lain','bersyukur','pamer','meremehkan orang lain'],
+      ans:1,
+      exp:'Sikap yang benar adalah bersyukur. Syukur berarti mengakui nikmat Allah dan menggunakannya dengan baik, bukan pamer atau merendahkan orang lain.',
+      formula:'Syukur = sadar nikmat + gunakan dengan benar'
+    },
+    {
+      q:'Jika meminjam barang teman, maka kita harus...',
+      hint:'Ini berkaitan dengan amanah.',
+      vis:'Amanah tampak saat menjaga titipan dan menepati janji.',
+      opts:['memakai sesuka hati','mengembalikan dalam keadaan baik','meminjamkan lagi tanpa izin','menyimpannya selama suka'],
+      ans:1,
+      exp:'Mengembalikan barang pinjaman dalam keadaan baik menunjukkan sifat amanah. Memakai sesuka hati atau memberikan ke orang lain tanpa izin adalah perilaku yang salah.',
+      formula:'Amanah = jaga titipan + kembalikan dengan baik'
+    },
+    {
+      q:'Berprasangka baik kepada orang lain disebut...',
+      hint:'Kebalikannya adalah cepat curiga dan menuduh.',
+      vis:'Husnuzan = berbaik sangka',
+      opts:['hasad','husnuzan','takabur','gibah'],
+      ans:1,
+      exp:'Husnuzan berarti berprasangka baik kepada orang lain. Ini penting agar kita tidak mudah menuduh atau merusak hubungan tanpa bukti.',
+      formula:'Husnuzan = prasangka baik'
+    }
   ]
 ];
 
 const POST = [
   [
-    { tag:'Fiqih Ibadah', q:'Yang termasuk syarat wajib shalat adalah...', hint:'Sekarang perhatikan siapa yang terkena kewajiban shalat.', vis:'Wajib shalat terkait kondisi orangnya, bukan perlengkapan shalatnya.', opts:['baligh','menutup aurat','menghadap kiblat','masuk waktu'], ans:0, exp:'Baligh termasuk syarat wajib shalat. Menutup aurat, masuk waktu, dan menghadap kiblat termasuk syarat sah shalat.', formula:'Wajib shalat: muslim + baligh + berakal' },
-    { tag:'Fiqih Ibadah', q:'Yang membatalkan wudhu adalah...', hint:'Cari yang menunjukkan hilangnya keadaan suci dari hadas kecil.', vis:'Wudhu batal jika keluar hadas atau hilang kesadaran.', opts:['tidur nyenyak','tersenyum','membaca doa','memakai peci'], ans:0, exp:'Tidur nyenyak membatalkan wudhu karena menunjukkan hilangnya kesadaran. Membaca doa, tersenyum, atau memakai peci tidak membatalkan wudhu.', formula:'Batal wudhu: keluar hadas, tidur nyenyak, hilang akal' },
-    { tag:'Fiqih Ibadah', q:'Penerima zakat disebut...', hint:'Jangan tertukar dengan pembayar zakat.', vis:'muzaki ≠ mustahik', opts:['mustahik','muzaki','amil','khatib'], ans:0, exp:'Mustahik adalah orang yang berhak menerima zakat. Muzaki adalah orang yang mengeluarkan zakat.', formula:'Mustahik = penerima zakat' },
-    { tag:'Fiqih Ibadah', q:'Zakat fitrah paling lambat dibayarkan sebelum...', hint:'Ingat batas akhirnya.', vis:'Zakat fitrah berkaitan dengan penutup Ramadan.', opts:['akhir Syawal','shalat Idul Fitri','awal Ramadan','malam Nisfu Sya\'ban'], ans:1, exp:'Zakat fitrah dibayarkan sebelum shalat Idul Fitri. Kalau lewat dari itu, nilainya tidak lagi sebagai zakat fitrah yang tepat waktu.', formula:'Batas zakat fitrah = sebelum shalat Id' },
-    { tag:'Fiqih Ibadah', q:'Nisab zakat emas adalah...', hint:'Ini angka penting yang sering keliru.', vis:'Perhatikan angka standar nisab emas.', opts:['50 gram','100 gram','85 gram','65 gram'], ans:2, exp:'Nisab zakat emas adalah 85 gram. Jika mencapai nisab dan haul, maka wajib dikeluarkan zakatnya.', formula:'Nisab emas = 85 gram' }
+    {
+      q:'Yang termasuk syarat wajib shalat adalah...',
+      hint:'Sekarang perhatikan siapa yang terkena kewajiban shalat.',
+      vis:'Wajib shalat terkait kondisi orangnya, bukan perlengkapan shalatnya.',
+      opts:['menutup aurat','masuk waktu','baligh','menghadap kiblat'],
+      ans:2,
+      exp:'Baligh termasuk syarat wajib shalat. Menutup aurat, masuk waktu, dan menghadap kiblat termasuk syarat sah shalat.',
+      formula:'Wajib shalat: muslim + baligh + berakal'
+    },
+    {
+      q:'Yang membatalkan wudhu adalah...',
+      hint:'Cari yang menunjukkan hilangnya keadaan suci dari hadas kecil.',
+      vis:'Wudhu batal jika keluar hadas atau hilang kesadaran.',
+      opts:['membaca doa','tidur nyenyak','tersenyum','memakai peci'],
+      ans:1,
+      exp:'Tidur nyenyak membatalkan wudhu karena menunjukkan hilangnya kesadaran. Membaca doa, tersenyum, atau memakai peci tidak membatalkan wudhu.',
+      formula:'Batal wudhu: keluar hadas, tidur nyenyak, hilang akal'
+    },
+    {
+      q:'Penerima zakat disebut...',
+      hint:'Jangan tertukar dengan pembayar zakat.',
+      vis:'muzaki ≠ mustahik',
+      opts:['muzaki','mustahik','amil','khatib'],
+      ans:1,
+      exp:'Mustahik adalah orang yang berhak menerima zakat. Muzaki adalah orang yang mengeluarkan zakat.',
+      formula:'Mustahik = penerima zakat'
+    },
+    {
+      q:'Zakat fitrah paling lambat dibayarkan sebelum...',
+      hint:'Ingat batas akhirnya.',
+      vis:'Zakat fitrah berkaitan dengan penutup Ramadan.',
+      opts:['shalat Idul Fitri','akhir Syawal','awal Ramadan','malam Nisfu Sya\'ban'],
+      ans:0,
+      exp:'Zakat fitrah dibayarkan sebelum shalat Idul Fitri. Kalau lewat dari itu, nilainya tidak lagi sebagai zakat fitrah yang tepat waktu.',
+      formula:'Batas zakat fitrah = sebelum shalat Id'
+    },
+    {
+      q:'Nisab zakat emas adalah...',
+      hint:'Ini angka penting yang sering keliru.',
+      vis:'Perhatikan angka standar nisab emas.',
+      opts:['50 gram','65 gram','85 gram','100 gram'],
+      ans:2,
+      exp:'Nisab zakat emas adalah 85 gram. Jika mencapai nisab dan haul, maka wajib dikeluarkan zakatnya.',
+      formula:'Nisab emas = 85 gram'
+    }
   ],
   [
-    { tag:'Akhlak', q:'Sifat yang berarti dapat dipercaya adalah...', hint:'Ini bukan siddiq.', vis:'Amanah terkait menjaga kepercayaan.', opts:['tabligh','siddiq','qana\'ah','amanah'], ans:3, exp:'Amanah berarti dapat dipercaya. Orang yang amanah menjaga titipan, menepati janji, dan tidak menyalahgunakan kepercayaan.', formula:'Amanah = dapat dipercaya' },
-    { tag:'Akhlak', q:'Contoh qana\'ah adalah...', hint:'Cari yang menunjukkan merasa cukup tanpa serakah.', vis:'Qana\'ah bukan malas, tetapi tidak tamak.', opts:['selalu iri dengan milik orang lain','minta semua yang dimiliki teman','bersyukur atas rezeki yang ada sambil tetap berusaha','tidak mau bekerja sama sekali'], ans:2, exp:'Qana\'ah adalah merasa cukup dengan rezeki yang Allah beri sambil tetap berusaha dengan baik. Ini berbeda dari iri, serakah, atau malas.', formula:'Qana\'ah = merasa cukup + tetap berusaha' },
-    { tag:'Akhlak', q:'Sikap yang tepat ketika teman melakukan kesalahan kecil adalah...', hint:'Akhlak baik tetap menjaga martabat orang lain.', vis:'Tegur baik-baik, jangan permalukan.', opts:['langsung menyebarkan aibnya','menasihati dengan sopan','ikut marah tanpa alasan','mengejek di depan banyak orang'], ans:1, exp:'Menasihati dengan sopan adalah akhlak yang benar. Mengejek atau menyebarkan aib justru menambah kerusakan.', formula:'Akhlak baik = benar caranya + benar isinya' },
-    { tag:'Akhlak', q:'Berterima kasih kepada sesama manusia dalam Islam termasuk...', hint:'Hubungannya dekat dengan syukur.', vis:'Syukur kepada Allah juga tampak dalam cara kita memperlakukan manusia.', opts:['tanda lemah','tidak penting','sekadar adat','bagian dari syukur'], ans:3, exp:'Berterima kasih kepada manusia adalah bagian dari syukur. Orang yang tidak pandai berterima kasih kepada sesama menunjukkan kurangnya kesadaran terhadap nikmat Allah.', formula:'Syukur kepada Allah mencakup syukur kepada sesama' },
-    { tag:'Akhlak', q:'Tawakal yang benar adalah...', hint:'Jangan tertukar antara tawakal dan pasrah tanpa usaha.', vis:'Usaha dulu, lalu serahkan hasil kepada Allah.', opts:['tidak belajar lalu berharap nilai bagus','menolak ikhtiar','berusaha sungguh-sungguh lalu menyerahkan hasil kepada Allah','hanya menunggu bantuan orang lain'], ans:2, exp:'Tawakal bukan malas. Tawakal yang benar adalah berikhtiar sungguh-sungguh, kemudian menerima hasilnya dengan percaya kepada Allah.', formula:'Tawakal = ikhtiar maksimal + serah hasil kepada Allah' }
+    {
+      q:'Sifat yang berarti dapat dipercaya adalah...',
+      hint:'Ini bukan siddiq.',
+      vis:'Amanah terkait menjaga kepercayaan.',
+      opts:['amanah','siddiq','qana\'ah','tabligh'],
+      ans:0,
+      exp:'Amanah berarti dapat dipercaya. Orang yang amanah menjaga titipan, menepati janji, dan tidak menyalahgunakan kepercayaan.',
+      formula:'Amanah = dapat dipercaya'
+    },
+    {
+      q:'Contoh qana\'ah adalah...',
+      hint:'Cari yang menunjukkan merasa cukup tanpa serakah.',
+      vis:'Qana\'ah bukan malas, tetapi tidak tamak.',
+      opts:['selalu iri dengan milik orang lain','bersyukur atas rezeki yang ada sambil tetap berusaha','minta semua yang dimiliki teman','tidak mau bekerja sama sekali'],
+      ans:1,
+      exp:'Qana\'ah adalah merasa cukup dengan rezeki yang Allah beri sambil tetap berusaha dengan baik. Ini berbeda dari iri, serakah, atau malas.',
+      formula:'Qana\'ah = merasa cukup + tetap berusaha'
+    },
+    {
+      q:'Sikap yang tepat ketika teman melakukan kesalahan kecil adalah...',
+      hint:'Akhlak baik tetap menjaga martabat orang lain.',
+      vis:'Tegur baik-baik, jangan permalukan.',
+      opts:['mengejek di depan banyak orang','menasihati dengan sopan','langsung menyebarkan aibnya','ikut marah tanpa alasan'],
+      ans:1,
+      exp:'Menegur dengan sopan adalah akhlak yang benar. Mengejek atau menyebarkan aib justru menambah kerusakan.',
+      formula:'Akhlak baik = benar caranya + benar isinya'
+    },
+    {
+      q:'Berterima kasih kepada sesama manusia dalam Islam termasuk...',
+      hint:'Hubungannya dekat dengan syukur.',
+      vis:'Syukur kepada Allah juga tampak dalam cara kita memperlakukan manusia.',
+      opts:['tidak penting','bagian dari syukur','sekadar adat','tanda lemah'],
+      ans:1,
+      exp:'Berterima kasih kepada manusia adalah bagian dari syukur. Orang yang tidak pandai berterima kasih kepada sesama menunjukkan kurangnya kesadaran terhadap nikmat Allah.',
+      formula:'Syukur kepada Allah mencakup syukur kepada sesama'
+    },
+    {
+      q:'Tawakal yang benar adalah...',
+      hint:'Jangan tertukar antara tawakal dan pasrah tanpa usaha.',
+      vis:'Usaha dulu, lalu serahkan hasil kepada Allah.',
+      opts:['tidak belajar lalu berharap nilai bagus','berusaha sungguh-sungguh lalu menyerahkan hasil kepada Allah','menolak ikhtiar','hanya menunggu bantuan orang lain'],
+      ans:1,
+      exp:'Tawakal bukan malas. Tawakal yang benar adalah berikhtiar sungguh-sungguh, kemudian menerima hasilnya dengan percaya kepada Allah.',
+      formula:'Tawakal = ikhtiar maksimal + serah hasil kepada Allah'
+    }
   ]
 ];
 
-const TIMER_PER_TOPIC = 8 * 60;
+const TIMER_PER_TOPIC = 6 * 60;
 let phase = 'pre';
 let topicIndex = 0;
 let questionIndex = 0;
@@ -437,17 +539,48 @@ let preScores = [0,0];
 let postScores = [0,0];
 let preWrong = [[],[]];
 let postWrong = [[],[]];
+let preElapsed = 0;
+let postElapsed = 0;
 
 function byId(id){ return document.getElementById(id); }
-function showScreen(id){ ['splash','quiz-screen','transition-screen','material-screen','result-screen'].forEach(x=>byId(x).style.display='none'); byId(id).style.display='block'; }
+function showScreen(id){
+  ['splash','quiz-screen','transition-screen','material-screen','result-screen'].forEach(x=>byId(x).style.display='none');
+  byId(id).style.display='block';
+}
+
 function getBank(){ return phase === 'pre' ? PRE : POST; }
 function getScores(){ return phase === 'pre' ? preScores : postScores; }
 function getWrong(){ return phase === 'pre' ? preWrong : postWrong; }
 
 function startPhase(newPhase, startTopicIndex){
-  phase = newPhase; topicIndex = startTopicIndex; questionIndex = 0; picked = false; timer = TIMER_PER_TOPIC; clearInterval(timerInt);
-  showScreen('quiz-screen'); renderTopicHead(); renderQuestion(); updateTimer();
-  timerInt = setInterval(()=>{ timer--; updateTimer(); },1000);
+  phase = newPhase;
+  topicIndex = startTopicIndex;
+  questionIndex = 0;
+  picked = false;
+  timer = TIMER_PER_TOPIC;
+  clearInterval(timerInt);
+
+  if(newPhase === 'pre' && startTopicIndex === 0){
+    preScores = [0,0];
+    preWrong = [[],[]];
+    preElapsed = 0;
+  }
+  if(newPhase === 'post' && startTopicIndex === 0){
+    postScores = [0,0];
+    postWrong = [[],[]];
+    postElapsed = 0;
+  }
+
+  showScreen('quiz-screen');
+  renderTopicHead();
+  renderQuestion();
+  updateTimer();
+  timerInt = setInterval(() => {
+    timer--;
+    if(phase === 'pre') preElapsed++;
+    else postElapsed++;
+    updateTimer();
+  }, 1000);
 }
 
 function renderTopicHead(){
@@ -482,18 +615,23 @@ function renderQuestion(){
   picked = false;
   byId('q-counter').textContent = `${questionIndex+1}/${bank[topicIndex].length}`;
   byId('q-label').textContent = `Soal ${String(questionIndex+1).padStart(2,'0')}`;
-  byId('q-tag').textContent = q.tag;
   byId('q-text').textContent = q.q;
   byId('q-hint').textContent = q.hint ? `💡 ${q.hint}` : '';
-  if(q.vis){ byId('q-visual').style.display='block'; byId('q-visual').textContent=q.vis; }
-  else{ byId('q-visual').style.display='none'; byId('q-visual').textContent=''; }
+  if(q.vis){
+    byId('q-visual').style.display = 'block';
+    byId('q-visual').textContent = q.vis;
+  } else {
+    byId('q-visual').style.display = 'none';
+    byId('q-visual').textContent = '';
+  }
   byId('prog-fill').style.width = `${(questionIndex / bank[topicIndex].length) * 100}%`;
-  const options = byId('options'); options.innerHTML = '';
-  ['A','B','C','D'].forEach((label,i)=>{
+  const options = byId('options');
+  options.innerHTML = '';
+  ['A','B','C','D'].forEach((label, i) => {
     const btn = document.createElement('button');
     btn.className = 'opt';
     btn.innerHTML = `<span class="ol">${label}</span><span>${q.opts[i]}</span>`;
-    btn.onclick = ()=>answer(i);
+    btn.onclick = () => answer(i);
     options.appendChild(btn);
   });
   byId('explanation').className = 'expl';
@@ -501,14 +639,24 @@ function renderQuestion(){
 }
 
 function answer(idx){
-  if(picked) return; picked = true;
-  const bank = getBank(), scores = getScores(), wrong = getWrong(), q = bank[topicIndex][questionIndex];
-  const btns = document.querySelectorAll('#options .opt'); btns.forEach(b=>b.disabled=true);
-  if(idx === q.ans){ scores[topicIndex] += 1; btns[idx].classList.add('correct'); }
-  else{
-    btns[idx].classList.add('wrong'); btns[q.ans].classList.add('correct');
-    wrong[topicIndex].push({ tag:q.tag, q:q.q, chosen:q.opts[idx], correct:q.opts[q.ans], exp:q.exp, formula:q.formula||'' });
+  if(picked) return;
+  picked = true;
+  const bank = getBank();
+  const scores = getScores();
+  const wrong = getWrong();
+  const q = bank[topicIndex][questionIndex];
+  const btns = document.querySelectorAll('#options .opt');
+  btns.forEach(b => b.disabled = true);
+
+  if(idx === q.ans){
+    scores[topicIndex] += 1;
+    btns[idx].classList.add('correct');
+  }else{
+    btns[idx].classList.add('wrong');
+    btns[q.ans].classList.add('correct');
+    wrong[topicIndex].push({q:q.q, chosen:q.opts[idx], correct:q.opts[q.ans]});
   }
+
   byId('explanation').innerHTML = `<div class="eh">Penjelasan</div><div class="et">${q.exp}${q.formula ? `<div class="formula">${q.formula}</div>` : ''}</div>`;
   byId('explanation').className = 'expl show';
   const isLast = questionIndex === bank[topicIndex].length - 1;
@@ -518,73 +666,79 @@ function answer(idx){
 
 function nextQuestion(){
   const bank = getBank();
-  if(questionIndex < bank[topicIndex].length - 1){ questionIndex += 1; renderQuestion(); }
-  else{ clearInterval(timerInt); showTransition(); }
+  if(questionIndex < bank[topicIndex].length - 1){
+    questionIndex += 1;
+    renderQuestion();
+  }else{
+    clearInterval(timerInt);
+    showTransition();
+  }
 }
 
 function showTransition(){
   showScreen('transition-screen');
-  const scores = getScores(); const sc = scores[topicIndex]; const pct = Math.round((sc/5)*100); const t = TOPICS[topicIndex];
+  const scores = getScores();
+  const sc = scores[topicIndex];
+  const pct = Math.round((sc/5)*100);
+  const t = TOPICS[topicIndex];
   byId('tr-icon').textContent = sc === 5 ? '🌟' : sc >= 4 ? '✅' : sc >= 3 ? '⚠️' : '❗';
   byId('tr-title').textContent = `${t.name} selesai`;
-  byId('tr-sub').textContent = phase === 'pre' ? 'Pre-test selesai. Ini baru peta awal, belum hasil akhir.' : 'Post-test selesai. Sekarang terlihat apakah konsepnya sudah lebih stabil.';
+  byId('tr-sub').textContent = phase === 'pre'
+    ? 'Pre-test selesai. Ini baru peta awal, belum hasil akhir.'
+    : 'Post-test selesai. Sekarang terlihat apakah konsepnya sudah lebih stabil.';
   byId('tr-score').textContent = `${sc}/5 benar · ${pct}%`;
   byId('tr-score').style.background = pct >= 80 ? '#ecfdf5' : pct >= 60 ? '#fff7ed' : '#fff1f2';
   byId('tr-score').style.color = pct >= 80 ? '#047857' : pct >= 60 ? '#b45309' : '#be123c';
   byId('tr-score').style.borderColor = pct >= 80 ? 'rgba(5,150,105,.2)' : pct >= 60 ? 'rgba(217,119,6,.2)' : 'rgba(225,29,72,.2)';
-  if(phase === 'pre' && topicIndex < TOPICS.length - 1) byId('tr-btn').textContent = `Lanjut ke ${TOPICS[topicIndex+1].name} →`;
-  else if(phase === 'pre' && topicIndex === TOPICS.length - 1) byId('tr-btn').textContent = 'Buka materi →';
-  else if(phase === 'post' && topicIndex < TOPICS.length - 1) byId('tr-btn').textContent = `Lanjut ke ${TOPICS[topicIndex+1].name} →`;
-  else byId('tr-btn').textContent = 'Lihat hasil akhir →';
+
+  if(phase === 'pre' && topicIndex < TOPICS.length - 1){
+    byId('tr-btn').textContent = `Lanjut ke ${TOPICS[topicIndex+1].name} →`;
+  }else if(phase === 'pre' && topicIndex === TOPICS.length - 1){
+    byId('tr-btn').textContent = 'Buka materi →';
+  }else if(phase === 'post' && topicIndex < TOPICS.length - 1){
+    byId('tr-btn').textContent = `Lanjut ke ${TOPICS[topicIndex+1].name} →`;
+  }else{
+    byId('tr-btn').textContent = 'Lihat hasil akhir →';
+  }
 }
 
 function continueFlow(){
   if(phase === 'pre'){
-    if(topicIndex < TOPICS.length - 1) startPhase('pre', topicIndex + 1);
-    else showScreen('material-screen');
+    if(topicIndex < TOPICS.length - 1){
+      startPhase('pre', topicIndex + 1);
+    }else{
+      showScreen('material-screen');
+    }
   }else{
-    if(topicIndex < TOPICS.length - 1) startPhase('post', topicIndex + 1);
-    else showResults();
+    if(topicIndex < TOPICS.length - 1){
+      startPhase('post', topicIndex + 1);
+    }else{
+      showResults();
+    }
   }
 }
 
-function goMaterial(n){
-  document.querySelectorAll('.topic').forEach((t,i)=>t.classList.toggle('on',i===n));
-  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('on',i===n));
-  for(let i=0;i<4;i++){
-    const p = byId('pd'+i);
-    p.className = 'pdot' + (i<n ? ' done' : i===n ? ' active' : '');
-  }
-}
-
-function resultLabel(score){ if(score >= 4) return 'Kuat'; if(score >= 3) return 'Sedang'; return 'Perlu perhatian'; }
-
-function renderWrong(arr, targetId, post=false){
-  if(!arr.length) return;
-  byId(targetId).innerHTML = arr.map(w => `
-    <div class="wcard ${post ? 'post' : ''}">
-      <div style="font-size:10px;font-weight:800;color:var(--indigo);margin-bottom:5px">${w.tag}</div>
-      <div class="wq">❓ ${w.q}</div>
-      <div class="wa"><div class="wx">✗ ${w.chosen}</div><div class="wc">✓ ${w.correct}</div></div>
-      <div class="we">${w.exp}${w.formula ? `<div class="wf">${w.formula}</div>` : ''}</div>
-    </div>
-  `).join('');
+function resultLabel(score){
+  if(score >= 4) return 'Kuat';
+  if(score >= 3) return 'Sedang';
+  return 'Perlu perhatian';
 }
 
 function showResults(){
   showScreen('result-screen');
   const preTotal = preScores.reduce((a,b)=>a+b,0);
   const postTotal = postScores.reduce((a,b)=>a+b,0);
-  const delta = postTotal - preTotal;
   byId('pre-total').textContent = `${preTotal}/10`;
   byId('post-total').textContent = `${postTotal}/10`;
-  byId('delta-total').textContent = `${delta >= 0 ? '+' : ''}${delta}`;
-  byId('delta-total').style.color = delta > 0 ? 'var(--emerald)' : delta < 0 ? 'var(--rose)' : 'var(--violet)';
 
-  const area = byId('topic-results'); area.innerHTML = '';
+  const area = byId('topic-results');
+  area.innerHTML = '';
   TOPICS.forEach((t,i)=>{
-    const pre = preScores[i], post = postScores[i], gain = post - pre;
-    const row = document.createElement('div'); row.className = 'result-row';
+    const pre = preScores[i];
+    const post = postScores[i];
+    const gain = post - pre;
+    const row = document.createElement('div');
+    row.className = 'result-row';
     row.innerHTML = `
       <div class="result-top">
         <div>
@@ -603,37 +757,103 @@ function showResults(){
 
   const weakPre = TOPICS.filter((_,i)=>preScores[i] <= 2).map(t=>t.name);
   const weakPost = TOPICS.filter((_,i)=>postScores[i] <= 2).map(t=>t.name);
-  const notes = [];
-  if(weakPost.length) notes.push(`Masih perlu penguatan di <strong>${weakPost.join(' dan ')}</strong>. Ulangi tab materi yang sesuai lalu tes lagi.`);
-  else if(delta > 0) notes.push(`Ada kemajuan. Artinya pola error A03 mulai teratasi, terutama di soal yang menuntut pembedaan istilah.`);
-  else if(delta === 0) notes.push(`Skor belum bergerak. Konsep dasar sudah dibaca, tetapi belum otomatis saat menjawab soal.`);
-  else notes.push(`Skor turun. Ini tanda bahwa hafalan belum stabil dan perlu pengulangan yang lebih lambat.`);
-  notes.push(`<strong>Titik lemah awal:</strong> ${weakPre.length ? weakPre.join(', ') : 'Tidak ada yang sangat lemah di pre-test.'}`);
-  notes.push(`<strong>Pola yang wajib diingat:</strong> Fiqih = orangnya vs syaratnya, hadas vs najis, muzaki vs mustahik. Akhlak = istilah harus cocok dengan tindakan nyata.`);
-  notes.push(`<strong>Saran lanjut:</strong> setelah B05, paling efektif lanjut ke latihan campuran berbasis kasus sehari-hari, bukan definisi saja.`);
-  byId('focus-notes').innerHTML = `<h3>Catatan penguatan</h3>${notes.map(n=>`<div class="item">${n}</div>`).join('')}`;
+  let topNeed = '';
+  if(weakPost.length){
+    topNeed = `Masih perlu penguatan di <strong>${weakPost.join(' dan ')}</strong>. Ulangi materi dan kerjakan lagi latihan serupa.`;
+  }else if(postTotal >= preTotal){
+    topNeed = `Ada perbaikan dibanding pre-test. Tinggal jaga konsistensi, terutama di soal yang menuntut pembedaan istilah.`;
+  }else{
+    topNeed = `Skor belum naik. Berarti konsepnya belum mapan dan perlu pengulangan yang lebih pelan.`;
+  }
 
-  const preAllWrong = [...preWrong[0], ...preWrong[1]];
-  const postAllWrong = [...postWrong[0], ...postWrong[1]];
-  if(preAllWrong.length){ byId('pre-ws').style.display = 'block'; renderWrong(preAllWrong, 'pre-wl', false); }
-  if(postAllWrong.length){ byId('post-ws').style.display = 'block'; renderWrong(postAllWrong, 'post-wl', true); }
+  const commonMistakes = [];
+  if(preWrong[0].length) commonMistakes.push('Fiqih Ibadah: bedakan hadas vs najis, syarat wajib vs syarat sah, dan istilah zakat.');
+  if(preWrong[1].length) commonMistakes.push('Akhlak: hubungkan istilah dengan tindakan nyata, bukan hafalan kata saja.');
+
+  byId('focus-notes').innerHTML = `
+    <h3>Catatan penguatan</h3>
+    <div class="item">${topNeed}</div>
+    <div class="item"><strong>Titik lemah awal:</strong> ${weakPre.length ? weakPre.join(', ') : 'Tidak ada yang sangat lemah di pre-test.'}</div>
+    <div class="item"><strong>Pola yang perlu diingat:</strong> ${commonMistakes.length ? commonMistakes.join(' ') : 'Secara umum konsep dasar sudah cukup rapi.'}</div>
+    <div class="item"><strong>Saran lanjut:</strong> setelah B05, paling efektif lanjut ke latihan campuran dengan kasus sehari-hari, bukan hanya definisi.</div>
+  `;
+}
+
+function fmtElapsed(sec){
+  const mm = String(Math.floor(sec/60)).padStart(2,'0');
+  const ss = String(sec%60).padStart(2,'0');
+  return `${mm}:${ss}`;
 }
 
 function copySummary(){
   const preTotal = preScores.reduce((a,b)=>a+b,0);
   const postTotal = postScores.reduce((a,b)=>a+b,0);
-  let txt = `📘 HASIL B05 — AGAMA (FIQIH IBADAH & AKHLAK)\n`;
-  txt += `Format: Pre-test → Materi → Post-test\n\n`;
-  txt += `PRE-TEST: ${preTotal}/10\n`;
-  txt += `POST-TEST: ${postTotal}/10\n`;
-  txt += `DELTA: ${postTotal-preTotal >= 0 ? '+' : ''}${postTotal-preTotal}\n\n`;
-  TOPICS.forEach((t,i)=>{ txt += `${t.name}: Pre ${preScores[i]}/5 | Post ${postScores[i]}/5\n`; });
-  txt += `\nCatatan:\n`;
-  txt += `- Fokus awal B05 diambil dari hasil A03: Fiqih Ibadah dan Akhlak.\n`;
-  txt += `- Materi diperluas: analisis error, tabel pembeda, angka kunci, dan aplikasi perilaku.\n`;
-  txt += `- Target utama: tidak lagi tertukar pada wajib vs sah, hadas vs najis, amanah vs siddiq, dan qana'ah.\n`;
+  const delta = (postTotal*10) - (preTotal*10);
+  const preAllWrong = [...preWrong[0], ...preWrong[1]];
+  const postAllWrong = [...postWrong[0], ...postWrong[1]];
+  const weakTags = TOPICS.filter((_,i)=>postScores[i] <= 3).map(t=>`${t.icon} ${t.name}`);
+
+  let txt = `📊 HASIL B05 — BELAJAR AGAMA
+`;
+  txt += `Musa Brahma Batubara · Program Persiapan UPK Paket A
+`;
+  txt += `Fokus: Fiqih Ibadah · Akhlak
+`;
+  txt += `──────────────────────────────────────────────────
+
+`;
+  txt += `PRE-TEST  : ${preTotal*10}/100  (${preAllWrong.length} salah dari 10)  ⏱${fmtElapsed(preElapsed)}
+`;
+  txt += `POST-TEST : ${postTotal*10}/100  (${postAllWrong.length} salah dari 10)  ⏱${fmtElapsed(postElapsed)}
+`;
+  txt += `DELTA     : ${delta >= 0 ? '+' : ''}${delta} poin
+
+`;
+
+  if(preAllWrong.length){
+    txt += `SOAL SALAH PRE-TEST:
+`;
+    preAllWrong.forEach((w,i)=>{
+      txt += `${i+1}. [${w.topic}] ${w.q}
+`;
+      txt += `   → Jawab: ${w.chosen} | Benar: ${w.correct}
+`;
+    });
+    txt += `
+`;
+  }
+
+  if(postAllWrong.length){
+    txt += `SOAL SALAH POST-TEST:
+`;
+    postAllWrong.forEach((w,i)=>{
+      txt += `${i+1}. [${w.topic}] ${w.q}
+`;
+      txt += `   → Jawab: ${w.chosen} | Benar: ${w.correct}
+`;
+    });
+    txt += `
+`;
+  }
+
+  txt += `──────────────────────────────────────────────────
+`;
+  txt += `TOPIK MASIH LEMAH: ${weakTags.length ? weakTags.join(', ') : 'Semua sudah kuat'}
+`;
+  txt += `TARGET B05 (80): ${postTotal >= 8 ? '✅ TERCAPAI' : '❌ BELUM'}
+
+`;
+  txt += `📌 Berdasarkan B05, lanjutkan B06:
+`;
+  txt += `Fokus: Ibadah Khusus
+`;
+  txt += `Format: Pre-test → Materi → Post-test · Soal baru berbeda dari B05`;
+
   navigator.clipboard.writeText(txt).then(()=>{
-    const btn = document.querySelector('.copy-btn'); const old = btn.textContent; btn.textContent = 'Tersalin'; setTimeout(()=>btn.textContent=old,1800);
+    const btn = document.querySelector('.copy-btn');
+    const old = btn.textContent;
+    btn.textContent = 'Tersalin';
+    setTimeout(()=>btn.textContent = old, 1800);
   }).catch(()=>alert('Clipboard tidak tersedia.'));
 }
 </script>
