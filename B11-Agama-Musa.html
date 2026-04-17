@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B11-Agama — Musa Brahma Batubara</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Nunito:wght@400;600;700&display=swap');
+
+  :root {
+    --bg: #0d1318;
+    --card: #151c24;
+    --card2: #1c2530;
+    --accent: #4ade80;
+    --accent2: #34d399;
+    --accent3: #a3e635;
+    --gold: #fbbf24;
+    --red: #f87171;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --border: #1e3a2f;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+    padding: 16px;
+    background-image: radial-gradient(ellipse at top, #0d2018 0%, #0d1318 60%);
+  }
+
+  h1, h2, h3 { font-family: 'Baloo 2', cursive; }
+
+  .header {
+    text-align: center;
+    padding: 20px 0 10px;
+  }
+  .header .kode {
+    font-family: 'Baloo 2', cursive;
+    font-size: 13px;
+    color: var(--accent2);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .header h1 {
+    font-size: 26px;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .header .sub {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 4px;
+  }
+
+  .phase-bar {
+    display: flex;
+    gap: 6px;
+    margin: 16px 0;
+    justify-content: center;
+  }
+  .phase-dot {
+    height: 6px;
+    border-radius: 3px;
+    background: var(--border);
+    flex: 1;
+    max-width: 80px;
+    transition: background 0.4s;
+  }
+  .phase-dot.active { background: var(--gold); }
+  .phase-dot.done { background: var(--accent); }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .card-title {
+    font-family: 'Baloo 2', cursive;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .timer-box {
+    background: var(--card2);
+    border-radius: 10px;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    border: 1px solid var(--border);
+  }
+  .timer-label { color: var(--muted); font-size: 13px; }
+  .timer-val {
+    font-family: 'Baloo 2', cursive;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--accent2);
+    letter-spacing: 1px;
+  }
+  .timer-btn {
+    background: var(--accent2);
+    color: #0d1318;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  .soal-num {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .soal-topik {
+    display: inline-block;
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 2px 10px;
+    font-size: 12px;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  .soal-text {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.5;
+    margin-bottom: 14px;
+  }
+
+  .pilihan-list { display: flex; flex-direction: column; gap: 8px; }
+  .pilihan {
+    background: var(--card2);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .pilihan:hover { border-color: var(--gold); background: rgba(251,191,36,0.05); }
+  .pilihan.selected { border-color: var(--gold); background: rgba(251,191,36,0.08); }
+  .pilihan.correct { border-color: var(--accent); background: rgba(74,222,128,0.1); color: var(--accent); }
+  .pilihan.wrong { border-color: var(--red); background: rgba(248,113,113,0.08); color: var(--red); }
+  .pilihan .huruf {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 800;
+    flex-shrink: 0;
+  }
+
+  .feedback {
+    display: none;
+    margin-top: 14px;
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .feedback.show { display: block; }
+  .feedback.benar {
+    background: rgba(74,222,128,0.08);
+    border: 1px solid rgba(74,222,128,0.25);
+    color: var(--accent);
+  }
+  .feedback.salah {
+    background: rgba(248,113,113,0.06);
+    border: 1px solid rgba(248,113,113,0.25);
+  }
+  .feedback .fb-head {
+    font-family: 'Baloo 2', cursive;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .feedback .fb-benar { color: var(--accent); }
+  .feedback .fb-salah { color: var(--red); }
+  .feedback .fb-penjelasan { color: var(--text); margin-top: 6px; }
+  .feedback .langkah {
+    background: var(--card);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--accent2);
+    line-height: 1.8;
+  }
+
+  .materi-box {
+    background: var(--card2);
+    border-left: 3px solid var(--accent2);
+    border-radius: 0 10px 10px 0;
+    padding: 14px;
+    margin-bottom: 12px;
+  }
+  .materi-box h3 {
+    font-size: 14px;
+    color: var(--accent2);
+    margin-bottom: 8px;
+    font-family: 'Baloo 2', cursive;
+  }
+  .materi-box p, .materi-box li {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--text);
+  }
+  .materi-box ul { padding-left: 18px; }
+  .materi-box ol { padding-left: 18px; }
+
+  .rumus-box {
+    background: var(--card);
+    border: 1px solid var(--gold);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin: 8px 0;
+    font-size: 13px;
+    color: var(--gold);
+    font-weight: 600;
+    line-height: 1.7;
+  }
+  .tip-box {
+    background: rgba(52,211,153,0.06);
+    border: 1px solid rgba(52,211,153,0.2);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--accent2);
+    line-height: 1.6;
+  }
+  .tip-box strong { display: block; margin-bottom: 4px; color: var(--accent); }
+
+  .tabel-mini {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 8px 0;
+  }
+  .tabel-mini th {
+    background: rgba(251,191,36,0.1);
+    color: var(--gold);
+    padding: 6px 10px;
+    text-align: left;
+    font-weight: 700;
+  }
+  .tabel-mini td {
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+  }
+  .tabel-mini tr:last-child td { border-bottom: none; }
+
+  .btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    font-family: 'Baloo 2', cursive;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 8px;
+  }
+  .btn-primary { background: var(--gold); color: #0d1318; }
+  .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+  .btn-secondary { background: var(--card2); color: var(--text); border: 1px solid var(--border); }
+  .btn-green { background: var(--accent); color: #0d1318; }
+  .btn-cloud { background: #1e40af; color: #fff; }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+  .soal-progress {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .sp-dot {
+    width: 28px; height: 6px;
+    border-radius: 3px;
+    background: var(--border);
+    transition: background 0.3s;
+  }
+  .sp-dot.done-benar { background: var(--accent); }
+  .sp-dot.done-salah { background: var(--red); }
+  .sp-dot.current { background: var(--gold); }
+
+  .score-big {
+    text-align: center;
+    padding: 20px 0;
+  }
+  .score-num {
+    font-family: 'Baloo 2', cursive;
+    font-size: 64px;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .score-label { color: var(--muted); font-size: 14px; margin-top: 4px; }
+  .score-delta {
+    font-family: 'Baloo 2', cursive;
+    font-size: 20px;
+    font-weight: 700;
+    margin-top: 8px;
+  }
+
+  .hasil-salah {
+    background: rgba(248,113,113,0.05);
+    border: 1px solid rgba(248,113,113,0.18);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+  .hasil-salah .hs-q { color: var(--text); margin-bottom: 4px; }
+  .hasil-salah .hs-a { color: var(--red); }
+  .hasil-salah .hs-b { color: var(--accent); }
+
+  .copy-area {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 12px;
+    font-family: monospace;
+    color: var(--muted);
+    white-space: pre-wrap;
+    line-height: 1.6;
+    margin-top: 10px;
+  }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .badge-gold { background: rgba(251,191,36,0.15); color: var(--gold); border: 1px solid rgba(251,191,36,0.3); }
+  .badge-green { background: rgba(74,222,128,0.12); color: var(--accent); border: 1px solid rgba(74,222,128,0.25); }
+  .badge-red { background: rgba(248,113,113,0.12); color: var(--red); border: 1px solid rgba(248,113,113,0.25); }
+
+  .divider { height: 1px; background: var(--border); margin: 16px 0; }
+
+  .nav-soal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 14px;
+  }
+  .nav-soal span { color: var(--muted); font-size: 13px; }
+
+  .warning-box {
+    background: rgba(251,191,36,0.06);
+    border: 1px solid rgba(251,191,36,0.2);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--gold);
+    margin-bottom: 10px;
+    line-height: 1.6;
+  }
+  .warning-box strong { display: block; margin-bottom: 3px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="kode">B11-Agama · Program Persiapan UPK</div>
+  <h1>🕌 Drill Agama Islam</h1>
+  <div class="sub">Musa Brahma Batubara · 18 April 2026</div>
+</div>
+
+<div class="phase-bar">
+  <div class="phase-dot" id="pd1"></div>
+  <div class="phase-dot" id="pd2"></div>
+  <div class="phase-dot" id="pd3"></div>
+</div>
+
+<!-- INTRO -->
+<div class="section active" id="sec-intro">
+  <div class="card">
+    <div class="card-title">📋 Tentang Sesi Ini</div>
+    <div style="font-size:14px;color:var(--muted);margin-bottom:12px;">
+      Berdasarkan hasil B06, Musa masih stagnan di topik Ibadah Khusus (70 → 70, delta +0). Sesi ini fokus di:
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;">
+      <div style="background:var(--card2);border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;">
+        <span>💧 Wudhu — urutan rukun</span>
+        <span class="badge badge-red">Salah B06</span>
+      </div>
+      <div style="background:var(--card2);border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;">
+        <span>⚰️ Shalat Jenazah — hukum & tata cara</span>
+        <span class="badge badge-red">Salah B06</span>
+      </div>
+      <div style="background:var(--card2);border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;">
+        <span>🕋 Haji & Umrah — rukun & perbedaan</span>
+        <span class="badge badge-red">Salah B06</span>
+      </div>
+      <div style="background:var(--card2);border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;">
+        <span>🌙 Shalat Id — jumlah rakaat & takbir</span>
+        <span class="badge badge-gold">Perlu review</span>
+      </div>
+    </div>
+    <div class="tip-box">
+      <strong>💡 Strategi sesi ini:</strong>
+      Ibadah Khusus banyak angka dan urutan yang harus dihafalkan. Setiap soal yang salah akan ditampilkan tabel pembeda supaya mudah diingat.
+    </div>
+    <div style="margin-top:16px;">
+      <div style="font-size:13px;color:var(--muted);margin-bottom:8px;">Format sesi:</div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <div style="background:var(--card2);border-radius:8px;padding:8px 14px;font-size:14px;">① Pre-test — 10 soal tanpa bantuan</div>
+        <div style="background:var(--card2);border-radius:8px;padding:8px 14px;font-size:14px;">② Materi — Ringkasan hafalan & tabel pembeda</div>
+        <div style="background:var(--card2);border-radius:8px;padding:8px 14px;font-size:14px;">③ Post-test — 10 soal baru</div>
+      </div>
+    </div>
+    <button class="btn btn-primary" style="margin-top:16px;" onclick="mulaiPretest()">▶ Mulai Pre-test</button>
+  </div>
+</div>
+
+<!-- PRE-TEST -->
+<div class="section" id="sec-pretest">
+  <div class="card">
+    <div class="card-title">📝 Pre-test <span class="badge badge-gold" style="margin-left:auto;">10 Soal</span></div>
+    <div class="timer-box">
+      <div>
+        <div class="timer-label">Waktu</div>
+        <div class="timer-val" id="timer-pre">00:00</div>
+      </div>
+      <button class="timer-btn" id="timer-pre-btn" onclick="toggleTimer('pre')">▶ Start</button>
+    </div>
+    <div class="soal-progress" id="sp-pre"></div>
+    <div id="soal-pre-container"></div>
+    <div class="nav-soal">
+      <span id="soal-pre-num">Soal 1 dari 10</span>
+      <button class="btn btn-primary" id="btn-pre-next" style="width:auto;padding:10px 20px;" onclick="nextSoalPre()" disabled>Lanjut →</button>
+    </div>
+  </div>
+</div>
+
+<!-- MATERI -->
+<div class="section" id="sec-materi">
+  <div class="card">
+    <div class="card-title">📚 Ringkasan Materi — Ibadah Khusus</div>
+
+    <div class="materi-box">
+      <h3>💧 WUDHU — Urutan Rukun (WAFAKA-TEKI)</h3>
+      <div class="rumus-box">
+        1️⃣ Niat<br>
+        2️⃣ Membasuh wajah<br>
+        3️⃣ Membasuh kedua tangan hingga siku<br>
+        4️⃣ Mengusap sebagian kepala<br>
+        5️⃣ Membasuh kedua kaki hingga mata kaki<br>
+        6️⃣ Tertib (berurutan)
+      </div>
+      <div class="warning-box">
+        <strong>⚠️ Yang sering salah:</strong>
+        Mengusap SEBAGIAN kepala — bukan seluruh kepala, bukan telinga. Telinga bukan rukun wudhu, hanya sunnah.
+      </div>
+    </div>
+
+    <div class="materi-box">
+      <h3>⚰️ SHALAT JENAZAH</h3>
+      <div class="rumus-box">Hukum: FARDHU KIFAYAH (bukan sunnah mu'akkadah!)</div>
+      <p style="margin-bottom:8px;"><strong>Urutan shalat jenazah (4 takbir):</strong></p>
+      <div class="rumus-box">
+        Takbir 1 → Baca Al-Fatihah<br>
+        Takbir 2 → Baca Shalawat Nabi<br>
+        Takbir 3 → Doa untuk jenazah<br>
+        Takbir 4 → Salam
+      </div>
+      <div class="tip-box">
+        <strong>💡 Hafal:</strong>
+        Shalat jenazah = 4 takbir, tidak ada rukuk & sujud, tidak ada tasyahud awal/akhir.
+      </div>
+    </div>
+
+    <div class="materi-box">
+      <h3>🕋 HAJI vs UMRAH — Perbedaan Utama</h3>
+      <table class="tabel-mini">
+        <tr><th>Aspek</th><th>Haji</th><th>Umrah</th></tr>
+        <tr><td>Waktu</td><td>Bulan Zulhijjah (tertentu)</td><td>Kapan saja</td></tr>
+        <tr><td>Hukum</td><td>Wajib (sekali seumur hidup)</td><td>Sunnah/Wajib</td></tr>
+        <tr><td>Wukuf di Arafah</td><td>✅ Ada (9 Zulhijjah)</td><td>❌ Tidak ada</td></tr>
+        <tr><td>Mabit di Muzdalifah</td><td>✅ Ada</td><td>❌ Tidak ada</td></tr>
+        <tr><td>Lempar jumroh</td><td>✅ Ada</td><td>❌ Tidak ada</td></tr>
+      </table>
+      <div class="rumus-box">
+        Rukun Haji: Ihram → Wukuf → Tawaf Ifadhah → Sa'i → Tahallul → Tertib<br>
+        Rukun Umrah: Ihram → Tawaf → Sa'i → Tahallul → Tertib
+      </div>
+      <div class="warning-box">
+        <strong>⚠️ Kunci pembeda:</strong>
+        WUKUF di Arafah pada 9 Zulhijjah = hanya ada di HAJI, tidak ada di Umrah.
+      </div>
+    </div>
+
+    <div class="materi-box">
+      <h3>🌙 SHALAT ID (Idul Fitri & Idul Adha)</h3>
+      <div class="rumus-box">
+        Jumlah rakaat: 2 rakaat<br>
+        Rakaat 1: 7 takbir (sebelum Al-Fatihah)<br>
+        Rakaat 2: 5 takbir (sebelum Al-Fatihah)<br>
+        Hukum: Sunnah mu'akkadah
+      </div>
+      <div class="tip-box">
+        <strong>💡 Ingat angkanya:</strong>
+        7-5 (rakaat 1 tujuh takbir, rakaat 2 lima takbir)
+      </div>
+    </div>
+
+    <div class="materi-box">
+      <h3>📿 ZAKAT — Angka Penting</h3>
+      <table class="tabel-mini">
+        <tr><th>Jenis</th><th>Nishab</th><th>Kadar</th></tr>
+        <tr><td>Zakat Emas</td><td>85 gram</td><td>2,5%</td></tr>
+        <tr><td>Zakat Perak</td><td>595 gram</td><td>2,5%</td></tr>
+        <tr><td>Zakat Fitrah</td><td>—</td><td>2,5 kg beras/3,5 liter</td></tr>
+        <tr><td>Zakat Pertanian</td><td>653 kg</td><td>5% atau 10%</td></tr>
+      </table>
+      <div class="warning-box">
+        <strong>⚠️ Zakat fitrah dibayar sebelum:</strong>
+        Shalat Idul Fitri — bukan akhir Ramadan, bukan akhir Syawal!
+      </div>
+    </div>
+
+    <button class="btn btn-green" onclick="mulaiPosttest()">✅ Siap! Mulai Post-test →</button>
+  </div>
+</div>
+
+<!-- POST-TEST -->
+<div class="section" id="sec-posttest">
+  <div class="card">
+    <div class="card-title">📝 Post-test <span class="badge badge-green" style="margin-left:auto;">10 Soal Baru</span></div>
+    <div class="timer-box">
+      <div>
+        <div class="timer-label">Waktu</div>
+        <div class="timer-val" id="timer-post">00:00</div>
+      </div>
+      <button class="timer-btn" id="timer-post-btn" onclick="toggleTimer('post')">▶ Start</button>
+    </div>
+    <div class="soal-progress" id="sp-post"></div>
+    <div id="soal-post-container"></div>
+    <div class="nav-soal">
+      <span id="soal-post-num">Soal 1 dari 10</span>
+      <button class="btn btn-primary" id="btn-post-next" style="width:auto;padding:10px 20px;" onclick="nextSoalPost()" disabled>Lanjut →</button>
+    </div>
+  </div>
+</div>
+
+<!-- HASIL -->
+<div class="section" id="sec-hasil">
+  <div class="card">
+    <div class="card-title">📊 Hasil B11-Agama</div>
+    <div class="score-big">
+      <div style="display:flex;justify-content:center;gap:30px;">
+        <div>
+          <div class="score-num" id="hasil-pre" style="color:var(--muted);">-</div>
+          <div class="score-label">Pre-test</div>
+        </div>
+        <div style="font-size:32px;color:var(--border);align-self:center;">→</div>
+        <div>
+          <div class="score-num" id="hasil-post" style="color:var(--gold);">-</div>
+          <div class="score-label">Post-test</div>
+        </div>
+      </div>
+      <div class="score-delta" id="hasil-delta"></div>
+    </div>
+    <div class="divider"></div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:10px;">SOAL SALAH PRE-TEST:</div>
+    <div id="salah-pre-list"></div>
+    <div class="divider"></div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:10px;">SOAL SALAH POST-TEST:</div>
+    <div id="salah-post-list"></div>
+    <div class="divider"></div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:8px;">SALIN HASIL:</div>
+    <div class="copy-area" id="copy-text"></div>
+    <div style="display:flex;gap:8px;margin-top:10px;">
+      <button class="btn btn-secondary" style="flex:1;" onclick="copyHasil()">📋 Salin Hasil</button>
+      <button class="btn btn-cloud" id="btn-cloud-save" style="flex:1;" onclick="triggerCloudSave()">☁️ Simpan ke Cloud</button>
+    </div>
+    <div id="cloud-status" style="font-size:12px;color:var(--muted);text-align:center;margin-top:6px;"></div>
+  </div>
+</div>
+
+<script>
+// ===== SOAL PRE-TEST =====
+const soalPre = [
+  {
+    topik: "💧 Wudhu",
+    soal: "Urutan rukun wudhu yang benar adalah...",
+    pilihan: [
+      "Niat → wajah → tangan → kepala → kaki",
+      "Niat → tangan → wajah → kepala → kaki",
+      "Wajah → niat → tangan → kepala → kaki",
+      "Niat → wajah → kepala → tangan → kaki"
+    ],
+    jawaban: 0,
+    penjelasan: "Urutan rukun wudhu: Niat → Wajah → Tangan (hingga siku) → Mengusap sebagian kepala → Kaki (hingga mata kaki) → Tertib.",
+    langkah: "① Niat\n② Membasuh wajah\n③ Membasuh tangan hingga siku\n④ Mengusap SEBAGIAN kepala\n⑤ Membasuh kaki hingga mata kaki\n⑥ Tertib (berurutan) ✅"
+  },
+  {
+    topik: "💧 Wudhu",
+    soal: "Yang termasuk rukun wudhu adalah...",
+    pilihan: [
+      "Membasuh seluruh kepala",
+      "Membasuh telinga",
+      "Mengusap sebagian kepala",
+      "Membaca basmalah"
+    ],
+    jawaban: 2,
+    penjelasan: "Mengusap SEBAGIAN kepala adalah rukun wudhu. Membasuh seluruh kepala bukan rukun, membasuh telinga hanya sunnah, membaca basmalah juga sunnah.",
+    langkah: "Rukun wudhu ada 6:\n① Niat ② Wajah ③ Tangan hingga siku\n④ Mengusap SEBAGIAN kepala ← ini kuncinya\n⑤ Kaki hingga mata kaki ⑥ Tertib ✅"
+  },
+  {
+    topik: "⚰️ Shalat Jenazah",
+    soal: "Hukum melaksanakan shalat jenazah bagi umat Islam adalah...",
+    pilihan: [
+      "Sunnah mu'akkadah",
+      "Fardhu ain",
+      "Fardhu kifayah",
+      "Mubah"
+    ],
+    jawaban: 2,
+    penjelasan: "Shalat jenazah hukumnya FARDHU KIFAYAH — wajib dilakukan oleh sebagian Muslim, jika sudah ada yang melakukan maka gugurlah kewajiban yang lain.",
+    langkah: "Fardhu kifayah = kewajiban komunal\nJika ada satu orang yang shalat jenazah\n→ kewajiban gugur untuk yang lain ✅"
+  },
+  {
+    topik: "⚰️ Shalat Jenazah",
+    soal: "Setelah takbiratul ihram dalam shalat jenazah, yang dibaca adalah...",
+    pilihan: [
+      "Tasyahud awal",
+      "Shalawat Nabi",
+      "Doa untuk jenazah",
+      "Al-Fatihah"
+    ],
+    jawaban: 3,
+    penjelasan: "Urutan shalat jenazah: Takbir 1 → Al-Fatihah, Takbir 2 → Shalawat Nabi, Takbir 3 → Doa jenazah, Takbir 4 → Salam.",
+    langkah: "Takbir 1 → Al-Fatihah ← (ini yang ditanya)\nTakbir 2 → Shalawat Nabi\nTakbir 3 → Doa untuk jenazah\nTakbir 4 → Salam ✅"
+  },
+  {
+    topik: "🕋 Haji",
+    soal: "Wukuf di Arafah dilaksanakan pada tanggal...",
+    pilihan: [
+      "8 Zulhijjah",
+      "9 Zulhijjah",
+      "10 Zulhijjah",
+      "1 Zulhijjah"
+    ],
+    jawaban: 1,
+    penjelasan: "Wukuf di Arafah dilakukan pada tanggal 9 Zulhijjah. Ini adalah rukun haji yang paling utama — 'Haji adalah Wukuf'.",
+    langkah: "Tanggal penting Haji:\n8 Zulhijjah → Mabit di Mina\n9 Zulhijjah → WUKUF di Arafah ← (kunci!)\n10 Zulhijjah → Idul Adha, lempar jumroh ✅"
+  },
+  {
+    topik: "🕋 Haji & Umrah",
+    soal: "Ibadah yang TIDAK termasuk dalam rangkaian umrah adalah...",
+    pilihan: [
+      "Tawaf",
+      "Sa'i",
+      "Wukuf di Arafah",
+      "Tahallul"
+    ],
+    jawaban: 2,
+    penjelasan: "Wukuf di Arafah hanya ada dalam ibadah HAJI, tidak dalam umrah. Rukun umrah: Ihram → Tawaf → Sa'i → Tahallul → Tertib.",
+    langkah: "Rukun Umrah: Ihram, Tawaf, Sa'i, Tahallul, Tertib\nRukun Haji TAMBAHAN: + Wukuf di Arafah\nJadi Wukuf = HAJI saja, bukan Umrah ✅"
+  },
+  {
+    topik: "🌙 Shalat Id",
+    soal: "Shalat Idul Fitri dikerjakan sebanyak...",
+    pilihan: [
+      "1 rakaat",
+      "2 rakaat",
+      "3 rakaat",
+      "4 rakaat"
+    ],
+    jawaban: 1,
+    penjelasan: "Shalat Id (Idul Fitri maupun Idul Adha) dikerjakan 2 rakaat. Rakaat pertama 7 takbir, rakaat kedua 5 takbir.",
+    langkah: "Shalat Id = 2 rakaat\nRakaat 1 → 7 takbir (sebelum Al-Fatihah)\nRakaat 2 → 5 takbir (sebelum Al-Fatihah) ✅"
+  },
+  {
+    topik: "🌙 Shalat Id",
+    soal: "Jumlah takbir tambahan pada rakaat pertama shalat Idul Fitri adalah...",
+    pilihan: [
+      "5 takbir",
+      "4 takbir",
+      "7 takbir",
+      "6 takbir"
+    ],
+    jawaban: 2,
+    penjelasan: "Pada rakaat pertama shalat Id terdapat 7 takbir tambahan sebelum membaca Al-Fatihah. Rakaat kedua 5 takbir.",
+    langkah: "Rakaat 1 → 7 takbir ← (yang ditanya)\nRakaat 2 → 5 takbir\nAngka mudah diingat: 7-5 ✅"
+  },
+  {
+    topik: "📿 Zakat",
+    soal: "Nishab zakat emas adalah...",
+    pilihan: [
+      "50 gram",
+      "75 gram",
+      "85 gram",
+      "100 gram"
+    ],
+    jawaban: 2,
+    penjelasan: "Nishab zakat emas adalah 85 gram dengan kadar 2,5%. Jika emas yang dimiliki mencapai 85 gram dan sudah satu tahun (haul), wajib dikeluarkan zakatnya.",
+    langkah: "Nishab emas = 85 gram\nKadar zakat = 2,5%\nHaul (waktu kepemilikan) = 1 tahun ✅"
+  },
+  {
+    topik: "📿 Zakat Fitrah",
+    soal: "Zakat fitrah wajib dibayarkan paling lambat sebelum...",
+    pilihan: [
+      "Akhir bulan Ramadan",
+      "Shalat Idul Fitri",
+      "Akhir bulan Syawal",
+      "Matahari terbenam di hari Lebaran"
+    ],
+    jawaban: 1,
+    penjelasan: "Batas akhir pembayaran zakat fitrah adalah sebelum Shalat Idul Fitri dilaksanakan. Jika dibayar setelah shalat Id, nilainya hanya sedekah biasa.",
+    langkah: "Waktu afdhal: malam Idul Fitri\nBatas wajib: sebelum Shalat Idul Fitri\nJika sesudah shalat Id → hanya sedekah biasa ✅"
+  }
+];
+
+// ===== SOAL POST-TEST =====
+const soalPost = [
+  {
+    topik: "💧 Wudhu",
+    soal: "Anggota tubuh yang diusap (bukan dibasuh) dalam rukun wudhu adalah...",
+    pilihan: ["Wajah", "Tangan", "Sebagian kepala", "Kaki"],
+    jawaban: 2,
+    penjelasan: "Dalam wudhu, yang diUSAP (bukan dibasuh) adalah sebagian kepala. Wajah, tangan, dan kaki semuanya dibasuh.",
+    langkah: "Dibasuh: wajah, tangan hingga siku, kaki hingga mata kaki\nDiusap: SEBAGIAN kepala ← kunci perbedaan! ✅"
+  },
+  {
+    topik: "💧 Wudhu",
+    soal: "Berikut yang membatalkan wudhu adalah...",
+    pilihan: [
+      "Makan dan minum",
+      "Tertawa saat shalat",
+      "Keluarnya sesuatu dari qubul atau dubur",
+      "Berbicara saat wudhu"
+    ],
+    jawaban: 2,
+    penjelasan: "Yang membatalkan wudhu di antaranya: keluarnya sesuatu dari dua jalan (qubul/dubur), tidur nyenyak, hilang akal, menyentuh kemaluan. Makan/minum tidak membatalkan wudhu.",
+    langkah: "Pembatal wudhu:\n① Keluar dari qubul/dubur ← (ini jawaban)\n② Tidur nyenyak\n③ Hilang akal\n④ Menyentuh kemaluan tanpa penghalang ✅"
+  },
+  {
+    topik: "⚰️ Shalat Jenazah",
+    soal: "Berapa kali takbir dalam shalat jenazah?",
+    pilihan: ["3 kali", "4 kali", "5 kali", "6 kali"],
+    jawaban: 1,
+    penjelasan: "Shalat jenazah terdiri dari 4 takbir. Setiap takbir diikuti bacaan tertentu: Al-Fatihah, Shalawat, Doa jenazah, lalu Salam.",
+    langkah: "4 takbir:\nTakbir 1 → Al-Fatihah\nTakbir 2 → Shalawat\nTakbir 3 → Doa jenazah\nTakbir 4 → Salam ✅"
+  },
+  {
+    topik: "⚰️ Shalat Jenazah",
+    soal: "Dalam shalat jenazah, gerakan yang TIDAK ada adalah...",
+    pilihan: ["Takbir", "Salam", "Rukuk dan sujud", "Membaca Al-Fatihah"],
+    jawaban: 2,
+    penjelasan: "Shalat jenazah tidak memiliki rukuk dan sujud. Shalat ini hanya terdiri dari berdiri, 4 takbir, dan salam.",
+    langkah: "Shalat jenazah = berdiri saja\nAda: takbir, Al-Fatihah, shalawat, doa, salam\nTIDAK ada: rukuk, sujud, tasyahud ✅"
+  },
+  {
+    topik: "🕋 Haji",
+    soal: "Rukun haji yang paling utama dan tidak dapat digantikan dengan dam adalah...",
+    pilihan: ["Ihram", "Tawaf Ifadhah", "Wukuf di Arafah", "Sa'i"],
+    jawaban: 2,
+    penjelasan: "Wukuf di Arafah adalah rukun haji yang paling utama. Nabi SAW bersabda 'Haji adalah Wukuf'. Jika ditinggalkan, haji tidak sah dan tidak bisa digantikan.",
+    langkah: "Rukun Haji (wajib, tidak bisa diganti dam):\nIhram, Wukuf Arafah, Tawaf, Sa'i, Tahallul, Tertib\nWukuf = yang paling utama, haji batal jika ditinggal ✅"
+  },
+  {
+    topik: "🕋 Umrah",
+    soal: "Perbedaan utama antara haji dan umrah adalah...",
+    pilihan: [
+      "Umrah tidak ada tawaf",
+      "Haji tidak ada sa'i",
+      "Umrah tidak ada wukuf di Arafah",
+      "Haji tidak ada ihram"
+    ],
+    jawaban: 2,
+    penjelasan: "Perbedaan utama: umrah TIDAK memiliki wukuf di Arafah, mabit di Muzdalifah, dan lempar jumroh. Umrah bisa dilakukan kapan saja, sedangkan haji hanya di waktu tertentu.",
+    langkah: "Haji PUNYA: Wukuf Arafah, Mabit Muzdalifah, Lempar Jumroh\nUmrah TIDAK punya ketiganya\n→ Wukuf adalah kunci pembeda utama ✅"
+  },
+  {
+    topik: "🌙 Shalat Id",
+    soal: "Jumlah takbir tambahan pada rakaat kedua shalat Id adalah...",
+    pilihan: ["7 takbir", "4 takbir", "6 takbir", "5 takbir"],
+    jawaban: 3,
+    penjelasan: "Rakaat kedua shalat Id memiliki 5 takbir tambahan sebelum membaca Al-Fatihah. Ingat angka 7-5: rakaat 1 tujuh takbir, rakaat 2 lima takbir.",
+    langkah: "Ingat rumus 7-5:\nRakaat 1 → 7 takbir\nRakaat 2 → 5 takbir ← (yang ditanya) ✅"
+  },
+  {
+    topik: "🌙 Shalat Id",
+    soal: "Hukum melaksanakan shalat Idul Fitri adalah...",
+    pilihan: ["Fardhu ain", "Fardhu kifayah", "Sunnah mu'akkadah", "Mubah"],
+    jawaban: 2,
+    penjelasan: "Shalat Idul Fitri hukumnya sunnah mu'akkadah (sunnah yang sangat dianjurkan). Berbeda dengan shalat jenazah yang fardhu kifayah.",
+    langkah: "Shalat Jenazah → Fardhu Kifayah\nShalat Id → Sunnah Mu'akkadah ← (yang ditanya)\nJangan tertukar! ✅"
+  },
+  {
+    topik: "📿 Zakat",
+    soal: "Orang yang berhak menerima zakat disebut...",
+    pilihan: ["Muzaki", "Mustahik", "Amil", "Mualaf"],
+    jawaban: 1,
+    penjelasan: "Mustahik adalah orang yang berhak menerima zakat. Muzaki adalah orang yang wajib membayar zakat. Amil adalah petugas pengumpul zakat (termasuk 8 golongan mustahik).",
+    langkah: "Muzaki = yang MEMBAYAR zakat\nMustahik = yang MENERIMA zakat ← (jawaban)\nAmil = petugas pengumpul (bagian dari mustahik) ✅"
+  },
+  {
+    topik: "📿 Zakat Fitrah",
+    soal: "Besaran zakat fitrah per orang yang umum digunakan adalah...",
+    pilihan: ["1 kg beras", "2 kg beras", "2,5 kg beras atau 3,5 liter", "5 kg beras"],
+    jawaban: 2,
+    penjelasan: "Zakat fitrah yang umum dikeluarkan adalah 2,5 kg beras atau 3,5 liter bahan makanan pokok. Ini setara dengan 1 sha' menurut ukuran zaman Nabi.",
+    langkah: "Zakat fitrah per orang:\n= 2,5 kg beras ATAU\n= 3,5 liter makanan pokok\n= 1 sha' (ukuran klasik) ✅"
+  }
+];
+
+// ===== CONFIG =====
+const BIN_ID = '69e1c0be856a682189426a62';
+const MASTER_KEY = '$2a$10$oy4tEjR4sFv28R88pk1IIeTteR7a6ICjH.jB4pB13Yml8AYTT0XlW';
+const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+
+// ===== STATE =====
+let state = {
+  pre: { current: 0, answers: [], timerSec: 0, timerRunning: false, timerInterval: null },
+  post: { current: 0, answers: [], timerSec: 0, timerRunning: false, timerInterval: null },
+  answered: false
+};
+let _hasilGlobal = {};
+
+// ===== TIMER =====
+function toggleTimer(phase) {
+  const s = state[phase];
+  if (s.timerRunning) {
+    clearInterval(s.timerInterval);
+    s.timerRunning = false;
+    document.getElementById(`timer-${phase}-btn`).textContent = '▶ Lanjut';
+  } else {
+    s.timerRunning = true;
+    document.getElementById(`timer-${phase}-btn`).textContent = '⏸ Pause';
+    s.timerInterval = setInterval(() => {
+      s.timerSec++;
+      document.getElementById(`timer-${phase}`).textContent = fmtTime(s.timerSec);
+    }, 1000);
+  }
+}
+function stopTimer(phase) {
+  const s = state[phase];
+  if (s.timerRunning) { clearInterval(s.timerInterval); s.timerRunning = false; }
+}
+function fmtTime(sec) {
+  return String(Math.floor(sec/60)).padStart(2,'0') + ':' + String(sec%60).padStart(2,'0');
+}
+function getTimerStr(phase) { return fmtTime(state[phase].timerSec); }
+
+// ===== PHASE DOTS =====
+function updatePhaseDots(phase) {
+  const map = { pretest:0, materi:1, posttest:2, hasil:2 };
+  const idx = map[phase] ?? 0;
+  ['pd1','pd2','pd3'].forEach((id,i) => {
+    const el = document.getElementById(id);
+    el.className = 'phase-dot' + (i < idx ? ' done' : i === idx ? ' active' : '');
+  });
+}
+
+// ===== PROGRESS DOTS =====
+function buildProgressDots(containerId, soalArr, answers, current) {
+  document.getElementById(containerId).innerHTML = soalArr.map((_,i) => {
+    let cls = 'sp-dot';
+    if (i < answers.length) cls += answers[i] === soalArr[i].jawaban ? ' done-benar' : ' done-salah';
+    else if (i === current) cls += ' current';
+    return `<div class="${cls}"></div>`;
+  }).join('');
+}
+
+// ===== RENDER SOAL =====
+function renderSoal(containerId, soalArr, phaseKey) {
+  const s = state[phaseKey];
+  const q = soalArr[s.current];
+  state.answered = false;
+  const spId = phaseKey === 'pre' ? 'sp-pre' : 'sp-post';
+  buildProgressDots(spId, soalArr, s.answers, s.current);
+  document.getElementById(`soal-${phaseKey}-num`).textContent = `Soal ${s.current+1} dari ${soalArr.length}`;
+  const nextBtn = document.getElementById(`btn-${phaseKey}-next`);
+  nextBtn.disabled = true;
+  nextBtn.textContent = s.current < soalArr.length-1 ? 'Lanjut →' : 'Selesai ✓';
+
+  document.getElementById(containerId).innerHTML = `
+    <div class="soal-num">SOAL ${s.current+1}</div>
+    <div class="soal-topik">${q.topik}</div>
+    <div class="soal-text">${q.soal}</div>
+    <div class="pilihan-list">
+      ${q.pilihan.map((p,i) => `
+        <div class="pilihan" id="pil-${i}" onclick="pilih(${i},'${phaseKey}')">
+          <div class="huruf">${['A','B','C','D'][i]}</div>
+          <span>${p}</span>
+        </div>`).join('')}
+    </div>
+    <div class="feedback" id="feedback-box"></div>
+  `;
+}
+
+function pilih(idx, phaseKey) {
+  if (state.answered) return;
+  state.answered = true;
+  const soalArr = phaseKey === 'pre' ? soalPre : soalPost;
+  const q = soalArr[state[phaseKey].current];
+  const benar = idx === q.jawaban;
+  state[phaseKey].answers.push(idx);
+
+  document.querySelectorAll('.pilihan').forEach((el,i) => {
+    if (i === q.jawaban) el.classList.add('correct');
+    else if (i === idx && !benar) el.classList.add('wrong');
+  });
+
+  const fb = document.getElementById('feedback-box');
+  fb.classList.add('show');
+  if (benar) {
+    fb.classList.add('benar');
+    fb.innerHTML = `<div class="fb-head fb-benar">✅ Benar!</div><div class="fb-penjelasan">${q.penjelasan}</div>`;
+  } else {
+    fb.classList.add('salah');
+    fb.innerHTML = `<div class="fb-head fb-salah">❌ Salah</div>
+      <div class="fb-penjelasan">Jawaban kamu: <strong>${q.pilihan[idx]}</strong><br>
+      Jawaban benar: <strong style="color:var(--accent)">${q.pilihan[q.jawaban]}</strong></div>
+      <div class="langkah"><strong>Penjelasan:</strong><br>${q.langkah.replace(/\n/g,'<br>')}</div>`;
+  }
+
+  buildProgressDots(phaseKey === 'pre' ? 'sp-pre' : 'sp-post', soalArr, state[phaseKey].answers, state[phaseKey].current);
+  document.getElementById(`btn-${phaseKey}-next`).disabled = false;
+}
+
+// ===== NAVIGATION =====
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+function mulaiPretest() {
+  showSection('sec-pretest');
+  updatePhaseDots('pretest');
+  renderSoal('soal-pre-container', soalPre, 'pre');
+}
+function nextSoalPre() {
+  if (state.pre.current < soalPre.length-1) {
+    state.pre.current++;
+    renderSoal('soal-pre-container', soalPre, 'pre');
+  } else {
+    stopTimer('pre');
+    showSection('sec-materi');
+    updatePhaseDots('materi');
+  }
+}
+function mulaiPosttest() {
+  showSection('sec-posttest');
+  updatePhaseDots('posttest');
+  renderSoal('soal-post-container', soalPost, 'post');
+}
+function nextSoalPost() {
+  if (state.post.current < soalPost.length-1) {
+    state.post.current++;
+    renderSoal('soal-post-container', soalPost, 'post');
+  } else {
+    stopTimer('post');
+    tampilkanHasil();
+  }
+}
+
+// ===== HASIL =====
+function hitungSkor(answers, soalArr) {
+  return answers.filter((a,i) => a === soalArr[i].jawaban).length * 10;
+}
+
+function tampilkanHasil() {
+  const preScore = hitungSkor(state.pre.answers, soalPre);
+  const postScore = hitungSkor(state.post.answers, soalPost);
+  const delta = postScore - preScore;
+  const salahPre = soalPre.filter((_,i) => state.pre.answers[i] !== soalPre[i].jawaban);
+  const salahPost = soalPost.filter((_,i) => state.post.answers[i] !== soalPost[i].jawaban);
+  const topikLemah = [...new Set([...salahPre.map(q=>q.topik),...salahPost.map(q=>q.topik)])].join(', ') || 'Semua topik sudah kuat';
+
+  _hasilGlobal = { preScore, postScore, delta, salahPre, salahPost, topikLemah };
+
+  showSection('sec-hasil');
+  updatePhaseDots('hasil');
+
+  document.getElementById('hasil-pre').textContent = `${preScore}/100`;
+  document.getElementById('hasil-post').textContent = `${postScore}/100`;
+  const deltaEl = document.getElementById('hasil-delta');
+  if (delta > 0) { deltaEl.textContent = `+${delta} poin 📈 NAIK`; deltaEl.style.color = 'var(--accent)'; }
+  else if (delta < 0) { deltaEl.textContent = `${delta} poin 📉 TURUN`; deltaEl.style.color = 'var(--red)'; }
+  else { deltaEl.textContent = `+0 poin ➡️ SAMA`; deltaEl.style.color = 'var(--muted)'; }
+
+  const renderSalah = (arr, soalArr, phaseKey) => {
+    if (arr.length === 0) return '<div style="color:var(--accent);font-size:14px;">🎉 Semua benar!</div>';
+    return arr.map(q => {
+      const myIdx = state[phaseKey].answers[soalArr.indexOf(q)];
+      return `<div class="hasil-salah">
+        <div class="hs-q">${q.topik} — ${q.soal}</div>
+        <div class="hs-a">→ Jawab: ${q.pilihan[myIdx]}</div>
+        <div class="hs-b">→ Benar: ${q.pilihan[q.jawaban]}</div>
+      </div>`;
+    }).join('');
+  };
+
+  document.getElementById('salah-pre-list').innerHTML = renderSalah(salahPre, soalPre, 'pre');
+  document.getElementById('salah-post-list').innerHTML = renderSalah(salahPost, soalPost, 'post');
+
+  const target = postScore >= 75 ? '✅ TERCAPAI' : '❌ BELUM TERCAPAI';
+  const copyStr = `📊 HASIL B11-AGAMA — IBADAH KHUSUS
+Musa Brahma Batubara · 18 April 2026
+Fokus: Wudhu · Shalat Jenazah · Haji & Umrah · Shalat Id · Zakat
+──────────────────────────────────────────────────
+
+PRE-TEST  : ${preScore}/100  (${soalPre.length - salahPre.length} benar dari 10)  ⏱${getTimerStr('pre')}
+POST-TEST : ${postScore}/100  (${soalPost.length - salahPost.length} benar dari 10)  ⏱${getTimerStr('post')}
+DELTA     : ${delta >= 0 ? '+' : ''}${delta} poin  ${delta > 0 ? '📈 NAIK' : delta < 0 ? '📉 TURUN' : '➡️ SAMA'}
+
+SOAL SALAH PRE-TEST:
+${salahPre.length === 0 ? '   (Semua benar)' : salahPre.map(q => {
+  const myIdx = state.pre.answers[soalPre.indexOf(q)];
+  return `${q.topik} — ${q.soal}\n   → Jawab: ${q.pilihan[myIdx]} | Benar: ${q.pilihan[q.jawaban]}`;
+}).join('\n')}
+
+SOAL SALAH POST-TEST:
+${salahPost.length === 0 ? '   (Semua benar)' : salahPost.map(q => {
+  const myIdx = state.post.answers[soalPost.indexOf(q)];
+  return `${q.topik} — ${q.soal}\n   → Jawab: ${q.pilihan[myIdx]} | Benar: ${q.pilihan[q.jawaban]}`;
+}).join('\n')}
+
+──────────────────────────────────────────────────
+TOPIK MASIH LEMAH: ${topikLemah}
+TARGET B11-AGAMA (75): ${target}
+
+📌 Langkah berikutnya: B12 — Review Campuran Semua Mapel`;
+
+  document.getElementById('copy-text').textContent = copyStr;
+}
+
+function copyHasil() {
+  navigator.clipboard.writeText(document.getElementById('copy-text').textContent).then(() => {
+    const btn = document.querySelector('.btn-secondary');
+    btn.textContent = '✅ Tersalin!';
+    setTimeout(() => btn.textContent = '📋 Salin Hasil', 2000);
+  });
+}
+
+// ===== CLOUD SAVE =====
+async function triggerCloudSave() {
+  const { preScore, postScore, delta, salahPre, salahPost, topikLemah } = _hasilGlobal;
+  const saveBtn = document.getElementById('btn-cloud-save');
+  saveBtn.textContent = '☁️ Menyimpan...';
+  saveBtn.disabled = true;
+
+  const hasilData = {
+    tanggal: '18 April 2026',
+    sesi: 'B11-Agama',
+    fokus: 'Wudhu · Shalat Jenazah · Haji & Umrah · Shalat Id · Zakat',
+    preTest: preScore,
+    postTest: postScore,
+    delta: delta,
+    waktuPre: getTimerStr('pre'),
+    waktuPost: getTimerStr('post'),
+    targetTercapai: postScore >= 75,
+    topikLemah: topikLemah,
+    soalSalahPre: salahPre.map(q => ({
+      topik: q.topik, soal: q.soal,
+      jawabSalah: q.pilihan[state.pre.answers[soalPre.indexOf(q)]],
+      jawabBenar: q.pilihan[q.jawaban]
+    })),
+    soalSalahPost: salahPost.map(q => ({
+      topik: q.topik, soal: q.soal,
+      jawabSalah: q.pilihan[state.post.answers[soalPost.indexOf(q)]],
+      jawabBenar: q.pilihan[q.jawaban]
+    }))
+  };
+
+  try {
+    const existing = await fetch(API_URL + '/latest', {
+      headers: { 'X-Master-Key': MASTER_KEY }
+    }).then(r => r.json()).then(d => d.record || {});
+
+    const updated = { ...existing, 'B11-Agama': hasilData };
+    const res = await fetch(API_URL, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'X-Master-Key': MASTER_KEY },
+      body: JSON.stringify(updated)
+    });
+
+    if (res.ok) {
+      saveBtn.textContent = '✅ Tersimpan!';
+      saveBtn.style.background = 'var(--accent)';
+      saveBtn.style.color = '#0d1318';
+    } else {
+      throw new Error('Save failed');
+    }
+  } catch(e) {
+    saveBtn.textContent = '❌ Gagal — Salin Manual';
+    saveBtn.disabled = false;
+  }
+}
+
+// Init
+updatePhaseDots('pretest');
+document.getElementById('pd1').classList.remove('active');
+</script>
+</body>
+</html>
