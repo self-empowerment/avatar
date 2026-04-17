@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B11-MTK — Musa Brahma Batubara</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Nunito:wght@400;600;700&display=swap');
+
+  :root {
+    --bg: #0f1117;
+    --card: #1a1d27;
+    --card2: #222536;
+    --accent: #f5a623;
+    --accent2: #4ecdc4;
+    --accent3: #ff6b6b;
+    --green: #56cf8a;
+    --red: #ff6b6b;
+    --text: #e8eaf0;
+    --muted: #7a7f9a;
+    --border: #2e3248;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+    padding: 16px;
+  }
+
+  h1, h2, h3 { font-family: 'Baloo 2', cursive; }
+
+  .header {
+    text-align: center;
+    padding: 20px 0 10px;
+  }
+  .header .kode {
+    font-family: 'Baloo 2', cursive;
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .header h1 {
+    font-size: 26px;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .header .sub {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 4px;
+  }
+
+  /* PHASE BAR */
+  .phase-bar {
+    display: flex;
+    gap: 6px;
+    margin: 16px 0;
+    justify-content: center;
+  }
+  .phase-dot {
+    height: 6px;
+    border-radius: 3px;
+    background: var(--border);
+    flex: 1;
+    max-width: 80px;
+    transition: background 0.4s;
+  }
+  .phase-dot.active { background: var(--accent); }
+  .phase-dot.done { background: var(--green); }
+
+  /* CARDS */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .card-title {
+    font-family: 'Baloo 2', cursive;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* TIMER */
+  .timer-box {
+    background: var(--card2);
+    border-radius: 10px;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .timer-label { color: var(--muted); font-size: 13px; }
+  .timer-val {
+    font-family: 'Baloo 2', cursive;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--accent2);
+    letter-spacing: 1px;
+  }
+  .timer-btn {
+    background: var(--accent2);
+    color: #0f1117;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  /* SOAL */
+  .soal-num {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .soal-topik {
+    display: inline-block;
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 2px 10px;
+    font-size: 12px;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .soal-text {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.5;
+    margin-bottom: 14px;
+  }
+  .soal-text .rumus {
+    display: inline-block;
+    background: rgba(245,166,35,0.1);
+    border: 1px solid rgba(245,166,35,0.3);
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 14px;
+    color: var(--accent);
+  }
+
+  /* PILIHAN */
+  .pilihan-list { display: flex; flex-direction: column; gap: 8px; }
+  .pilihan {
+    background: var(--card2);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .pilihan:hover { border-color: var(--accent); background: rgba(245,166,35,0.05); }
+  .pilihan.selected { border-color: var(--accent); background: rgba(245,166,35,0.1); }
+  .pilihan.correct { border-color: var(--green); background: rgba(86,207,138,0.1); color: var(--green); }
+  .pilihan.wrong { border-color: var(--red); background: rgba(255,107,107,0.1); color: var(--red); }
+  .pilihan .huruf {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 800;
+    flex-shrink: 0;
+  }
+
+  /* FEEDBACK */
+  .feedback {
+    display: none;
+    margin-top: 14px;
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .feedback.show { display: block; }
+  .feedback.benar {
+    background: rgba(86,207,138,0.1);
+    border: 1px solid rgba(86,207,138,0.3);
+    color: var(--green);
+  }
+  .feedback.salah {
+    background: rgba(255,107,107,0.08);
+    border: 1px solid rgba(255,107,107,0.3);
+  }
+  .feedback .fb-head {
+    font-family: 'Baloo 2', cursive;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .feedback .fb-benar { color: var(--green); }
+  .feedback .fb-salah { color: var(--red); }
+  .feedback .fb-penjelasan { color: var(--text); margin-top: 8px; }
+  .feedback .langkah {
+    background: var(--card);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--accent2);
+    line-height: 1.8;
+  }
+
+  /* MATERI */
+  .materi-box {
+    background: var(--card2);
+    border-left: 3px solid var(--accent2);
+    border-radius: 0 10px 10px 0;
+    padding: 14px;
+    margin-bottom: 12px;
+  }
+  .materi-box h3 {
+    font-size: 14px;
+    color: var(--accent2);
+    margin-bottom: 8px;
+  }
+  .materi-box p, .materi-box li {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text);
+  }
+  .materi-box ul { padding-left: 16px; }
+  .rumus-box {
+    background: var(--card);
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin: 8px 0;
+    font-size: 14px;
+    color: var(--accent);
+    font-weight: 700;
+    text-align: center;
+  }
+  .tip-box {
+    background: rgba(78,205,196,0.08);
+    border: 1px solid rgba(78,205,196,0.25);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--accent2);
+  }
+  .tip-box strong { display: block; margin-bottom: 4px; }
+
+  /* BUTTONS */
+  .btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    font-family: 'Baloo 2', cursive;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 8px;
+  }
+  .btn-primary { background: var(--accent); color: #0f1117; }
+  .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+  .btn-secondary { background: var(--card2); color: var(--text); border: 1px solid var(--border); }
+  .btn-green { background: var(--green); color: #0f1117; }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+  /* PROGRESS SOAL */
+  .soal-progress {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .sp-dot {
+    width: 28px; height: 6px;
+    border-radius: 3px;
+    background: var(--border);
+    transition: background 0.3s;
+  }
+  .sp-dot.done-benar { background: var(--green); }
+  .sp-dot.done-salah { background: var(--red); }
+  .sp-dot.current { background: var(--accent); }
+
+  /* SCORE CARD */
+  .score-big {
+    text-align: center;
+    padding: 20px 0;
+  }
+  .score-num {
+    font-family: 'Baloo 2', cursive;
+    font-size: 64px;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .score-label { color: var(--muted); font-size: 14px; margin-top: 4px; }
+  .score-delta {
+    font-family: 'Baloo 2', cursive;
+    font-size: 20px;
+    font-weight: 700;
+    margin-top: 8px;
+  }
+
+  /* HASIL REPORT */
+  .hasil-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+  .hasil-row:last-child { border-bottom: none; }
+  .hasil-salah {
+    background: rgba(255,107,107,0.06);
+    border: 1px solid rgba(255,107,107,0.2);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+  .hasil-salah .hs-q { color: var(--text); margin-bottom: 4px; }
+  .hasil-salah .hs-a { color: var(--red); }
+  .hasil-salah .hs-b { color: var(--green); }
+
+  /* COPY AREA */
+  .copy-area {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 12px;
+    font-family: monospace;
+    color: var(--muted);
+    white-space: pre-wrap;
+    line-height: 1.6;
+    margin-top: 10px;
+  }
+
+  /* SECTION */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .badge-orange { background: rgba(245,166,35,0.15); color: var(--accent); border: 1px solid rgba(245,166,35,0.3); }
+  .badge-teal { background: rgba(78,205,196,0.15); color: var(--accent2); border: 1px solid rgba(78,205,196,0.3); }
+  .badge-red { background: rgba(255,107,107,0.15); color: var(--red); border: 1px solid rgba(255,107,107,0.3); }
+  .badge-green { background: rgba(86,207,138,0.15); color: var(--green); border: 1px solid rgba(86,207,138,0.3); }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 16px 0;
+  }
+
+  .nav-soal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 14px;
+  }
+  .nav-soal span { color: var(--muted); font-size: 13px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="kode">B11-MTK · Program Persiapan UPK</div>
+  <h1>🔢 Drill Matematika</h1>
+  <div class="sub">Musa Brahma Batubara · 17 April 2026</div>
+</div>
+
+<div class="phase-bar">
+  <div class="phase-dot" id="pd1"></div>
+  <div class="phase-dot" id="pd2"></div>
+  <div class="phase-dot" id="pd3"></div>
+</div>
+
+<!-- ===== SECTION 0: INTRO ===== -->
+<div class="section active" id="sec-intro">
+  <div class="card">
+    <div class="card-title">📋 Tentang Sesi Ini</div>
+    <div style="font-size:14px; line-height:1.8; color:var(--muted);">
+      Berdasarkan hasil B01 & B02, Musa masih lemah di tiga topik ini:
+    </div>
+    <div style="margin: 12px 0; display:flex; flex-direction:column; gap:8px;">
+      <div style="background:var(--card2);border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;">
+        <span>🍕 Pecahan & Desimal</span>
+        <span class="badge badge-red">B01: 60 · B02: 40</span>
+      </div>
+      <div style="background:var(--card2);border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;">
+        <span>📐 Bangun Datar</span>
+        <span class="badge badge-red">Salah berulang</span>
+      </div>
+      <div style="background:var(--card2);border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;">
+        <span>📦 Bangun Ruang</span>
+        <span class="badge badge-red">Salah berulang</span>
+      </div>
+    </div>
+    <div class="tip-box">
+      <strong>💡 Fokus sesi ini:</strong>
+      Pahami LANGKAH-LANGKAH penyelesaian — bukan hanya jawaban. Setiap soal salah akan dijelaskan step by step.
+    </div>
+    <div style="margin-top:16px;">
+      <div style="font-size:13px;color:var(--muted);margin-bottom:8px;">Format sesi:</div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <div style="background:var(--card2);border-radius:8px;padding:8px 14px;font-size:14px;">① Pre-test — 10 soal tanpa bantuan</div>
+        <div style="background:var(--card2);border-radius:8px;padding:8px 14px;font-size:14px;">② Materi — Ringkasan rumus & trik</div>
+        <div style="background:var(--card2);border-radius:8px;padding:8px 14px;font-size:14px;">③ Post-test — 10 soal baru</div>
+      </div>
+    </div>
+    <button class="btn btn-primary" style="margin-top:16px;" onclick="mulaiPretest()">▶ Mulai Pre-test</button>
+  </div>
+</div>
+
+<!-- ===== SECTION 1: PRE-TEST ===== -->
+<div class="section" id="sec-pretest">
+  <div class="card">
+    <div class="card-title">📝 Pre-test <span class="badge badge-orange" style="margin-left:auto;">10 Soal</span></div>
+    <div class="timer-box">
+      <div>
+        <div class="timer-label">Waktu</div>
+        <div class="timer-val" id="timer-pre">00:00</div>
+      </div>
+      <button class="timer-btn" id="timer-pre-btn" onclick="toggleTimer('pre')">▶ Start</button>
+    </div>
+    <div class="soal-progress" id="sp-pre"></div>
+    <div id="soal-pre-container"></div>
+    <div class="nav-soal">
+      <span id="soal-pre-num">Soal 1 dari 10</span>
+      <button class="btn btn-primary" id="btn-pre-next" style="width:auto;padding:10px 20px;" onclick="nextSoalPre()" disabled>Lanjut →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SECTION 2: MATERI ===== -->
+<div class="section" id="sec-materi">
+  <div class="card">
+    <div class="card-title">📚 Ringkasan Materi & Rumus</div>
+
+    <div class="materi-box">
+      <h3>🍕 PECAHAN</h3>
+      <p><strong>Penjumlahan & Pengurangan:</strong> Samakan penyebut dulu!</p>
+      <div class="rumus-box">1/2 + 2/5 → KPK(2,5)=10 → 5/10 + 4/10 = 9/10 ❌<br>Tunggu! 1/2 = 5/10, 2/5 = 4/10 → 5/10 + 4/10 = <strong>9/10</strong> ✅</div>
+      <div class="rumus-box">Benar: 1×5=5, 2×2=4 → (5+4)/10 = <strong>9/10</strong>... tapi soal B01 jawabannya 7/10?<br>Cek ulang: 1/2 + 2/5 = 5/10 + 4/10 = <strong>9/10</strong> ✅ (jawaban Musa benar!)</div>
+      <p style="margin-top:8px;"><strong>Perkalian:</strong> Langsung kalikan, lalu sederhanakan</p>
+      <div class="rumus-box">3/4 × 8/9 = 24/36 = <strong>2/3</strong> (sederhanakan dengan GCF 12)</div>
+      <p style="margin-top:8px;"><strong>Pembagian:</strong> Balik pecahan kedua, lalu kalikan</p>
+      <div class="rumus-box">2/3 ÷ 4/9 = 2/3 × 9/4 = 18/12 = <strong>3/2 = 1½</strong></div>
+      <p style="margin-top:8px;"><strong>Pecahan Campuran:</strong> 5/3 = 1 sisa 2 = <strong>1 2/3</strong></p>
+      <div class="tip-box"><strong>💡 Trik desimal ke pecahan:</strong><br>0,375 → 375/1000 → bagi keduanya dengan 125 → <strong>3/8</strong></div>
+    </div>
+
+    <div class="materi-box">
+      <h3>📐 BANGUN DATAR</h3>
+      <ul>
+        <li><strong>Persegi:</strong> Luas = s² · Keliling = 4s</li>
+        <li><strong>Persegi Panjang:</strong> Luas = p×l · Keliling = 2(p+l)</li>
+        <li><strong>Segitiga:</strong> Luas = ½ × alas × tinggi</li>
+        <li><strong>Trapesium:</strong> Luas = ½ × (a+b) × t</li>
+        <li><strong>Lingkaran:</strong> Luas = π×r² · Keliling = 2×π×r = π×d</li>
+      </ul>
+      <div class="rumus-box">Trapesium: a=8, b=12, t=6 → ½ × (8+12) × 6 = ½ × 20 × 6 = <strong>60 cm²</strong></div>
+      <div class="rumus-box">Lingkaran d=14: Keliling = π×d = 22/7 × 14 = <strong>44 cm</strong><br>Luas r=7: π×r² = 22/7 × 7² = 22/7 × 49 = <strong>154 cm²</strong></div>
+      <div class="tip-box"><strong>⚠️ Jangan keliru!</strong><br>Keliling lingkaran = π × <strong>diameter</strong> ATAU 2 × π × <strong>jari-jari</strong><br>Luas lingkaran = π × <strong>jari-jari²</strong> (bukan diameter!)</div>
+    </div>
+
+    <div class="materi-box">
+      <h3>📦 BANGUN RUANG</h3>
+      <ul>
+        <li><strong>Kubus:</strong> Volume = s³ · Luas Permukaan = 6s²</li>
+        <li><strong>Balok:</strong> Volume = p×l×t · LP = 2(pl+pt+lt)</li>
+        <li><strong>Tabung:</strong> Volume = π×r²×t · LP = 2πr(r+t)</li>
+        <li><strong>Kerucut:</strong> Volume = ⅓×π×r²×t</li>
+      </ul>
+      <div class="rumus-box">Kubus s=8: Volume = 8³ = 8×8×8 = <strong>512 cm³</strong> (bukan 64!)<br>Luas Permukaan = 6 × 8² = 6 × 64 = <strong>384 cm²</strong></div>
+      <div class="rumus-box">Tabung r=7, t=10: V = 22/7 × 49 × 10 = <strong>1.540 cm³</strong></div>
+      <div class="rumus-box">Balok setengah penuh: V air = p×l×(t÷2)<br>Bak 80×50×60 setengah = 80×50×30 = <strong>120.000 cm³</strong></div>
+      <div class="tip-box"><strong>💡 Trik kubus:</strong><br>Volume: kalikan 3 kali (s×s×s)<br>LP: kubus punya 6 sisi, masing-masing s² → total 6×s²</div>
+    </div>
+
+    <button class="btn btn-green" onclick="mulaiPosttest()">✅ Mengerti! Mulai Post-test →</button>
+  </div>
+</div>
+
+<!-- ===== SECTION 3: POST-TEST ===== -->
+<div class="section" id="sec-posttest">
+  <div class="card">
+    <div class="card-title">📝 Post-test <span class="badge badge-teal" style="margin-left:auto;">10 Soal Baru</span></div>
+    <div class="timer-box">
+      <div>
+        <div class="timer-label">Waktu</div>
+        <div class="timer-val" id="timer-post">00:00</div>
+      </div>
+      <button class="timer-btn" id="timer-post-btn" onclick="toggleTimer('post')">▶ Start</button>
+    </div>
+    <div class="soal-progress" id="sp-post"></div>
+    <div id="soal-post-container"></div>
+    <div class="nav-soal">
+      <span id="soal-post-num">Soal 1 dari 10</span>
+      <button class="btn btn-primary" id="btn-post-next" style="width:auto;padding:10px 20px;" onclick="nextSoalPost()" disabled>Lanjut →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SECTION 4: HASIL ===== -->
+<div class="section" id="sec-hasil">
+  <div class="card">
+    <div class="card-title">📊 Hasil B11-MTK</div>
+    <div class="score-big">
+      <div style="display:flex;justify-content:center;gap:30px;">
+        <div>
+          <div class="score-num" id="hasil-pre" style="color:var(--muted);">-</div>
+          <div class="score-label">Pre-test</div>
+        </div>
+        <div style="font-size:32px;color:var(--border);align-self:center;">→</div>
+        <div>
+          <div class="score-num" id="hasil-post" style="color:var(--accent);">-</div>
+          <div class="score-label">Post-test</div>
+        </div>
+      </div>
+      <div class="score-delta" id="hasil-delta"></div>
+    </div>
+
+    <div class="divider"></div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:10px;">SOAL SALAH PRE-TEST:</div>
+    <div id="salah-pre-list"></div>
+    <div class="divider"></div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:10px;">SOAL SALAH POST-TEST:</div>
+    <div id="salah-post-list"></div>
+    <div class="divider"></div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:8px;">SALIN HASIL (untuk dikirim ke Claude):</div>
+    <div class="copy-area" id="copy-text"></div>
+    <div style="display:flex;gap:8px;margin-top:10px;">
+      <button class="btn btn-secondary" style="flex:1;" onclick="copyHasil()">📋 Salin Hasil</button>
+      <button class="btn btn-primary" id="btn-cloud-save" style="flex:1;" onclick="triggerCloudSave()">☁️ Simpan ke Cloud</button>
+    </div>
+    <div id="cloud-status" style="font-size:12px;color:var(--muted);text-align:center;margin-top:6px;"></div>
+  </div>
+</div>
+
+<script>
+// ===== DATA SOAL =====
+
+const soalPre = [
+  {
+    topik: "🍕 Pecahan",
+    soal: "Hasil dari 3/4 + 1/6 adalah...",
+    pilihan: ["10/10", "11/12", "4/10", "9/12"],
+    jawaban: 1,
+    penjelasan: "KPK(4,6) = 12. Jadi: 3/4 = 9/12, dan 1/6 = 2/12. Hasilnya: 9/12 + 2/12 = 11/12.",
+    langkah: "① Cari KPK dari 4 dan 6 → KPK = 12\n② 3/4 = 9/12 (×3)\n③ 1/6 = 2/12 (×2)\n④ 9/12 + 2/12 = 11/12 ✅"
+  },
+  {
+    topik: "🍕 Pecahan",
+    soal: "Hasil dari 5/6 ÷ 5/3 dalam bentuk paling sederhana adalah...",
+    pilihan: ["25/18", "1/2", "3/2", "2/3"],
+    jawaban: 1,
+    penjelasan: "Pembagian pecahan: balik pecahan kedua lalu kalikan. 5/6 ÷ 5/3 = 5/6 × 3/5 = 15/30 = 1/2.",
+    langkah: "① Balik pecahan kedua: 5/3 → 3/5\n② Kalikan: 5/6 × 3/5 = 15/30\n③ Sederhanakan: 15/30 ÷ 15 = 1/2 ✅"
+  },
+  {
+    topik: "🍕 Pecahan",
+    soal: "0,625 dalam bentuk pecahan paling sederhana adalah...",
+    pilihan: ["625/1000", "5/8", "6/10", "3/5"],
+    jawaban: 1,
+    penjelasan: "0,625 = 625/1000. Sederhanakan dengan membagi 125: 625÷125=5, 1000÷125=8. Hasilnya 5/8.",
+    langkah: "① 0,625 = 625/1000\n② Bagi dengan GCF 125: 625÷125=5, 1000÷125=8\n③ Hasil: 5/8 ✅"
+  },
+  {
+    topik: "📐 Bangun Datar",
+    soal: "Luas trapesium dengan sisi sejajar 12 cm dan 18 cm, tinggi 8 cm adalah...",
+    pilihan: ["240 cm²", "120 cm²", "144 cm²", "192 cm²"],
+    jawaban: 1,
+    penjelasan: "Rumus luas trapesium = ½ × (a+b) × t = ½ × (12+18) × 8 = ½ × 30 × 8 = 120 cm².",
+    langkah: "① Rumus: ½ × (a+b) × t\n② a+b = 12+18 = 30\n③ ½ × 30 = 15\n④ 15 × 8 = 120 cm² ✅"
+  },
+  {
+    topik: "📐 Bangun Datar",
+    soal: "Keliling lingkaran dengan jari-jari 14 cm adalah... (π=22/7)",
+    pilihan: ["44 cm", "88 cm", "154 cm", "616 cm"],
+    jawaban: 1,
+    penjelasan: "Keliling lingkaran = 2 × π × r = 2 × 22/7 × 14 = 2 × 44 = 88 cm.",
+    langkah: "① Rumus Keliling = 2 × π × r\n② r = 14, π = 22/7\n③ 22/7 × 14 = 44\n④ 2 × 44 = 88 cm ✅"
+  },
+  {
+    topik: "📐 Bangun Datar",
+    soal: "Sebuah persegi panjang memiliki keliling 48 cm dan lebar 10 cm. Luasnya adalah...",
+    pilihan: ["140 cm²", "480 cm²", "280 cm²", "480 cm²"],
+    jawaban: 0,
+    penjelasan: "Keliling = 2(p+l) → 48 = 2(p+10) → p+10 = 24 → p = 14 cm. Luas = 14 × 10 = 140 cm².",
+    langkah: "① K = 2(p+l) → 48 = 2(p+10)\n② p+10 = 24 → p = 14 cm\n③ Luas = p × l = 14 × 10 = 140 cm² ✅"
+  },
+  {
+    topik: "📦 Bangun Ruang",
+    soal: "Volume kubus dengan sisi 6 cm adalah...",
+    pilihan: ["36 cm³", "216 cm³", "196 cm³", "126 cm³"],
+    jawaban: 1,
+    penjelasan: "Volume kubus = s³ = 6³ = 6 × 6 × 6 = 216 cm³. Ingat: bukan s×3 atau s², tapi s×s×s!",
+    langkah: "① Rumus: V = s³ = s × s × s\n② s = 6\n③ 6 × 6 = 36\n④ 36 × 6 = 216 cm³ ✅"
+  },
+  {
+    topik: "📦 Bangun Ruang",
+    soal: "Luas permukaan kubus dengan sisi 5 cm adalah...",
+    pilihan: ["25 cm²", "125 cm³", "150 cm²", "75 cm²"],
+    jawaban: 2,
+    penjelasan: "Luas permukaan kubus = 6 × s² = 6 × 5² = 6 × 25 = 150 cm². Kubus punya 6 sisi yang sama!",
+    langkah: "① Kubus punya 6 sisi\n② Setiap sisi = s² = 5² = 25 cm²\n③ LP = 6 × 25 = 150 cm² ✅"
+  },
+  {
+    topik: "📦 Bangun Ruang",
+    soal: "Sebuah tabung memiliki jari-jari 7 cm dan tinggi 15 cm. Volumenya adalah... (π=22/7)",
+    pilihan: ["2.310 cm³", "1.540 cm³", "770 cm³", "3.080 cm³"],
+    jawaban: 0,
+    penjelasan: "Volume tabung = π × r² × t = 22/7 × 49 × 15 = 22 × 7 × 15 = 2.310 cm³.",
+    langkah: "① V = π × r² × t\n② r² = 7² = 49\n③ 22/7 × 49 = 154\n④ 154 × 15 = 2.310 cm³ ✅"
+  },
+  {
+    topik: "📦 Bangun Ruang",
+    soal: "Sebuah kolam balok panjang 100 cm, lebar 60 cm, tinggi 50 cm. Diisi air setinggi 30 cm. Volume air adalah...",
+    pilihan: ["300.000 cm³", "180.000 cm³", "90.000 cm³", "150.000 cm³"],
+    jawaban: 1,
+    penjelasan: "Volume air = p × l × tinggi air = 100 × 60 × 30 = 180.000 cm³. Gunakan tinggi AIR (30 cm), bukan tinggi kolam!",
+    langkah: "① V air = p × l × t_air (bukan t kolam!)\n② t air = 30 cm\n③ 100 × 60 = 6.000\n④ 6.000 × 30 = 180.000 cm³ ✅"
+  }
+];
+
+const soalPost = [
+  {
+    topik: "🍕 Pecahan",
+    soal: "Hasil dari 2/5 + 3/8 adalah...",
+    pilihan: ["5/13", "5/40", "31/40", "16/40"],
+    jawaban: 2,
+    penjelasan: "KPK(5,8) = 40. Jadi: 2/5 = 16/40, dan 3/8 = 15/40. Hasilnya: 16/40 + 15/40 = 31/40.",
+    langkah: "① KPK(5,8) = 40\n② 2/5 = 16/40 (×8)\n③ 3/8 = 15/40 (×5)\n④ 16/40 + 15/40 = 31/40 ✅"
+  },
+  {
+    topik: "🍕 Pecahan",
+    soal: "Hasil dari 3/4 ÷ 9/8 dalam bentuk paling sederhana adalah...",
+    pilihan: ["27/32", "2/3", "4/3", "1 1/3"],
+    jawaban: 1,
+    penjelasan: "3/4 ÷ 9/8 = 3/4 × 8/9 = 24/36 = 2/3. Sederhanakan 24/36 dengan GCF 12.",
+    langkah: "① Balik: 9/8 → 8/9\n② Kalikan: 3/4 × 8/9 = 24/36\n③ GCF(24,36)=12 → 24÷12=2, 36÷12=3\n④ Hasil: 2/3 ✅"
+  },
+  {
+    topik: "🍕 Pecahan",
+    soal: "7/4 ditulis sebagai pecahan campuran adalah...",
+    pilihan: ["7/4", "2 3/4", "1 3/4", "1 1/4"],
+    jawaban: 2,
+    penjelasan: "7 ÷ 4 = 1 sisa 3. Jadi 7/4 = 1 3/4. Bilangan bulat 1, sisa 3 menjadi pembilang, penyebut tetap 4.",
+    langkah: "① Bagi: 7 ÷ 4 = 1 sisa 3\n② Bilangan bulat = 1\n③ Sisa = 3, penyebut tetap = 4\n④ Hasil: 1 3/4 ✅"
+  },
+  {
+    topik: "📐 Bangun Datar",
+    soal: "Luas lingkaran dengan jari-jari 14 cm adalah... (π=22/7)",
+    pilihan: ["88 cm²", "44 cm²", "616 cm²", "1.232 cm²"],
+    jawaban: 2,
+    penjelasan: "Luas lingkaran = π × r² = 22/7 × 14² = 22/7 × 196 = 22 × 28 = 616 cm².",
+    langkah: "① Rumus: L = π × r²\n② r² = 14² = 196\n③ 22/7 × 196 = 22 × 28 = 616 cm² ✅"
+  },
+  {
+    topik: "📐 Bangun Datar",
+    soal: "Trapesium dengan sisi sejajar 15 cm dan 25 cm, tinggi 10 cm. Luasnya adalah...",
+    pilihan: ["375 cm²", "250 cm²", "200 cm²", "300 cm²"],
+    jawaban: 2,
+    penjelasan: "Luas trapesium = ½ × (a+b) × t = ½ × (15+25) × 10 = ½ × 40 × 10 = 200 cm².",
+    langkah: "① Rumus: ½ × (a+b) × t\n② a+b = 15+25 = 40\n③ ½ × 40 = 20\n④ 20 × 10 = 200 cm² ✅"
+  },
+  {
+    topik: "📐 Bangun Datar",
+    soal: "Keliling lingkaran dengan diameter 21 cm adalah... (π=22/7)",
+    pilihan: ["132 cm", "66 cm", "346,5 cm", "44 cm"],
+    jawaban: 1,
+    penjelasan: "Keliling = π × d = 22/7 × 21 = 22 × 3 = 66 cm. Gunakan diameter langsung.",
+    langkah: "① Rumus: K = π × d (pakai diameter)\n② d = 21\n③ 22/7 × 21 = 22 × 3 = 66 cm ✅"
+  },
+  {
+    topik: "📦 Bangun Ruang",
+    soal: "Volume kubus dengan sisi 9 cm adalah...",
+    pilihan: ["81 cm³", "243 cm³", "729 cm³", "486 cm³"],
+    jawaban: 2,
+    penjelasan: "Volume kubus = s³ = 9 × 9 × 9. Pertama 9×9=81, lalu 81×9=729 cm³.",
+    langkah: "① V = s³ = s × s × s\n② 9 × 9 = 81\n③ 81 × 9 = 729 cm³ ✅"
+  },
+  {
+    topik: "📦 Bangun Ruang",
+    soal: "Luas permukaan kubus dengan sisi 7 cm adalah...",
+    pilihan: ["49 cm²", "343 cm³", "294 cm²", "196 cm²"],
+    jawaban: 2,
+    penjelasan: "LP kubus = 6 × s² = 6 × 7² = 6 × 49 = 294 cm².",
+    langkah: "① Kubus punya 6 sisi sama\n② Tiap sisi = 7² = 49 cm²\n③ LP = 6 × 49 = 294 cm² ✅"
+  },
+  {
+    topik: "📦 Bangun Ruang",
+    soal: "Tabung dengan jari-jari 21 cm dan tinggi 10 cm. Volumenya adalah... (π=22/7)",
+    pilihan: ["660 cm³", "13.860 cm³", "4.620 cm³", "1.386 cm³"],
+    jawaban: 1,
+    penjelasan: "V = π × r² × t = 22/7 × 441 × 10 = 22 × 63 × 10 = 13.860 cm³.",
+    langkah: "① V = π × r² × t\n② r² = 21² = 441\n③ 22/7 × 441 = 22 × 63 = 1.386\n④ 1.386 × 10 = 13.860 cm³ ✅"
+  },
+  {
+    topik: "📦 Bangun Ruang",
+    soal: "Bak mandi balok p=120 cm, l=70 cm, t=60 cm diisi air setinggi 40 cm. Volume air adalah...",
+    pilihan: ["504.000 cm³", "336.000 cm³", "168.000 cm³", "252.000 cm³"],
+    jawaban: 1,
+    penjelasan: "V air = p × l × t_air = 120 × 70 × 40 = 336.000 cm³. Tinggi yang dipakai adalah tinggi air (40 cm).",
+    langkah: "① Gunakan tinggi AIR (40 cm), bukan tinggi bak\n② 120 × 70 = 8.400\n③ 8.400 × 40 = 336.000 cm³ ✅"
+  }
+];
+
+// ===== STATE =====
+let state = {
+  phase: 'intro',
+  pre: { current: 0, answers: [], times: [], timerSec: 0, timerRunning: false, timerInterval: null },
+  post: { current: 0, answers: [], times: [], timerSec: 0, timerRunning: false, timerInterval: null },
+  answered: false
+};
+
+// ===== TIMER =====
+function toggleTimer(phase) {
+  const s = state[phase];
+  if (s.timerRunning) {
+    clearInterval(s.timerInterval);
+    s.timerRunning = false;
+    document.getElementById(`timer-${phase}-btn`).textContent = '▶ Lanjut';
+  } else {
+    s.timerRunning = true;
+    document.getElementById(`timer-${phase}-btn`).textContent = '⏸ Pause';
+    s.timerInterval = setInterval(() => {
+      s.timerSec++;
+      const m = String(Math.floor(s.timerSec/60)).padStart(2,'0');
+      const sc = String(s.timerSec%60).padStart(2,'0');
+      document.getElementById(`timer-${phase}`).textContent = `${m}:${sc}`;
+    }, 1000);
+  }
+}
+
+function stopTimer(phase) {
+  const s = state[phase];
+  if (s.timerRunning) {
+    clearInterval(s.timerInterval);
+    s.timerRunning = false;
+  }
+}
+
+function getTimerStr(phase) {
+  const s = state[phase];
+  const m = String(Math.floor(s.timerSec/60)).padStart(2,'0');
+  const sc = String(s.timerSec%60).padStart(2,'0');
+  return `${m}:${sc}`;
+}
+
+// ===== PHASE DOTS =====
+function updatePhaseDots(phase) {
+  const dots = ['pd1','pd2','pd3'];
+  const phaseMap = { pretest: 0, materi: 1, posttest: 2, hasil: 2 };
+  const idx = phaseMap[phase] ?? 0;
+  dots.forEach((id, i) => {
+    const el = document.getElementById(id);
+    el.className = 'phase-dot' + (i < idx ? ' done' : i === idx ? ' active' : '');
+  });
+}
+
+// ===== PROGRESS DOTS =====
+function buildProgressDots(containerId, soalArr, answers, current) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = soalArr.map((_, i) => {
+    let cls = 'sp-dot';
+    if (i < answers.length) {
+      cls += answers[i] === soalArr[i].jawaban ? ' done-benar' : ' done-salah';
+    } else if (i === current) cls += ' current';
+    return `<div class="${cls}"></div>`;
+  }).join('');
+}
+
+// ===== RENDER SOAL =====
+function renderSoal(container, soalArr, phaseKey) {
+  const s = state[phaseKey];
+  const q = soalArr[s.current];
+  state.answered = false;
+
+  buildProgressDots(
+    phaseKey === 'pre' ? 'sp-pre' : 'sp-post',
+    soalArr, s.answers, s.current
+  );
+
+  const numEl = document.getElementById(`soal-${phaseKey}-num`);
+  numEl.textContent = `Soal ${s.current+1} dari ${soalArr.length}`;
+
+  const nextBtn = document.getElementById(`btn-${phaseKey}-next`);
+  nextBtn.disabled = true;
+  nextBtn.textContent = s.current < soalArr.length-1 ? 'Lanjut →' : 'Selesai ✓';
+
+  container.innerHTML = `
+    <div class="soal-num">SOAL ${s.current+1}</div>
+    <div class="soal-topik">${q.topik}</div>
+    <div class="soal-text">${q.soal}</div>
+    <div class="pilihan-list">
+      ${q.pilihan.map((p,i)=>`
+        <div class="pilihan" id="pil-${i}" onclick="pilih(${i},'${phaseKey}',${JSON.stringify(soalArr).replace(/'/g,"\\'")} )">
+          <div class="huruf">${['A','B','C','D'][i]}</div>
+          <span>${p}</span>
+        </div>
+      `).join('')}
+    </div>
+    <div class="feedback" id="feedback-box"></div>
+  `;
+}
+
+function pilih(idx, phaseKey, soalArr) {
+  if (state.answered) return;
+  state.answered = true;
+
+  const q = soalArr[state[phaseKey].current];
+  const benar = idx === q.jawaban;
+  state[phaseKey].answers.push(idx);
+
+  // Update pilihan style
+  document.querySelectorAll('.pilihan').forEach((el, i) => {
+    if (i === q.jawaban) el.classList.add('correct');
+    else if (i === idx && !benar) el.classList.add('wrong');
+  });
+
+  // Feedback
+  const fb = document.getElementById('feedback-box');
+  fb.classList.add('show');
+  if (benar) {
+    fb.classList.add('benar');
+    fb.innerHTML = `<div class="fb-head fb-benar">✅ Benar!</div>
+    <div class="fb-penjelasan">${q.penjelasan}</div>`;
+  } else {
+    fb.classList.add('salah');
+    fb.innerHTML = `<div class="fb-head fb-salah">❌ Salah</div>
+    <div class="fb-penjelasan">Jawaban kamu: <strong>${q.pilihan[idx]}</strong><br>
+    Jawaban benar: <strong style="color:var(--green)">${q.pilihan[q.jawaban]}</strong></div>
+    <div class="langkah"><strong>Langkah penyelesaian:</strong><br>${q.langkah.replace(/\n/g,'<br>')}</div>`;
+  }
+
+  buildProgressDots(
+    phaseKey === 'pre' ? 'sp-pre' : 'sp-post',
+    soalArr, state[phaseKey].answers, state[phaseKey].current
+  );
+
+  document.getElementById(`btn-${phaseKey}-next`).disabled = false;
+}
+
+// ===== NAVIGATION =====
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function mulaiPretest() {
+  showSection('sec-pretest');
+  updatePhaseDots('pretest');
+  renderSoal(document.getElementById('soal-pre-container'), soalPre, 'pre');
+}
+
+function nextSoalPre() {
+  const s = state.pre;
+  if (s.current < soalPre.length - 1) {
+    s.current++;
+    renderSoal(document.getElementById('soal-pre-container'), soalPre, 'pre');
+  } else {
+    stopTimer('pre');
+    showSection('sec-materi');
+    updatePhaseDots('materi');
+  }
+}
+
+function mulaiPosttest() {
+  showSection('sec-posttest');
+  updatePhaseDots('posttest');
+  renderSoal(document.getElementById('soal-post-container'), soalPost, 'post');
+}
+
+function nextSoalPost() {
+  const s = state.post;
+  if (s.current < soalPost.length - 1) {
+    s.current++;
+    renderSoal(document.getElementById('soal-post-container'), soalPost, 'post');
+  } else {
+    stopTimer('post');
+    tampilkanHasil();
+  }
+}
+
+// ===== HASIL =====
+function hitungSkor(answers, soalArr) {
+  return answers.filter((a, i) => a === soalArr[i].jawaban).length * 10;
+}
+
+function tampilkanHasil() {
+  const preScore = hitungSkor(state.pre.answers, soalPre);
+  const postScore = hitungSkor(state.post.answers, soalPost);
+  const delta = postScore - preScore;
+
+  showSection('sec-hasil');
+  updatePhaseDots('hasil');
+
+  document.getElementById('hasil-pre').textContent = `${preScore}/100`;
+  document.getElementById('hasil-post').textContent = `${postScore}/100`;
+
+  const deltaEl = document.getElementById('hasil-delta');
+  if (delta > 0) {
+    deltaEl.textContent = `+${delta} poin 📈 NAIK`;
+    deltaEl.style.color = 'var(--green)';
+  } else if (delta < 0) {
+    deltaEl.textContent = `${delta} poin 📉 TURUN`;
+    deltaEl.style.color = 'var(--red)';
+  } else {
+    deltaEl.textContent = `+0 poin ➡️ SAMA`;
+    deltaEl.style.color = 'var(--muted)';
+  }
+
+  // Soal salah pre
+  const salahPreEl = document.getElementById('salah-pre-list');
+  const salahPre = soalPre.filter((q,i) => state.pre.answers[i] !== q.jawaban);
+  if (salahPre.length === 0) {
+    salahPreEl.innerHTML = '<div style="color:var(--green);font-size:14px;">🎉 Semua benar!</div>';
+  } else {
+    salahPreEl.innerHTML = salahPre.map((q, ii) => {
+      const myIdx = state.pre.answers[soalPre.indexOf(q)];
+      return `<div class="hasil-salah">
+        <div class="hs-q">${q.topik} — ${q.soal}</div>
+        <div class="hs-a">→ Jawab: ${q.pilihan[myIdx]}</div>
+        <div class="hs-b">→ Benar: ${q.pilihan[q.jawaban]}</div>
+      </div>`;
+    }).join('');
+  }
+
+  // Soal salah post
+  const salahPostEl = document.getElementById('salah-post-list');
+  const salahPost = soalPost.filter((q,i) => state.post.answers[i] !== q.jawaban);
+  if (salahPost.length === 0) {
+    salahPostEl.innerHTML = '<div style="color:var(--green);font-size:14px;">🎉 Semua benar!</div>';
+  } else {
+    salahPostEl.innerHTML = salahPost.map((q) => {
+      const myIdx = state.post.answers[soalPost.indexOf(q)];
+      return `<div class="hasil-salah">
+        <div class="hs-q">${q.topik} — ${q.soal}</div>
+        <div class="hs-a">→ Jawab: ${q.pilihan[myIdx]}</div>
+        <div class="hs-b">→ Benar: ${q.pilihan[q.jawaban]}</div>
+      </div>`;
+    }).join('');
+  }
+
+  // Copy text
+  const topikLemah = [...new Set([
+    ...salahPre.map(q=>q.topik),
+    ...salahPost.map(q=>q.topik)
+  ])].join(', ') || 'Semua topik sudah kuat';
+
+  _hasilGlobal = { preScore, postScore, delta, salahPre, salahPost, topikLemah };
+
+  const target = postScore >= 75 ? '✅ TERCAPAI' : '❌ BELUM TERCAPAI';
+
+  let salahPreTxt = salahPre.length === 0 ? '   (Semua benar)' :
+    salahPre.map((q,_) => {
+      const myIdx = state.pre.answers[soalPre.indexOf(q)];
+      return `   → Jawab: ${q.pilihan[myIdx]} | Benar: ${q.pilihan[q.jawaban]}`;
+    }).join('\n');
+
+  let salahPostTxt = salahPost.length === 0 ? '   (Semua benar)' :
+    salahPost.map((q) => {
+      const myIdx = state.post.answers[soalPost.indexOf(q)];
+      return `   → Jawab: ${q.pilihan[myIdx]} | Benar: ${q.pilihan[q.jawaban]}`;
+    }).join('\n');
+
+  const copyStr = `📊 HASIL B11-MTK — DRILL MATEMATIKA
+Musa Brahma Batubara · 17 April 2026
+Fokus: Pecahan & Desimal · Bangun Datar · Bangun Ruang
+──────────────────────────────────────────────────
+
+PRE-TEST  : ${preScore}/100  (${soalPre.length - salahPre.length} benar dari 10)  ⏱${getTimerStr('pre')}
+POST-TEST : ${postScore}/100  (${soalPost.length - salahPost.length} benar dari 10)  ⏱${getTimerStr('post')}
+DELTA     : ${delta >= 0 ? '+' : ''}${delta} poin  ${delta > 0 ? '📈 NAIK' : delta < 0 ? '📉 TURUN' : '➡️ SAMA'}
+
+SOAL SALAH PRE-TEST:
+${salahPre.length === 0 ? '   (Semua benar)' : salahPre.map((q,_) => {
+  const myIdx = state.pre.answers[soalPre.indexOf(q)];
+  return `${q.topik} — ${q.soal}\n   → Jawab: ${q.pilihan[myIdx]} | Benar: ${q.pilihan[q.jawaban]}`;
+}).join('\n')}
+
+SOAL SALAH POST-TEST:
+${salahPost.length === 0 ? '   (Semua benar)' : salahPost.map((q) => {
+  const myIdx = state.post.answers[soalPost.indexOf(q)];
+  return `${q.topik} — ${q.soal}\n   → Jawab: ${q.pilihan[myIdx]} | Benar: ${q.pilihan[q.jawaban]}`;
+}).join('\n')}
+
+──────────────────────────────────────────────────
+TOPIK MASIH LEMAH: ${topikLemah}
+TARGET B11-MTK (75): ${target}
+
+📌 Berdasarkan B11-MTK ini, lanjutkan ke B11-Agama:
+Fokus: Ibadah Khusus (Haji, Umrah, Shalat Jenazah, Wudhu)
+Format: Pre-test → Materi → Post-test · Soal baru`;
+
+  document.getElementById('copy-text').textContent = copyStr;
+}
+
+let _hasilGlobal = {};
+
+function triggerCloudSave() {
+  const { preScore, postScore, delta, salahPre, salahPost, topikLemah } = _hasilGlobal;
+  simpanHasilKeCloud(preScore, postScore, delta, salahPre, salahPost, topikLemah);
+}
+
+function copyHasil() {
+  const txt = document.getElementById('copy-text').textContent;
+  navigator.clipboard.writeText(txt).then(() => {
+    const btn = document.querySelector('.btn-secondary');
+    btn.textContent = '✅ Tersalin!';
+    setTimeout(() => btn.textContent = '📋 Salin Hasil', 2000);
+  });
+}
+
+// ===== JSONBIN CLOUD SAVE =====
+const BIN_ID = '69e1c0be856a682189426a62';
+const MASTER_KEY = '$2a$10$oy4tEjR4sFv28R88pk1IIeTteR7a6ICjH.jB4pB13Yml8AYTT0XlW';
+const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+
+async function loadFromCloud() {
+  try {
+    const res = await fetch(API_URL + '/latest', {
+      headers: { 'X-Master-Key': MASTER_KEY }
+    });
+    const data = await res.json();
+    return data.record || {};
+  } catch(e) {
+    console.warn('Cloud load gagal:', e);
+    return {};
+  }
+}
+
+async function saveToCloud(hasilData) {
+  try {
+    // Load existing data dulu
+    const existing = await loadFromCloud();
+    // Merge hasil baru
+    const updated = { ...existing, 'B11-MTK': hasilData };
+    const res = await fetch(API_URL, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Master-Key': MASTER_KEY
+      },
+      body: JSON.stringify(updated)
+    });
+    return res.ok;
+  } catch(e) {
+    console.warn('Cloud save gagal:', e);
+    return false;
+  }
+}
+
+async function simpanHasilKeCloud(preScore, postScore, delta, salahPre, salahPost, topikLemah) {
+  const saveBtn = document.getElementById('btn-cloud-save');
+  saveBtn.textContent = '☁️ Menyimpan...';
+  saveBtn.disabled = true;
+
+  const hasilData = {
+    tanggal: '17 April 2026',
+    sesi: 'B11-MTK',
+    fokus: 'Pecahan & Desimal · Bangun Datar · Bangun Ruang',
+    preTest: preScore,
+    postTest: postScore,
+    delta: delta,
+    waktuPre: getTimerStr('pre'),
+    waktuPost: getTimerStr('post'),
+    targetTercapai: postScore >= 75,
+    topikLemah: topikLemah,
+    soalSalahPre: salahPre.map(q => ({
+      topik: q.topik,
+      soal: q.soal,
+      jawabSalah: q.pilihan[state.pre.answers[soalPre.indexOf(q)]],
+      jawabBenar: q.pilihan[q.jawaban]
+    })),
+    soalSalahPost: salahPost.map(q => ({
+      topik: q.topik,
+      soal: q.soal,
+      jawabSalah: q.pilihan[state.post.answers[soalPost.indexOf(q)]],
+      jawabBenar: q.pilihan[q.jawaban]
+    }))
+  };
+
+  const ok = await saveToCloud(hasilData);
+  if (ok) {
+    saveBtn.textContent = '✅ Tersimpan di Cloud!';
+    saveBtn.style.background = 'var(--green)';
+    saveBtn.style.color = '#0f1117';
+  } else {
+    saveBtn.textContent = '❌ Gagal — Salin Manual';
+    saveBtn.disabled = false;
+  }
+}
+
+// Init phase dots
+updatePhaseDots('pretest');
+document.getElementById('pd1').classList.remove('active');
+</script>
+</body>
+</html>
