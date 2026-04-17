@@ -824,7 +824,7 @@ function renderSoal(container, soalArr, phaseKey) {
     <div class="soal-text">${q.soal}</div>
     <div class="pilihan-list">
       ${q.pilihan.map((p,i)=>`
-        <div class="pilihan" id="pil-${i}" onclick="pilih(${i},'${phaseKey}',${JSON.stringify(soalArr).replace(/'/g,"\\'")} )">
+        <div class="pilihan" id="pil-${i}" onclick="pilih(${i},'${phaseKey}')">
           <div class="huruf">${['A','B','C','D'][i]}</div>
           <span>${p}</span>
         </div>
@@ -834,10 +834,11 @@ function renderSoal(container, soalArr, phaseKey) {
   `;
 }
 
-function pilih(idx, phaseKey, soalArr) {
+function pilih(idx, phaseKey) {
   if (state.answered) return;
   state.answered = true;
 
+  const soalArr = phaseKey === 'pre' ? soalPre : soalPost;
   const q = soalArr[state[phaseKey].current];
   const benar = idx === q.jawaban;
   state[phaseKey].answers.push(idx);
