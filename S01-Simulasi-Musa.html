@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S01 — Simulasi Final UPK · Musa Brahma Batubara</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Nunito:wght@400;600;700&display=swap');
+  :root {
+    --bg:#0a0d14;--card:#131720;--card2:#1a1f2e;
+    --accent:#a78bfa;--accent2:#60a5fa;
+    --green:#4ade80;--red:#f87171;--gold:#fbbf24;
+    --text:#e8eaf0;--muted:#6b7280;--border:#1f2535;
+    --mtk:#f97316;--pkn:#3b82f6;--agama:#10b981;--ipas:#8b5cf6;--bindo:#ec4899;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;}
+  h1,h2,h3{font-family:'Baloo 2',cursive;}
+  .intro-wrap{padding:20px 16px 40px;}
+  .intro-header{text-align:center;padding:24px 0 16px;}
+  .intro-header .kode{font-family:'Baloo 2',cursive;font-size:12px;color:var(--red);letter-spacing:4px;text-transform:uppercase;margin-bottom:6px;}
+  .intro-header h1{font-size:28px;font-weight:800;}
+  .intro-header .sub{color:var(--muted);font-size:13px;margin-top:6px;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:12px;}
+  .card-title{font-family:'Baloo 2',cursive;font-size:15px;color:var(--muted);margin-bottom:12px;text-transform:uppercase;letter-spacing:1px;}
+  .mapel-item{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;margin-bottom:6px;border:1px solid var(--border);}
+  .mapel-item:last-child{margin-bottom:0;}
+  .mi-left{display:flex;align-items:center;gap:10px;}
+  .mi-name{font-weight:700;font-size:15px;}
+  .mi-info{font-size:12px;color:var(--muted);margin-top:1px;}
+  .mi-status{font-size:12px;font-weight:700;padding:3px 10px;border-radius:20px;}
+  .status-belum{background:rgba(107,114,128,.15);color:var(--muted);}
+  .status-selesai{background:rgba(74,222,128,.12);color:var(--green);}
+  .aturan-box{background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.2);border-radius:10px;padding:14px;margin-bottom:16px;font-size:13px;color:var(--gold);line-height:1.9;}
+  .btn{width:100%;padding:14px;border-radius:12px;border:none;font-family:'Baloo 2',cursive;font-size:16px;font-weight:700;cursor:pointer;transition:all 0.2s;margin-top:0;}
+  .btn:disabled{opacity:0.35;cursor:not-allowed;}
+  .btn-merah{background:var(--red);color:#0a0d14;}
+  .btn-primary{background:var(--accent);color:#0a0d14;}
+  .btn-secondary{background:var(--card2);color:var(--text);border:1px solid var(--border);}
+  .btn-cloud{background:#1e40af;color:#fff;}
+  .btn-green{background:var(--green);color:#0a0d14;}
+  /* UJIAN */
+  .ujian-wrap{display:none;flex-direction:column;min-height:100vh;}
+  .ujian-wrap.active{display:flex;}
+  .ujian-header{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--card);position:sticky;top:0;z-index:10;}
+  .uh-mapel{font-family:'Baloo 2',cursive;font-size:16px;font-weight:700;}
+  .uh-right{text-align:right;}
+  .uh-timer{font-family:'Baloo 2',cursive;font-size:20px;font-weight:800;color:var(--accent2);}
+  .uh-timer.warning{color:var(--gold);}
+  .uh-timer.danger{color:var(--red);animation:blink 1s infinite;}
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:0.4;}}
+  .uh-soal{font-size:12px;color:var(--muted);}
+  .ujian-progress{height:3px;background:var(--border);}
+  .ujian-progress-fill{height:100%;transition:width 0.3s;}
+  .ujian-body{flex:1;padding:16px;padding-bottom:90px;}
+  .dot-strip{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:14px;}
+  .dot{width:12px;height:12px;border-radius:2px;background:var(--border);}
+  .dot.current{background:var(--accent);}
+  .dot.done{background:rgba(107,114,128,.25);}
+  .soal-text{font-size:16px;font-weight:600;line-height:1.6;margin-bottom:16px;}
+  .pilihan-list{display:flex;flex-direction:column;gap:8px;}
+  .pilihan{background:var(--card2);border:2px solid var(--border);border-radius:10px;padding:12px 14px;cursor:pointer;font-size:15px;font-weight:600;transition:all 0.15s;display:flex;align-items:center;gap:10px;}
+  .pilihan:active{transform:scale(0.98);}
+  .pilihan.selected{border-color:var(--accent);background:rgba(167,139,250,.1);}
+  .pilihan .huruf{width:26px;height:26px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;transition:all 0.15s;}
+  .ujian-footer{position:fixed;bottom:0;left:0;right:0;padding:12px 16px;background:var(--bg);border-top:1px solid var(--border);display:flex;gap:8px;}
+  /* HASIL MAPEL */
+  .hasil-wrap{display:none;padding:16px 16px 40px;}
+  .hasil-wrap.active{display:block;}
+  .hs-score{text-align:center;padding:20px 0;}
+  .hs-num{font-family:'Baloo 2',cursive;font-size:56px;font-weight:800;line-height:1;}
+  .hs-label{color:var(--muted);font-size:14px;margin-top:4px;}
+  .hs-verdict{font-family:'Baloo 2',cursive;font-size:18px;font-weight:700;margin-top:8px;}
+  .hs-waktu{font-size:13px;color:var(--muted);margin-top:4px;}
+  .salah-item{background:rgba(248,113,113,.05);border:1px solid rgba(248,113,113,.18);border-radius:8px;padding:10px 12px;margin-bottom:8px;font-size:13px;}
+  .si-q{color:var(--text);font-weight:600;margin-bottom:4px;}
+  .si-a{color:var(--red);}
+  .si-b{color:var(--green);}
+  .si-tip{color:var(--accent2);font-size:12px;margin-top:6px;line-height:1.6;}
+  /* HASIL AKHIR */
+  .final-wrap{display:none;padding:16px 16px 40px;}
+  .final-wrap.active{display:block;}
+  .final-header{text-align:center;padding:20px 0 16px;}
+  .rank-badge{display:inline-block;padding:6px 20px;border-radius:20px;font-family:'Baloo 2',cursive;font-size:16px;font-weight:700;margin-top:8px;}
+  .mfr{background:var(--card);border-radius:10px;padding:12px 16px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;}
+  .mfr-left{font-weight:600;font-size:14px;}
+  .mfr-bar{flex:1;height:6px;background:var(--border);border-radius:3px;margin:0 12px;overflow:hidden;}
+  .mfr-fill{height:100%;border-radius:3px;transition:width 0.8s;}
+  .mfr-right{font-family:'Baloo 2',cursive;font-size:15px;font-weight:800;min-width:50px;text-align:right;}
+  .copy-area{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:14px;font-size:12px;font-family:monospace;color:var(--muted);white-space:pre-wrap;line-height:1.6;max-height:220px;overflow-y:auto;margin-top:10px;}
+  .section{display:none;}.section.active{display:block;}
+  .divider{height:1px;background:var(--border);margin:16px 0;}
+</style>
+</head>
+<body>
+
+<!-- INTRO -->
+<div id="sec-intro" class="intro-wrap">
+  <div class="intro-header">
+    <div class="kode">🔴 S01 · Simulasi Final · UPK Paket A</div>
+    <h1>Simulasi Ujian</h1>
+    <div class="sub">Musa Brahma Batubara · 20 April 2026</div>
+  </div>
+
+  <div class="aturan-box">
+    <strong style="display:block;margin-bottom:4px;font-size:14px;">⚠️ Aturan Simulasi — Baca dulu!</strong>
+    · Kerjakan seperti ujian sungguhan — tanpa buka catatan<br>
+    · Setiap mapel ada batas waktu, timer hitung mundur<br>
+    · Pilih jawaban → geser jika mau ganti → tekan <strong>Lanjut</strong><br>
+    · Boleh lewati soal sulit, kerjakan yang lain dulu<br>
+    · Evaluasi muncul setelah setiap mapel selesai
+  </div>
+
+  <div class="card">
+    <div class="card-title">📅 Urutan Ujian</div>
+    <div class="mapel-item" style="background:rgba(16,185,129,.06);border-color:rgba(16,185,129,.2);">
+      <div class="mi-left"><span style="font-size:20px;">🕌</span><div><div class="mi-name" style="color:var(--agama);">Agama Islam</div><div class="mi-info">10 soal · 15 menit</div></div></div>
+      <div class="mi-status status-belum" id="st-agama">Belum</div>
+    </div>
+    <div class="mapel-item" style="background:rgba(139,92,246,.06);border-color:rgba(139,92,246,.2);">
+      <div class="mi-left"><span style="font-size:20px;">🔬</span><div><div class="mi-name" style="color:var(--ipas);">IPAS</div><div class="mi-info">10 soal · 15 menit</div></div></div>
+      <div class="mi-status status-belum" id="st-ipas">Belum</div>
+    </div>
+    <div class="mapel-item" style="background:rgba(59,130,246,.06);border-color:rgba(59,130,246,.2);">
+      <div class="mi-left"><span style="font-size:20px;">🇮🇩</span><div><div class="mi-name" style="color:var(--pkn);">PKN</div><div class="mi-info">10 soal · 15 menit</div></div></div>
+      <div class="mi-status status-belum" id="st-pkn">Belum</div>
+    </div>
+    <div class="mapel-item" style="background:rgba(236,72,153,.06);border-color:rgba(236,72,153,.2);">
+      <div class="mi-left"><span style="font-size:20px;">📖</span><div><div class="mi-name" style="color:var(--bindo);">Bahasa Indonesia</div><div class="mi-info">10 soal · 15 menit</div></div></div>
+      <div class="mi-status status-belum" id="st-bindo">Belum</div>
+    </div>
+    <div class="mapel-item" style="background:rgba(249,115,22,.06);border-color:rgba(249,115,22,.2);">
+      <div class="mi-left"><span style="font-size:20px;">🔢</span><div><div class="mi-name" style="color:var(--mtk);">Matematika</div><div class="mi-info">10 soal · 20 menit</div></div></div>
+      <div class="mi-status status-belum" id="st-mtk">Belum</div>
+    </div>
+  </div>
+  <button class="btn btn-merah" onclick="mulaiSimulasi()">🎯 Mulai Simulasi Sekarang</button>
+</div>
+
+<!-- UJIAN -->
+<div id="sec-ujian" class="ujian-wrap">
+  <div class="ujian-header">
+    <div class="uh-mapel" id="uh-label">-</div>
+    <div class="uh-right">
+      <div class="uh-timer" id="uh-timer">15:00</div>
+      <div class="uh-soal" id="uh-soal">Soal 1/10</div>
+    </div>
+  </div>
+  <div class="ujian-progress"><div class="ujian-progress-fill" id="upfill" style="width:0%"></div></div>
+  <div class="ujian-body">
+    <div class="dot-strip" id="dot-strip"></div>
+    <div id="soal-box"></div>
+  </div>
+  <div class="ujian-footer">
+    <button class="btn btn-secondary" style="flex:0.45;margin:0;" onclick="lewati()">Lewati</button>
+    <button class="btn btn-primary" id="btn-lanjut" style="flex:1;margin:0;" onclick="lanjutSoal()" disabled>Lanjut →</button>
+  </div>
+</div>
+
+<!-- HASIL PER MAPEL -->
+<div id="sec-hm" class="hasil-wrap">
+  <div class="card">
+    <div class="card-title" id="hm-title" style="color:var(--accent);">Hasil</div>
+    <div class="hs-score">
+      <div class="hs-num" id="hm-num">-</div>
+      <div class="hs-label">dari 10 soal benar</div>
+      <div class="hs-verdict" id="hm-verdict"></div>
+      <div class="hs-waktu" id="hm-waktu"></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">❌ Pembahasan Soal Salah</div>
+    <div id="hm-salah"></div>
+  </div>
+  <button class="btn btn-primary" id="btn-next-mapel" onclick="lanjutMapel()" style="margin:0 16px;width:calc(100% - 32px);">Lanjut →</button>
+</div>
+
+<!-- HASIL AKHIR -->
+<div id="sec-final" class="final-wrap">
+  <div class="final-header">
+    <div style="font-size:12px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;">SIMULASI SELESAI</div>
+    <h2 style="font-size:22px;margin-top:4px;">📊 Rekap S01</h2>
+    <div class="rank-badge" id="rank-badge"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Skor per Mapel</div>
+    <div id="final-list"></div>
+    <div style="border-top:1px solid var(--border);margin-top:10px;padding-top:10px;display:flex;justify-content:space-between;align-items:center;">
+      <span style="font-weight:700;">TOTAL</span>
+      <span style="font-family:'Baloo 2',cursive;font-size:20px;font-weight:800;" id="final-total">-</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📋 Salin Hasil</div>
+    <div class="copy-area" id="copy-text"></div>
+    <div style="display:flex;gap:8px;margin-top:10px;">
+      <button class="btn btn-secondary" style="flex:1;margin:0;" onclick="copyHasil()">📋 Salin</button>
+      <button class="btn btn-cloud" id="btn-cloud" style="flex:1;margin:0;" onclick="triggerCloudSave()">☁️ Cloud</button>
+    </div>
+  </div>
+
+  <div class="card" style="background:rgba(74,222,128,.04);border-color:rgba(74,222,128,.15);">
+    <div style="font-size:14px;line-height:1.9;color:var(--text);">
+      🗓️ <strong>Jadwal Ujian Sungguhan:</strong><br>
+      Jumat 24 Apr → 🕌 Agama 08.00 · 🔬 IPAS 09.00 · 🇮🇩 PKN 10.00<br>
+      Sabtu 25 Apr → 📖 B.Indo 11.30<br>
+      Minggu 26 Apr → 🔢 MTK 11.30<br><br>
+      Rabu 22 Apr → 😴 Istirahat penuh<br>
+      Kamis 23 Apr → ✅ Cek perlengkapan, tidur cukup
+    </div>
+  </div>
+</div>
+
+<script>
+// =============================================
+// SOAL — 100% BARU, belum pernah dipakai
+// =============================================
+const SOAL = {
+
+agama: [
+  // Akidah
+  {s:'Sifat wajib Allah yang berarti "Maha Mengetahui" adalah...',
+   p:['Ilmu','Qudrat','Sama\'','Baqa\''],j:0,
+   t:'Ilmu = Maha Mengetahui. Qudrat = Maha Berkuasa. Sama\' = Maha Mendengar.'},
+  // Fiqih
+  {s:'Syarat sah shalat yang benar adalah...',
+   p:['Suci dari hadas, menghadap kiblat, masuk waktu','Muslim, berakal, dan berumur 10 tahun','Berwudhu dan membaca niat dalam hati','Suci dari najis dan memakai pakaian putih'],j:0,
+   t:'Syarat sah shalat: suci badan & pakaian, menghadap kiblat, masuk waktu, menutup aurat, suci dari hadas.'},
+  // Zakat
+  {s:'Orang yang WAJIB membayar zakat disebut...',
+   p:['Muzaki','Mustahik','Amil','Gharim'],j:0,
+   t:'Muzaki = pembayar zakat. Mustahik = penerima zakat. Amil = pengelola zakat.'},
+  // Puasa
+  {s:'Yang membatalkan puasa adalah...',
+   p:['Makan dan minum dengan sengaja','Berkumur-kumur saat wudhu','Tidur sepanjang hari','Menangis karena terharu'],j:0,
+   t:'Puasa batal jika: makan/minum sengaja, muntah sengaja, haid, berhubungan suami istri di siang hari.'},
+  // Haji
+  {s:'Rukun haji yang pertama kali dilakukan adalah...',
+   p:['Ihram','Wukuf','Tawaf','Sa\'i'],j:0,
+   t:'Urutan rukun haji: Ihram → Wukuf Arafah → Tawaf Ifadhah → Sa\'i → Tahallul → Tertib.'},
+  // Akhlak
+  {s:'Perilaku yang mencerminkan sifat qana\'ah adalah...',
+   p:['Bersyukur dan puas dengan rezeki yang dimiliki','Selalu meminta lebih dari yang dibutuhkan','Iri dengan kekayaan orang lain','Tidak mau bekerja keras'],j:0,
+   t:'Qana\'ah = menerima dan bersyukur atas rezeki yang ada, tanpa mengurangi semangat bekerja.'},
+  // Sejarah Islam
+  {s:'Kota yang menjadi tujuan hijrah Nabi Muhammad SAW adalah...',
+   p:['Madinah','Mekkah','Thaif','Yaman'],j:0,
+   t:'Hijrah dilakukan dari Mekkah ke Madinah (dahulu bernama Yatsrib) pada tahun 622 M.'},
+  // Al-Quran
+  {s:'Surah pertama dalam Al-Qur\'an adalah...',
+   p:['Al-Fatihah','Al-Baqarah','Al-Ikhlas','An-Nas'],j:0,
+   t:'Al-Fatihah adalah surah pertama, terdiri dari 7 ayat, disebut juga Ummul Kitab.'},
+  // Ibadah khusus
+  {s:'Dalam shalat jenazah, setelah takbir ketiga dibaca...',
+   p:['Doa untuk jenazah','Al-Fatihah','Shalawat Nabi','Tasyahud'],j:0,
+   t:'Takbir 1→Al-Fatihah, Takbir 2→Shalawat, Takbir 3→Doa jenazah, Takbir 4→Salam.'},
+  // Wudhu
+  {s:'Yang TIDAK termasuk rukun wudhu adalah...',
+   p:['Membasuh telinga','Niat','Membasuh wajah','Membasuh tangan hingga siku'],j:0,
+   t:'Membasuh telinga adalah sunnah wudhu, bukan rukun. Rukun wudhu ada 6: niat, wajah, tangan, sebagian kepala, kaki, tertib.'},
+],
+
+ipas: [
+  // Fisika
+  {s:'Energi yang dimiliki benda karena gerakannya disebut...',
+   p:['Energi kinetik','Energi potensial','Energi kimia','Energi listrik'],j:0,
+   t:'Energi kinetik = energi gerak. Energi potensial = energi simpanan (posisi/bentuk).'},
+  // Fisika
+  {s:'Alat yang mengubah energi listrik menjadi energi gerak adalah...',
+   p:['Motor listrik','Generator','Transformator','Aki'],j:0,
+   t:'Motor listrik mengubah listrik→gerak. Generator kebalikannya: gerak→listrik.'},
+  // Makhluk hidup
+  {s:'Hewan yang berkembang biak dengan cara melahirkan disebut...',
+   p:['Vivipar','Ovipar','Ovovivipar','Fragmentasi'],j:0,
+   t:'Vivipar = melahirkan (sapi, kucing). Ovipar = bertelur (ayam, ikan). Ovovivipar = telur berkembang dalam tubuh induk.'},
+  // Tumbuhan
+  {s:'Proses tumbuhan membuat makanan sendiri dengan bantuan sinar matahari disebut...',
+   p:['Fotosintesis','Respirasi','Transpirasi','Fermentasi'],j:0,
+   t:'Fotosintesis: CO₂ + H₂O + cahaya matahari → glukosa + O₂. Terjadi di klorofil.'},
+  // Tubuh manusia
+  {s:'Organ yang berfungsi menyaring darah dan menghasilkan urine adalah...',
+   p:['Ginjal','Hati','Paru-paru','Jantung'],j:0,
+   t:'Ginjal menyaring darah dan menghasilkan urine. Hati menghasilkan empedu dan menetralkan racun.'},
+  // Tubuh manusia
+  {s:'Sistem pencernaan yang bertugas menyerap sari-sari makanan adalah...',
+   p:['Usus halus','Usus besar','Lambung','Kerongkongan'],j:0,
+   t:'Usus halus menyerap sari makanan. Usus besar menyerap air dan membentuk feses.'},
+  // Ekosistem
+  {s:'Hubungan dua makhluk hidup yang saling menguntungkan disebut...',
+   p:['Mutualisme','Parasitisme','Komensalisme','Predasi'],j:0,
+   t:'Mutualisme = saling untung (lebah & bunga). Parasitisme = satu untung, satu rugi. Komensalisme = satu untung, satu tidak rugi.'},
+  // Lingkungan
+  {s:'Lapisan bumi dari dalam ke luar yang benar adalah...',
+   p:['Inti bumi → mantel → kerak bumi','Kerak bumi → mantel → inti bumi','Mantel → inti bumi → kerak bumi','Inti bumi → kerak bumi → mantel'],j:0,
+   t:'Dari dalam ke luar: inti bumi (inner & outer core) → mantel → kerak bumi.'},
+  // Materi
+  {s:'Air berubah dari cair menjadi gas disebut...',
+   p:['Penguapan (evaporasi)','Pengembunan (kondensasi)','Pembekuan','Peleburan'],j:0,
+   t:'Evaporasi = cair→gas. Kondensasi = gas→cair. Pembekuan = cair→padat. Peleburan = padat→cair.'},
+  // Bumi & alam semesta
+  {s:'Planet yang paling dekat dengan Matahari adalah...',
+   p:['Merkurius','Venus','Bumi','Mars'],j:0,
+   t:'Urutan planet dari Matahari: Merkurius, Venus, Bumi, Mars, Jupiter, Saturnus, Uranus, Neptunus.'},
+],
+
+pkn: [
+  // UUD
+  {s:'Amandemen UUD 1945 dilakukan sebanyak...',
+   p:['4 kali','2 kali','3 kali','5 kali'],j:0,
+   t:'UUD 1945 diamandemen 4 kali: 1999, 2000, 2001, 2002.'},
+  // UUD
+  {s:'Pembukaan UUD 1945 alinea keempat berisi...',
+   p:['Tujuan negara dan dasar negara Pancasila','Pernyataan kemerdekaan Indonesia','Pengakuan penjajahan bertentangan dengan hak asasi','Pernyataan bahwa kemerdekaan adalah hak segala bangsa'],j:0,
+   t:'Alinea 1: hak segala bangsa. Alinea 2: cita-cita. Alinea 3: pernyataan merdeka. Alinea 4: tujuan negara & Pancasila.'},
+  // UUD
+  {s:'Pasal UUD 1945 yang mengatur tentang perekonomian nasional dan sumber daya alam adalah...',
+   p:['Pasal 33','Pasal 31','Pasal 34','Pasal 32'],j:0,
+   t:'Pasal 33 → perekonomian nasional & SDA dikuasai negara untuk kemakmuran rakyat.'},
+  // Pancasila
+  {s:'Sila keempat Pancasila berbunyi...',
+   p:['Kerakyatan yang dipimpin oleh hikmat kebijaksanaan dalam permusyawaratan/perwakilan','Persatuan Indonesia','Kemanusiaan yang adil dan beradab','Keadilan sosial bagi seluruh rakyat Indonesia'],j:0,
+   t:'Sila 4 = Kerakyatan yang dipimpin oleh hikmat kebijaksanaan dalam permusyawaratan/perwakilan.'},
+  // Lembaga negara
+  {s:'Lembaga negara yang bertugas mengawasi keuangan negara dan bersifat independen adalah...',
+   p:['BPK','DPR','MA','Kemenkeu'],j:0,
+   t:'BPK (Badan Pemeriksa Keuangan) bersifat independen, mengaudit keuangan negara.'},
+  // Lembaga negara
+  {s:'Presiden dan Wakil Presiden dipilih secara langsung oleh rakyat sejak...',
+   p:['Pemilu 2004','Pemilu 1999','Pemilu 2009','Pemilu 1998'],j:0,
+   t:'Sejak Pemilu 2004, Presiden dan Wapres dipilih langsung oleh rakyat, bukan lagi oleh MPR.'},
+  // Hak & kewajiban
+  {s:'Yang termasuk kewajiban warga negara Indonesia adalah...',
+   p:['Membayar pajak','Mendapat perlindungan hukum','Mendapat pendidikan','Berpendapat secara bebas'],j:0,
+   t:'Membayar pajak adalah kewajiban. Mendapat pendidikan, perlindungan, berpendapat = hak warga negara.'},
+  // Demokrasi
+  {s:'Musyawarah untuk mencapai mufakat merupakan ciri demokrasi...',
+   p:['Pancasila','Liberal','Terpimpin','Parlementer'],j:0,
+   t:'Demokrasi Pancasila mengedepankan musyawarah mufakat sesuai nilai-nilai Pancasila.'},
+  // Keberagaman
+  {s:'Semangat persatuan dalam keberagaman suku, agama, dan budaya disebut...',
+   p:['Integrasi nasional','Disintegrasi','Chauvinisme','Primordialisme'],j:0,
+   t:'Integrasi nasional = penyatuan berbagai kelompok menjadi satu kesatuan bangsa.'},
+  // Konstitusi
+  {s:'Kedaulatan berada di tangan rakyat dan dilaksanakan menurut UUD. Hal ini diatur dalam...',
+   p:['Pasal 1 ayat 2','Pasal 1 ayat 1','Pasal 1 ayat 3','Pasal 2 ayat 1'],j:0,
+   t:'Pasal 1 ayat 1: Indonesia adalah negara kesatuan berbentuk republik. Pasal 1 ayat 2: kedaulatan di tangan rakyat. Pasal 1 ayat 3: negara hukum.'},
+],
+
+bindo: [
+  // Membaca
+  {s:'Ide pokok paragraf biasanya terdapat pada...',
+   p:['Kalimat utama','Kalimat penjelas','Kalimat penutup','Judul teks'],j:0,
+   t:'Ide pokok = gagasan utama paragraf, biasanya di kalimat utama (awal atau akhir paragraf).'},
+  // EYD
+  {s:'Penulisan yang benar untuk nama gelar adalah...',
+   p:['Prof. Dr. Hendra, M.Pd.','Prof Dr Hendra Mpd','prof. dr. hendra, m.pd.','PROF. DR. HENDRA, M.PD.'],j:0,
+   t:'Gelar akademik ditulis dengan huruf kapital di awal, diikuti titik. Contoh: Prof. Dr. Hendra, M.Pd.'},
+  // Kosakata
+  {s:'Antonim kata "rajin" adalah...',
+   p:['Malas','Tekun','Giat','Aktif'],j:0,
+   t:'Antonim = lawan kata. Antonim rajin = malas. Sinonim rajin = tekun, giat.'},
+  // Tata bahasa
+  {s:'Kalimat aktif yang benar adalah...',
+   p:['Musa membaca novel itu dengan serius.','Novel itu dibaca oleh Musa dengan serius.','Novel itu sedang dibaca Musa.','Sedang dibaca novel itu oleh Musa.'],j:0,
+   t:'Kalimat aktif: subjek melakukan pekerjaan (Musa membaca). Kalimat pasif: subjek dikenai pekerjaan (Novel dibaca oleh Musa).'},
+  // Jenis teks
+  {s:'Teks yang bertujuan untuk memengaruhi pembaca agar setuju dengan pendapat penulis disebut...',
+   p:['Teks persuasi','Teks narasi','Teks deskripsi','Teks eksposisi'],j:0,
+   t:'Persuasi = memengaruhi/membujuk. Narasi = cerita. Deskripsi = penggambaran. Eksposisi = penjelasan.'},
+  // Sastra
+  {s:'Puisi yang terdiri dari 4 baris dan bersajak a-b-a-b disebut...',
+   p:['Syair bukan, ini pantun','Pantun','Gurindam','Haiku'],j:1,
+   t:'Pantun: 4 baris, 2 baris sampiran + 2 baris isi, bersajak a-b-a-b. Syair: 4 baris, semua isi, a-a-a-a.'},
+  // Peribahasa
+  {s:'Peribahasa "ada udang di balik batu" berarti...',
+   p:['Ada maksud tersembunyi di balik sebuah tindakan','Seseorang yang hidup di tepi sungai','Bekerja keras tanpa hasil','Beruntung menemukan sesuatu yang berharga'],j:0,
+   t:'"Ada udang di balik batu" = ada niat/maksud tersembunyi di balik suatu perbuatan atau ucapan.'},
+  // Tata bahasa
+  {s:'Imbuhan "ke-an" dalam kata "keindahan" bermakna...',
+   p:['Hal atau sifat yang bersifat indah','Melakukan sesuatu yang indah','Menjadi indah','Membuat menjadi indah'],j:0,
+   t:'"ke-an" menyatakan hal/sifat: keindahan = hal yang indah, kejujuran = hal yang jujur.'},
+  // Kosakata
+  {s:'Sinonim kata "cerdas" adalah...',
+   p:['Pandai','Bodoh','Lambat','Lemah'],j:0,
+   t:'Sinonim = persamaan kata. Sinonim cerdas: pandai, pintar, brilian, jenius.'},
+  // Ejaan
+  {s:'Penulisan kalimat yang menggunakan tanda baca dengan benar adalah...',
+   p:['Ibu membeli apel, mangga, dan jeruk di pasar.','Ibu membeli apel mangga dan jeruk di pasar.','Ibu membeli apel, mangga dan jeruk, di pasar.','Ibu membeli: apel, mangga, dan jeruk di pasar.'],j:0,
+   t:'Tanda koma dipakai untuk memisahkan unsur-unsur dalam suatu perincian.'},
+],
+
+mtk: [
+  // Persentase
+  {s:'Harga sepatu Rp160.000 didiskon 25%. Harga setelah diskon adalah...',
+   p:['Rp120.000','Rp40.000','Rp140.000','Rp200.000'],j:0,
+   t:'Diskon = 25% × 160.000 = 40.000. Harga setelah diskon = 160.000 - 40.000 = 120.000.'},
+  // Persentase
+  {s:'Modal Rp500.000 dijual dengan keuntungan 20%. Harga jual adalah...',
+   p:['Rp600.000','Rp100.000','Rp520.000','Rp400.000'],j:0,
+   t:'Untung = 20% × 500.000 = 100.000. Harga jual = 500.000 + 100.000 = 600.000.'},
+  // FPB & KPK
+  {s:'Lampu A menyala setiap 4 menit, Lampu B setiap 6 menit. Keduanya menyala bersama setiap...',
+   p:['12 menit','10 menit','24 menit','8 menit'],j:0,
+   t:'KPK(4,6) = 12. Keduanya menyala bersama setiap 12 menit.'},
+  // Bangun datar
+  {s:'Sebuah persegi panjang panjang 15 cm, lebar 8 cm. Kelilingnya adalah...',
+   p:['46 cm','23 cm','120 cm','92 cm'],j:0,
+   t:'Keliling persegi panjang = 2×(p+l) = 2×(15+8) = 2×23 = 46 cm.'},
+  // Bangun datar
+  {s:'Luas segitiga dengan alas 12 cm dan tinggi 9 cm adalah...',
+   p:['54 cm²','108 cm²','21 cm²','42 cm²'],j:0,
+   t:'Luas segitiga = ½ × alas × tinggi = ½ × 12 × 9 = 54 cm².'},
+  // Bangun ruang
+  {s:'Volume balok dengan p=10cm, l=6cm, t=5cm adalah...',
+   p:['300 cm³','110 cm³','150 cm³','600 cm³'],j:0,
+   t:'Volume balok = p × l × t = 10 × 6 × 5 = 300 cm³.'},
+  // Bangun ruang
+  {s:'Luas permukaan balok dengan p=8cm, l=5cm, t=4cm adalah...',
+   p:['184 cm²','160 cm²','92 cm²','320 cm³'],j:0,
+   t:'LP balok = 2×(pl+pt+lt) = 2×(40+32+20) = 2×92 = 184 cm².'},
+  // Statistika
+  {s:'Nilai ulangan 5 siswa: 70, 80, 90, 60, 75. Rata-ratanya adalah...',
+   p:['75','70','80','72'],j:0,
+   t:'Rata-rata = (70+80+90+60+75) ÷ 5 = 375 ÷ 5 = 75.'},
+  // Pecahan
+  {s:'Hasil dari 2/7 × 14/6 dalam bentuk paling sederhana adalah...',
+   p:['2/3','28/42','4/6','1/3'],j:0,
+   t:'2/7 × 14/6 = 28/42. Sederhanakan: 28÷14=2, 42÷14=3 → 2/3.'},
+  // Desimal
+  {s:'Urutan dari terkecil: 0,6 · 3/5 · 0,55 · 7/10 adalah...',
+   p:['0,55 · 3/5 · 0,6 · 7/10','3/5 · 0,55 · 0,6 · 7/10','0,6 · 0,55 · 3/5 · 7/10','7/10 · 0,6 · 3/5 · 0,55'],j:0,
+   t:'Samakan: 0,6 = 6/10, 3/5 = 6/10 = 0,6, 0,55, 7/10 = 0,7. Urutan: 0,55 < 0,6 = 3/5 < 0,7.'},
+],
+};
+
+// =============================================
+// CONFIG & STATE
+// =============================================
+const BIN_ID='69e1c0be856a682189426a62';
+const MASTER_KEY='$2a$10$oy4tEjR4sFv28R88pk1IIeTteR7a6ICjH.jB4pB13Yml8AYTT0XlW';
+const API_URL=`https://api.jsonbin.io/v3/b/${BIN_ID}`;
+
+const URUTAN=['agama','ipas','pkn','bindo','mtk'];
+const LABEL={agama:'🕌 Agama Islam',ipas:'🔬 IPAS',pkn:'🇮🇩 PKN',bindo:'📖 Bahasa Indonesia',mtk:'🔢 Matematika'};
+const WARNA={agama:'var(--agama)',ipas:'var(--ipas)',pkn:'var(--pkn)',bindo:'var(--bindo)',mtk:'var(--mtk)'};
+const DURASI={agama:15,ipas:15,pkn:15,bindo:15,mtk:20};
+
+let mapelIdx=0, soalIdx=0, selectedNow=null;
+let soalShuffled=[], answers=[], timerSec=0, timerInt=null;
+let hasilSemua={}, _global={};
+
+function shuffle(arr){
+  return arr.map(q=>{
+    const bt=q.p[q.j];
+    const sp=[...q.p].sort(()=>Math.random()-0.5);
+    return{...q,p:sp,j:sp.indexOf(bt)};
+  });
+}
+function fmtTime(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+
+function show(id){
+  ['sec-intro','sec-ujian','sec-hm','sec-final'].forEach(s=>{
+    const el=document.getElementById(s);
+    if(el){el.style.display='none';el.classList&&el.classList.remove('active');}
+  });
+  const t=document.getElementById(id);
+  if(t){t.style.display=id==='sec-ujian'?'flex':'block';t.classList&&t.classList.add('active');}
+  window.scrollTo(0,0);
+}
+
+function mulaiSimulasi(){mapelIdx=0;mulaiMapel();}
+
+function mulaiMapel(){
+  const m=URUTAN[mapelIdx];
+  soalShuffled=shuffle(SOAL[m]);
+  answers=[];soalIdx=0;selectedNow=null;
+  timerSec=DURASI[m]*60;
+
+  show('sec-ujian');
+  document.getElementById('uh-label').textContent=LABEL[m];
+  document.getElementById('uh-label').style.color=WARNA[m];
+  document.getElementById('upfill').style.background=WARNA[m];
+
+  // dots
+  document.getElementById('dot-strip').innerHTML=
+    soalShuffled.map((_,i)=>`<div class="dot ${i===0?'current':''}" id="d${i}"></div>`).join('');
+
+  renderSoal();
+  startTimer(m);
+}
+
+function startTimer(m){
+  clearInterval(timerInt);
+  updateTimer();
+  timerInt=setInterval(()=>{
+    timerSec--;updateTimer();
+    if(timerSec<=0){clearInterval(timerInt);autoFinish();}
+  },1000);
+}
+
+function updateTimer(){
+  const el=document.getElementById('uh-timer');
+  el.textContent=fmtTime(timerSec);
+  el.className='uh-timer'+(timerSec<=120?' danger':timerSec<=300?' warning':'');
+}
+
+function autoFinish(){
+  if(selectedNow===null)answers.push(-1);else answers.push(selectedNow);
+  while(answers.length<soalShuffled.length)answers.push(-1);
+  tampilHasilMapel();
+}
+
+function updateDots(){
+  const prev=document.getElementById(`d${soalIdx-1}`);if(prev)prev.className='dot done';
+  const cur=document.getElementById(`d${soalIdx}`);if(cur)cur.className='dot current';
+}
+
+function renderSoal(){
+  const q=soalShuffled[soalIdx];
+  selectedNow=null;
+  document.getElementById('btn-lanjut').disabled=true;
+  document.getElementById('uh-soal').textContent=`Soal ${soalIdx+1}/10`;
+  document.getElementById('upfill').style.width=`${((soalIdx+1)/10)*100}%`;
+  const m=URUTAN[mapelIdx];
+  document.getElementById('soal-box').innerHTML=`
+    <div style="font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">SOAL ${soalIdx+1}</div>
+    <div class="soal-text">${q.s}</div>
+    <div class="pilihan-list">
+      ${q.p.map((p,i)=>`
+        <div class="pilihan" id="pl${i}" onclick="pilih(${i})">
+          <div class="huruf" id="hl${i}">${['A','B','C','D'][i]}</div>
+          <span>${p}</span>
+        </div>`).join('')}
+    </div>`;
+  window.scrollTo(0,0);
+}
+
+function pilih(idx){
+  selectedNow=idx;
+  const m=URUTAN[mapelIdx];
+  document.querySelectorAll('.pilihan').forEach((el,i)=>{
+    el.classList.toggle('selected',i===idx);
+    const h=document.getElementById(`hl${i}`);
+    if(h){h.style.background=i===idx?WARNA[m]:'';h.style.color=i===idx?'#0a0d14':'';}
+  });
+  document.getElementById('btn-lanjut').disabled=false;
+}
+
+function lewati(){
+  answers.push(-1);
+  const prev=document.getElementById(`d${soalIdx}`);if(prev)prev.className='dot done';
+  soalIdx++;
+  if(soalIdx<soalShuffled.length){updateDots();renderSoal();}
+  else{clearInterval(timerInt);tampilHasilMapel();}
+}
+
+function lanjutSoal(){
+  if(selectedNow===null)return;
+  answers.push(selectedNow);
+  const prev=document.getElementById(`d${soalIdx}`);if(prev)prev.className='dot done';
+  soalIdx++;
+  if(soalIdx<soalShuffled.length){updateDots();renderSoal();}
+  else{clearInterval(timerInt);tampilHasilMapel();}
+}
+
+function tampilHasilMapel(){
+  const m=URUTAN[mapelIdx];
+  const benar=answers.filter((a,i)=>a===soalShuffled[i].j).length;
+  const pct=Math.round(benar/soalShuffled.length*100);
+  const waktuTerpakai=fmtTime(DURASI[m]*60-timerSec);
+  hasilSemua[m]={benar,total:10,pct,waktu:waktuTerpakai,soal:[...soalShuffled],ans:[...answers]};
+
+  const st=document.getElementById(`st-${m}`);
+  if(st){st.textContent=`${benar}/10`;st.className='mi-status status-selesai';}
+
+  show('sec-hm');
+  document.getElementById('hm-title').textContent=LABEL[m];
+  document.getElementById('hm-title').style.color=WARNA[m];
+  document.getElementById('hm-num').textContent=`${benar}/10`;
+  document.getElementById('hm-num').style.color=pct>=75?'var(--green)':pct>=60?'var(--gold)':'var(--red)';
+  document.getElementById('hm-verdict').textContent=pct>=75?'✅ Lulus!':'❌ Perlu diperkuat';
+  document.getElementById('hm-verdict').style.color=pct>=75?'var(--green)':'var(--red)';
+  document.getElementById('hm-waktu').textContent=`Waktu terpakai: ${waktuTerpakai}`;
+
+  const salah=soalShuffled.filter((_,i)=>answers[i]!==soalShuffled[i].j);
+  document.getElementById('hm-salah').innerHTML=salah.length===0
+    ?'<div style="color:var(--green);font-size:14px;">🎉 Semua benar!</div>'
+    :salah.map(q=>{
+      const i=soalShuffled.indexOf(q);
+      return`<div class="salah-item">
+        <div class="si-q">${q.s}</div>
+        <div class="si-a">→ Jawab: ${answers[i]===-1?'(dilewati)':q.p[answers[i]]}</div>
+        <div class="si-b">→ Benar: ${q.p[q.j]}</div>
+        <div class="si-tip">${q.t}</div>
+      </div>`;
+    }).join('');
+
+  const isLast=mapelIdx===URUTAN.length-1;
+  const btn=document.getElementById('btn-next-mapel');
+  btn.textContent=isLast?'🏁 Lihat Rekap Akhir':'Lanjut Mapel Berikutnya →';
+  btn.className=`btn ${isLast?'btn-green':'btn-primary'}`;
+}
+
+function lanjutMapel(){
+  if(mapelIdx<URUTAN.length-1){mapelIdx++;mulaiMapel();}
+  else tampilFinal();
+}
+
+function tampilFinal(){
+  show('sec-final');
+  const ml=URUTAN;
+  const lbl=LABEL;const warna=WARNA;
+  let totalBenar=0,totalSoal=0;
+  let html='';let dataMapel=[];
+
+  ml.forEach(m=>{
+    const h=hasilSemua[m]||{benar:0,total:10,pct:0,waktu:'-'};
+    totalBenar+=h.benar;totalSoal+=h.total;
+    const icon=h.pct>=75?'✅':h.pct>=60?'⚠️':'❌';
+    html+=`<div class="mfr">
+      <span class="mfr-left">${lbl[m]}</span>
+      <div class="mfr-bar"><div class="mfr-fill" style="width:${h.pct}%;background:${warna[m]};"></div></div>
+      <span class="mfr-right" style="color:${warna[m]}">${icon} ${h.benar}/10</span>
+    </div>`;
+    dataMapel.push({m:lbl[m],benar:h.benar,pct:h.pct,waktu:h.waktu});
+  });
+
+  document.getElementById('final-list').innerHTML=html;
+  const pctTotal=Math.round(totalBenar/totalSoal*100);
+  const col=pctTotal>=75?'var(--green)':pctTotal>=60?'var(--gold)':'var(--red)';
+  document.getElementById('final-total').textContent=`${totalBenar}/${totalSoal} (${pctTotal}%)`;
+  document.getElementById('final-total').style.color=col;
+
+  const rank=pctTotal>=90?'🏆 Sangat Siap!':pctTotal>=80?'⭐ Siap Ujian!':pctTotal>=75?'✅ Cukup Siap':pctTotal>=60?'⚠️ Perlu Review':'❌ Butuh Perhatian';
+  const rb=document.getElementById('rank-badge');
+  rb.textContent=rank;rb.style.color=col;
+  rb.style.background=pctTotal>=75?'rgba(74,222,128,.1)':'rgba(251,191,36,.1)';
+  rb.style.border=`1px solid ${col}`;
+
+  const copyStr=`📊 HASIL S01 — SIMULASI FINAL UPK PAKET A
+Musa Brahma Batubara · 20 April 2026
+PKBM Piwulang Becik Salatiga
+──────────────────────────────────────────────────
+
+SKOR TOTAL : ${totalBenar}/${totalSoal} (${pctTotal}%)
+STATUS     : ${pctTotal>=75?'✅ TARGET TERCAPAI':'❌ BELUM TERCAPAI'}
+
+SKOR & WAKTU PER MAPEL:
+${dataMapel.map(d=>`  ${d.m}: ${d.benar}/10 (${d.pct}%) ⏱${d.waktu}`).join('\n')}
+
+SOAL SALAH PER MAPEL:
+${URUTAN.map(m=>{
+  const h=hasilSemua[m];if(!h)return'';
+  const salah=h.soal.filter((_,i)=>h.ans[i]!==h.soal[i].j);
+  if(salah.length===0)return`  ${LABEL[m]}: Semua benar ✅`;
+  return`  ${LABEL[m]}:\n${salah.map(q=>{
+    const i=h.soal.indexOf(q);
+    return`    - ${q.s}\n      → Jawab: ${h.ans[i]===-1?'(dilewati)':q.p[h.ans[i]]} | Benar: ${q.p[q.j]}`;
+  }).join('\n')}`;
+}).join('\n')}
+
+──────────────────────────────────────────────────
+📌 Jadwal Ujian:
+H01 Jumat  24 Apr · Agama 08.00 · IPAS 09.00 · PKN 10.00
+H02 Sabtu  25 Apr · B.Indo 11.30
+H03 Minggu 26 Apr · MTK 11.30`;
+
+  document.getElementById('copy-text').textContent=copyStr;
+  _global={totalBenar,totalSoal,pctTotal,dataMapel};
+}
+
+function copyHasil(){
+  navigator.clipboard.writeText(document.getElementById('copy-text').textContent).then(()=>{
+    const b=document.querySelector('.btn-secondary');
+    b.textContent='✅ Tersalin!';setTimeout(()=>b.textContent='📋 Salin',2000);
+  });
+}
+
+async function triggerCloudSave(){
+  const btn=document.getElementById('btn-cloud');
+  btn.textContent='☁️ Menyimpan...';btn.disabled=true;
+  const{totalBenar,totalSoal,pctTotal,dataMapel}=_global;
+  const data={tanggal:'20 April 2026',sesi:'S01',skorTotal:totalBenar,totalSoal,pct:pctTotal,targetTercapai:pctTotal>=75,mapel:dataMapel};
+  try{
+    const ex=await fetch(API_URL+'/latest',{headers:{'X-Master-Key':MASTER_KEY}}).then(r=>r.json()).then(d=>d.record||{});
+    const res=await fetch(API_URL,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':MASTER_KEY},body:JSON.stringify({...ex,'S01':data})});
+    if(res.ok){btn.textContent='✅ Tersimpan!';btn.style.background='var(--green)';btn.style.color='#0a0d14';}
+    else throw new Error();
+  }catch{btn.textContent='❌ Gagal';btn.disabled=false;}
+}
+</script>
+</body>
+</html>
