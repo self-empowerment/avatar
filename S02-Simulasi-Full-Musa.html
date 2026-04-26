@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S02 — Simulasi Full UPK · Musa Brahma Batubara</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Nunito:wght@400;600;700&display=swap');
+  :root {
+    --bg:#0a0d14;--card:#131720;--card2:#1a1f2e;
+    --accent:#a78bfa;--accent2:#60a5fa;
+    --green:#4ade80;--red:#f87171;--gold:#fbbf24;
+    --text:#e8eaf0;--muted:#6b7280;--border:#1f2535;
+    --mtk:#f97316;--pkn:#3b82f6;--agama:#10b981;--ipas:#8b5cf6;--bindo:#ec4899;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;}
+  h1,h2,h3{font-family:'Baloo 2',cursive;}
+  .intro-wrap{padding:20px 16px 40px;}
+  .intro-header{text-align:center;padding:24px 0 16px;}
+  .intro-header .kode{font-family:'Baloo 2',cursive;font-size:12px;color:var(--red);letter-spacing:4px;text-transform:uppercase;margin-bottom:6px;}
+  .intro-header h1{font-size:28px;font-weight:800;}
+  .intro-header .sub{color:var(--muted);font-size:13px;margin-top:6px;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:12px;}
+  .card-title{font-family:'Baloo 2',cursive;font-size:15px;color:var(--muted);margin-bottom:12px;text-transform:uppercase;letter-spacing:1px;}
+  .mapel-item{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;margin-bottom:6px;border:1px solid var(--border);}
+  .mapel-item:last-child{margin-bottom:0;}
+  .mi-left{display:flex;align-items:center;gap:10px;}
+  .mi-name{font-weight:700;font-size:15px;}
+  .mi-info{font-size:12px;color:var(--muted);margin-top:1px;}
+  .mi-status{font-size:12px;font-weight:700;padding:3px 10px;border-radius:20px;}
+  .status-belum{background:rgba(107,114,128,.15);color:var(--muted);}
+  .status-selesai{background:rgba(74,222,128,.12);color:var(--green);}
+  .aturan-box{background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.2);border-radius:10px;padding:14px;margin-bottom:16px;font-size:13px;color:var(--gold);line-height:1.9;}
+  .btn{width:100%;padding:14px;border-radius:12px;border:none;font-family:'Baloo 2',cursive;font-size:16px;font-weight:700;cursor:pointer;transition:all 0.2s;}
+  .btn:disabled{opacity:0.35;cursor:not-allowed;}
+  .btn-merah{background:var(--red);color:#0a0d14;}
+  .btn-primary{background:var(--accent);color:#0a0d14;}
+  .btn-secondary{background:var(--card2);color:var(--text);border:1px solid var(--border);}
+  .btn-cloud{background:#1e40af;color:#fff;}
+  .btn-green{background:var(--green);color:#0a0d14;}
+  .ujian-wrap{display:none;flex-direction:column;min-height:100vh;}
+  .ujian-wrap.active{display:flex;}
+  .ujian-header{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--card);position:sticky;top:0;z-index:10;}
+  .uh-mapel{font-family:'Baloo 2',cursive;font-size:16px;font-weight:700;}
+  .uh-right{text-align:right;}
+  .uh-timer{font-family:'Baloo 2',cursive;font-size:20px;font-weight:800;color:var(--accent2);}
+  .uh-timer.warning{color:var(--gold);}
+  .uh-timer.danger{color:var(--red);animation:blink 1s infinite;}
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:0.4;}}
+  .uh-soal{font-size:12px;color:var(--muted);}
+  .ujian-progress{height:3px;background:var(--border);}
+  .ujian-progress-fill{height:100%;transition:width 0.3s;}
+  .ujian-body{flex:1;padding:16px;padding-bottom:90px;}
+  .dot-strip{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:14px;}
+  .dot{width:10px;height:10px;border-radius:2px;background:var(--border);}
+  .dot.current{background:var(--accent);}
+  .dot.done{background:rgba(107,114,128,.25);}
+  .soal-text{font-size:16px;font-weight:600;line-height:1.6;margin-bottom:16px;}
+  .pilihan-list{display:flex;flex-direction:column;gap:8px;}
+  .pilihan{background:var(--card2);border:2px solid var(--border);border-radius:10px;padding:12px 14px;cursor:pointer;font-size:15px;font-weight:600;transition:all 0.15s;display:flex;align-items:center;gap:10px;}
+  .pilihan:active{transform:scale(0.98);}
+  .pilihan.selected{border-color:var(--accent);background:rgba(167,139,250,.1);}
+  .pilihan .huruf{width:26px;height:26px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;transition:all 0.15s;}
+  .ujian-footer{position:fixed;bottom:0;left:0;right:0;padding:12px 16px;background:var(--bg);border-top:1px solid var(--border);display:flex;gap:8px;}
+  .hasil-wrap{display:none;padding:16px 16px 40px;}
+  .hasil-wrap.active{display:block;}
+  .hs-score{text-align:center;padding:20px 0;}
+  .hs-num{font-family:'Baloo 2',cursive;font-size:56px;font-weight:800;line-height:1;}
+  .hs-label{color:var(--muted);font-size:14px;margin-top:4px;}
+  .hs-verdict{font-family:'Baloo 2',cursive;font-size:18px;font-weight:700;margin-top:8px;}
+  .hs-waktu{font-size:13px;color:var(--muted);margin-top:4px;}
+  .salah-item{background:rgba(248,113,113,.05);border:1px solid rgba(248,113,113,.18);border-radius:8px;padding:10px 12px;margin-bottom:8px;font-size:13px;}
+  .si-q{color:var(--text);font-weight:600;margin-bottom:4px;}
+  .si-a{color:var(--red);}
+  .si-b{color:var(--green);}
+  .si-tip{color:var(--accent2);font-size:12px;margin-top:6px;line-height:1.6;}
+  .final-wrap{display:none;padding:16px 16px 40px;}
+  .final-wrap.active{display:block;}
+  .final-header{text-align:center;padding:20px 0 16px;}
+  .rank-badge{display:inline-block;padding:6px 20px;border-radius:20px;font-family:'Baloo 2',cursive;font-size:16px;font-weight:700;margin-top:8px;}
+  .mfr{background:var(--card);border-radius:10px;padding:12px 16px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;}
+  .mfr-left{font-weight:600;font-size:14px;}
+  .mfr-bar{flex:1;height:6px;background:var(--border);border-radius:3px;margin:0 12px;overflow:hidden;}
+  .mfr-fill{height:100%;border-radius:3px;}
+  .mfr-right{font-family:'Baloo 2',cursive;font-size:15px;font-weight:800;min-width:55px;text-align:right;}
+  .copy-area{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:14px;font-size:12px;font-family:monospace;color:var(--muted);white-space:pre-wrap;line-height:1.6;max-height:220px;overflow-y:auto;margin-top:10px;}
+</style>
+</head>
+<body>
+
+<!-- INTRO -->
+<div id="sec-intro" class="intro-wrap">
+  <div class="intro-header">
+    <div class="kode">🔴 S02 · Simulasi Full · UPK Paket A</div>
+    <h1>Simulasi Ujian Full</h1>
+    <div class="sub">Musa Brahma Batubara · 2026</div>
+  </div>
+  <div class="aturan-box">
+    <strong style="display:block;margin-bottom:4px;font-size:14px;">⚠️ Aturan — Baca dulu!</strong>
+    · 30 soal per mapel — mirip ujian asli<br>
+    · Timer hitung mundur tiap mapel<br>
+    · Pilih jawaban → geser jika mau ganti → tekan Lanjut<br>
+    · Boleh lewati soal sulit<br>
+    · Evaluasi muncul setelah tiap mapel
+  </div>
+  <div class="card">
+    <div class="card-title">📅 Urutan Ujian</div>
+    <div class="mapel-item" style="background:rgba(16,185,129,.06);border-color:rgba(16,185,129,.2);">
+      <div class="mi-left"><span style="font-size:20px;">🕌</span><div><div class="mi-name" style="color:var(--agama);">Agama Islam</div><div class="mi-info">30 soal · 45 menit</div></div></div>
+      <div class="mi-status status-belum" id="st-agama">Belum</div>
+    </div>
+    <div class="mapel-item" style="background:rgba(139,92,246,.06);border-color:rgba(139,92,246,.2);">
+      <div class="mi-left"><span style="font-size:20px;">🔬</span><div><div class="mi-name" style="color:var(--ipas);">IPAS</div><div class="mi-info">30 soal · 45 menit</div></div></div>
+      <div class="mi-status status-belum" id="st-ipas">Belum</div>
+    </div>
+    <div class="mapel-item" style="background:rgba(59,130,246,.06);border-color:rgba(59,130,246,.2);">
+      <div class="mi-left"><span style="font-size:20px;">🇮🇩</span><div><div class="mi-name" style="color:var(--pkn);">PKN</div><div class="mi-info">30 soal · 45 menit</div></div></div>
+      <div class="mi-status status-belum" id="st-pkn">Belum</div>
+    </div>
+    <div class="mapel-item" style="background:rgba(236,72,153,.06);border-color:rgba(236,72,153,.2);">
+      <div class="mi-left"><span style="font-size:20px;">📖</span><div><div class="mi-name" style="color:var(--bindo);">Bahasa Indonesia</div><div class="mi-info">30 soal · 45 menit</div></div></div>
+      <div class="mi-status status-belum" id="st-bindo">Belum</div>
+    </div>
+    <div class="mapel-item" style="background:rgba(249,115,22,.06);border-color:rgba(249,115,22,.2);">
+      <div class="mi-left"><span style="font-size:20px;">🔢</span><div><div class="mi-name" style="color:var(--mtk);">Matematika</div><div class="mi-info">30 soal · 60 menit</div></div></div>
+      <div class="mi-status status-belum" id="st-mtk">Belum</div>
+    </div>
+  </div>
+  <button class="btn btn-merah" onclick="mulaiSimulasi()">🎯 Mulai Simulasi</button>
+</div>
+
+<!-- UJIAN -->
+<div id="sec-ujian" class="ujian-wrap">
+  <div class="ujian-header">
+    <div class="uh-mapel" id="uh-label">-</div>
+    <div class="uh-right">
+      <div class="uh-timer" id="uh-timer">45:00</div>
+      <div class="uh-soal" id="uh-soal">Soal 1/30</div>
+    </div>
+  </div>
+  <div class="ujian-progress"><div class="ujian-progress-fill" id="upfill" style="width:0%"></div></div>
+  <div class="ujian-body">
+    <div class="dot-strip" id="dot-strip"></div>
+    <div id="soal-box"></div>
+  </div>
+  <div class="ujian-footer">
+    <button class="btn btn-secondary" style="flex:0.45;margin:0;" onclick="lewati()">Lewati</button>
+    <button class="btn btn-primary" id="btn-lanjut" style="flex:1;margin:0;" onclick="lanjutSoal()" disabled>Lanjut →</button>
+  </div>
+</div>
+
+<!-- HASIL PER MAPEL -->
+<div id="sec-hm" class="hasil-wrap">
+  <div class="card">
+    <div class="card-title" id="hm-title" style="color:var(--accent);">Hasil</div>
+    <div class="hs-score">
+      <div class="hs-num" id="hm-num">-</div>
+      <div class="hs-label" id="hm-label">dari 30 soal benar</div>
+      <div class="hs-verdict" id="hm-verdict"></div>
+      <div class="hs-waktu" id="hm-waktu"></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">❌ Pembahasan Soal Salah</div>
+    <div id="hm-salah"></div>
+  </div>
+  <button class="btn btn-primary" id="btn-next-mapel" onclick="lanjutMapel()" style="margin:0 16px;width:calc(100% - 32px);">Lanjut →</button>
+</div>
+
+<!-- HASIL AKHIR -->
+<div id="sec-final" class="final-wrap">
+  <div class="final-header">
+    <div style="font-size:12px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;">SIMULASI SELESAI</div>
+    <h2 style="font-size:22px;margin-top:4px;">📊 Rekap S02</h2>
+    <div class="rank-badge" id="rank-badge"></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Skor per Mapel</div>
+    <div id="final-list"></div>
+    <div style="border-top:1px solid var(--border);margin-top:10px;padding-top:10px;display:flex;justify-content:space-between;align-items:center;">
+      <span style="font-weight:700;">TOTAL</span>
+      <span style="font-family:'Baloo 2',cursive;font-size:20px;font-weight:800;" id="final-total">-</span>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">📋 Salin Hasil</div>
+    <div class="copy-area" id="copy-text"></div>
+    <div style="display:flex;gap:8px;margin-top:10px;">
+      <button class="btn btn-secondary" style="flex:1;margin:0;" onclick="copyHasil()">📋 Salin</button>
+      <button class="btn btn-cloud" id="btn-cloud" style="flex:1;margin:0;" onclick="triggerCloudSave()">☁️ Cloud</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ================================================================
+// SOAL — 150 soal baru, belum pernah dipakai di sesi manapun
+// ================================================================
+const SOAL = {
+
+// ================================================================
+// AGAMA ISLAM — 30 soal
+// ================================================================
+agama: [
+  // AKIDAH
+  {s:'Beriman kepada Allah, malaikat, kitab, rasul, hari akhir, dan qada qadar disebut...',p:['Rukun Iman','Rukun Islam','Rukun Shalat','Rukun Haji'],j:0,t:'Rukun Iman ada 6: Allah, malaikat, kitab, rasul, hari akhir, qada dan qadar.'},
+  {s:'Jumlah sifat wajib Allah adalah...',p:['20 sifat','10 sifat','15 sifat','25 sifat'],j:0,t:'Sifat wajib Allah ada 20, mustahil ada 20, dan jaiz ada 1.'},
+  {s:'Sifat Allah "Baqa\'" berarti...',p:['Maha Kekal','Maha Awal','Maha Akhir','Maha Berdiri Sendiri'],j:0,t:'Baqa\' = Maha Kekal (tidak akan berakhir). Qidam = Maha Awal (tidak berawal).'},
+  {s:'Malaikat yang bertugas menyampaikan wahyu kepada nabi adalah...',p:['Jibril','Mikail','Israfil','Izrail'],j:0,t:'Jibril = menyampaikan wahyu. Mikail = mengatur rezeki. Israfil = meniup sangkakala. Izrail = mencabut nyawa.'},
+  {s:'Kitab suci yang diturunkan kepada Nabi Musa AS adalah...',p:['Taurat','Zabur','Injil','Al-Qur\'an'],j:0,t:'Taurat→Musa, Zabur→Dawud, Injil→Isa, Al-Qur\'an→Muhammad SAW.'},
+  // FIQIH SHALAT
+  {s:'Jumlah rakaat shalat Maghrib adalah...',p:['3 rakaat','2 rakaat','4 rakaat','5 rakaat'],j:0,t:'Shalat 5 waktu: Subuh 2, Dzuhur 4, Ashar 4, Maghrib 3, Isya 4.'},
+  {s:'Bacaan yang dibaca saat sujud adalah...',p:['Subhanaa Rabbiyal A\'laa','Subhanaa Rabbiyyal Azhiim','Sami\'allaahu liman hamidah','Allahu Akbar'],j:0,t:'Sujud: Subhanaa Rabbiyal A\'laa (3×). Rukuk: Subhanaa Rabbiyyal Azhiim (3×).'},
+  {s:'Yang termasuk sunah wudhu adalah...',p:['Membaca basmalah','Membasuh wajah','Membasuh tangan hingga siku','Membasuh kaki'],j:0,t:'Membaca basmalah adalah sunnah wudhu. Membasuh wajah, tangan, kaki adalah rukun wudhu.'},
+  {s:'Shalat yang dikerjakan setelah shalat Isya hingga sebelum Subuh khusus di bulan Ramadan disebut...',p:['Tarawih','Tahajud','Witir','Dhuha'],j:0,t:'Tarawih = shalat sunnah khusus Ramadan, dikerjakan setelah Isya berjamaah.'},
+  {s:'Arah kiblat umat Islam menghadap ke...',p:['Ka\'bah di Mekkah','Madinah','Baitul Maqdis','Arafah'],j:0,t:'Kiblat = Ka\'bah di Masjidil Haram, Mekkah, Arab Saudi.'},
+  // PUASA
+  {s:'Puasa Ramadan hukumnya...',p:['Fardhu ain','Fardhu kifayah','Sunnah mu\'akkadah','Mubah'],j:0,t:'Puasa Ramadan hukumnya fardhu ain — wajib bagi setiap Muslim yang memenuhi syarat.'},
+  {s:'Yang boleh tidak berpuasa Ramadan dan wajib menggantinya (qadha) adalah...',p:['Orang sakit dan musafir','Orang tua renta','Anak-anak','Orang gila'],j:0,t:'Orang sakit dan musafir boleh tidak puasa tapi wajib qadha. Orang tua renta boleh fidyah.'},
+  // ZAKAT
+  {s:'Zakat yang wajib dikeluarkan dari hasil pertanian disebut...',p:['Zakat pertanian','Zakat fitrah','Zakat mal','Zakat emas'],j:0,t:'Zakat pertanian wajib dikeluarkan saat panen jika mencapai nishab 653 kg.'},
+  {s:'8 golongan yang berhak menerima zakat (mustahik) di antaranya adalah...',p:['Fakir, miskin, amil, mualaf','Orang kaya, fakir, miskin, amil','Orang kaya, ulama, fakir, miskin','Pejabat, amil, fakir, mualaf'],j:0,t:'8 mustahik: fakir, miskin, amil, mualaf, riqab, gharim, fisabilillah, ibnu sabil.'},
+  // HAJI
+  {s:'Salah satu wajib haji adalah...',p:['Mabit di Muzdalifah','Wukuf di Arafah','Tawaf Ifadhah','Ihram'],j:0,t:'Wukuf, Tawaf Ifadhah, Sa\'i, Ihram, Tahallul = rukun haji. Mabit di Muzdalifah = wajib haji.'},
+  {s:'Pakaian ihram bagi laki-laki terdiri dari...',p:['Dua lembar kain putih tak berjahit','Baju putih dan celana panjang','Jubah putih panjang','Kain sarung dan baju koko'],j:0,t:'Ihram laki-laki = 2 lembar kain putih tak berjahit: satu dililitkan di pinggang, satu di bahu.'},
+  // AKHLAK
+  {s:'Sifat selalu berkata benar dalam Islam disebut...',p:['Siddiq','Amanah','Tabligh','Fathonah'],j:0,t:'Siddiq = jujur/benar. Amanah = dapat dipercaya. Tabligh = menyampaikan. Fathonah = cerdas.'},
+  {s:'Lawan dari sifat hasad (iri dengki) adalah...',p:['Qana\'ah','Tawadhu','Syukur','Sabar'],j:0,t:'Qana\'ah = puas dengan pemberian Allah. Tawadhu = rendah hati. Hasad = iri dengki.'},
+  {s:'Perilaku menghormati orang yang lebih tua disebut...',p:['Tawadhu','Takabur','Hasad','Riya'],j:0,t:'Tawadhu = rendah hati, menghormati yang lebih tua. Takabur = sombong.'},
+  // SEJARAH ISLAM
+  {s:'Nabi Muhammad SAW lahir di kota...',p:['Mekkah','Madinah','Thaif','Yaman'],j:0,t:'Nabi Muhammad SAW lahir di Mekkah pada 570 M (tahun gajah).'},
+  {s:'Peristiwa Isra\' Mi\'raj terjadi pada tahun...',p:['10 sebelum hijrah','5 sebelum hijrah','1 setelah hijrah','2 setelah hijrah'],j:0,t:'Isra\' Mi\'raj terjadi sekitar 10-11 tahun setelah kenabian, sebelum hijrah ke Madinah.'},
+  {s:'Khalifah pertama setelah wafatnya Nabi Muhammad SAW adalah...',p:['Abu Bakar As-Shiddiq','Umar bin Khattab','Utsman bin Affan','Ali bin Abi Thalib'],j:0,t:'Urutan Khulafaur Rasyidin: Abu Bakar → Umar → Utsman → Ali.'},
+  // AL-QUR'AN & HADITS
+  {s:'Surah terpendek dalam Al-Qur\'an adalah...',p:['Al-Kautsar','Al-Ikhlas','An-Nas','Al-Falaq'],j:0,t:'Al-Kautsar terdiri dari 3 ayat — surah terpendek dalam Al-Qur\'an.'},
+  {s:'Membaca Al-Qur\'an dengan tartil berarti...',p:['Membaca dengan perlahan dan benar tajwidnya','Membaca dengan cepat','Membaca sambil menghafal','Membaca dengan suara keras'],j:0,t:'Tartil = membaca dengan perlahan, tepat makharijul huruf dan tajwidnya.'},
+  // IBADAH KHUSUS
+  {s:'Hewan yang sah untuk dijadikan kurban adalah...',p:['Kambing, sapi, unta','Ayam, bebek, angsa','Kucing, anjing, sapi','Kerbau, babi, kambing'],j:0,t:'Hewan kurban: kambing (1 orang), sapi/kerbau/unta (7 orang). Harus sehat dan cukup umur.'},
+  {s:'Hari raya kurban dirayakan pada tanggal...',p:['10 Zulhijjah','1 Syawal','10 Muharram','15 Sya\'ban'],j:0,t:'Idul Adha = 10 Zulhijjah. Idul Fitri = 1 Syawal.'},
+  {s:'Shalat yang dilakukan untuk meminta hujan disebut...',p:['Shalat Istisqa','Shalat Gerhana','Shalat Istikharah','Shalat Tarawih'],j:0,t:'Istisqa = shalat minta hujan. Gerhana = shalat saat gerjana. Istikharah = minta petunjuk pilihan.'},
+  {s:'Yang termasuk larangan saat ihram adalah...',p:['Memakai wangi-wangian','Berdoa','Membaca Al-Qur\'an','Berzikir'],j:0,t:'Larangan ihram: memakai wangi-wangian, memotong rambut/kuku, berburu, menikah.'},
+  {s:'Talak yang dijatuhkan suami kepada istri sebanyak tiga kali disebut...',p:['Talak ba\'in kubra','Talak raj\'i','Talak ba\'in sughra','Fasakh'],j:0,t:'Talak ba\'in kubra = talak 3, tidak bisa rujuk kecuali istri menikah dengan orang lain dulu.'},
+  {s:'Aqiqah untuk bayi perempuan adalah...',p:['1 ekor kambing','2 ekor kambing','3 ekor kambing','Tidak ada aqiqah'],j:0,t:'Aqiqah: bayi laki-laki = 2 kambing, bayi perempuan = 1 kambing.'},
+],
+
+// ================================================================
+// IPAS — 30 soal
+// ================================================================
+ipas: [
+  // MAKHLUK HIDUP
+  {s:'Ciri makhluk hidup yang membedakannya dari benda mati adalah...',p:['Bernapas, bergerak, dan berkembang biak','Bergerak dan berwarna','Memiliki bentuk dan warna','Keras dan padat'],j:0,t:'Ciri makhluk hidup: bernapas, bergerak, makan, tumbuh, berkembang biak, peka terhadap rangsang, mengeluarkan zat sisa.'},
+  {s:'Simbiosis antara burung jalak dan kerbau yang saling menguntungkan adalah contoh...',p:['Mutualisme','Parasitisme','Komensalisme','Predasi'],j:0,t:'Mutualisme: saling untung. Burung jalak makan kutu di tubuh kerbau — keduanya untung.'},
+  {s:'Rantai makanan yang benar adalah...',p:['Padi → tikus → ular → elang','Elang → ular → tikus → padi','Ular → tikus → padi → elang','Tikus → padi → ular → elang'],j:0,t:'Rantai makanan dimulai dari produsen (tumbuhan) ke konsumen tingkat 1, 2, dst.'},
+  {s:'Tumbuhan yang menyesuaikan diri dengan lingkungan air dengan memiliki daun lebar dan tipis adalah...',p:['Hidrofit','Xerofit','Higrofit','Epifit'],j:0,t:'Hidrofit (air): daun lebar, tipis, batang berongga. Xerofit (kering): daun tebal, berduri. Higrofit (lembab): daun tipis lebar.'},
+  {s:'Hewan yang mengalami metamorfosis sempurna adalah...',p:['Kupu-kupu','Belalang','Kecoa','Capung dewasa'],j:0,t:'Metamorfosis sempurna: telur → larva → pupa → imago. Contoh: kupu-kupu, lebah, nyamuk.'},
+  // TUBUH MANUSIA
+  {s:'Enzim yang berfungsi memecah protein dalam lambung adalah...',p:['Pepsin','Amilase','Lipase','Tripsin'],j:0,t:'Pepsin = memecah protein di lambung. Amilase = memecah karbohidrat. Lipase = memecah lemak.'},
+  {s:'Bagian tulang yang berfungsi menghasilkan sel darah merah adalah...',p:['Sumsum tulang','Tulang rawan','Periosteum','Sendi'],j:0,t:'Sumsum tulang merah menghasilkan sel darah merah (eritrosit), sel darah putih, dan trombosit.'},
+  {s:'Vitamin yang penting untuk penglihatan dan kesehatan mata adalah...',p:['Vitamin A','Vitamin B','Vitamin C','Vitamin D'],j:0,t:'Vitamin A (retinol) penting untuk penglihatan, terutama penglihatan di tempat gelap. Kekurangan → rabun senja.'},
+  {s:'Sistem imun tubuh yang berperan melawan infeksi adalah...',p:['Sel darah putih (leukosit)','Sel darah merah (eritrosit)','Trombosit','Plasma darah'],j:0,t:'Leukosit = sel darah putih, bertugas melawan kuman dan penyakit (sistem imun).'},
+  {s:'Proses pengeluaran keringat oleh kulit berfungsi untuk...',p:['Mengatur suhu tubuh','Menghasilkan energi','Menyerap vitamin D','Memompa darah'],j:0,t:'Keringat membantu mengatur suhu tubuh. Saat panas, keringat menguap dan mendinginkan tubuh.'},
+  // FISIKA
+  {s:'Benda yang dapat ditarik oleh magnet disebut benda...',p:['Feromagnetik','Paramagnetik','Diamagnetik','Nonmagnetik'],j:0,t:'Feromagnetik = sangat kuat ditarik magnet (besi, nikel, kobalt). Paramagnetik = lemah. Diamagnetik = ditolak.'},
+  {s:'Satuan kuat arus listrik adalah...',p:['Ampere','Volt','Watt','Ohm'],j:0,t:'Ampere (A) = arus listrik. Volt (V) = tegangan. Watt (W) = daya. Ohm (Ω) = hambatan.'},
+  {s:'Sifat cahaya yang menyebabkan sendok terlihat bengkok saat dimasukkan ke dalam gelas berisi air adalah...',p:['Pembiasan','Pemantulan','Penyerapan','Difraksi'],j:0,t:'Pembiasan = perubahan arah cahaya saat melewati dua medium berbeda. Sendok di air = contoh pembiasan.'},
+  {s:'Energi yang dihasilkan dari perubahan energi potensial menjadi energi kinetik adalah contoh...',p:['Hukum kekekalan energi','Hukum Newton','Hukum Archimedes','Hukum Pascal'],j:0,t:'Hukum kekekalan energi: energi tidak dapat diciptakan atau dimusnahkan, hanya berubah bentuk.'},
+  {s:'Alat yang digunakan untuk mengukur tekanan udara adalah...',p:['Barometer','Termometer','Higrometer','Anemometer'],j:0,t:'Barometer = tekanan udara. Termometer = suhu. Higrometer = kelembaban. Anemometer = kecepatan angin.'},
+  // BUMI & ALAM SEMESTA
+  {s:'Lapisan atmosfer yang melindungi bumi dari sinar ultraviolet adalah...',p:['Stratosfer (lapisan ozon)','Troposfer','Mesosfer','Eksosfer'],j:0,t:'Ozon (O₃) berada di stratosfer, berfungsi menyerap radiasi UV berbahaya dari matahari.'},
+  {s:'Terjadinya siang dan malam disebabkan oleh...',p:['Rotasi bumi','Revolusi bumi','Rotasi bulan','Revolusi bulan'],j:0,t:'Rotasi bumi (berputar pada porosnya) = siang & malam. Revolusi bumi (mengelilingi matahari) = pergantian musim.'},
+  {s:'Batuan yang terbentuk dari magma yang membeku adalah...',p:['Batuan beku','Batuan sedimen','Batuan metamorf','Batuan gamping'],j:0,t:'Batuan beku = dari magma membeku (granit, basalt). Sedimen = dari endapan. Metamorf = dari batuan yang berubah.'},
+  {s:'Angin yang bertiup dari darat ke laut terjadi pada...',p:['Malam hari','Siang hari','Pagi hari','Sore hari'],j:0,t:'Angin darat = malam hari (darat lebih dingin dari laut). Angin laut = siang hari (laut lebih dingin dari darat).'},
+  {s:'Benda langit yang mengelilingi planet disebut...',p:['Satelit','Komet','Asteroid','Meteor'],j:0,t:'Satelit = benda langit yang mengelilingi planet. Bulan = satelit alami Bumi.'},
+  // EKOSISTEM & LINGKUNGAN
+  {s:'Organisme yang menguraikan sisa makhluk hidup menjadi zat anorganik adalah...',p:['Decomposer (pengurai)','Produsen','Konsumen','Omnivora'],j:0,t:'Decomposer (jamur, bakteri) mengurai bangkai/sisa menjadi zat anorganik yang diserap tumbuhan.'},
+  {s:'Pencemaran air yang dapat menyebabkan eutrofikasi (blooming alga) disebabkan oleh...',p:['Limbah pupuk (nitrat dan fosfat)','Gas CO₂','Sampah plastik','Asap kendaraan'],j:0,t:'Eutrofikasi = ledakan populasi alga akibat kelebihan nitrat dan fosfat dari pupuk pertanian.'},
+  {s:'Hutan yang berfungsi sebagai "paru-paru dunia" karena menghasilkan oksigen adalah...',p:['Hutan hujan tropis','Hutan gugur','Hutan pinus','Hutan sabana'],j:0,t:'Hutan hujan tropis (Amazon, Kalimantan) menghasilkan O₂ terbesar dan menyerap CO₂.'},
+  // MATERI & PERUBAHANNYA
+  {s:'Perubahan air menjadi uap air adalah contoh perubahan...',p:['Fisika','Kimia','Biologi','Mekanik'],j:0,t:'Perubahan fisika = tidak menghasilkan zat baru (bisa kembali). Air→uap = fisika. Kayu terbakar = kimia.'},
+  {s:'Unsur yang paling banyak terdapat di kerak bumi adalah...',p:['Oksigen','Silikon','Aluminium','Besi'],j:0,t:'Kerak bumi: Oksigen (46%) paling banyak, diikuti Silikon (28%), Aluminium (8%).'},
+  {s:'Larutan yang memiliki pH lebih dari 7 disebut larutan...',p:['Basa','Asam','Netral','Garam'],j:0,t:'pH > 7 = basa (sabun, air kapur). pH < 7 = asam (cuka, jeruk). pH = 7 = netral (air murni).'},
+  {s:'Proses pemisahan campuran berdasarkan perbedaan titik didih disebut...',p:['Distilasi','Filtrasi','Kristalisasi','Sublimasi'],j:0,t:'Distilasi = pisahkan berdasarkan titik didih (memurnikan air). Filtrasi = saring. Kristalisasi = uapkan.'},
+  {s:'Contoh perubahan kimia dalam kehidupan sehari-hari adalah...',p:['Susu menjadi asam (basi)','Es batu mencair','Gula larut dalam air','Kertas dirobek'],j:0,t:'Susu basi = perubahan kimia (terbentuk asam laktat, zat baru). Es mencair, gula larut, kertas robek = fisika.'},
+  {s:'Atom-atom yang bergabung membentuk molekul dihubungkan oleh...',p:['Ikatan kimia','Gaya gravitasi','Gaya magnet','Tekanan udara'],j:0,t:'Ikatan kimia (ikatan kovalen/ionik) menghubungkan atom-atom dalam molekul.'},
+  {s:'Logam yang digunakan sebagai penghantar listrik terbaik adalah...',p:['Perak (Ag)','Besi (Fe)','Aluminium (Al)','Timah (Sn)'],j:0,t:'Perak adalah penghantar listrik terbaik, namun mahal. Di industri biasanya digunakan tembaga (Cu).'},
+],
+
+// ================================================================
+// PKN — 30 soal
+// ================================================================
+pkn: [
+  // PANCASILA
+  {s:'Pancasila sebagai dasar negara Indonesia disahkan pada tanggal...',p:['18 Agustus 1945','17 Agustus 1945','1 Juni 1945','22 Juni 1945'],j:0,t:'Pancasila disahkan sebagai dasar negara pada 18 Agustus 1945 oleh PPKI.'},
+  {s:'Sila pertama Pancasila dilambangkan dengan...',p:['Bintang emas','Rantai emas','Pohon beringin','Kepala banteng'],j:0,t:'Sila 1 (Ketuhanan) = bintang. Sila 2 (Kemanusiaan) = rantai. Sila 3 (Persatuan) = pohon beringin. Sila 4 (Kerakyatan) = kepala banteng. Sila 5 (Keadilan) = padi dan kapas.'},
+  {s:'Pancasila sebagai pandangan hidup bangsa berarti...',p:['Pedoman dan arah bagi kehidupan berbangsa','Hukum tertinggi negara','Sumber dari segala sumber hukum','Lambang negara Indonesia'],j:0,t:'Pancasila sebagai pandangan hidup = pedoman/petunjuk arah kehidupan bangsa Indonesia sehari-hari.'},
+  {s:'Nilai persatuan dalam sila ketiga Pancasila diwujudkan dengan...',p:['Mengutamakan kepentingan bangsa di atas kepentingan pribadi','Selalu bermusyawarah','Percaya kepada Tuhan','Berlaku adil kepada semua'],j:0,t:'Sila 3 (Persatuan Indonesia): mengutamakan kepentingan bangsa, cinta tanah air, menjaga persatuan.'},
+  // UUD 1945
+  {s:'UUD 1945 terdiri dari...',p:['Pembukaan, batang tubuh, dan pasal-pasal','Pembukaan dan pasal-pasal saja','Batang tubuh dan aturan peralihan','Pembukaan saja'],j:0,t:'Setelah amandemen, UUD 1945 terdiri dari: Pembukaan (4 alinea) dan pasal-pasal (21 bab, 73 pasal).'},
+  {s:'Pasal 28A sampai 28J UUD 1945 mengatur tentang...',p:['Hak Asasi Manusia','Pertahanan negara','Pendidikan','Perekonomian'],j:0,t:'Pasal 28A-28J = hak asasi manusia (HAM): hak hidup, hak bekerja, hak pendidikan, dll.'},
+  {s:'Negara Indonesia adalah negara hukum. Hal ini tercantum dalam...',p:['Pasal 1 ayat 3','Pasal 1 ayat 1','Pasal 1 ayat 2','Pasal 2 ayat 1'],j:0,t:'Pasal 1 ayat 1: negara kesatuan berbentuk republik. Pasal 1 ayat 2: kedaulatan rakyat. Pasal 1 ayat 3: negara hukum.'},
+  {s:'Hak warga negara untuk membela negara diatur dalam...',p:['Pasal 27 ayat 3','Pasal 27 ayat 1','Pasal 27 ayat 2','Pasal 28'],j:0,t:'Pasal 27 ayat 3: setiap warga negara berhak dan wajib ikut serta dalam upaya pembelaan negara.'},
+  {s:'Pasal 30 UUD 1945 mengatur tentang...',p:['Pertahanan dan keamanan negara','Pendidikan nasional','Perekonomian','Hak asasi manusia'],j:0,t:'Pasal 30 = pertahanan dan keamanan negara. Pasal 31 = pendidikan. Pasal 33 = perekonomian.'},
+  {s:'Presiden memegang kekuasaan tertinggi atas Angkatan Darat, Laut, dan Udara. Diatur dalam...',p:['Pasal 10','Pasal 11','Pasal 12','Pasal 13'],j:0,t:'Pasal 10 UUD 1945: Presiden memegang kekuasaan tertinggi atas AD, AL, AU.'},
+  // LEMBAGA NEGARA
+  {s:'MPR (Majelis Permusyawaratan Rakyat) terdiri dari...',p:['DPR dan DPD','DPR saja','DPD saja','DPR, DPD, dan MA'],j:0,t:'MPR = DPR + DPD. MPR berwenang mengubah UUD, melantik Presiden/Wapres.'},
+  {s:'Komisi Yudisial (KY) berwenang untuk...',p:['Mengawasi perilaku hakim','Membuat undang-undang','Memeriksa keuangan negara','Menyelenggarakan pemilu'],j:0,t:'Komisi Yudisial = mengawasi perilaku hakim, menjaga kehormatan dan martabat hakim.'},
+  {s:'Mahkamah Agung (MA) merupakan pengadilan tertinggi untuk perkara...',p:['Perdata dan pidana (kasasi)','Uji UU terhadap UUD','Sengketa pemilu','Pelanggaran HAM berat'],j:0,t:'MA = pengadilan kasasi tertinggi untuk perdata dan pidana. MK = uji UU terhadap UUD.'},
+  {s:'Anggota DPR dipilih melalui...',p:['Pemilihan umum','Penunjukan presiden','Pemilihan oleh MPR','Pengangkatan oleh gubernur'],j:0,t:'Anggota DPR dipilih langsung oleh rakyat melalui pemilihan umum legislatif.'},
+  {s:'Masa jabatan Presiden dan Wakil Presiden Indonesia adalah...',p:['5 tahun, maksimal 2 periode','4 tahun, maksimal 2 periode','6 tahun, maksimal 1 periode','5 tahun, bisa terus menjabat'],j:0,t:'Presiden menjabat 5 tahun dan dapat dipilih kembali hanya untuk 1 kali masa jabatan lagi.'},
+  // HAK & KEWAJIBAN
+  {s:'Contoh pelaksanaan hak warga negara di bidang pendidikan adalah...',p:['Mengikuti sekolah gratis 12 tahun','Membayar pajak tepat waktu','Mengikuti pemilu','Menjaga keamanan lingkungan'],j:0,t:'Hak pendidikan: belajar gratis 12 tahun (SD-SMA) yang dijamin negara.'},
+  {s:'Contoh kewajiban warga negara dalam kehidupan sehari-hari adalah...',p:['Mematuhi peraturan lalu lintas','Mendapatkan pekerjaan','Mendapat perlindungan hukum','Bebas berpendapat'],j:0,t:'Kewajiban: mematuhi hukum, membayar pajak, bela negara, menjaga persatuan.'},
+  {s:'Hak untuk mendapatkan perlakuan yang sama di hadapan hukum disebut...',p:['Equality before the law','Habeas corpus','Presumption of innocence','Due process of law'],j:0,t:'Equality before the law = persamaan di hadapan hukum, dijamin Pasal 27 ayat 1 UUD 1945.'},
+  // DEMOKRASI
+  {s:'Pemilu di Indonesia dilaksanakan setiap...',p:['5 tahun sekali','4 tahun sekali','6 tahun sekali','3 tahun sekali'],j:0,t:'Pemilu di Indonesia dilaksanakan setiap 5 tahun sekali untuk memilih Presiden, DPR, DPD, DPRD.'},
+  {s:'Bawaslu (Badan Pengawas Pemilu) bertugas...',p:['Mengawasi jalannya pemilu','Menyelenggarakan pemilu','Menghitung suara pemilu','Menetapkan pemenang pemilu'],j:0,t:'Bawaslu = mengawasi pemilu. KPU = menyelenggarakan pemilu. KY = mengawasi hakim.'},
+  {s:'Asas pemilu "JURDIL" berarti pemilu harus bersifat...',p:['Jujur dan adil','Jelas dan riil','Jujur, damai, dan iklim','Jelas dan demokratis'],j:0,t:'LUBER = Langsung, Umum, Bebas, Rahasia. JURDIL = Jujur, Adil.'},
+  // KEBERAGAMAN
+  {s:'Indonesia memiliki semboyan "Bhinneka Tunggal Ika" yang berarti...',p:['Berbeda-beda tetapi tetap satu','Bersatu kita teguh bercerai kita runtuh','Satu nusa satu bangsa','Tanah airku Indonesia'],j:0,t:'Bhinneka Tunggal Ika (Sansekerta) = berbeda-beda tetapi tetap satu jua.'},
+  {s:'Sikap yang tepat dalam menghadapi keberagaman suku di Indonesia adalah...',p:['Menghargai dan menghormati perbedaan','Menganggap suku sendiri paling baik','Menghindari pergaulan dengan suku lain','Mempertentangkan perbedaan budaya'],j:0,t:'Keberagaman suku harus disikapi dengan menghargai, toleransi, dan gotong royong.'},
+  {s:'Otonomi daerah di Indonesia bertujuan untuk...',p:['Mendekatkan pelayanan pemerintah kepada masyarakat','Memisahkan daerah dari pemerintah pusat','Memperkuat kekuasaan pemerintah pusat','Menghapus perbedaan antar daerah'],j:0,t:'Otonomi daerah = memberi kewenangan daerah untuk mengurus rumah tangganya sendiri, agar pelayanan lebih dekat dan efisien.'},
+  // KONSTITUSI
+  {s:'Yang dimaksud dengan norma hukum adalah...',p:['Aturan yang dibuat negara dan bersifat memaksa','Aturan yang berlaku di masyarakat secara tidak tertulis','Nilai moral yang dianut masyarakat','Kebiasaan yang dilakukan turun-temurun'],j:0,t:'Norma hukum = aturan tertulis, dibuat oleh lembaga berwenang, ada sanksi tegas jika dilanggar.'},
+  {s:'Lembaga yang berwenang membuat undang-undang di Indonesia adalah...',p:['DPR bersama Presiden','Presiden saja','MA','MK'],j:0,t:'UU dibuat oleh DPR bersama Presiden (Pasal 20 UUD 1945). DPR memiliki fungsi legislasi.'},
+  {s:'Hukum yang mengatur hubungan antara warga negara dengan negara disebut hukum...',p:['Publik','Privat','Perdata','Adat'],j:0,t:'Hukum publik = mengatur hubungan warga negara dengan negara (hukum pidana, tata negara). Hukum privat = antar individu.'},
+  {s:'Peraturan perundang-undangan yang paling tinggi kedudukannya di Indonesia adalah...',p:['UUD 1945','Undang-undang','Peraturan pemerintah','Peraturan daerah'],j:0,t:'Hierarki: UUD 1945 → TAP MPR → UU/Perpu → PP → Perpres → Perda Provinsi → Perda Kab/Kota.'},
+  {s:'Sidang BPUPKI menghasilkan dua hal penting yaitu...',p:['Rumusan dasar negara dan rancangan UUD','Proklamasi kemerdekaan dan UUD','Pembentukan TNI dan Polri','Pembentukan kabinet dan DPR'],j:0,t:'BPUPKI (sidang 1 & 2): merumuskan dasar negara (Pancasila) dan merancang UUD 1945.'},
+  {s:'Tujuan negara Indonesia tercantum dalam...',p:['Pembukaan UUD 1945 alinea 4','Pasal 1 UUD 1945','Batang tubuh UUD 1945','Aturan peralihan UUD 1945'],j:0,t:'Tujuan negara ada di Pembukaan UUD 1945 alinea 4: melindungi, memajukan kesejahteraan, mencerdaskan, ikut perdamaian dunia.'},
+],
+
+// ================================================================
+// BAHASA INDONESIA — 30 soal
+// ================================================================
+bindo: [
+  // MEMBACA & MEMAHAMI
+  {s:'Gagasan utama yang menjadi pokok pembahasan seluruh paragraf disebut...',p:['Ide pokok','Kalimat penjelas','Kesimpulan','Judul'],j:0,t:'Ide pokok = inti/gagasan utama paragraf, biasanya ada di kalimat utama (awal atau akhir paragraf).'},
+  {s:'Jenis paragraf yang kalimat utamanya berada di awal paragraf disebut...',p:['Deduktif','Induktif','Campuran','Deskriptif'],j:0,t:'Deduktif = kalimat utama di awal. Induktif = kalimat utama di akhir. Campuran = di awal dan akhir.'},
+  {s:'Cara membaca cepat untuk mendapatkan gambaran umum isi teks disebut...',p:['Skimming','Scanning','Membaca intensif','Membaca ekstensif'],j:0,t:'Skimming = baca cepat untuk gambaran umum. Scanning = baca cepat untuk mencari informasi tertentu.'},
+  // EYD & PENULISAN
+  {s:'Penulisan huruf kapital yang benar terdapat pada...',p:['Jalan Merdeka No. 10','jalan merdeka no. 10','Jalan merdeka No. 10','jalan Merdeka no. 10'],j:0,t:'Nama jalan ditulis dengan huruf kapital: Jalan Merdeka. Nomor disingkat "No." dengan kapital.'},
+  {s:'Tanda titik dua (:) digunakan untuk...',p:['Mengawali perincian atau kutipan langsung','Memisahkan kalimat setara','Mengakhiri kalimat tanya','Menandai kalimat perintah'],j:0,t:'Tanda titik dua (:) dipakai sebelum perincian, kutipan langsung, atau keterangan lebih lanjut.'},
+  {s:'Penulisan angka yang benar dalam kalimat adalah...',p:['Musa membeli tiga buku dan dua pensil.','Musa membeli 3 buku dan 2 pensil.','Musa membeli Tiga buku dan dua pensil.','Musa membeli tiga Buku dan dua Pensil.'],j:0,t:'Angka 1-9 dalam kalimat ditulis dengan huruf. Angka 10 ke atas bisa ditulis dengan angka.'},
+  {s:'Kata "di" dipisah pada kalimat...',p:['Buku itu ada di atas meja.','Buku itu dibaca Musa.','Buku itu ditulis oleh guru.','Buku itu ditaruh Musa.'],j:0,t:'"di" + kata tempat/keterangan = dipisah. "di" + kata kerja = disambung (imbuhan).'},
+  // KOSAKATA
+  {s:'Kata yang memiliki makna yang berlawanan disebut...',p:['Antonim','Sinonim','Homonim','Hiponim'],j:0,t:'Antonim = lawan kata. Sinonim = persamaan kata. Homonim = sama bunyi, beda makna.'},
+  {s:'Antonim kata "dermawan" adalah...',p:['Kikir','Pemurah','Baik hati','Sopan'],j:0,t:'Dermawan = suka memberi/pemurah. Antonimnya = kikir/pelit.'},
+  {s:'Makna kata "kontroversial" adalah...',p:['Menimbulkan perdebatan atau perbedaan pendapat','Sangat terkenal','Sangat bagus','Tidak penting'],j:0,t:'Kontroversial = menimbulkan perdebatan, memiliki pro dan kontra di masyarakat.'},
+  {s:'Kata baku dari "aktifitas" adalah...',p:['Aktivitas','Aktifitas','Aktifitas','Activitas'],j:0,t:'Kata baku: aktivitas (bukan aktifitas), risiko (bukan resiko), ijazah (bukan ijasah).'},
+  {s:'Sinonim kata "gigih" adalah...',p:['Tekun','Malas','Lemah','Pasif'],j:0,t:'Gigih = terus berusaha tanpa menyerah. Sinonim: tekun, ulet, pantang menyerah.'},
+  // TATA BAHASA
+  {s:'Kalimat yang subjeknya melakukan pekerjaan disebut kalimat...',p:['Aktif','Pasif','Majemuk','Tunggal'],j:0,t:'Kalimat aktif: subjek melakukan tindakan (Musa membaca buku). Kalimat pasif: subjek dikenai tindakan (Buku dibaca Musa).'},
+  {s:'Imbuhan "me-" yang benar terdapat pada kata...',p:['Menulis','Mentaruh','Mempermasalahkan','Mengangkat besi'],j:0,t:'me + tulis = menulis ✅. me + taruh = menaruh (bukan mentaruh). me + angkat = mengangkat.'},
+  {s:'Jenis kata berdasarkan bentuknya yang sudah mendapat imbuhan disebut kata...',p:['Turunan','Dasar','Ulang','Majemuk'],j:0,t:'Kata turunan = kata dasar + imbuhan (membaca, pelajaran). Kata ulang = diulang (buku-buku). Kata majemuk = gabungan (rumah sakit).'},
+  {s:'Kalimat "Meskipun hujan deras, Musa tetap berangkat sekolah" menggunakan konjungsi...',p:['Meskipun (konsesif)','Dan (aditif)','Tetapi (adversatif)','Karena (kausal)'],j:0,t:'Konjungsi meskipun/walaupun = konsesif (pertentangan yang tidak menghalangi). Karena/sebab = kausal.'},
+  {s:'Frasa "sangat rajin" termasuk jenis frasa...',p:['Adjektiva','Nomina','Verba','Adverbia'],j:0,t:'Frasa adjektiva = frasa yang intinya kata sifat (rajin). Frasa nomina = frasa benda (rumah besar).'},
+  // JENIS TEKS
+  {s:'Teks yang menyajikan data dan fakta untuk menjelaskan suatu topik secara objektif disebut teks...',p:['Eksposisi','Narasi','Persuasi','Deskripsi'],j:0,t:'Eksposisi = menjelaskan/memaparkan fakta secara objektif. Narasi = bercerita. Persuasi = membujuk.'},
+  {s:'Ciri utama teks prosedur adalah...',p:['Menggunakan kalimat perintah dan langkah-langkah berurutan','Menggunakan kata sifat yang banyak','Berisi pendapat penulis','Menceritakan pengalaman'],j:0,t:'Teks prosedur = cara melakukan sesuatu, berisi langkah-langkah berurutan dengan kalimat perintah.'},
+  {s:'Teks yang berisi pengalaman pribadi yang berkesan disebut teks...',p:['Narasi (pengalaman/recount)','Eksposisi','Prosedur','Laporan'],j:0,t:'Narasi pengalaman (recount) = menceritakan kembali pengalaman nyata yang berkesan secara kronologis.'},
+  {s:'Struktur teks laporan percobaan yang benar adalah...',p:['Tujuan → alat/bahan → langkah → hasil → kesimpulan','Orientasi → komplikasi → resolusi','Tesis → argumentasi → penegasan','Deskripsi umum → deskripsi bagian'],j:0,t:'Teks laporan percobaan: tujuan, alat/bahan, langkah-langkah, hasil pengamatan, kesimpulan.'},
+  // SASTRA
+  {s:'Majas yang menyamakan benda mati seolah memiliki sifat manusia disebut...',p:['Personifikasi','Metafora','Simile','Hiperbola'],j:0,t:'Personifikasi = benda mati seperti manusia (angin berbisik). Metafora = perbandingan langsung. Simile = menggunakan "seperti/bagaikan".'},
+  {s:'"Suaranya menggelegar bagai petir di siang bolong" adalah contoh majas...',p:['Simile','Metafora','Personifikasi','Eufemisme'],j:0,t:'Simile = perbandingan dengan kata "bagai/seperti/laksana". "Suaranya bagai petir" = simile.'},
+  {s:'Peribahasa "air susu dibalas dengan air tuba" berarti...',p:['Kebaikan dibalas dengan kejahatan','Kebaikan dibalas kebaikan','Kejahatan dibalas kejahatan','Tidak tahu berterima kasih'],j:0,t:'"Air susu dibalas air tuba" = kebaikan dibalas dengan kejahatan/pengkhianatan.'},
+  {s:'Pantun terdiri dari...',p:['4 baris: 2 sampiran + 2 isi, bersajak a-b-a-b','4 baris: semua isi, bersajak a-a-a-a','2 baris berisi nasihat','8 baris dengan rima bebas'],j:0,t:'Pantun: 4 baris, baris 1-2 sampiran, baris 3-4 isi, bersajak a-b-a-b.'},
+  {s:'Tokoh yang berperan sebagai pihak jahat atau penentang tokoh utama dalam cerita disebut...',p:['Antagonis','Protagonis','Tritagonis','Figuran'],j:0,t:'Antagonis = tokoh jahat/penentang. Protagonis = tokoh utama/baik. Tritagonis = penengah.'},
+  // PIDATO & KOMUNIKASI
+  {s:'Bagian pembuka pidato yang baik biasanya berisi...',p:['Salam pembuka, ucapan syukur, dan pengenalan topik','Kesimpulan dan penutup','Isi dan argumen utama','Daftar pertanyaan'],j:0,t:'Struktur pidato: pembuka (salam, syukur, pengenalan) → isi (argumen/pokok bahasan) → penutup (kesimpulan, salam).'},
+  {s:'Kata penghubung yang menyatakan hubungan waktu adalah...',p:['Ketika, sebelum, setelah','Tetapi, namun, melainkan','Karena, sebab, oleh karena itu','Dan, serta, juga'],j:0,t:'Konjungsi waktu: ketika, setelah, sebelum, saat, sewaktu. Konjungsi kausal: karena, sebab, sehingga.'},
+  {s:'Surat resmi berbeda dari surat pribadi karena surat resmi...',p:['Menggunakan bahasa baku dan memiliki kop surat','Ditulis tangan','Tidak perlu tanda tangan','Bebas menggunakan bahasa apapun'],j:0,t:'Surat resmi: bahasa baku, ada kop surat, nomor surat, tanda tangan pejabat berwenang.'},
+  {s:'Kalimat yang berisi permohonan atau permintaan disebut kalimat...',p:['Imperatif (perintah/permohonan)','Deklaratif','Interogatif','Eksklamatif'],j:0,t:'Imperatif = perintah/permintaan. Deklaratif = pernyataan. Interogatif = pertanyaan. Eksklamatif = seruan.'},
+],
+
+// ================================================================
+// MATEMATIKA — 30 soal
+// ================================================================
+mtk: [
+  // BILANGAN & OPERASI
+  {s:'Hasil dari 48 ÷ 6 + 5 × 3 adalah...',p:['23','63','17','29'],j:0,t:'Urutan operasi: kali/bagi dulu. 48÷6=8, 5×3=15. Lalu 8+15=23.'},
+  {s:'FPB dari 24 dan 36 adalah...',p:['12','6','18','24'],j:0,t:'Faktor 24: 1,2,3,4,6,8,12,24. Faktor 36: 1,2,3,4,6,9,12,18,36. FPB = 12.'},
+  {s:'KPK dari 8 dan 12 adalah...',p:['24','16','48','96'],j:0,t:'Kelipatan 8: 8,16,24,32... Kelipatan 12: 12,24,36... KPK = 24.'},
+  {s:'Nilai dari 2³ + 4² adalah...',p:['24','20','28','32'],j:0,t:'2³ = 2×2×2 = 8. 4² = 4×4 = 16. 8+16 = 24.'},
+  {s:'Akar kuadrat dari 225 adalah...',p:['15','12','18','25'],j:0,t:'√225 = 15 karena 15×15 = 225.'},
+  // PECAHAN & DESIMAL
+  {s:'Hasil dari 5/6 - 1/4 adalah...',p:['7/12','4/2','1/2','2/3'],j:0,t:'KPK(6,4)=12. 5/6=10/12, 1/4=3/12. 10/12-3/12=7/12.'},
+  {s:'Hasil dari 2 1/3 × 1 1/2 adalah...',p:['3 1/2','4','2 2/3','3'],j:0,t:'2 1/3 = 7/3. 1 1/2 = 3/2. 7/3 × 3/2 = 21/6 = 7/2 = 3 1/2.'},
+  {s:'Bentuk desimal dari 3/8 adalah...',p:['0,375','0,38','0,3','0,35'],j:0,t:'3÷8 = 0,375. Atau: 3/8 = 375/1000 = 0,375.'},
+  {s:'Urutan dari terbesar: 7/8, 3/4, 5/6, 2/3 adalah...',p:['7/8, 5/6, 3/4, 2/3','7/8, 3/4, 5/6, 2/3','5/6, 7/8, 3/4, 2/3','3/4, 7/8, 5/6, 2/3'],j:0,t:'Samakan: 7/8=0,875, 5/6≈0,833, 3/4=0,75, 2/3≈0,667. Urutan besar→kecil: 7/8, 5/6, 3/4, 2/3.'},
+  // PERSENTASE
+  {s:'35% dari 200 adalah...',p:['70','35','105','140'],j:0,t:'35% × 200 = 35/100 × 200 = 70.'},
+  {s:'Jika 40% dari suatu bilangan adalah 60, maka bilangannya adalah...',p:['150','240','100','120'],j:0,t:'40% × n = 60 → n = 60 × 100/40 = 150.'},
+  {s:'Harga setelah diskon 30% dari Rp180.000 adalah...',p:['Rp126.000','Rp54.000','Rp150.000','Rp180.000'],j:0,t:'Diskon = 30% × 180.000 = 54.000. Harga akhir = 180.000 - 54.000 = 126.000.'},
+  // BANGUN DATAR
+  {s:'Luas jajargenjang dengan alas 14 cm dan tinggi 8 cm adalah...',p:['112 cm²','56 cm²','44 cm²','224 cm²'],j:0,t:'Luas jajargenjang = alas × tinggi = 14 × 8 = 112 cm².'},
+  {s:'Keliling persegi dengan luas 81 cm² adalah...',p:['36 cm','18 cm','27 cm','40 cm'],j:0,t:'Luas = s² = 81 → s = 9 cm. Keliling = 4 × 9 = 36 cm.'},
+  {s:'Luas lingkaran dengan diameter 14 cm adalah... (π=22/7)',p:['154 cm²','44 cm²','88 cm²','308 cm²'],j:0,t:'r = 7 cm. L = π×r² = 22/7 × 49 = 154 cm².'},
+  {s:'Keliling lingkaran dengan jari-jari 21 cm adalah... (π=22/7)',p:['132 cm','66 cm','44 cm','264 cm'],j:0,t:'K = 2×π×r = 2 × 22/7 × 21 = 2 × 66 = 132 cm.'},
+  {s:'Luas trapesium dengan sisi sejajar 13 cm dan 17 cm, tinggi 10 cm adalah...',p:['150 cm²','300 cm²','130 cm²','170 cm²'],j:0,t:'L = ½×(a+b)×t = ½×(13+17)×10 = ½×30×10 = 150 cm².'},
+  // BANGUN RUANG
+  {s:'Volume balok dengan panjang 12 cm, lebar 8 cm, dan tinggi 5 cm adalah...',p:['480 cm³','240 cm³','96 cm³','120 cm³'],j:0,t:'V = p×l×t = 12×8×5 = 480 cm³.'},
+  {s:'Luas permukaan balok dengan p=10cm, l=6cm, t=4cm adalah...',p:['248 cm²','124 cm²','240 cm³','480 cm²'],j:0,t:'LP = 2×(pl+pt+lt) = 2×(60+40+24) = 2×124 = 248 cm².'},
+  {s:'Volume kubus yang luas permukaannya 216 cm² adalah...',p:['216 cm³','36 cm³','125 cm³','512 cm³'],j:0,t:'LP = 6s² = 216 → s² = 36 → s = 6. V = s³ = 6³ = 216 cm³.'},
+  {s:'Volume tabung dengan diameter 14 cm dan tinggi 20 cm adalah... (π=22/7)',p:['3.080 cm³','1.540 cm³','6.160 cm³','770 cm³'],j:0,t:'r = 7 cm. V = π×r²×t = 22/7×49×20 = 154×20 = 3.080 cm³.'},
+  {s:'Bak mandi balok p=120cm, l=80cm, t=70cm. Diisi 3/4 bagian. Volume airnya...',p:['504.000 cm³','672.000 cm³','168.000 cm³','336.000 cm³'],j:0,t:'V total = 120×80×70 = 672.000. V air = 3/4 × 672.000 = 504.000 cm³.'},
+  // STATISTIKA
+  {s:'Data nilai: 70, 85, 90, 75, 80, 90, 85, 70, 90, 75. Nilai yang paling sering muncul (modus) adalah...',p:['90','85','70','75'],j:0,t:'90 muncul 3 kali, 85 muncul 2 kali, 75 muncul 2 kali, 70 muncul 2 kali. Modus = 90.'},
+  {s:'Median dari data: 60, 70, 75, 80, 85, 90 adalah...',p:['77,5','75','80','72,5'],j:0,t:'Data genap (6), median = rata-rata data ke-3 dan ke-4 = (75+80)/2 = 77,5.'},
+  {s:'Rata-rata dari 7 bilangan adalah 40. Jika satu bilangan ditambahkan yaitu 68, rata-ratanya menjadi...',p:['43','42','44','45'],j:0,t:'Total 7 bil = 7×40=280. Total 8 bil = 280+68=348. Rata-rata = 348/8 = 43,5 ≈ 43.'},
+  // SOAL CERITA
+  {s:'Pita sepanjang 4,5 m dipotong menjadi beberapa bagian sama panjang masing-masing 3/4 m. Jumlah potongannya adalah...',p:['6 potong','5 potong','7 potong','8 potong'],j:0,t:'4,5 ÷ 3/4 = 4,5 × 4/3 = 18/3 = 6 potong.'},
+  {s:'Sebuah kolam renang berbentuk balok p=25m, l=10m, t=2m. Waktu untuk mengisi penuh dengan debit 50.000 liter/jam adalah...',p:['10 jam','5 jam','20 jam','25 jam'],j:0,t:'V = 25×10×2 = 500 m³ = 500.000 liter. Waktu = 500.000/50.000 = 10 jam.'},
+  {s:'Kecepatan rata-rata mobil yang menempuh jarak 240 km dalam 3 jam adalah...',p:['80 km/jam','60 km/jam','120 km/jam','72 km/jam'],j:0,t:'Kecepatan = jarak/waktu = 240/3 = 80 km/jam.'},
+  {s:'Jika sebuah pekerjaan dapat diselesaikan 8 orang dalam 12 hari, maka 6 orang menyelesaikannya dalam...',p:['16 hari','9 hari','10 hari','18 hari'],j:0,t:'Total kerja = 8×12 = 96 orang-hari. Untuk 6 orang = 96/6 = 16 hari.'},
+  {s:'Sebuah toko memberikan diskon 20% untuk semua barang. Harga sepatu sebelum diskon Rp250.000. Jika ada pajak 10% setelah diskon, harga akhirnya adalah...',p:['Rp220.000','Rp200.000','Rp225.000','Rp180.000'],j:0,t:'Setelah diskon 20%: 250.000×0,8=200.000. Pajak 10%: 200.000×1,1=220.000.'},
+],
+};
+
+// ================================================================
+// ENGINE
+// ================================================================
+const BIN_ID='69e1c0be856a682189426a62';
+const MASTER_KEY='$2a$10$oy4tEjR4sFv28R88pk1IIeTteR7a6ICjH.jB4pB13Yml8AYTT0XlW';
+const API_URL=`https://api.jsonbin.io/v3/b/${BIN_ID}`;
+
+const URUTAN=['agama','ipas','pkn','bindo','mtk'];
+const LABEL={agama:'🕌 Agama Islam',ipas:'🔬 IPAS',pkn:'🇮🇩 PKN',bindo:'📖 Bahasa Indonesia',mtk:'🔢 Matematika'};
+const WARNA={agama:'var(--agama)',ipas:'var(--ipas)',pkn:'var(--pkn)',bindo:'var(--bindo)',mtk:'var(--mtk)'};
+const DURASI={agama:45,ipas:45,pkn:45,bindo:45,mtk:60};
+const TOTAL_SOAL=30;
+
+let mapelIdx=0,soalIdx=0,selectedNow=null;
+let soalShuffled=[],answers=[],timerSec=0,timerInt=null;
+let hasilSemua={},_global={};
+
+function shuffle(arr){
+  return arr.map(q=>{
+    const bt=q.p[q.j];
+    const sp=[...q.p].sort(()=>Math.random()-0.5);
+    return{...q,p:sp,j:sp.indexOf(bt)};
+  });
+}
+function fmtTime(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+
+function showOnly(id){
+  document.getElementById('sec-intro').style.display='none';
+  document.getElementById('sec-ujian').classList.remove('active');
+  document.getElementById('sec-ujian').style.display='none';
+  document.getElementById('sec-hm').classList.remove('active');
+  document.getElementById('sec-hm').style.display='none';
+  document.getElementById('sec-final').classList.remove('active');
+  document.getElementById('sec-final').style.display='none';
+  const t=document.getElementById(id);
+  if(id==='sec-ujian'){t.style.display='flex';t.classList.add('active');}
+  else{t.style.display='block';t.classList.add('active');}
+  window.scrollTo(0,0);
+}
+
+function mulaiSimulasi(){mapelIdx=0;mulaiMapel();}
+
+function mulaiMapel(){
+  const m=URUTAN[mapelIdx];
+  soalShuffled=shuffle(SOAL[m]);
+  answers=[];soalIdx=0;selectedNow=null;
+  timerSec=DURASI[m]*60;
+
+  showOnly('sec-ujian');
+  document.getElementById('uh-label').textContent=LABEL[m];
+  document.getElementById('uh-label').style.color=WARNA[m];
+  document.getElementById('upfill').style.background=WARNA[m];
+
+  // dots
+  document.getElementById('dot-strip').innerHTML=
+    soalShuffled.map((_,i)=>`<div class="dot ${i===0?'current':''}" id="d${i}"></div>`).join('');
+
+  renderSoal();startTimer();
+}
+
+function startTimer(){
+  clearInterval(timerInt);updateTimer();
+  timerInt=setInterval(()=>{timerSec--;updateTimer();if(timerSec<=0){clearInterval(timerInt);autoFinish();}},1000);
+}
+function updateTimer(){
+  const el=document.getElementById('uh-timer');
+  el.textContent=fmtTime(timerSec);
+  el.className='uh-timer'+(timerSec<=120?' danger':timerSec<=300?' warning':'');
+}
+function autoFinish(){
+  while(answers.length<soalShuffled.length)answers.push(-1);
+  tampilHasilMapel();
+}
+
+function renderSoal(){
+  const q=soalShuffled[soalIdx];
+  selectedNow=null;
+  document.getElementById('btn-lanjut').disabled=true;
+  document.getElementById('uh-soal').textContent=`Soal ${soalIdx+1}/${TOTAL_SOAL}`;
+  document.getElementById('upfill').style.width=`${((soalIdx+1)/TOTAL_SOAL)*100}%`;
+  document.getElementById('soal-box').innerHTML=`
+    <div style="font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">SOAL ${soalIdx+1}</div>
+    <div class="soal-text">${q.s}</div>
+    <div class="pilihan-list">
+      ${q.p.map((p,i)=>`
+        <div class="pilihan" id="pl${i}" onclick="pilih(${i})">
+          <div class="huruf" id="hl${i}">${['A','B','C','D'][i]}</div>
+          <span>${p}</span>
+        </div>`).join('')}
+    </div>`;
+  window.scrollTo(0,0);
+}
+
+function pilih(idx){
+  selectedNow=idx;
+  const m=URUTAN[mapelIdx];
+  document.querySelectorAll('.pilihan').forEach((el,i)=>{
+    el.classList.toggle('selected',i===idx);
+    const h=document.getElementById(`hl${i}`);
+    if(h){h.style.background=i===idx?WARNA[m]:'';h.style.color=i===idx?'#0a0d14':'';}
+  });
+  document.getElementById('btn-lanjut').disabled=false;
+}
+
+function lewati(){
+  answers.push(-1);
+  const d=document.getElementById(`d${soalIdx}`);if(d)d.className='dot done';
+  soalIdx++;
+  if(soalIdx<soalShuffled.length){
+    const nd=document.getElementById(`d${soalIdx}`);if(nd)nd.className='dot current';
+    renderSoal();
+  }else{clearInterval(timerInt);tampilHasilMapel();}
+}
+
+function lanjutSoal(){
+  if(selectedNow===null)return;
+  answers.push(selectedNow);
+  const d=document.getElementById(`d${soalIdx}`);if(d)d.className='dot done';
+  soalIdx++;
+  if(soalIdx<soalShuffled.length){
+    const nd=document.getElementById(`d${soalIdx}`);if(nd)nd.className='dot current';
+    renderSoal();
+  }else{clearInterval(timerInt);tampilHasilMapel();}
+}
+
+function tampilHasilMapel(){
+  const m=URUTAN[mapelIdx];
+  const benar=answers.filter((a,i)=>a===soalShuffled[i].j).length;
+  const pct=Math.round(benar/TOTAL_SOAL*100);
+  const waktu=fmtTime(DURASI[m]*60-timerSec);
+  hasilSemua[m]={benar,total:TOTAL_SOAL,pct,waktu,soal:[...soalShuffled],ans:[...answers]};
+
+  const st=document.getElementById(`st-${m}`);
+  if(st){st.textContent=`${benar}/${TOTAL_SOAL}`;st.className='mi-status status-selesai';}
+
+  showOnly('sec-hm');
+  document.getElementById('hm-title').textContent=LABEL[m];
+  document.getElementById('hm-title').style.color=WARNA[m];
+  document.getElementById('hm-num').textContent=`${benar}/${TOTAL_SOAL}`;
+  document.getElementById('hm-num').style.color=pct>=75?'var(--green)':pct>=60?'var(--gold)':'var(--red)';
+  document.getElementById('hm-verdict').textContent=pct>=75?'✅ Lulus!':pct>=60?'⚠️ Hampir':'❌ Perlu diperkuat';
+  document.getElementById('hm-verdict').style.color=pct>=75?'var(--green)':pct>=60?'var(--gold)':'var(--red)';
+  document.getElementById('hm-waktu').textContent=`Waktu terpakai: ${waktu} dari ${DURASI[m]} menit`;
+
+  const salah=soalShuffled.filter((_,i)=>answers[i]!==soalShuffled[i].j);
+  document.getElementById('hm-salah').innerHTML=salah.length===0
+    ?'<div style="color:var(--green);font-size:14px;">🎉 Semua benar!</div>'
+    :salah.map(q=>{
+      const i=soalShuffled.indexOf(q);
+      return`<div class="salah-item">
+        <div class="si-q">${q.s}</div>
+        <div class="si-a">→ Jawab: ${answers[i]===-1?'(dilewati)':q.p[answers[i]]}</div>
+        <div class="si-b">→ Benar: ${q.p[q.j]}</div>
+        <div class="si-tip">${q.t}</div>
+      </div>`;
+    }).join('');
+
+  const isLast=mapelIdx===URUTAN.length-1;
+  const btn=document.getElementById('btn-next-mapel');
+  btn.textContent=isLast?'🏁 Lihat Rekap Akhir':'Lanjut Mapel Berikutnya →';
+  btn.className=`btn ${isLast?'btn-green':'btn-primary'}`;
+}
+
+function lanjutMapel(){
+  if(mapelIdx<URUTAN.length-1){mapelIdx++;mulaiMapel();}
+  else tampilFinal();
+}
+
+function tampilFinal(){
+  showOnly('sec-final');
+  let totalBenar=0,totalSoal=0,html='',dataMapel=[];
+  URUTAN.forEach(m=>{
+    const h=hasilSemua[m]||{benar:0,total:TOTAL_SOAL,pct:0,waktu:'-'};
+    totalBenar+=h.benar;totalSoal+=h.total;
+    const icon=h.pct>=75?'✅':h.pct>=60?'⚠️':'❌';
+    html+=`<div class="mfr">
+      <span class="mfr-left">${LABEL[m]}</span>
+      <div class="mfr-bar"><div class="mfr-fill" style="width:${h.pct}%;background:${WARNA[m]};"></div></div>
+      <span class="mfr-right" style="color:${WARNA[m]}">${icon} ${h.benar}/${TOTAL_SOAL}</span>
+    </div>`;
+    dataMapel.push({m:LABEL[m],benar:h.benar,total:TOTAL_SOAL,pct:h.pct,waktu:h.waktu});
+  });
+  document.getElementById('final-list').innerHTML=html;
+  const pct=Math.round(totalBenar/totalSoal*100);
+  const col=pct>=75?'var(--green)':pct>=60?'var(--gold)':'var(--red)';
+  document.getElementById('final-total').textContent=`${totalBenar}/${totalSoal} (${pct}%)`;
+  document.getElementById('final-total').style.color=col;
+  const rank=pct>=90?'🏆 Sangat Siap!':pct>=80?'⭐ Siap Ujian!':pct>=75?'✅ Cukup Siap':pct>=60?'⚠️ Perlu Review':'❌ Perlu Perhatian';
+  const rb=document.getElementById('rank-badge');
+  rb.textContent=rank;rb.style.color=col;
+  rb.style.background=pct>=75?'rgba(74,222,128,.1)':'rgba(251,191,36,.1)';
+  rb.style.border=`1px solid ${col}`;
+
+  const copyStr=`📊 HASIL S02 — SIMULASI FULL UPK PAKET A
+Musa Brahma Batubara
+PKBM Piwulang Becik Salatiga
+──────────────────────────────────────────────────
+
+SKOR TOTAL : ${totalBenar}/${totalSoal} (${pct}%)
+STATUS     : ${pct>=75?'✅ TARGET TERCAPAI':'❌ BELUM TERCAPAI'}
+
+SKOR & WAKTU PER MAPEL:
+${dataMapel.map(d=>`  ${d.m}: ${d.benar}/${d.total} (${d.pct}%) ⏱${d.waktu}`).join('\n')}
+
+SOAL SALAH PER MAPEL:
+${URUTAN.map(m=>{
+  const h=hasilSemua[m];if(!h)return'';
+  const salah=h.soal.filter((_,i)=>h.ans[i]!==h.soal[i].j);
+  if(salah.length===0)return`  ${LABEL[m]}: Semua benar ✅`;
+  return`  ${LABEL[m]}:\n${salah.map(q=>{
+    const i=h.soal.indexOf(q);
+    return`    - ${q.s}\n      → Jawab: ${h.ans[i]===-1?'(dilewati)':q.p[h.ans[i]]} | Benar: ${q.p[q.j]}`;
+  }).join('\n')}`;
+}).join('\n')}
+
+──────────────────────────────────────────────────
+📌 Ujian sesungguhnya:
+H01 Jumat  24 Apr · Agama 08.00 · IPAS 09.00 · PKN 10.00
+H02 Sabtu  25 Apr · B.Indo 11.30
+H03 Minggu 26 Apr · MTK 11.30`;
+
+  document.getElementById('copy-text').textContent=copyStr;
+  _global={totalBenar,totalSoal,pct,dataMapel};
+}
+
+function copyHasil(){
+  navigator.clipboard.writeText(document.getElementById('copy-text').textContent).then(()=>{
+    const b=document.querySelector('.btn-secondary');
+    b.textContent='✅ Tersalin!';setTimeout(()=>b.textContent='📋 Salin',2000);
+  });
+}
+
+async function triggerCloudSave(){
+  const btn=document.getElementById('btn-cloud');
+  btn.textContent='☁️ Menyimpan...';btn.disabled=true;
+  const{totalBenar,totalSoal,pct,dataMapel}=_global;
+  const data={tanggal:new Date().toLocaleDateString('id-ID'),sesi:'S02',skorTotal:totalBenar,totalSoal,pct,targetTercapai:pct>=75,mapel:dataMapel};
+  try{
+    const ex=await fetch(API_URL+'/latest',{headers:{'X-Master-Key':MASTER_KEY}}).then(r=>r.json()).then(d=>d.record||{});
+    const res=await fetch(API_URL,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':MASTER_KEY},body:JSON.stringify({...ex,'S02':data})});
+    if(res.ok){btn.textContent='✅ Tersimpan!';btn.style.background='var(--green)';btn.style.color='#0a0d14';}
+    else throw new Error();
+  }catch{btn.textContent='❌ Gagal';btn.disabled=false;}
+}
+</script>
+</body>
+</html>
